@@ -74,3 +74,9 @@ CODE_06FBE6:
 	nop
 	stop
 	nop
+	
+	
+	
+	
+	
+	ARCH 65816

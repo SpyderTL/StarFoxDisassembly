@@ -1,5 +1,6 @@
 INCSRC "regs.asm"
 INCSRC "vars.asm"
+INCSRC "structs.asm"
 INCSRC "padding.asm"
 
 ORG $008000
