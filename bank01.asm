@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 	ARCH SUPERFX
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;         COMMAND BYTE JUMP TABLE          ;
@@ -3730,4 +3729,3 @@ b01a_DescriptionVenom3:
 	
 	
 	ARCH 65816
->>>>>>> 388c70ca21b4585449116f4be970d935f40c333b

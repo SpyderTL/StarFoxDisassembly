@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ;SNES Bus Registers
 INIDISP		= $2100
 OBSEL		= $2101
@@ -464,4 +463,3 @@ DASB7		= $4377
 A2A7L		= $4378
 A2A7H		= $4379
 NTLR7		= $437A
->>>>>>> 388c70ca21b4585449116f4be970d935f40c333b

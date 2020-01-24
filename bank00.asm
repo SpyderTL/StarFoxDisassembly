@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 	DB $00,$00,$00,$00,$00,$00
 CODE_008006:
 	rep #$30
@@ -2444,4 +2443,3 @@ GeneralInterrupt:		;00FF9E
 	DW GeneralInterrupt		;NMI
 	DW Reset			;RESET
 	DW GeneralInterrupt		;IRQ
->>>>>>> 388c70ca21b4585449116f4be970d935f40c333b
