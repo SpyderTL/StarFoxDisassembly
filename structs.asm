@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ;;;;;;;;
 ;MACROS;
 ;;;;;;;;
@@ -29,3 +30,16 @@ struct Object
 	DW VelZ
 	DB Unk35
 endstruct
+=======
+;;;;;;;;
+;MACROS;
+;;;;;;;;
+macro BehFuncPtr(Func,Unk03)
+	DL Func
+	DB Unk03
+endmacro
+
+;;;;;;;;;
+;STRUCTS;
+;;;;;;;;;
+>>>>>>> 388c70ca21b4585449116f4be970d935f40c333b

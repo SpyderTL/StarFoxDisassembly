@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 	;Script to initialize player Arwing objects
 	DL $0D00FB
 	;Offsets to the level pointer lists below
@@ -36,3 +37,6 @@
 	INCBIN "levels/corneria3_main.bin"
 	INCBIN "levels/asteroid3_main.bin"
 	;(05F691)
+=======
+
+>>>>>>> 388c70ca21b4585449116f4be970d935f40c333b
