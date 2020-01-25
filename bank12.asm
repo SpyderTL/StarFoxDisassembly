@@ -1,3 +1,3 @@
 ;Packed in binary for compactness
-;Top half of main texture bitmap
-INCBIN "textures/90000.bin"
+;Bottom half of main texture bitmap
+INCBIN "graphics/textures/maintexmap.fxgfx":$0000-$7FFF

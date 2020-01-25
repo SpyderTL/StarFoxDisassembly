@@ -116,9 +116,74 @@ InitializeMode2:
 	stz D,$00
 	rtl
 CODE_7E32B2:
-	
+	rep #$10
+	lda.b #$22
+	sta BBAD0
+	lda.b #$00
+	sta CGADD
+	ldx $1892
+	stx A1T0L
+	lda $1894
+	sta A1B0
+	ldx $1895
+	stx DAS0L
+	stz DMAP0
+	lda.b #$01
+	sta MDMAEN
+	lda.b #$80
+	sta VMAIN
+	lda.b #$18		;\Transfer to VRAM
+	sta BBAD0		;/
+	ldx $188A
+	stx VMADDL
+	ldx #$2800
+	stx A1T0L
+	lda.b #$70
+	sta A1B0
+	ldx $188C
+	stx DAS0L
+	lda.b #$01
+	sta DMAP0
+	lda.b #$01
+	sta MDMAEN
+	inc D,$00
+	inc D,$00
+	rtl
 CODE_7E3308:
-	
+	rep #$10
+	lda.b #$80
+	sta VMAIN
+	lda.b #$18		;\Transfer to VRAM
+	sta BBAD0		;/
+	ldx $188E
+	stx VMADDL
+	ldx.w #$4000
+	stx A1T0L
+	lda.b #$70
+	sta A1B0
+	ldx $1890
+	stx DAS0L
+	lda.b #$01
+	sta DMAP0
+	lda.b #$01
+	sta MDMAEN
+	lda.b #$22
+	sta BBAD0
+	lda.b #$70
+	sta CGADD
+	rep #$20
+	lda.w #$857E
+	sta A1T0L
+	sep #$20
+	lda.b #$7E
+	sta A1B0
+	ldx.w #$0020
+	stx DAS0L
+	stz DMAP0
+	lda.b #$01
+	sta MDMAEN
+	stz D,$00
+	rtl
 CODE_7E335F:
 	
 CODE_7E33BA:
