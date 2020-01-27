@@ -778,7 +778,7 @@ Main_L21:
 	jsr CODE_03BD7A
 	jsl CODE_03CC3E
 	lda.b #$08
-	sta D,$00
+	sta D,CurNMITask
 	lda $16D9
 	pha
 	lda.b #$FE
@@ -974,7 +974,7 @@ Main_L28:
 	ldx.w #$00BA
 	stx VTIMEL
 	lda.b #$22
-	sta D,$00
+	sta D,CurNMITask
 	lda TIMEUP
 	cli
 	jsr CODE_03C777

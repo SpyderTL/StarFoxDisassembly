@@ -1143,41 +1143,41 @@ CODE_018581:
 	inc r0				;|
 	alt2				;|
 	sms ($0120),r0			;/
-	alt1				;\Negate XY matrix element...
+	alt1				;\Negate XY matrix element
 	lms r0,($00D4)			;|
 	not				;|
 	inc r0				;|
-	alt2				;|...and store in YX matrix element
+	alt2				;|
 	sms ($0122),r0			;/
-	alt1				;\Negate XZ matrix element...
+	alt1				;\Negate XZ matrix element
 	lms r0,($00D6)			;|
 	not				;|
 	inc r0				;|
-	alt2				;|...and store in ZX matrix element
+	alt2				;|
 	sms ($0124),r0			;/
-	alt1				;\Copy YX matrix element...
+	alt1				;\Copy YX matrix element
 	lms r0,($00D8)			;|
-	alt2				;|...and store in XY matrix element
+	alt2				;|
 	sms ($0126),r0			;/
 	alt1				;\Copy YY matrix element
 	lms r0,($00DA)			;|
 	alt2				;|
 	sms ($0128),r0			;/
-	alt1				;\Copy YZ matrix element...
+	alt1				;\Copy YZ matrix element
 	lms r0,($00DC)			;|
-	alt2				;|...and store in ZY matrix element
+	alt2				;|
 	sms ($012A),r0			;/
-	alt1				;\Negate ZX matrix element...
+	alt1				;\Negate ZX matrix element
 	lms r0,($00DE)			;|
 	not				;|
 	inc r0				;|
-	alt2				;|...and store in XZ matrix element
+	alt2				;|
 	sms ($012C),r0			;/
-	alt1				;\Negate ZY matrix element...
+	alt1				;\Negate ZY matrix element
 	lms r0,($00E0)			;|
 	not				;|
 	inc r0				;|
-	alt2				;|...and store in YZ matrix element
+	alt2				;|
 	sms ($012E),r0			;/
 	alt1				;\Negate ZZ matrix element
 	lms r0,($00E2)			;|
@@ -1191,11 +1191,11 @@ CODE_018581:
 	and r1
 	beq CODE_0185DA
 	sub r0
-	alt2				;\Overwrite XY matrix element
+	alt2				;\Overwrite YX matrix element
 	sms ($0126),r0			;/
 	alt2				;\Overwrite YY matrix element
 	sms ($0128),r0			;/
-	alt2				;\Overwrite ZY matrix element
+	alt2				;\Overwrite YZ matrix element
 	sms ($012A),r0			;/
 CODE_0185DA:
 	iwt r15,#CODE_018615
@@ -1393,10 +1393,10 @@ CODE_0186C9:
 	lms r14,($0016)
 	alt2
 	sms ($001A),r14
-	iwt r0,#$8EBC
-	stw r10
-	inc r10
-	inc r10
+	iwt r0,#FinishModel		;\Push `FinishModel` function pointer to stack
+	stw r10				;|
+	inc r10				;|
+	inc r10				;/
 	to r15				;\Get next command byte and jump
 	getb				;|
 	inc r14				;/
@@ -1423,8 +1423,8 @@ LoadAnimatedVertices_L1:
 	sub r1				;/...subtract "frame count" from "timer"
 LoadAnimatedVertices_L2:
 	add r0				;\Double r0 to get offset in bytes...
-	with r14			;|...and add this to the ROM pointer
-	add r0				;/to get the offset to this frame's animation vertices
+	with r14			;|...and add this to the ROM pointer...
+	add r0				;/...to get the offset to this frame's animation vertices
 JumpToEndOfAnimatedVertices:
 	getb				;\Offset ROM pointer using two bytes read
 	inc r14				;|
@@ -1445,7 +1445,7 @@ LoadVertices16Bit:
 	sbk				;/
 	alt1				;\Load r9 with current vertex pointer
 	lms r9,($001E)			;/
-	alt2				;\Save r10 (why though?)
+	alt2				;\Save r10
 	sms ($0012),r10			;/
 	alt1				;\Get XX matrix element in r10
 	lms r10,($0120)			;/
@@ -1605,76 +1605,76 @@ LoadMirroredVertices16Bit:
 	add r5				;|...accumulating the previous two values...
 	add r8				;|
 	stw r9				;/...and storing the result
-	sub r8
-	sub r8
-	with r9
-	alt2
-	add #$06
-	stw r9
-	with r9
-	alt2
-	sub #$04
+	sub r8				;\Flip along local X axis...
+	sub r8				;|
+	with r9				;|
+	alt2				;|
+	add #$06			;|
+	stw r9				;|...and store the mirrored vertex
+	with r9				;|
+	alt2				;|
+	sub #$04			;/
 	alt1				;\Get YX matrix element in r6
 	lms r6,($0122)			;/
-	from r1
-	fmult
-	to r8
-	rol
+	from r1				;\Multiply X position by YX matrix element...
+	fmult				;|
+	to r8				;|
+	rol				;/...shifting in bit 15 of the product for extra precision
 	alt1				;\Get YY matrix element in r6
 	lms r6,($0128)			;/
-	from r2
-	fmult
-	to r5
-	rol
+	from r2				;\Multiply Y position by YY matrix element...
+	fmult				;|
+	to r5				;|
+	rol				;/...shifting in bit 15 of the product for extra precision
 	alt1				;\Get YZ matrix element in r6
 	lms r6,($012E)			;/
-	from r3
-	fmult
-	rol
-	add r5
-	add r8
-	stw r9
-	sub r8
-	sub r8
-	with r9
-	alt2
-	add #$06
-	stw r9
-	with r9
-	alt2
-	sub #$04
+	from r3				;\Multiply Z position by YZ matrix element...
+	fmult				;|
+	rol				;|...shifting in bit 15 of the product for extra precision...
+	add r5				;|...accumulating the previous two values...
+	add r8				;|
+	stw r9				;/...and storing the result
+	sub r8				;\Flip along local X axis...
+	sub r8				;|
+	with r9				;|
+	alt2				;|
+	add #$06			;|
+	stw r9				;|...and store the mirrored vertex
+	with r9				;|
+	alt2				;|
+	sub #$04			;/
 	alt1				;\Get ZX matrix element in r6
 	lms r6,($0124)			;/
-	from r1
-	fmult
-	to r8
-	rol
+	from r1				;\Multiply X position by ZX matrix element...
+	fmult				;|
+	to r8				;|
+	rol				;/...shifting in bit 15 of the product for extra precision
 	alt1				;\Get ZY matrix element in r6
 	lms r6,($012A)			;/
-	from r2
-	fmult
-	to r5
-	rol
+	from r2				;\Multiply Y position by ZY matrix element...
+	fmult				;|
+	to r5				;|
+	rol				;/...shifting in bit 15 of the product for extra precision
 	alt1				;\Get ZZ matrix element in r6
 	lms r6,($0130)			;/
-	from r3
-	fmult
-	rol
-	add r5
-	add r8
-	stw r9
-	sub r8
-	sub r8
-	with r9
-	alt2
-	add #$06
-	stw r9
-	with r9
-	alt2
-	sub #$04
-	with r9
-	alt2
-	add #$06
+	from r3				;\Multiply Z position by ZZ matrix element...
+	fmult				;|
+	rol				;|...shifting in bit 15 of the product for extra precision...
+	add r5				;|...accumulating the previous two values...
+	add r8				;|
+	stw r9				;/...and storing the result
+	sub r8				;\Flip along local X axis...
+	sub r8				;|
+	with r9				;|
+	alt2				;|
+	add #$06			;|
+	stw r9				;|...and store the mirrored vertex
+	with r9				;|
+	alt2				;|
+	sub #$04			;/
+	with r9				;\Move vertex pointer for next mirrored vertex pair
+	alt2				;|
+	add #$06			;/
 	loop				;\Loop back until all vertices have been processed
 	nop				;/
 	alt2				;\Save current vertex pointer
@@ -2297,7 +2297,7 @@ CODE_018C11:
 	bra CODE_018C11
 	nop
 CODE_018C2D:
-	iwt r15,#CODE_018EBC
+	iwt r15,#FinishModel
 	nop
 CODE_018C31:
 	to r12
@@ -2367,7 +2367,7 @@ CODE_018C69:
 	dec r0
 	bne CODE_018C54
 	sbk
-	iwt r15,#CODE_018EBC
+	iwt r15,#FinishModel
 	nop
 CODE_018C8F:
 	getb

@@ -677,8 +677,8 @@ CopyCodeToRam_L2:
 	;The following code gets copied to RAM at $7E0101 (originally at ($1FFE1E)
 	BASE $7E0101
 CopiedCodeA:
-	jmp.l DoSoftReset
-	jmp.l DoSoftReset
+	jml DoSoftReset
+	jml DoSoftReset
 	brl CopiedCodeA_L2
 	;This is where the NMI vector points (the IRQ points into a misaligned JMP instruction)
 	nop
