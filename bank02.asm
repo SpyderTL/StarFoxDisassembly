@@ -1804,6 +1804,7 @@ CODE_7E414B:
 	sta $18A9
 	plp
 	rts
+	
 	;Unknown data
 	DB $0F,$00
 	FILLLONG $0001FF
@@ -1817,6 +1818,7 @@ CODE_7E414B:
 	FILLLONG $000100
 	FILL $2EE
 	DB $00,$00
+	
 RunSuperFXRoutine:
 	sta PBR
 	phb
@@ -1936,4 +1938,3 @@ DATA_7E5CB2:
 	
 	
 	
-	ARCH 65816

@@ -1734,26 +1734,207 @@ LoadVertices8Bit_M1:				;881F
 	add r4
 	alt1
 	adc r5
-	
-	
-	
-	
-	
+	with r7
+	add r7
+	rol
+	stw r9
+	inc r9
+	inc r9
+	alt1
+	lms r6,($0122)
+	from r1
+	alt1
+	lmult
+	move r7,r4
+	alt1
+	lms r6,($0128)
+	from r2
+	to r5
+	alt1
+	lmult
+	with r7
+	add r4
+	alt1
+	adc r5
+	alt1
+	lms r6,($012E)
+	from r3
+	to r5
+	alt1
+	lmult
+	with r7
+	add r4
+	alt1
+	adc r5
+	with r7
+	add r7
+	rol
+	stw r9
+	inc r9
+	inc r9
+	alt1
+	lms r6,($0124)
+	from r1
+	alt1
+	lmult
+	move r7,r4
+	alt1
+	lms r6,($012A)
+	from r2
+	to r5
+	alt1
+	lmult
+	with r7
+	add r4
+	alt1
+	adc r5
+	alt1
+	lms r6,($0130)
+	from r3
+	to r5
+	alt1
+	lmult
+	with r7
+	add r4
+	alt1
+	adc r5
+	with r7
+	add r7
+	rol
+	stw r9
+	inc r9
+	loop
+	inc r9
+	alt2
+	sms ($001E),r9
 	to r15				;\Get next command byte and jump
 	getb				;|
 	inc r14				;/
 LoadMirroredVertices8Bit_M1:			;88AF
-	
-	
-	
-	
-	
-	
-	
+	to r12
+	getb
+	inc r14
+	alt1
+	lms r0,($0132)
+	add r12
+	add r12
+	sbk
+	alt1
+	lms r9,($001E)
+	cache
+	move r13,r15			; Set loop point
+	alt1
+	lms r8,($0030)
+	getb
+	inc r14
+	to r1
+	mult r8
+	getb
+	inc r14
+	to r2
+	mult r8
+	getb
+	inc r14
+	to r3
+	mult r8
+	alt1
+	lms r6,($0120)
+	from r1
+	fmult
+	to r8
+	rol
+	alt1
+	lms r6,($0126)
+	from r2
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($012C)
+	from r3
+	fmult
+	rol
+	add r5
+	add r8
+	stw r9
+	sub r8
+	sub r8
+	with r9
+	alt2
+	add #$06
+	stw r9
+	with r9
+	alt2
+	sub #$04
+	alt1
+	lms r6,($0122)
+	from r1
+	fmult
+	to r8
+	rol
+	alt1
+	lms r6,($0128)
+	from r2
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($012E)
+	from r3
+	fmult
+	rol
+	add r5
+	add r8
+	stw r9
+	sub r8
+	sub r8
+	with r9
+	alt2
+	add #$06
+	stw r9
+	with r9
+	alt2
+	sub #$04
+	alt1
+	lms r6,($0124)
+	from r1
+	fmult
+	to r8
+	rol
+	alt1
+	lms r6,($012A)
+	from r2
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($0130)
+	from r3
+	fmult
+	rol
+	add r5
+	add r8
+	stw r9
+	sub r8
+	sub r8
+	with r9
+	alt2
+	add #$06
+	stw r9
+	with r9
+	alt2
+	sub #$04
+	with r9
+	alt2
+	add #$06
+	loop
+	nop
+	alt2
+	sms ($001E),r9
 	to r15				;\Get next command byte and jump
 	getb				;|
 	inc r14				;/
-LoadVertices8Bit:
+LoadVertices8Bit:				;8938
 	alt1
 	lms r0,($0032)
 	alt2
@@ -1857,14 +2038,10 @@ LoadVertices8Bit_L1:
 	inc r11
 	alt2				;\Save current vertex pointer
 	sms ($001E),r9			;/
-	to r15
-	getb
-	inc r14
-	
-	
-	
-	
-LoadMirroredVertices8Bit:
+	to r15				;\Get next command byte and jump
+	getb				;|
+	inc r14				;/
+LoadMirroredVertices8Bit:			;89AF
 	alt1
 	lms r0,($0032)
 	alt2
@@ -1903,12 +2080,90 @@ LoadMirroredVertices8Bit_L1:
 	add r12
 	sbk
 	cache
+LoadMirroredVertices8Bit_L2:
 	to r1
-	
-	
-	
-	
-	
+	getb
+	inc r14
+	from r5
+	to r13
+	mult r1
+	to r2
+	getb
+	inc r14
+	from r6
+	hib
+	to r4
+	mult r2
+	to r3
+	getb
+	inc r14
+	from r8
+	mult r3
+	to r4
+	add r4
+	from r4
+	add r13
+	add r0
+	hib
+	mult r9
+	stw r11
+	with r11
+	alt2
+	add #$06
+	from r4
+	sub r13
+	add r0
+	hib
+	mult r9
+	stw r11
+	with r11
+	alt2
+	sub #$04
+	from r5
+	hib
+	to r13
+	mult r1
+	from r7
+	to r4
+	mult r2
+	from r8
+	hib
+	mult r3
+	to r4
+	add r4
+	from r4
+	add r0
+	hib
+	mult r9
+	stw r11
+	with r11
+	alt2
+	add #$06
+	from r4
+	sub r13
+	add r0
+	hib
+	mult r9
+	stw r11
+	with r11
+	alt2
+	add #$06
+	from r4
+	sub r13
+	add r0
+	hib
+	mult r9
+	stw r11
+	inc r11
+	inc r11
+	dec r12
+	bne LoadMirroredVertices8Bit_L2
+	nop
+	alt2
+	sms ($001E),r11
+	to r15				;\Get next command byte and jump
+	getb				;|
+	inc r14				;/
 EndVertexList:
 	alt1
 	lms r3,($0026)
@@ -1949,12 +2204,13 @@ EndVertexList:
 	ibt r4,#$00
 	iwt r0,#$3000
 	sub r6
-	bpl 4
+	bpl CODE_018A86
 	nop
 	iwt r6,#$2FFF
+CODE_018A86:
 	iwt r0,#$0100
 	sub r6
-	bmi 5
+	bmi CODE_018A91
 	nop
 	iwt r15,#CODE_018AF5
 	nop
@@ -1998,29 +2254,33 @@ CODE_018A91:
 	to r4
 	with r0
 	from r1
-	bmi 9
+	bmi CODE_018AC8
 	nop
 	alt1
 	lms r5,($003A)
 	sub r5
-	bmi 3
+	bmi CODE_018AC9
 	nop
 	inc r4
+CODE_018AC8:
 	inc r4
+CODE_018AC9:
 	with r4
 	alt2
 	mult #$04
 	with r0
 	from r2
-	bmi 9
+	bmi CODE_018AD9
 	nop
 	alt1
 	lms r5,($003E)
 	sub r5
-	bmi 3
+	bmi CODE_018ADA
 	nop
 	inc r4
+CODE_018AD9:
 	inc r4
+CODE_018ADA:
 	ibt r0,#$1F
 	alt1
 	xor r4
@@ -2041,7 +2301,7 @@ CODE_018A91:
 CODE_018AF5:
 	with r0
 	from r6
-	bpl 12
+	bpl CODE_018B05
 	nop
 	ibt r4,#$04
 	with r1
@@ -2053,48 +2313,51 @@ CODE_018AF5:
 	with r6
 	not
 	inc r6
+CODE_018B05:
 	from r6
 	add r6
 	add r0
 	add r0
 	to r6
 	add r0
-	with r1
-	from r1
-	bmi 15
+	moves r1,r1
+	bmi CODE_018B1E
 	nop
 	iwt r0,#$0400
 	alt3
 	cmp r1
-	bpl 18
+	bpl CODE_018B29
 	nop
 	iwt r1,#$0400
-	bra 12
+	bra CODE_018B29
 	nop
+CODE_018B1E:
 	iwt r0,#$FC00
 	alt3
 	cmp r1
-	bmi 4
+	bmi CODE_018B29
 	nop
 	iwt r1,#$FC00
-	with r2
-	from r2
-	bmi 15
+CODE_018B29:
+	moves r2,r2
+	bmi CODE_018B3C
 	nop
 	iwt r0,#$0400
 	alt3
 	cmp r2
-	bpl 18
+	bpl CODE_018B47
 	nop
 	iwt r2,#$0400
-	bra 12
+	bra CODE_018B47
 	nop
+CODE_018B3C:
 	iwt r0,#$FC00
 	alt3
 	cmp r2
-	bmi 4
+	bmi CODE_018B47
 	nop
 	iwt r2,#$FC00
+CODE_018B47:
 	from r1
 	add r1
 	add r0
@@ -2116,21 +2379,23 @@ CODE_018B57:
 	and r1
 	alt3
 	cmp r1
-	beq 5
+	beq CODE_018B67
 	nop
 	iwt r15,#$8ECB
 	nop
+CODE_018B67:
 	alt1
 	lms r1,($0138)
 	ibt r0,#$1F
 	and r1
-	bne 9
+	bne CODE_018B78
 	nop
 	alt1
 	lms r0,($0054)
 	iwt r1,#$4000
 	or r1
 	sbk
+CODE_018B78:
 	alt1
 	lms r14,($0018)
 	alt2
@@ -2169,7 +2434,7 @@ BSPEmptyLeaf:
 	to r15				;|
 	ldw r10				;|
 	nop				;/
-	
+BSPLeafNode:
 	getb
 	inc r14
 	iwt r1,#$0E72
@@ -2177,10 +2442,8 @@ BSPEmptyLeaf:
 	alt1
 	ldb r0
 	swap
-	with r0
-	from r0
-BSPLeafNode:
-	bmi 31
+	moves r0,r0
+	bmi CODE_018BD0
 	nop
 	inc r14
 	inc r14
@@ -2190,7 +2453,7 @@ BSPLeafNode:
 	inc r10
 	getb
 	lob
-	beq 12
+	beq CODE_018BC8
 	nop
 	to r14
 	add r14
@@ -2200,80 +2463,73 @@ BSPLeafNode:
 	stw r10
 	inc r10
 	inc r10
-	
-
-StartFaceGroup_M1:
-	inc r0				;\If terminating byte is $FF, go back to BSP tree
-	lob				;|
-	beq StartFaceGroup_M2		;|
-	nop				;/
-	to r15				;\Otherwise finish up model processing
-	getb				;|(it is implied that the byte after the terminator is a 0 in this case)
+	to r15				;\Get next command byte and jump
+	getb				;|
 	inc r14				;/
-StartFaceGroup_M2:
-	dec r10				;\Pop r15 (pc) from stack and return
-	dec r10				;|
-	to r15				;|
-	ldw r10				;|
-	nop				;/
-StartFaceGroup:
-	ibt r0,#$70			;\Set default color...
-	color				;|
-	ibt r0,#$02			;|..and default plot mode
-	alt1				;|
-	cmode				;/
-	getb				;\Get vertex count
-	lob				;|
-	bmi StartFaceGroup_M1		;|Branch back if negative
+CODE_018BC8:
+	dec r10
+	dec r10
+	to r14
+	ldw r10
+	inc r14
+	to r15				;\Get next command byte and jump
+	getb				;|
 	inc r14				;/
-	ibt r1,#$3F			;\r2 now has vertex count with all but 6 LSBs masked out...
-	to r2				;|
-	and r1				;|
-	alt2				;|
-	sms ($0134),r2			;/save this value for later
-	dec r2				;\If vertex count is 2 (we have a line), branch here
-	dec r2				;|
-	beq 41				;|
-	inc r14				;/
-	dec r14
+CODE_018BD0:
 	getb
-	with r14
+	inc r14
+	alt1
+	getbh
+	to r12
+	add r14
+	inc r14
+	from r14
+	stw r10
+	inc r10
+	inc r10
+	inc r14
+	from r12
+	stw r10
+	inc r10
+	inc r10
+	to r15				;\Get next command byte and jump
+	getb				;|
+	inc r14				;/
+	dec r10
+	dec r10
+	ldw r10
+	alt1
+	lms r1,($0056)
+	stw r1
+	inc r1
+	inc r1
 	alt2
-	add #$07
-	iwt r1,#$0E72
-	add r1
-	alt1
-	ldb r0
-	swap
-	hib
-	bmi 22
+	sms ($0056),r1
+	dec r10
+	dec r10
+	to r14
+	ldw r10
+	getb
+	lob
+	beq CODE_018C03
 	nop
-	alt1
-	lms r0,($0048)
-	with r0
-	from r0
-	beq 5
+	to r14
+	add r14
+	to r15				;\Get next command byte and jump
+	getb				;|
+	inc r14				;/
+CODE_018C03:
+	dec r10
+	dec r10
+	to r15
+	ldw r10
 	nop
-	iwt r15,#$8F3A
-	nop
-	alt1
-	lms r0,($0134)
-	dec r0
-	dec r0
-	with r14
-	
-	
-	
-	
-	
-CODE_018C08:
 	sub r0
 	alt1
 	lms r1,($0056)
 	stw r1
 	iwt r0,#$0B02
 	alt2
-CODE_018C11:
 	sms ($0056),r0
 	alt1
 	lms r1,($0056)
@@ -2294,12 +2550,11 @@ CODE_018C11:
 	to r15				;\Get next command byte and jump
 	getb				;|
 	inc r14				;/
-	bra CODE_018C11
+	bra -25
 	nop
 CODE_018C2D:
 	iwt r15,#FinishModel
 	nop
-CODE_018C31:
 	to r12
 	getb
 	inc r14
@@ -2338,9 +2593,9 @@ CODE_018C54:
 	nop
 	move r7,r0
 	move r6,r5
-CODE_018C69:
 	inc r5
 	loop
+CODE_018C69:
 	inc r5
 	iwt r0,#$8000
 	stw r6
@@ -2369,7 +2624,6 @@ CODE_018C69:
 	sbk
 	iwt r15,#FinishModel
 	nop
-CODE_018C8F:
 	getb
 	inc r14
 	iwt r1,#$0E72
@@ -2416,7 +2670,7 @@ CODE_018CA2:
 	sms ($00AC),r0
 	iwt r1,#$0020
 	sub r1
-	bmi 53
+	bmi CODE_018D02
 	nop
 	link #4
 	iwt r15,#CODE_01904F
@@ -2433,10 +2687,11 @@ CODE_018CA2:
 	iwt r1,#$0100
 	add r0
 	swap
-	bpl 3
+	bpl CODE_018CE8
 	nop
 	with r1
 	lsr
+CODE_018CE8:
 	alt2
 	sms ($00BC),r1
 	alt2
@@ -2445,7 +2700,7 @@ CODE_018CA2:
 	alt2
 	sms ($00C0),r0
 	link #4
-	iwt r15,#CODE_01A787
+	iwt r15,#CODE_A787
 	nop
 	alt1
 	lms r0,($001C)
@@ -2456,41 +2711,45 @@ CODE_018CA2:
 	to r15				;\Get next command byte and jump
 	getb				;|
 	inc r14				;/
+CODE_018D02:
 	inc r14
 	inc r14
 	to r15				;\Get next command byte and jump
 	getb				;|
 	inc r14				;/
-	inc r0
-	lob
-	beq 4
-	nop
-	to r15				;\Get next command byte and jump
-	getb				;|
+StartFaceGroup_M1:
+	inc r0				;\If terminating byte is $FF, go back to BSP tree
+	lob				;|
+	beq StartFaceGroup_M2		;|
+	nop				;/
+	to r15				;\Otherwise finish up model processing
+	getb				;|(it is implied that the byte after the terminator is a 0 in this case)
 	inc r14				;/
-	dec r10
-	dec r10
-	to r15
-	ldw r10
-	nop
+StartFaceGroup_M2:
+	dec r10				;\Pop r15 (pc) from stack and return
+	dec r10				;|
+	to r15				;|
+	ldw r10				;|
+	nop				;/
+StartFaceGroup:
 	ibt r0,#$70			;\Set default color...
 	color				;|
 	ibt r0,#$02			;|..and default plot mode
 	alt1				;|
 	cmode				;/
-	getb
-	lob
-	bmi -24
-	inc r14
-	ibt r1,#$3F
-	to r2
-	and r1
-	alt2
-	sms ($0134),r2
-	dec r2
-	dec r2
-	beq 41
-	inc r14
+	getb				;\Get vertex count
+	lob				;|
+	bmi StartFaceGroup_M1		;|Branch back if negative
+	inc r14				;/
+	ibt r1,#$3F			;\r2 now has vertex count with all but 6 LSBs masked out...
+	to r2				;|
+	and r1				;|
+	alt2				;|
+	sms ($0134),r2			;/save this value for later
+	dec r2				;\If vertex count is 2 (we have a line), branch here
+	dec r2				;|
+	beq CODE_018D54			;|
+	inc r14				;/
 	dec r14
 	getb
 	with r14
@@ -2502,25 +2761,29 @@ CODE_018CA2:
 	ldb r0
 	swap
 	hib
-	bmi 22
+	bmi CODE_018D51
 	nop
 	alt1
 	lms r0,($0048)
-	moves r0,r0
-	beq 5
+	with r0
+	from r0
+	beq CODE_018D48
 	nop
-	iwt r15,#CODE_018F3A
+	iwt r15,#$8F3A
 	nop
+CODE_018D48:
 	alt1
 	lms r0,($0134)
 	dec r0
 	dec r0
 	with r14
-	bra -60
+	bra StartFaceGroup
 	add r0
+CODE_018D51:
 	with r14
 	alt2
 	sub #$06
+CODE_018D54:
 	link #4
 	iwt r15,#CODE_01904F
 	nop
@@ -2530,10 +2793,11 @@ CODE_018CA2:
 	alt1
 	lms r0,($0048)
 	moves r0,r0
-	beq 5
+	beq CODE_018D68
 	nop
 	iwt r15,#CODE_018ECE
 	nop
+CODE_018D68:
 	alt1
 	lms r0,($0054)
 	iwt r1,#$4000
@@ -2550,26 +2814,346 @@ CODE_018CA2:
 	inc r14
 	from r4
 	alt3
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	umult #$06
+	to r8
+	add r9
+	ldw r8
+	stw r6
+	inc r6
+	inc r6
+	inc r8
+	inc r8
+	ldw r8
+	stw r8
+	inc r6
+	inc r6
+	alt1
+	lms r0,($0042)
+	moves r0,r0
+	beq CODE_018DCB
+	nop
+	inc r0
+	beq CODE_018DAC
+	nop
+	iwt r0,#$0E22
+	add r4
+	alt1
+	ldb r0
+	stw r6
+	inc r6
+	inc r6
+	stw r6
+	inc r6
+	inc r6
+	iwt r15,#CODE_018DCB
+	nop
+CODE_018DAC:
+	alt2
+	sms ($001A),r14
+	ibt r0,#$03
+	alt3
+	romb
+	alt1
+	lms r14,($0082)
+	getb
+	inc r14
+	stw r6
+	inc r6
+	inc r6
+	getb
+	inc r14
+	stw r6
+	inc r6
+	inc r6
+	alt2
+	sms ($0082),r14
+	alt1
+	lms r0,($001C)
+	alt3
+	romb
+	alt1
+	lms r14,($001A)
+CODE_018DCB:
+	loop
+	nop
+	alt2
+	sms ($001A),r14
+	alt1
+	lms r0,($0134)
+	iwt r15,#CODE_018EA1
+	nop
+	iwt r9,#$07A2
+	iwt r6,#$0982
+	ibt r5,#$00
+	alt1
+	lms r12,($0134)
+	move r13,r15			; Set loop point
+	to r4
+	getb
+	inc r14
+	from r4
+	alt3
+	umult #$06
+	to r8
+	to r8
+	add r9
+	ldw r8
+	stw r6
+	inc r6
+	inc r6
+	inc r8
+	inc r8
+	ldw r8
+	stw r6
+	inc r6
+	inc r6
+	inc r8
+	inc r8
+	ldw r8
+	to r5
+	or r5
+	alt1
+	lms r0,($0042)
+	moves r0,r0
+	beq CODE_018E36
+	nop
+	inc r0
+	beq CODE_018E17
+	nop
+	iwt r0,#$0E22
+	add r4
+	alt1
+	ldb r0
+	stw r6
+	inc r6
+	inc r6
+	stw r6
+	inc r6
+	inc r6
+	iwt r15,#CODE_018E36
+	nop
+CODE_018E17:
+	alt2
+	sms ($001A),r14
+	ibt r0,#$03
+	alt3
+	romb
+	alt1
+	lms r14,($0082)
+	getb
+	inc r14
+	stw r6
+	inc r6
+	inc r6
+	getb
+	inc r14
+	stw r6
+	inc r6
+	inc r6
+	alt2
+	sms ($0082),r14
+	alt1
+	lms r0,($001C)
+	alt3
+	romb
+	alt1
+	lms r14,($001A)
+CODE_018E36:
+	loop
+	nop
+	alt2
+	sms ($001A),r14
+	from r5
+	lob
+	bne CODE_018E47
+	nop
+	alt1
+	lms r0,($0134)
+	iwt r15,#CODE_018EA1
+	nop
+CODE_018E47:
+	ibt r0,#$10
+	and r5
+	beq CODE_018E73
+	nop
+	iwt r1,#$1000
+	from r1
+	and r5
+	sub r1
+	bne CODE_018EB8
+	nop
+	alt1
+	lms r0,($0042)
+	hib
+	beq CODE_018E61
+	nop
+	iwt r15,#CODE_018EB8
+	nop
+CODE_018E61:
+	alt1
+	lms r0,($0134)
+	with r14
+	sub r0
+	link #4
+	iwt r15,#CODE_019728
+	nop
+	moves r0,r0
+	beq CODE_018EB5
+	nop
+	bra CODE_018E86
+	nop
+CODE_018E73:
+	iwt r1,#$0F00
+	from r1
+	and r5
+	sub r1
+	bne CODE_018EB8
+	nop
+	alt1
+	lms r0,($0042)
+	hib
+	bne CODE_018E94
+	nop
+	alt1
+	lms r0,($0134)
+CODE_018E86:
+	link #4
+	iwt r15,#CODE_01A010
+	nop
+	moves r0,r0
+	beq CODE_018EB5
+	nop
+	iwt r15,#CODE_018EA1
+	nop
+CODE_018E94:
+	alt1
+	lms r0,($0134)
+	link #4
+	iwt r15,#CODE_01988B
+	nop
+	moves r0,r0
+	beq CODE_018EB5
+	nop
+CODE_018EA1:
+	alt2
+	sms ($008E),r10
+	ibt r1,#$00
+	from r1
+	alt3
+	romb
+	iwt r15,#CODE_01A66B
+	nop
+	alt1
+	lms r0,($001C)
+	alt3
+	romb
+	alt1
+	lms r10,($008E)
+CODE_018EB5:
+	alt1
+	lms r14,($001A)
+CODE_018EB8:
+	iwt r15,#StartFaceGroup
+	nop
+CODE_018EBC:
+	ibt r1,#$00
+	ibt r2,#$00
+	alt1
+	rpix
+	nop
+	nop
+	dec r10
+	dec r10
+	to r15
+	ldw r10
+	nop
+	stop
+	nop
+	bra CODE_018EBC
+	nop
+	link #4
+	iwt r15,#CODE_018FBD
+	nop
+	getb
+	inc r14
+	alt3
+	umult #$06
+	iwt r6,#$05C2
+	to r7
+	add r6
+	ldw r7
+	inc r7
+	inc r7
+	alt1
+	lms r6,($0062)
+	to r1
+	add r6
+	ldw r7
+	inc r7
+	inc r7
+	alt1
+	lms r6,($002C)
+	to r2
+	add r6
+	ldw r7
+	inc r7
+	inc r7
+	alt1
+	lms r6,($002E)
+	to r3
+	add r6
+	link #4
+	iwt r15,#CODE_019263
+	nop
+	from r1
+	stw r8
+	inc r8
+	inc r8
+	from r2
+	stw r8
+	inc r8
+	inc r8
+	alt1
+	lms r3,($0138)
+	or r3
+	sbk
+	alt1
+	lms r0,($0042)
+	hib
+	beq CODE_018F2C
+	nop
+	ibt r0,#$03
+	alt3
+	romb
+	alt2
+	sms ($001A),r14
+	alt1
+	lms r14,($0082)
+	getb
+	inc r14
+	stw r8
+	inc r8
+	inc r8
+	getb
+	inc r14
+	stw r8
+	inc r8
+	inc r8
+	alt2
+	sms ($0082),r14
+	alt1
+	lms r0,($001C)
+	alt3
+	romb
+	alt1
+	lms r14,($001A)
+	alt1
+	lms r0,($0040)
+	dec r0
+	bne -95
+	sbk
+	alt1
+	lms r5,($0138)
 	
 	
 	
@@ -2591,7 +3175,7 @@ CODE_01AC1D:	;Seems to be the main entry point for drawing models
 	beq 6
 	nop
 	link #4
-	iwt r15,#$B0BB
+	iwt r15,#CODE_01B0BB
 	nop
 	alt1
 	lms r0,($019E)
@@ -2601,12 +3185,12 @@ CODE_01AC1D:	;Seems to be the main entry point for drawing models
 	bmi 9
 	nop
 	link #4
-	iwt r15,#$A789
+	iwt r15,#CODE_01A789
 	nop
 	bra 6
 	nop
 	link #4
-	iwt r15,#$A8A6
+	iwt r15,#CODE_01A8A6
 	nop
 	iwt r10,#$04C2
 	ibt r1,#$08
@@ -2637,16 +3221,16 @@ CODE_01AC1D:	;Seems to be the main entry point for drawing models
 	beq 16
 	nop
 	link #4
-	iwt r15,#$AF81
+	iwt r15,#CODE_01AF81
 	nop
 	link #4
-	iwt r15,#$AFB8
+	iwt r15,#CODE_01AFB8
 	nop
 	link #4
-	iwt r15,#$AFED
+	iwt r15,#CODE_01AFED
 	nop
 	link #4
-	iwt r15,#$D76B
+	iwt r15,#CODE_01D76B
 	nop
 	alt1
 	lm r0,($1A28)
@@ -2727,7 +3311,7 @@ CODE_01AC97:
 	and r5
 	bne 5
 	nop
-	iwt r15,#$AF6C
+	iwt r15,#CODE_01AF6C
 	nop
 	
 	

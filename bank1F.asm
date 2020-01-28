@@ -618,6 +618,160 @@ CODE_1FC23E:
 	
 	
 	
+ApplyObjectVelocity:
+	rep #$20
+	lda D,$0C,x
+	clc
+	adc D,$2F,x
+	sta D,$0C,x
+	lda D,$0E,x
+	clc
+	adc D,$31,x
+	sta D,$0E,x
+	lda D,$10,x
+	clc
+	adc D,$33,x
+	sta D,$10,x
+	sep #$20
+	rtl
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+CreateObject:
+	phx
+	tyx
+	ply
+	lda.b #$00
+	phy
+	phx
+	ldy.w #$0032
+CreateObject_L1:
+	sta D,$04,x
+	inx
+	dey
+	bne CreateObject_L1
+	plx
+	phx
+	ldy.w #$0036
+CreateObject_L2:
+	sta $7E1CCA,x
+	inx
+	dey
+	bne CreateObject_L2
+	plx
+	ply
+	lda D,$08,x
+	ora.b #$10
+	sta D,$08,x
+	lda D,$09,x
+	ora.b #$08
+	sta D,$09,x
+	lda D,$2E,x
+	ora.b #$04
+	sta D,$2E,x
+	lda D,$1F,x
+	ora.b #$08
+	sta D,$1F,x
+	phx
+	tyx
+	ply
+	rtl
+	
+	
+	
+	
+	
+	
+	
+CopyPositionIndXToIndY:
+	rep #$20
+	lda D,$0C,x
+	sta D,$0C,y
+	lda D,$0E,x
+	sta D,$0E,y
+	lda D,$10,x
+	sta D,$10,y
+	sep #$20
+	rtl
+CopyPositionIndYToIndX:
+	rep #$20
+	lda D,$0C,y
+	sta D,$0C,x
+	lda D,$0E,y
+	sta D,$0E,x
+	lda D,$10,y
+	sta D,$10,x
+	sep #$20
+	rtl
+CopyRotationIndXToIndY:
+	lda D,$12,x
+	sta D,$12,y
+	lda D,$13,x
+	sta D,$13,y
+	lda D,$14,x
+	sta D,$14,y
+	rtl
+CopyRotationIndYToIndX:
+	lda D,$12,y
+	sta D,$12,x
+	lda D,$13,y
+	sta D,$13,x
+	lda D,$14,y
+	sta D,$14,x
+	rtl
+CODE_1FDB21:
+	rep #$20
+	lda $14EA
+	sec
+	sbc $14F4
+	clc
+	adc D,$10,x
+	sta D,$10,x
+	sep #$20
+	rtl
+CODE_1FDB32:
+	rep #$20
+	lda $14EA
+	sec
+	sbc $14F4
+	clc
+	adc $0010,y
+	sta $0010,y
+	sep #$20
+	rtl
+ClearVelocityIndX:
+	rep #$20
+	stz D,$2F,x
+	stz D,$31,x
+	stz D,$33,x
+	sep #$20
+	stz D,$15,x
+	rtl
+ClearVelocityIndY:
+	rep #$20
+	lda.w #$0000
+	sta $002F,y
+	sta $0031,y
+	sta $0033,y
+	sep #$20
+	sta $0015,y
+	rtl
+	
+	
+	
+	
+	
+	
+	
+	
+	
 CODE_1FFDAC:
 	sep #$20
 	rep #$20

@@ -237,7 +237,7 @@
 	;USED FOR EXPLOSIONS
 	DW $875C,$874B
 	
-	;USED FOR THE ANDROSS SQUARE/CUBE MODEL
+	;USED FOR THE ANDROSS SQUARE/CUBE/ELONGATED BIPYRAMID MODEL
 	DW $46A6,$46A6
 	;Unknown animated material
 	DB $04
@@ -248,7 +248,7 @@
 	
 	;The following table is used to translate the low byte of a textured material into a pointer
 	;for the upper left corner of the texture to be used (the high byte is used for the size/mirroring).
-b03pl_TexCoordOffsTable:	;038918
+TexCoordOffsTable:	;038918
 	DL $128000,$128020,$128040,$128060
 	DL $128080,$1280A0,$1280C0,$1280E0
 	DL $12A000,$12A020,$12A040,$12A060
@@ -302,7 +302,7 @@ DATA_038A3E:
 	;Base color palette, three varieties.
 	;The first one is more blue-tinted, the second one is more red-tinted,
 	;and the third one is more green-tinted.
-b03p3Col_BaseColorTable:	;038ACA
+BaseColorTable:	;038ACA
 	DW $0000,$0451,$153A,$22BD
 	DW $377F,$5445,$6D2B,$7E8F
 	DW $7FB6,$0CA3,$2588,$424E
@@ -318,7 +318,7 @@ b03p3Col_BaseColorTable:	;038ACA
 	DW $7FF5,$24C3,$3989,$4E05
 	DW $62D3,$7778,$7FFD,$0220
 	;This table to rows of lit colors in b03p6GSUCol_LitColorTable
-b03pp6GSUCol_LitColorPointerTable:	;038B2A
+LitColorPointerTable:	;038B2A
 	DW $8E0A,$8E14,$8E1E,$8E28
 	DW $8E32,$8E3C,$8E46,$8E50
 	DW $8E5A,$8E64,$8E64,$8E64
@@ -336,7 +336,7 @@ b03pp6GSUCol_LitColorPointerTable:	;038B2A
 	DW $8F86,$8F90,$8F90,$8F90
 	;Dithered 4bpp format (same as the $3E material type).
 	;The exact set of colors used is determined programmatically.
-b03p6GSUCol_FlatColorTable:	;038B8A
+FlatColorTable:	;038B8A
 	DB $99,$9A,$AA,$AB,$BB,$BC,$CC,$CD
 	DB $DD,$DE,$EE,$11,$12,$22,$23,$33
 	DB $34,$44,$55,$56,$66,$67,$77,$78
@@ -424,7 +424,7 @@ b03p6GSUCol_FlatColorTable:	;038B8A
 	;Dithered 4bpp format (same as the $3E material type).
 	;These are used by the lit/shaded materials.
 	;The exact set of colors used is determined programmatically.
-b03p6GSUCol_LitColorTable:	;038E0A
+LitColorTable:	;038E0A
 	DB $AB,$AB,$BB,$BB,$BC,$CC,$CD,$DD,$DE,$EE
 	DB $9A,$9A,$AA,$AA,$AB,$BB,$BC,$CC,$CD,$DD
 	DB $19,$1A,$11,$12,$22,$23,$33,$34,$44,$EE
@@ -1381,9 +1381,9 @@ LevelScriptCommandJumpTable:
 	DW LevelCommand30
 	DW LevelCommand32
 	DW LevelCommand34
-	DW LevelCommand36_RotatePrevObj
-	DW LevelCommand38
-	DW LevelCommand3A
+	DW LevelCommand36_SetObjPropertyByte
+	DW LevelCommand38_SetObjPropertyWord
+	DW LevelCommand3A_SetObjPropertyLong
 	DW LevelCommand3C
 	DW LevelCommand3E
 	DW LevelCommand40
@@ -1402,7 +1402,7 @@ LevelScriptCommandJumpTable:
 	DW LevelCommand5A
 	DW LevelCommand5C_StoreByte
 	DW LevelCommand5E_StoreWord
-	DW LevelCommand60
+	DW LevelCommand60_StoreLong
 	DW LevelCommand62
 	DW LevelCommand64
 	DW LevelCommand66
@@ -1659,4 +1659,457 @@ LevelCommand68_L2:
 	inx
 	jmp RunLevelScriptCommands
 LevelCommand6A:
+	tyx
+	phx
+	ldx $16F7
+	bne LevelCommand6A_L1
+	plx
+	jmp LevelCommand6A_L2
+LevelCommand6A_L1:
+	plx
+	lda $8001,x
+	clc
+	adc $16F7
+	tay
+	lda $8003,x
+	sta D,$5D
+	lda $8004,x
+	sta D,$5E
+	rep #$20
+	lda [D,$5D]
+	clc
+	adc $0000,y
+	sta $0000,y
+LevelCommand6A_L2:
+	inx
+	inx
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand66:
+	tyx
+	phx
+	jsl CODE_03F018
+	plx
+	inx
+	jmp RunLevelScriptCommands
+CODE_03F018:
+	lda $1F13
+	ora.w #$0008
+	sta $1F13
+	rtl
+CODE_03F022:
+	php
+	rep #$30
+	ldx $1238
+	beq CODE_03F046
+	lda $1786
+	ora $1787
+	beq CODE_03F04A
+	lda $1F05
+	and.w #$00FF
+	bne CODE_03F04A
+	lda $1786
+	sta D,$16,x
+	lda $1787
+	sta D,$17,x
+	bra CODE_03F04A
+CODE_03F046:
+	jml DoSoftReset
+CODE_03F04A:
+	sep #$20
+	stz $1F05
+	lda $16C9
+	sta $1FE4
+	lda $1785
+	bit.b #$18
+	beq CODE_03F071
+	bit.b #$08
+	beq CODE_03F067
+	lda.b #$01
+	sta $16F9
+	bra CODE_03F074
+CODE_03F067:
+	lda.b #FF
+	sta $16F9
+	sta $16FA
+	bra CODE_03F077
+CODE_03F071:
+	stz $16F9
+CODE_03F074:
+	stz $16FA
+CODE_03F077:
+	lda $1785
+	bit.b #$01
+	beq CODE_03F083
+	jsr CODE_03F484
+	bra CODE_03F086
+CODE_03F083:
+	jsr CODE_03F4AB
+CODE_03F086:
+	lda $1785
+	bit.b #$02
+	beq CODE_03F094
+	lda.b #$01
+	sta $1953
+	bra CODE_03F097
+CODE_03F094:
+	stz $1953
+CODE_03F097:
+	lda.b #$00
+	sta $701A26
+	sta $701A27
+	lda $1785
+	bit.b #$20
+	beq CODE_03F0B4
+	lda.b #$01
+	sta $701A26
+	sta $701A27
+	bra CODE_03F0C2
+CODE_03F0B4:
+	bit.b #$40
+	beq CODE_03F0CA
+	lda.b #$02
+	sta $701A26
+	sta $701A27
+CODE_03F0C2:
+	lda.b #$FF
+	sta $16F9
+	sta $16FA
+CODE_03F0CA:
+	lda $1785
+	bit.b #$04
+	beq CODE_03F0D8
+	lda.b #$01
+	sta $16F1
+	bra CODE_03F0DB
+CODE_03F0D8:
+	stz $16F1
+CODE_03F0DB:
+	plp
+	rtl
+LevelCommand60_StoreLong:
+	tyx
+	lda $8001,x
+	sta D,$5D
+	lda $8002,x
+	sta D,$5E
+	lda $8004,x
+	sta [D,$5D]
+	inc D,$5D
+	inc D,$5D
+	sep #$20
+	lda $8006,x
+	sta [D,$5D]
+	inx
+	inx
+	inx
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand5E_StoreWord:
+	tyx
+	lda $8003,x
+	sta D,$5D
+	lda $8004,x
+	sta D,$5E
+	lda $8001,x
+	sta [D,$5D]
+	inx
+	inx
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand5C_StoreByte:
+	tyx
+	lda $8002,x
+	sta D,$5D
+	lda $8003,x
+	sta D,$5E
+	sep #$20
+	lda $8001,x
+	sta [D,$5D]
+	inx
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand5A:
+	tyx
+	phx
+	ldx $16F7
+	bne LevelCommand5A_L1
+	plx
+	jmp LevelCommand5A_L2
+LevelCommand5A_L1:
+	plx
+	ldy $16F7
+	sep #$20
+	lda.b #$01
+	sta $001D,y
+	inc $173C
+LevelCommand5A_L2:
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand84:
+	tyx
+	phx
+	ldx $16F7
+	bne LevelCommand84_L1
+	plx
+	jmp LevelCommand84_L2
+LevelCommand84_L1:
+	plx
+	ldy $16F7
+	sep #$20
+	lda.b #$80
+	sta $0020,y
+	inc $173C
+LevelCommand84_L2:
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand56:
+	tyx
+	sep #$20
+	stz $16F1
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand58:
+	tyx
+	sep #$20
+	lda.b #$01
+	sta $16F1
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand52_DisableScreen:
+	tyx
+	sep #$20
+	stz $18B2
+	stz $18B3
+	lda.b #$80
+	jsl CODE_02F8DF
+	sta INIDISP
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand54_EnableScreen:
+	tyx
+	sep #$20
+	stz $18B2
+	lda.b #$0F
+	sta $18B3
+	jsl CODE_02F8DF
+	sta INIDISP
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand4C:
+	tyx
+	sep #$20
+	lda $18B3
+	bne LevelCommand4C_L1
+	cmp.b #$80
+	bne LevelCommand4C_L1
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand4C_L1:
+	lda.b #$01
+	sta ZTimer
+	stz ZTimer+1
+	stx LevelScriptPointer
+	rts
+LevelCommand4A:
+	tyx
+	phx
+	ldx $16F7
+	bne LevelCommand4A_L1
+	plx
+	jmp LevelCommand4A_L2
+LevelCommand4A_L1:
+	plx
+	lda $8001,x
+	sta D,$5D
+	lda $8002,x
+	sta D,$5E
+	lda $16F7
+	sta [D,$5D]
+LevelCommand4A_L2:
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand46:
+	tyx
+	phx
+	ldx $16F7
+	bne LevelCommand46_L1
+	plx
+	jmp LevelCommand46_L2
+LevelCommand46_L1:
+	plx
+	lda $8001,x
+	clc
+	adc $16F7
+	tay
+	lda $8003,x
+	sta D,$5D
+	lda $8004,x
+	sta D,$5E
+	sep #$20
+	lda [D,$5D]
+	sta $0000,y
+LevelCommand46_L2:
+	inx
+	inx
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand48:
+	tyx
+	phx
+	lda $16F7
+	bne LevelCommand48_L1
+	plx
+	jmp LevelCommand48_L2
+LevelCommand48_L1:
+	plx
+	lda $8001,x
+	clc
+	adc $16F7
+	tay
+	lda $8003,x
+	sta D,$5D
+	lda $8004,x
+	sta D,$5E
+	rep #$20
+	lda [D,$5D]
+	sta $0000,y
+LevelCommand48_L2:
+	inx
+	inx
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand42:
+	tyx
+	sep #$20
+	lda.b #$01
+	sta $18B2
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand44_FadeToBlack:
+	tyx
+	sep #$20
+	lda.b #$FF
+	sta $18B2
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand4E:
+	tyx
+	sep #$20
+	lda.b #$02
+	sta $18B2
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand50:
+	tyx
+	sep #$20
+	lda.b #$FE
+	sta $18B2
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand36_SetObjPropertyByte:
+	tyx
+	phx
+	ldx $16F7
+	bne LevelCommand36_SetObjPropertyByte_L1
+	plx
+	jmp LevelCommand36_SetObjPropertyByte_L2
+LevelCommand36_SetObjPropertyByte_L1:
+	phx
+	lda $8001,x
+	clc
+	adc $16F7
+	tay
+	sep #$20
+	lda $8003,x
+	sta $0000,y
+LevelCommand36_SetObjPropertyByte_L2:
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand38_SetObjPropertyWord:
+	tyx
+	phx
+	ldx $16F7
+	bne LevelCommand38_SetObjPropertyWord_L1
+	plx
+	jmp LevelCommand38_SetObjPropertyWord_L2
+LevelCommand38_SetObjPropertyWord_L1:
+	plx
+	lda $8001,x
+	clc
+	adc $16F7
+	tay
+	lda $8003,x
+	sta $0000,y
+LevelCommand38_SetObjPropertyWord_L2:
+	inx
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand3A_SetObjPropertyLong:
+	tyx
+	phx
+	ldx $16F7
+	bne LevelCommand3A_SetObjPropertyLong_L1
+	plx
+	jmp LevelCommand3A_SetObjPropertyLong_L2
+LevelCommand3A_SetObjPropertyLong_L1:
+	plx
+	lda $8001,x
+	clc
+	adc $16F7
+	tay
+	lda $8003,x
+	sta $0000,y
+	sep #$20
+	lda $8005,x
+	sta $0002,y
+LevelCommand3A_SetObjPropertyLong_L2:
+	inx
+	inx
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	

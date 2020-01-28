@@ -3,14 +3,14 @@
 ;;;;;;;;
 macro BehFuncPtr(Func,Unk03)
 	DL Func
-	DB Unk03
+	DB ModelID
 endmacro
 
 ;;;;;;;;;
 ;STRUCTS;
 ;;;;;;;;;
 
-struct ObjectList $7E0336
+struct ObjectList $0336
 	.Unk00: skip 2
 	.Unk02: skip 2
 	.ID: skip 2
