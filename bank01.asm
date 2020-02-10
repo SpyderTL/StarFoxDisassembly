@@ -53,7 +53,7 @@ CODE_018058:
 	ibt r6,#$00
 	ibt r4,#$00
 	ibt r12,#$08
-	iwt r13,#$CODE_018062
+	iwt r13,#CODE_018062
 	with r3
 CODE_018062:
 	add r3
@@ -1079,15 +1079,15 @@ CODE_018524:
 	lms r0,($00D2)			;|
 	alt2				;|
 	sms ($0120),r0			;/
-	alt1				;\Copy XY matrix element
+	alt1				;\Copy YX matrix element
 	lms r0,($00D4)			;|
 	alt2				;|
 	sms ($0122),r0			;/
-	alt1				;\Copy XZ matrix element
+	alt1				;\Copy ZX matrix element
 	lms r0,($00D6)			;|
 	alt2				;|
 	sms ($0124),r0			;/
-	alt1				;\Copy YX matrix element
+	alt1				;\Copy XY matrix element
 	lms r0,($00D8)			;|
 	alt2				;|
 	sms ($0126),r0			;/
@@ -1095,15 +1095,15 @@ CODE_018524:
 	lms r0,($00DA)			;|
 	alt2				;|
 	sms ($0128),r0			;/
-	alt1				;\Copy YZ matrix element
+	alt1				;\Copy ZY matrix element
 	lms r0,($00DC)			;|
 	alt2				;|
 	sms ($012A),r0			;/
-	alt1				;\Copy ZX matrix element
+	alt1				;\Copy XZ matrix element
 	lms r0,($00DE)			;|
 	alt2				;|
 	sms ($012C),r0			;/
-	alt1				;\Copy ZY matrix element
+	alt1				;\Copy YZ matrix element
 	lms r0,($00E0)			;|
 	alt2				;|
 	sms ($012E),r0			;/
@@ -1143,19 +1143,19 @@ CODE_018581:
 	inc r0				;|
 	alt2				;|
 	sms ($0120),r0			;/
-	alt1				;\Negate XY matrix element
+	alt1				;\Negate YX matrix element
 	lms r0,($00D4)			;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($0122),r0			;/
-	alt1				;\Negate XZ matrix element
+	alt1				;\Negate ZX matrix element
 	lms r0,($00D6)			;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($0124),r0			;/
-	alt1				;\Copy YX matrix element
+	alt1				;\Copy XY matrix element
 	lms r0,($00D8)			;|
 	alt2				;|
 	sms ($0126),r0			;/
@@ -1163,17 +1163,17 @@ CODE_018581:
 	lms r0,($00DA)			;|
 	alt2				;|
 	sms ($0128),r0			;/
-	alt1				;\Copy YZ matrix element
+	alt1				;\Copy ZY matrix element
 	lms r0,($00DC)			;|
 	alt2				;|
 	sms ($012A),r0			;/
-	alt1				;\Negate ZX matrix element
+	alt1				;\Negate XZ matrix element
 	lms r0,($00DE)			;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($012C),r0			;/
-	alt1				;\Negate ZY matrix element
+	alt1				;\Negate YZ matrix element
 	lms r0,($00E0)			;|
 	not				;|
 	inc r0				;|
@@ -1191,11 +1191,11 @@ CODE_018581:
 	and r1
 	beq CODE_0185DA
 	sub r0
-	alt2				;\Overwrite YX matrix element
+	alt2				;\Overwrite XY matrix element
 	sms ($0126),r0			;/
 	alt2				;\Overwrite YY matrix element
 	sms ($0128),r0			;/
-	alt2				;\Overwrite YZ matrix element
+	alt2				;\Overwrite ZY matrix element
 	sms ($012A),r0			;/
 CODE_0185DA:
 	iwt r15,#CODE_018615
@@ -2961,6 +2961,7 @@ CODE_018E17:
 CODE_018E36:
 	loop
 	nop
+CODE_018E38:
 	alt2
 	sms ($001A),r14
 	from r5
@@ -3074,6 +3075,7 @@ CODE_018EBC:
 	link #4
 	iwt r15,#CODE_018FBD
 	nop
+CODE_018ED3:
 	getb
 	inc r14
 	alt3
@@ -3150,16 +3152,817 @@ CODE_018EBC:
 	alt1
 	lms r0,($0040)
 	dec r0
-	bne -95
+	bne CODE_018ED3
 	sbk
 	alt1
 	lms r5,($0138)
-	
-	
-	
-	
-	
-	
+	iwt r15,#CODE_018E38
+	nop
+	with r14
+	alt2
+	sub #$06
+	link #4
+	iwt r15,#CODE_01904F
+	nop
+	with r14
+	alt2
+	add #$04
+	link #4
+	iwt r15,#CODE_018FBD
+	nop
+	alt1
+	lms r0,($0134)
+	with r14
+	add r0
+	dec r14
+CODE_018F50:
+	getb
+	dec r14
+	alt3
+	umult #$06
+	iwt r6,#$05C2
+	to r7
+	add r7
+	ldw r7
+	inc r7
+	inc r7
+	alt1
+	lms r6,($0062)
+	to r1
+	add r6
+	ldw r7
+	inc r7
+	inc r7
+	alt1
+	lms r6,($002C)
+	to r2
+	add r6
+	ldw r7
+	inc r7
+	inc r7
+	alt1
+	lms r6,($002E)
+	to r3
+	add r6
+	link #4
+	iwt r15,#CODE_019263
+	nop
+	from r1
+	stw r8
+	inc r8
+	inc r8
+	from r2
+	stw r8
+	inc r8
+	inc r8
+	alt1
+	lms r3,($0138)
+	or r3
+	sbk
+	alt1
+	lms r0,($0042)
+	hib
+	beq CODE_018FA9
+	nop
+	ibt r0,#$03
+	alt3
+	romb
+	alt2
+	sms ($001A),r14
+	alt1
+	lms r14,($0082)
+	getb
+	inc r14
+	stw r8
+	inc r8
+	inc r8
+	getb
+	inc r14
+	stw r8
+	inc r8
+	inc r8
+	alt2
+	sms ($0082),r14
+	alt1
+	lms r0,($001C)
+	alt3
+	romb
+	alt1
+	lms r14,($001A)
+	alt1
+	lms r0,($0040)
+	dec r0
+	bne CODE_018F50
+	sbk
+	alt1
+	lms r0,($0134)
+	with r14
+	add r0
+	inc r14
+	alt1
+	lms r5,($0138)
+	iwt r15,#CODE_018E38
+	nop
+	sub r0
+	alt2
+	sms ($0042),r0
+	with r14
+	alt2
+	sub #$03
+	alt1
+	lms r9,($0048)
+	to r1
+	alt3
+	getbs
+	inc r14
+	to r2
+	alt3
+	getbs
+	inc r14
+	to r3
+	alt3
+	getbs
+	inc r14
+	with r1
+	not
+	inc r1
+	with r3
+	not
+	inc r3
+	alt1
+	lms r6,($0120)
+	from r1
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($0126)
+	from r2
+	fmult
+	rol
+	with r5
+	add r0
+	alt1
+	lms r6,($012C)
+	from r3
+	fmult
+	rol
+	add r5
+	mult r9
+	asr
+	asr
+	alt1
+	lms r6,($0026)
+	add r6
+	alt2
+	sms ($0062),r0
+	alt1
+	lms r6,($0122)
+	from r1
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($0128)
+	from r2
+	fmult
+	rol
+	with r5
+	add r0
+	alt1
+	lms r6,($012E)
+	from r3
+	fmult
+	rol
+	add r5
+	with r0
+	from r0
+	bmi CODE_019016
+	nop
+	not
+	inc r0
+CODE_019016:
+	mult r9
+	asr
+	asr
+	alt1
+	lms r6,($0028)
+	add r6
+	alt2
+	sms ($002C),r0
+	alt1
+	lms r6,($0124)
+	from r1
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($012A)
+	from r2
+	fmult
+	rol
+	with r5
+	add r0
+	alt1
+	lms r6,($0130)
+	from r3
+	fmult
+	rol
+	add r5
+	mult r9
+	asr
+	asr
+	alt1
+	lms r6,($002A)
+	add r6
+	alt2
+	sms ($002E),r0
+	sub r0
+	alt2
+	sms ($0138),r0
+	iwt r8,#$0982
+	alt1
+	lms r0,($0134)
+	alt2
+	sms ($0040),r0
+	jmp r11
+	nop
+CODE_01904F:
+	move r2,r14
+	alt1
+	lms r0,($0054)
+	iwt r1,#$2000
+	to r1
+	and r1
+	beq CODE_019075
+	nop
+	iwt r1,#$1000
+	and r1
+	bne CODE_019075
+	nop
+	ibt r0,#$02
+	alt1
+	cmode
+	ibt r0,#$09
+	color
+	sub r0
+	alt2
+	sms ($0058),r0
+	alt2
+	sms ($0042),r0
+	iwt r15,#CODE_019191
+	nop
+CODE_019075:
+	getb
+	add r0
+	ibt r1,#$03
+	from r1
+	alt3
+	romb
+	alt1
+	lms r1,($004A)
+	to r14
+	add r1
+CODE_019081:
+	to r3
+	getb
+	inc r14
+	with r3
+	alt1
+	getbh
+	moves r3,r3
+	bpl CODE_0190BC
+	nop
+	from r3
+	add r3
+	bpl CODE_0190AA
+	nop
+	iwt r0,#$FFFE
+	alt2
+	sms ($0042),r0
+	from r3
+	hib
+	alt2
+	and #$0F
+	add r0
+	add r0
+	add r0
+	add r0
+	swap
+	alt2
+	or #$08
+	swap
+	alt2
+	sms ($0058),r0
+	iwt r15,#CODE_019191
+	nop
+CODE_0190AA:
+	iwt r0,#$3FFF
+	to r14
+	and r3
+	alt1
+	lms r0,($0046)
+	to r3
+	getb
+	dec r3
+	and r3
+	add r0
+	inc r0
+	to r14
+	bra CODE_019081
+	add r14
+CODE_0190BC:
+	sub r0
+	alt2
+	sms ($0058),r0
+	from r3
+	add r3
+	bpl CODE_0190C6
+	sub r0
+	dec r0
+CODE_0190C6:
+	alt2
+	sms ($0042),r0
+	beq CODE_019111
+	nop
+	from r3
+	lob
+	bpl CODE_0190D7
+	nop
+	iwt r0,#$0400
+	alt2
+	sms ($0058),r0
+CODE_0190D7:
+	from r3
+	add r3
+	lob
+	lsr
+	alt3
+	umult #$03
+	iwt r1,#CODE_8918
+	to r14
+	add r1
+	getb
+	inc r14
+	alt1
+	getbh
+	inc r14
+	alt2
+	sms ($0096),r0
+	getb
+	alt2
+	sms ($0098),r0
+	from r3
+	hib
+	ibt r1,#$3F
+	and r1
+	add r0
+	iwt r1,#$8A3E
+	to r14
+	add r1
+	getb
+	inc r14
+	alt1
+	getbh
+	move r14,r0
+	to r1
+	getb
+	inc r14
+	with r1
+	alt1
+	getbh
+	alt2
+	sms ($00C2),r1
+	inc r0
+	inc r0
+	alt2
+	sms ($0082),r0
+	iwt r15,#CODE_019191
+	nop
+CODE_019111:
+	from r3
+	hib
+	inc r0
+	and r1
+	bne CODE_01911E
+	nop
+	iwt r15,#CODE_01918E
+	nop
+CODE_01911E:
+	inc r0
+	and r1
+	beq CODE_019127
+	nop
+	iwt r15,#CODE_019133
+	nop
+CODE_019127:
+	from r3
+	lob
+	alt1
+	lms r3,($0052)
+	to r14
+	add r3
+	getc
+	iwt r5,#CODE_019191
+	nop
+CODE_019133:
+	dec r0
+	dec r0
+	and r1
+	move r3,r0
+	alt1
+	lms r0,($0054)
+	hib
+	bpl CODE_01918E
+	nop
+	alt1
+	lms r0,($004C)
+	add r3
+	to r14
+	add r3
+	to r6
+	getb
+	inc r14
+	with r6
+	alt1
+	getbh
+	alt1
+	lms r0,($001C)
+	alt3
+	romb
+	move r14,r2
+	inc r14
+	getb
+	inc r14
+	alt1
+	lms r4,($00F4)
+	to r5
+	mult r4
+	getb
+	inc r14
+	alt1
+	lms r4,($00F6)
+	mult r4
+	to r5
+	add r5
+	getb
+	alt1
+	lms r4,($00F8)
+	mult r4
+	add r5
+	asr
+	asr
+	hib
+	sex
+	ibt r4,#$06
+	alt3
+	cmp r4
+	bge CODE_019178
+	nop
+	ibt r0,#$06
+	bra CODE_019181
+	nop
+CODE_019178:
+	ibt r4,#$10
+	alt3
+	cmp r4
+	blt CODE_019181
+	nop
+	ibt r0,#$0F
+CODE_019181:
+	to r1
+	alt2
+	sub #$06
+	ibt r0,#$03
+	alt3
+	romb
+	from r6
+	to r14
+	add r1
+	bra CODE_019191
+	getc
+CODE_01918E:
+	from r3
+	lob
+	color
+CODE_019191:
+	alt1
+	lms r0,($001C)
+	alt3
+	romb
+	with r2
+	to r14
+	jmp r11
+	nop
+CODE_01919A:
+	alt1
+	lms r0,($0054)
+	iwt r1,#$4000
+	and r1
+	beq CODE_0191A8
+	nop
+	iwt r15,#CODE_01920B
+	nop
+CODE_0191A8:
+	to r12
+	getb
+	inc r14
+	iwt r9,#$07A2
+	iwt r11,#$0E72
+	cache
+	move r13,r15
+	getb
+	inc r14
+	alt2
+	mult #$06
+	add r9
+	to r1
+	ldw r0
+	inc r0
+	inc r0
+	to r2
+	ldw r0
+	inc r0
+	inc r0
+	to r5
+	ldw r0
+	getb
+	inc r14
+	alt2
+	mult #$06
+	to r8
+	add r9
+	ldw r8
+	inc r8
+	inc r8
+	to r3
+	sub r1
+	ldw r8
+	inc r8
+	inc r8
+	to r7
+	sub r2
+	ldw r8
+	to r5
+	alt1
+	xor r5
+	getb
+	inc r14
+	alt2
+	mult #$06
+	to r8
+	add r9
+	ldw r8
+	inc r8
+	inc r8
+	to r3
+	sub r1
+	ldw r8
+	inc r8
+	inc r8
+	to r2
+	sub r2
+	ldw r8
+	to r5
+	alt1
+	xor r5
+	move r6,r1
+	with r7
+	alt1
+	lmult
+	move r1,r4
+	move r6,r3
+	with r2
+	alt1
+	lmult
+	with r4
+	sub r1
+	with r2
+	alt1
+	sbc r7
+	from r5
+	add r5
+	add r0
+	add r0
+	swap
+	alt1
+	xor r2
+	hib
+	alt1
+	stb r11
+	loop
+	inc r11
+	to r15				;\Get next command byte and jump
+	getb				;|
+	inc r14				;/
+CODE_01920B:
+	to r12
+	getb
+	inc r14
+	iwt r9,#$07A2
+	iwt r11,#$0E72
+	cache
+	move r13,r15
+	getb
+	inc r14
+	alt3
+	umult #$06
+	add r9
+	to r1
+	alt1
+	ldb r0
+	inc r0
+	inc r0
+	to r2
+	alt1
+	ldb r0
+	getb
+	inc r14
+	alt3
+	umult #$06
+	to r8
+	add r9
+	alt1
+	ldb r8
+	inc r8
+	inc r8
+	sub r1
+	to r3
+	asr
+	alt1
+	ldb r8
+	sub r2
+	to r7
+	asr
+	getb
+	inc r14
+	alt3
+	umult #$06
+	to r8
+	add r9
+	alt1
+	ldb r8
+	inc r8
+	inc r8
+	sub r1
+	to r1
+	asr
+	alt1
+	ldb r8
+	sub r2
+	to r2
+	asr
+	from r1
+	to r1
+	mult r7
+	from r3
+	mult r2
+	sub r1
+	hib
+	alt1
+	stb r11
+	loop
+	inc r11
+	to r15				;\Get next command byte and jump
+	getb				;|
+	inc r14				;/
+	dec r14
+	getb
+	with r14
+	alt2
+	add #$07
+	iwt r1,#$0E72
+	add r1
+	alt1
+	ldb r0
+	jmp r11
+	swap
+	from r11
+	stw r10
+	inc r10
+	inc r10
+	moves r3,r3
+	bpl CODE_019270
+	nop
+	iwt r15,#CODE_019333
+	nop
+CODE_019270:
+	nop
+	bne CODE_019275
+	nop
+	inc r3
+CODE_019275:
+	ibt r5,#$00
+	moves r1,r1
+	bmi CODE_0192D0
+	nop
+	moves r2,r2
+	bmi CODE_0192A4
+	nop
+	from r1
+	sub r2
+	bcc CODE_01928F
+	nop
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	iwt r15,#CODE_0193F0
+	nop
+CODE_01928F:
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	iwt r15,#CODE_0193F0
+	nop
+CODE_0192A4:
+	with r2
+	not
+	inc r2
+	from r1
+	sub r2
+	bcc CODE_0192B8
+	nop
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	with r2
+	not
+	inc r2
+	iwt r15,#CODE_0193F0
+	nop
+CODE_0192B8:
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	with r2
+	not
+	inc r2
+	iwt r15,#CODE_0193F0
+	nop
+CODE_0192D0:
+	with r1
+	not
+	inc r1
+	moves r2,r2
+	bmi 42
+	nop
+	from r1
+	sub r2
+	bcc 13
+	nop
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	with r1
+	not
+	inc r1
+	iwt r15,#CODE_0193F0
+	nop
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	with r1
+	not
+	inc r1
+	iwt r15,#CODE_0193F0
+	nop
+	with r2
+	not
+	inc r2
+	from r1
+	sub r2
+	bcc CODE_019318
+	nop
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	with r2
+	not
+	inc r2
+	with r1
+	not
+	inc r1
+	iwt r15,#CODE_0193F0
+	nop
+CODE_019318:
 	
 	
 	

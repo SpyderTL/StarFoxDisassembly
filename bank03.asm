@@ -234,7 +234,7 @@
 	DW $87E4,$401B,$401F,$87DF
 	
 	
-	;USED FOR EXPLOSIONS
+	;USED FOR FLASHING RING AND EXPLOSIONS
 	DW $875C,$874B
 	
 	;USED FOR THE ANDROSS SQUARE/CUBE/ELONGATED BIPYRAMID MODEL
@@ -475,18 +475,238 @@ DATA_038F9A:
 	DB $FE,$FD,$FC,$00,$F6,$F3,$C1,$00
 	
 	
+	
+	
+	
+	
+DoDecompressTileset:
+	php
+	rep #$20
+	lda #$2800
+	sta $70002C
+	sep #$20
+	lda #$01
+	ldx #$B301
+	jsl RunSuperFXRoutine
+	plp
+	rtl
+DoDecompressTilemap:
+	php
+	rep #$20
+	lda #$00C0
+	sta $700090
+	lda #$4000
+	sta $70002C
+	sep #$20
+	lda #$01
+	ldx #$B301
+	jsl RunSuperFXRoutine
+	plp
+	rtl
+CODE_03AB60:
+	php
+	rep #$20
+	lda #$0000
+	sta $700090
+	lda #$4000
+	sta $70002C
+	sep #$20
+	lda #$01
+	ldx #$B301
+	jsl RunSuperFXRoutine
+	plp
+	rtl
+CODE_03AB7E:
+	php
+	rep #$20
+	lda #$2800
+	sta $70002C
+	sep #$20
+	lda #$01
+	ldx #$B301
+	jsl RunSuperFXRoutine
+	plp
+	rtl
+DecompressTileset:
+	rep #$20
+	pla
+	tax
+	clc
+	adc #$0007
+	pha
+	lda #$0000
+	sta $700090
+	lda $030003,x
+	and #$00FF
+	sta $700064
+	lda $030001,x
+	sta $700062
+	lda $030004,x
+	sta $188A
+	lda $030006,x
+	sta $188C
+	sep #$20
+	jsl DoDecompressTileset
+	rts
+DoDecompressTilemap:
+	rep #$20
+	pla
+	tax
+	clc
+	adc #$0007
+	pha
+	lda $030001,x
+	sta $700062
+	lda $030003,x
+	and #$00FF
+	sta $700064
+	lda $030004,x
+	sta $188E
+	lda $030006,x
+	sta $1890
+	sep #$20
+	jsl DoDecompressTilemap
+	rts
+CODE_03ABFE:
+	rep #$20
+	pla
+	tax
+	clc
+	adc #$0005
+	pha
+	lda $030001,x
+	sta $1892
+	sep #$20
+	lda $030003,x
+	sta $1894
+	rep #$20
+	lda $030004
+	sta $1895
+	lda $1892
+	clc
+	adc #$00DF
+	tay
+	phy
+	sep #$20
+	phb
+	lda
+	pha
+	plb
+	ldx #$00DF
+CODE_03AC34:
+	lda $0000,y
+	sta $1789,x
+	dey
+	dex
+	bpl CODE_03AC34
+	plb
+	ply
+	rts
+DATA_03AC42:
+	DB $00,$00,$00,$03,$5F,$90
+	DB $00,$00,$00,$03,$03,$91
+	DB $00,$00,$00,$03,$07,$91
+	DB $00,$00,$00,$03,$A0,$91
+	DB $00,$00,$00,$03,$0B,$91
+	DB $00,$00,$00,$03,$DF,$92
+	DB $00,$00,$00,$03,$10,$94
+	DB $00,$00,$00,$03,$9C,$94
+	DB $00,$00,$00,$03,$2F,$95
+	DB $00,$00,$00,$03,$C7,$95
+	DB $00,$00,$00,$03,$5A,$96
+	DB $00,$00,$00,$03,$DC,$96
+	DB $00,$00,$00,$03,$5E,$97
+	DB $00,$00,$00,$03,$D6,$97
+	DB $00,$00,$00,$03,$A4,$98
+	DB $00,$00,$00,$03,$30,$99
+	DB $00,$00,$00,$03,$D0,$99
+	DB $00,$00,$00,$03,$73,$9A
+	DB $00,$00,$00,$03,$1F,$9B
+	DB $00,$00,$00,$03,$C2,$9B
+	DB $00,$00,$00,$03,$5B,$9C
+	DB $00,$00,$00,$03,$D3,$A7
+	DB $00,$00,$00,$03,$F1,$9C
+	DB $00,$00,$00,$03,$7D,$9D
+	DB $00,$00,$00,$03,$4B,$9E
+	DB $00,$00,$00,$03,$4F,$9F
+	DB $00,$00,$00,$03,$DC,$9F
+	DB $00,$00,$00,$03,$F4,$A0
+	DB $00,$00,$00,$03,$F2,$A1
+	DB $00,$00,$00,$03,$88,$A2
+	DB $00,$00,$00,$03,$45,$A3
+	DB $00,$00,$00,$03,$D1,$A3
+	DB $00,$00,$00,$03,$6E,$A4
+	DB $00,$00,$00,$03,$72,$A4
+	DB $00,$00,$00,$03,$FE,$A4
+	DB $00,$00,$00,$03,$8B,$A5
+	DB $00,$00,$00,$03,$03,$A6
+	DB $00,$00,$00,$03,$A7,$A6
+	DB $00,$00,$00,$03,$33,$A7
+	DB $00,$00,$00,$03,$BA,$8F
+	DB $00,$00,$00,$03,$DB,$A8
+	DB $00,$00,$00,$03,$F5,$A9
+	DB $00,$00,$00,$03,$5B,$A8
+	DB $00,$00,$00,$03,$63,$A9
+	DB $00,$00,$00,$03,$6B,$93
+	DB $00,$00,$00,$03,$35,$92
+	DB $00,$00,$00,$00,$00,$00
+	DB $00
+	
+	
+	
+	
+	
+	
+CODE_03AD5D:
+	php
+	rep #$10
+	ldx #$0000
+	jsr HandleAudio
+	plp
+	rtl
+CODE_03AD68:
+	php
+	rep #$10
+	ldx #$001C
+	jsr HandleAudio
+	plp
+	rtl
+CODE_03AD73:
+	php
+	rep #$10
+	ldx #$0025
+	jsr HandleAudio
+	plp
+	rtl
+CODE_03AD7E:
+	php
+	rep #$10
+	ldx #$0033
+	jsr HandleAudio
+	plp
+	rtl
 CODE_03AD89:
 	php
+	rep #$10
+	ldx #$0041
+	jsr HandleAudio
+	plp
+	rtl
+	
+	
+	
+	
+	
 	
 
 
 CODE_03BD7A:
 	php
 	sep #$20
-	lda.b #$DE
+	lda #$DE
 	sta ScanlineToWaitFor
 	jsl WaitScanline
-	lda.b #$00
+	lda #$00
 CODE_03BD88:
 	dec a
 	bne CODE_03BD88
@@ -516,17 +736,17 @@ WaitScanline_L1:
 CODE_03BDAF:		;03BDAF
 	php
 	sep #$20
-	lda.b #$03
+	lda #$03
 	sta $16EC
 	stz $1898
 	rep #$20
-	lda.w #$00FC
+	lda #$00FC
 	sta $16CE
-	lda.w #$0092
+	lda #$0092
 	sta $16D0
-	lda.w #$0018
+	lda #$0018
 	sta $16D2
-	lda.w #$019A
+	lda #$019A
 	sta $16D4
 	stz $16D6
 	stz $16DD
@@ -538,22 +758,22 @@ Main:			;03BDDF
 	rep #$10
 	jsr $D11C
 	stz $1F51
-	ldx.w #$0000
+	ldx #$0000
 	stx $1F4F
 	stx $1F4D
 	stz $1FCF
 	sei
 	rep #$20
-	lda.w #$0000
+	lda #$0000
 	sta $7001D6
 	sta $16E4
-	lda.w #$0000
+	lda #$0000
 	sta $7001D8
 	sta $16E6
-	lda.w #$0096
+	lda #$0096
 	sta $16E8
 	sta $7001DA
-	ldx.w #$1281
+	ldx #$1281
 	stx D,$30
 	stz D,$34
 	lda #$0001
@@ -565,9 +785,9 @@ Main:			;03BDDF
 	lsr
 	lsr
 	sta SCBR
-	lda.b #$FF
+	lda #$FF
 	sta $16D9
-	lda.b #$06
+	lda #$06
 	sta $70009A
 	jsr $CA7B
 	jsr $C71C
@@ -578,27 +798,27 @@ Main:			;03BDDF
 	rep #$30
 	lda #$2020
 	sta VMADDL
-	ldx.w #$0000
+	ldx #$0000
 Main_L1:
 	lda $A08B,x
 	sta VMDATAL
 	inx
 	inx
-	cpx.w #$03C0
+	cpx #$03C0
 	bne Main_L1
 	lda #$5020
 	sta VMADDL
-	ldx.w #$0000
+	ldx #$0000
 Main_L2:
 	lda $A08B,x
 	sta VMDATAL
 	inx
 	inx
-	cpx.w #$03C0
+	cpx #$03C0
 	bne Main_L2
 	rep #$20
 	stz D,$04
-	lda.w #$0010
+	lda #$0010
 	sta $15C2
 	dec $16D6
 	bmi Main_L3
@@ -616,7 +836,7 @@ Main_L3:
 	rep #$10
 	lda $16D9
 	bpl Main_L4
-	lda.b #$00
+	lda #$00
 Main_L4:
 	rep #$20
 	asl a
@@ -626,13 +846,13 @@ Main_L4:
 	sta D,$38
 	jsr $C67F
 	sep #$30
-	lda.b #$08
+	lda #$08
 	sta HDMAEN
-	lda.b #$BE
+	lda #$BE
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$30
-	lda.b #$64
+	lda #$64
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$30
@@ -644,19 +864,19 @@ Main_L4:
 	cli
 	jsl $03AD89
 	pla
-	cmp.b #$0E
+	cmp #$0E
 	beq Main_L5
-	cmp.b #$0A
+	cmp #$0A
 	bne Main_L6
 Main_L5:
-	lda.b #$0F
+	lda #$0F
 	sta $1F47
 	stz $1F46
 Main_L6:
-	lda.b #$FF
+	lda #$FF
 Main_L7:
 	pha
-	lda.b #$C8
+	lda #$C8
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$30
@@ -667,7 +887,7 @@ Main_L7:
 	sta $7E4608
 	sta $7E460A
 	sta $7E460C
-	cmp.b #$0F
+	cmp #$0F
 	bne Main_L7
 	sep #$20
 	rep #$10
@@ -675,10 +895,10 @@ Main_L7:
 	beq Main_L8
 	brl Main_L20
 Main_L8:
-	lda.b #$0A
+	lda #$0A
 	sta $16D6
 	rep #$20
-	lda.w #$0010
+	lda #$0010
 	sta $70009A
 Main_L9:
 	inc $15BB
@@ -686,9 +906,9 @@ Main_L9:
 	jsr CODE_03C58F
 	lda $70009A
 	pha
-	lda.w #$0006
+	lda #$0006
 	sta $70009A
-	lda.w #$FFFE
+	lda #$FFFE
 	sta $16D9
 	jsr CODE_03CA7B
 	pla
@@ -697,12 +917,12 @@ Main_L9:
 	lda $70009A
 	beq Main_L10
 	sec
-	sbc.w #$0004
+	sbc #$0004
 	sta $70009A
 Main_L10:
 	jsr CODE_03C891
 	lda $15BB
-	bit.w #$0002
+	bit #$0002
 	beq Main_L11
 	jsl CODE_03CC3E
 	bra Main_L12
@@ -711,40 +931,40 @@ Main_L11:
 Main_L12:
 	jsl CODE_03CBFB
 	lda $1209
-	bit.w #$2F00
+	bit #$2F00
 	beq Main_L17
-	lda.w #$0010
+	lda #$0010
 	sta $70009A
 	jsr CODE_03BD7A
 	jsl CODE_03CC22
 	lda $1209
-	bit.w #$2A00
+	bit #$2A00
 	sep #$20
 	bne Main_L14
 	lda $16D8
 	inc
-	cmp.b #$03
+	cmp #$03
 	bne Main_L13
-	lda.b #$00
+	lda #$00
 Main_L13:
 	sta $16D8
 	bra Main_L16
 Main_L14:
 	lda $16D8
 	dec
-	cmp.b #$FF
+	cmp #$FF
 	bne Main_L15
-	lda.b #$02
+	lda #$02
 Main_L15:
 	sta $16D8
 Main_L16:
-	lda.b #$11
+	lda #$11
 	jsl CODE_03B7F9
 	jsl CODE_03C67F
 	rep #$20
 Main_L17:
 	lda $1209
-	bit.w #$9080
+	bit #$9080
 	bne Main_L18
 	brl Main_L9
 Main_L18:
@@ -753,7 +973,7 @@ Main_L18:
 Main_L19:
 	jsl CODE_03CC3E
 	sep #$20
-	lda.b #$F1
+	lda #$F1
 	sta $1F47
 	stz $1F46
 	rep #$20
@@ -764,7 +984,7 @@ Main_L20:
 Main_L21:
 	ldx D,$02
 	phx
-	lda.b #$FF
+	lda #$FF
 	sta $16D9
 	jsr CODE_03C511
 	jsr CODE_03C58F
@@ -777,11 +997,11 @@ Main_L21:
 	bcc Main_L21
 	jsr CODE_03BD7A
 	jsl CODE_03CC3E
-	lda.b #$08
+	lda #$08
 	sta D,CurNMITask
 	lda $16D9
 	pha
-	lda.b #$FE
+	lda #$FE
 	sta $16D9
 Main_L22:
 	jsr CODE_03C511
@@ -792,7 +1012,7 @@ Main_L22:
 	jsl CODE_03CBFB
 	rep #$20
 	lda $1209
-	bit.w #$D0C0
+	bit #$D0C0
 	sep #$20
 	beq Main_L22
 	pla
@@ -800,14 +1020,14 @@ Main_L22:
 Main_L23:
 	sep #$20
 	rep #$10
-	lda.b #$F1
+	lda #$F1
 	sta $1F47
 	stz $1F46
-	lda.b #$10
+	lda #$10
 	jsl CODE_03B7F9
-	lda.b #$01
+	lda #$01
 	sta D,$34
-	lda.b #$53
+	lda #$53
 Main_L24:			;03C04C
 	pha
 	jsr CODE_03BD7A
@@ -815,7 +1035,7 @@ Main_L24:			;03C04C
 	dec
 	bne Main_L24
 	sei
-	lda.b #$E0
+	lda #$E0
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
@@ -825,10 +1045,10 @@ Main_L24:			;03C04C
 	jsr CODE_03BD7A
 	sep #$20
 	rep #$10
-	ldx.w #$0000
+	ldx #$0000
 Main_L25:
 	phx
-	lda.b #$01
+	lda #$01
 Main_L26:
 	pha
 	txa
@@ -838,10 +1058,10 @@ Main_L26:
 	bne Main_L26
 	plx
 	txa
-	ora.b #$E0
+	ora #$E0
 	sta COLDATA
 	inx
-	cpx.w #$0020
+	cpx #$0020
 	bne Main_L25
 	jsr CODE_03C74D
 	sep #$20
@@ -854,13 +1074,13 @@ Main_L27:
 	lda OPHCT
 	xba
 	rep #$20
-	and.w #$01FF
-	cmp.w #$0000
+	and #$01FF
+	cmp #$0000
 	bcc Main_L27
-	cmp.w #$000F
+	cmp #$000F
 	bcs Main_L27
 	sep #$20
-	lda.b #$01
+	lda #$01
 	sta TM
 	rep #$20
 	jsr CODE_03C5BF
@@ -878,7 +1098,7 @@ Main_L27:
 	stz D,$16
 	stz D,$1E
 	stz D,$20
-	ldx.w #$20
+	ldx #$20
 Main_L28:
 	phx
 	stx D,$1C
@@ -907,73 +1127,73 @@ Main_L28:
 	bne Main_L28
 	sep #$20
 	rep #$10
-	lda.b #$02
+	lda #$02
 	sta HDMAEN
-	lda.b #$64
+	lda #$64
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
-	lda.b #$62
+	lda #$62
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
 	rep #$20
-	lda.w #$0000
+	lda #$0000
 	sta $700090
-	lda.w #$0011
+	lda #$0011
 	sta $700064
-	lda.w #$FB89
+	lda #$FB89
 	sta $700062
-	lda.w #$6820
+	lda #$6820
 	sta $188A
-	lda.w #$1000
+	lda #$1000
 	sta $188C
 	sep #$20
 	jsl CODE_03AB2B
-	lda.b #$B8
+	lda #$B8
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
 	jsl CODE_7E33BA
 	rep #$20
-	lda.w #$0017
+	lda #$0017
 	sta $700064
-	lda.w #$8718
+	lda #$8718
 	sta $700062
-	lda.w #$7C00
+	lda #$7C00
 	sta $188A
-	lda.w #$0800
+	lda #$0800
 	sta $188C
-	lda.w #$0002
+	lda #$0002
 	sta $700090
 	sep #$20
 	jsl CODE_03AB7E
-	lda.b #$B8
+	lda #$B8
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
 	jsl CODE_7E33BA
 	jsr CODE_03C5D4
-	lda.b #$B8
+	lda #$B8
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
-	lda.b #$03
+	lda #$03
 	sta TM
-	lda.b #$82
+	lda #$82
 	sta CGADSUB
 	stz CGWSEL
-	lda.b #$FF
+	lda #$FF
 	sta COLDATA
 	sta $7EF0C6
-	ldx.w #$00BA
+	ldx #$00BA
 	stx VTIMEL
-	lda.b #$22
+	lda #$22
 	sta D,CurNMITask
 	lda TIMEUP
 	cli
@@ -981,19 +1201,19 @@ Main_L28:
 	jsr CODE_03C763
 	jsr CODE_03C74D
 	rep #$20
-	lda.w #$000F
+	lda #$000F
 	sta $7001F2
-	lda.w #$7800
+	lda #$7800
 	sta $700030
 	jsr CODE_03CA1C
 	jsr CODE_03C87B
 	sep #$20
-	lda.b #$D8
+	lda #$D8
 	sta BG1VOFS
 	stz BG1VOFS
 	stz BG1HOFS
 	stz BG1HOFS
-	lda.b #$2C
+	lda #$2C
 	sta BG1SC
 	rep #$20
 	lda $16D9
@@ -1001,18 +1221,18 @@ Main_L28:
 	tax
 	sep #$20
 	lda DATA_03D391,x
-	bit.b #$80
+	bit #$80
 	bne Main_L29
-	lda.b #$0D
+	lda #$0D
 	sta $1F47
 	stz $1F46
 	bra Main_L30
 Main_L29:
-	lda.b #$0B
+	lda #$0B
 	sta $1F47
 	stz $1F46
 Main_L30:
-	ldx.w #$0028
+	ldx #$0028
 Main_L31:
 	phx
 	jsr CODE_03C58F
@@ -1023,18 +1243,18 @@ Main_L31:
 	asl
 	tax
 	lda DATA_03D391,x
-	bit.b #$80
+	bit #$80
 	bne Main_L33
 	lda $7001F2
 	inc
-	cmp.w #$007E
+	cmp #$007E
 	beq Main_L34
 	sta $7001F2
 	plx
-	cpx.w #$0014
+	cpx #$0014
 	bne Main_L32
 	sep #$20
-	lda.b #$FE
+	lda #$FE
 	sta $7EF0C6
 Main_L32:
 	rep #$20
@@ -1046,24 +1266,24 @@ Main_L33:
 	phx
 	lda $7001F2
 	inc
-	cmp.w #$003A
+	cmp #$003A
 	beq Main_L34
 	sta $7001F2
 Main_L34:
 	lda $700022
 	clc
-	adc.w #$0400
+	adc #$0400
 	sta $700022
 	lda $7001D6
 	sec
-	sbc.w #$000A
+	sbc #$000A
 	sta $7001D6
 	lda $7001DA
 	clc
-	adc.w #$000A
+	adc #$000A
 	sta $7001DA
 	phx
-	cpx.w #$0012
+	cpx #$0012
 	bcs Main_L35
 	txy
 	sep #$20
@@ -1078,15 +1298,15 @@ Main_L35:
 Main_L36:
 	sep #$20
 	rep #$10
-	ldx.w #$00DE
+	ldx #$00DE
 	stx VTIMEL
-	lda.b #$01
+	lda #$01
 	sta SuperFXScreenMode
-	lda.b #$00
+	lda #$00
 	sta $7EF0C7
-	lda.b #$22
+	lda #$22
 	sta $7E4600
-	lda.b #$DC
+	lda #$DC
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
@@ -1104,9 +1324,9 @@ Main_L37:
 	sep #$20
 	bne Main_L39
 	lda $7000BE
-	cmp.b #$27
+	cmp #$27
 	beq Main_L38
-	lda.b #$89
+	lda #$89
 	jsl CODE_03B7F9
 Main_L38:
 	lda $7EF0C7
@@ -1114,13 +1334,13 @@ Main_L38:
 	sta $7EF0C7
 	bra Main_L37
 Main_L39:
-	lda.b #$00
+	lda #$00
 	sta $7EF0C7
 Main_L40:
 	jsr CODE_03C777
 	lda $7EF0C7
 	pha
-	lda.b #$FF
+	lda #$FF
 	sta $7EF0C7
 	jsr CODE_03D1BB
 	pla
@@ -1132,34 +1352,34 @@ Main_L40:
 	sep #$20
 	bne Main_L41
 	lda $7000BE
-	cmp.b #$27
+	cmp #$27
 	beq Main_L41
-	lda.b #$89
+	lda #$89
 	jsl CODE_03B7F9
 Main_L41:
-	lda.b #$32
+	lda #$32
 Main_L42:
 	pha
 	jsl CODE_03CBE8
-	lda.b #$78
+	lda #$78
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
 	lda $120A
-	bit.b #$10
+	bit #$10
 	bne Main_L43
 	lda $120A
-	bit.b #$80
+	bit #$80
 	bne Main_L43
 	lda $1209
-	bit.b #$80
+	bit #$80
 	bne Main_L43
 	pla
 	dec
 	beq Main_L42
 	lda $7EF0C7
-	cmp.b #$FF
+	cmp #$FF
 	beq Main_L44
 	inc
 	sta $7EF0C7
@@ -1167,54 +1387,54 @@ Main_L42:
 Main_L43:
 	pla
 Main_L44:
-	lda.b #$13
+	lda #$13
 	jsl CODE_03B7F9
-	lda.b #$E0
+	lda #$E0
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
-	lda.b #$DE
+	lda #$DE
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
-	lda.b #$E0
+	lda #$E0
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
-	lda.b #$DE
+	lda #$DE
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
 	sei
 	sep #$20
-	lda.b #$83
+	lda #$83
 	sta CGADSUB
 	stz CGWSEL
-	lda.b #$E0
+	lda #$E0
 	sta COLDATA
-	lda.b #$00
+	lda #$00
 Main_L45:
 	pha
-	lda.b #$DD
+	lda #$DD
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
-	lda.b #$DC
+	lda #$DC
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
 	pla
-	ora.b #$E0
+	ora #$E0
 	sta COLDATA
-	and.b #$1F
+	and #$1F
 	inc
-	cmp.b #$20
+	cmp #$20
 	bne Main_L45
 	jsr CODE_03D11C
 	jsr CODE_03BD7A
@@ -1446,7 +1666,7 @@ LevelCommand8C_SetBehEvent_L3:
 LevelCommand8A_SetZTimer8:
 	tyx
 	lda $8001,x				;\Get next byte...
-	and.w #$00FF				;|
+	and #$00FF				;|
 	asl					;|...shift left four bits...
 	asl					;|
 	asl					;|
@@ -1455,12 +1675,12 @@ LevelCommand8A_SetZTimer8:
 	inx					;\Increment level script pointer twice...
 	inx					;|
 	stx LevelScriptPointer			;|
-	rts					;/...before stopping level script processing this frame
+	rts					;/..efore stopping level script processing this frame
 LevelCommand14_ChangeMusic:
 	tyx
 	sep #$20
 	lda $14D7				;\Check if we are allowed to change the music...
-	and.b #$80				;|
+	and #$80				;|
 	bne LevelCommand14_ChangeMusic_L1	;/...and if not, skip this
 	lda $8001,x				;\Get next byte...
 	sta $1F47				;|...and store in current music ID...
@@ -1468,7 +1688,7 @@ LevelCommand14_ChangeMusic:
 LevelCommand14_ChangeMusic_L1:
 	inx					;\Increment level script pointer twice...
 	inx					;|
-	jmp RunLevelScriptCommands		;/...before getting the next command byte
+	jmp RunLevelScriptCommands		;/..efore getting the next command byte
 LevelCommand82:
 	tyx
 	phx
@@ -1482,16 +1702,16 @@ LevelCommand78_RunASMBlock:
 	tyx
 	txa
 	clc
-	adc.b #$00
+	adc #$00
 	bra LevelCommand8C_SetBehEvent_L1
 CODE_03EEAA:
 	sep #$20
-	lda.b #$00
+	lda #$00
 	pha
 	plb
-	lda.b #$03
+	lda #$03
 	pha
-	ldy.w #$EDAA
+	ldy #$EDAA
 	phy
 	lda LevelScriptBank
 	pha
@@ -1502,9 +1722,9 @@ LevelCommand7A:
 	tyx
 	phx
 	sep #$20
-	lda.b #$03
+	lda #$03
 	pha
-	ldy.w #$EEDA
+	ldy #$EEDA
 	phy
 	lda $8003,x
 	pha
@@ -1596,23 +1816,23 @@ LevelCommand80_BranchEqual_L1:
 LevelCommand6C:
 	tyx
 	inx
-	ldy.w #$001E
+	ldy #$001E
 	sty $1EE9
 	sty $1EEB
-	ldy.w #$0002
+	ldy #$0002
 	sty $1EEF
-	lda.w #$001E
+	lda #$001E
 	sta $1EED
 	jmp RunLevelScriptCommands
 LevelCommand6E:
 	tyx
 	inx
-	ldy.w #$003E
+	ldy #$003E
 	sty $1EE9
 	sty $1EEB
-	ldy.w #$0002
+	ldy #$0002
 	sty $1EEF
-	lda.w #$001E
+	lda #$001E
 	sta $1EED
 	jmp RunLevelScriptCommands
 CODE_03EF90:
@@ -1621,9 +1841,9 @@ CODE_03EF90:
 	lda $1774
 	beq CODE_03EFA7
 	sta $1EE9
-	ldy.w #$0002
+	ldy #$0002
 	sty $1EEF
-	lda.w #$001E
+	lda #$001E
 	sta $1EED
 CODE_03EFA7:
 	plp
@@ -1697,7 +1917,7 @@ LevelCommand66:
 	jmp RunLevelScriptCommands
 CODE_03F018:
 	lda $1F13
-	ora.w #$0008
+	ora #$0008
 	sta $1F13
 	rtl
 CODE_03F022:
@@ -1709,7 +1929,7 @@ CODE_03F022:
 	ora $1787
 	beq CODE_03F04A
 	lda $1F05
-	and.w #$00FF
+	and #$00FF
 	bne CODE_03F04A
 	lda $1786
 	sta D,$16,x
@@ -1724,15 +1944,15 @@ CODE_03F04A:
 	lda $16C9
 	sta $1FE4
 	lda $1785
-	bit.b #$18
+	bit #$18
 	beq CODE_03F071
-	bit.b #$08
+	bit #$08
 	beq CODE_03F067
-	lda.b #$01
+	lda #$01
 	sta $16F9
 	bra CODE_03F074
 CODE_03F067:
-	lda.b #FF
+	lda #FF
 	sta $16F9
 	sta $16FA
 	bra CODE_03F077
@@ -1742,7 +1962,7 @@ CODE_03F074:
 	stz $16FA
 CODE_03F077:
 	lda $1785
-	bit.b #$01
+	bit #$01
 	beq CODE_03F083
 	jsr CODE_03F484
 	bra CODE_03F086
@@ -1750,39 +1970,39 @@ CODE_03F083:
 	jsr CODE_03F4AB
 CODE_03F086:
 	lda $1785
-	bit.b #$02
+	bit #$02
 	beq CODE_03F094
-	lda.b #$01
+	lda #$01
 	sta $1953
 	bra CODE_03F097
 CODE_03F094:
 	stz $1953
 CODE_03F097:
-	lda.b #$00
+	lda #$00
 	sta $701A26
 	sta $701A27
 	lda $1785
-	bit.b #$20
+	bit #$20
 	beq CODE_03F0B4
-	lda.b #$01
+	lda #$01
 	sta $701A26
 	sta $701A27
 	bra CODE_03F0C2
 CODE_03F0B4:
-	bit.b #$40
+	bit #$40
 	beq CODE_03F0CA
-	lda.b #$02
+	lda #$02
 	sta $701A26
 	sta $701A27
 CODE_03F0C2:
-	lda.b #$FF
+	lda #$FF
 	sta $16F9
 	sta $16FA
 CODE_03F0CA:
 	lda $1785
-	bit.b #$04
+	bit #$04
 	beq CODE_03F0D8
-	lda.b #$01
+	lda #$01
 	sta $16F1
 	bra CODE_03F0DB
 CODE_03F0D8:
@@ -1852,7 +2072,7 @@ LevelCommand5A_L1:
 	plx
 	ldy $16F7
 	sep #$20
-	lda.b #$01
+	lda #$01
 	sta $001D,y
 	inc $173C
 LevelCommand5A_L2:
@@ -1869,7 +2089,7 @@ LevelCommand84_L1:
 	plx
 	ldy $16F7
 	sep #$20
-	lda.b #$80
+	lda #$80
 	sta $0020,y
 	inc $173C
 LevelCommand84_L2:
@@ -1884,7 +2104,7 @@ LevelCommand56:
 LevelCommand58:
 	tyx
 	sep #$20
-	lda.b #$01
+	lda #$01
 	sta $16F1
 	inx
 	jmp RunLevelScriptCommands
@@ -1893,7 +2113,7 @@ LevelCommand52_DisableScreen:
 	sep #$20
 	stz $18B2
 	stz $18B3
-	lda.b #$80
+	lda #$80
 	jsl CODE_02F8DF
 	sta INIDISP
 	inx
@@ -1902,7 +2122,7 @@ LevelCommand54_EnableScreen:
 	tyx
 	sep #$20
 	stz $18B2
-	lda.b #$0F
+	lda #$0F
 	sta $18B3
 	jsl CODE_02F8DF
 	sta INIDISP
@@ -1913,12 +2133,12 @@ LevelCommand4C:
 	sep #$20
 	lda $18B3
 	bne LevelCommand4C_L1
-	cmp.b #$80
+	cmp #$80
 	bne LevelCommand4C_L1
 	inx
 	jmp RunLevelScriptCommands
 LevelCommand4C_L1:
-	lda.b #$01
+	lda #$01
 	sta ZTimer
 	stz ZTimer+1
 	stx LevelScriptPointer
@@ -2003,28 +2223,28 @@ LevelCommand48_L2:
 LevelCommand42:
 	tyx
 	sep #$20
-	lda.b #$01
+	lda #$01
 	sta $18B2
 	inx
 	jmp RunLevelScriptCommands
 LevelCommand44_FadeToBlack:
 	tyx
 	sep #$20
-	lda.b #$FF
+	lda #$FF
 	sta $18B2
 	inx
 	jmp RunLevelScriptCommands
 LevelCommand4E:
 	tyx
 	sep #$20
-	lda.b #$02
+	lda #$02
 	sta $18B2
 	inx
 	jmp RunLevelScriptCommands
 LevelCommand50:
 	tyx
 	sep #$20
-	lda.b #$FE
+	lda #$FE
 	sta $18B2
 	inx
 	jmp RunLevelScriptCommands
@@ -2098,13 +2318,324 @@ LevelCommand3A_SetObjPropertyLong_L2:
 	inx
 	inx
 	jmp RunLevelScriptCommands
-	
-	
-	
-	
-	
-	
-	
+LevelCommand3C:
+	tyx
+	phx
+	lda $16F7
+	bne LevelCommand3C_L1
+	plx
+	jmp LevelCommand3C_L2
+LevelCommand3C_L1:
+	plx
+	lda $16F7
+	clc
+	adc $8001,x
+	txy
+	tax
+	sep #$20
+	lda $8003,x
+	sta $7E2000,x
+	tyx
+LevelCommand3C_L2:
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand3E:
+	tyx
+	phx
+	ldx $16F7
+	bne LevelCommand3E_L1
+	plx
+	jmp LevelCommand3E_L2
+LevelCommand3E_L1:
+	plx
+	lda $16F7
+	clc
+	adc $8001,x
+	txy
+	tax
+	lda $8003,x
+	sta $7E2000,x
+	tyx
+LevelCommand3E_L2:
+	inx
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand40:
+	tyx
+	phx
+	ldx $16F7
+	bne LevelCommand40_L1
+	plx
+	jmp LevelCommand40_L2
+LevelCommand40_L1:
+	plx
+	lda $16F7
+	clc
+	adc $8001,x
+	txy
+	tax
+	lda $8003,x
+	sta $7E2000,x
+	sep #$20
+	lda $8005,x
+	sta $7E2002,x
+	tyx
+LevelCommand40_L2:
+	inx
+	inx
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+CODE_03F369:
+	tyx
+	lda $8001,x
+	sta ZTimer
+	inx
+	inx
+	inx
+	stx LevelScriptPointer
+	rts
+LevelCommand30:
+	tyx
+	sep #$20
+	phx
+	ldx $16F7
+	bne LevelCommand30_L1
+	plx
+	jmp LevelCommand30_L2
+LevelCommand30_L1:
+	plx
+	lda $8001,x
+	ldy $16F7
+	sta $0012,y
+LevelCommand30_L2:
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand32:
+	tyx
+	phx
+	ldx $16F7
+	bne LevelCommand32_L1
+	plx
+	jmp LevelCommand32_L2
+LevelCommand32_L1:
+	plx
+	sep #$20
+	lda $8001,x
+	ldy $16F7
+	sta $0012,y
+LevelCommand32_L2:
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand34:
+	tyx
+	sep #$20
+	phx
+	ldx $16F7
+	bne LevelCommand34_L1
+	plx
+	jmp LevelCommand34_L2
+LevelCommand34_L1:
+	plx
+	lda $8001,x
+	ldy $16F7
+	sta $0014,x
+LevelCommand34_L2:
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand2E_Jump:
+	tyx
+	sep #$20
+	lda $8003,x
+	sta LevelScriptBank
+	rep #$20
+	lda $8001,x
+	tax
+	jmp RunLevelScriptCommands
+LevelCommand2C_JumpConditionally:
+	tyx
+	phx
+	sep #$20
+	lda #$03
+	pha
+	rep #$20
+	lda #LevelCommand2C_JumpConditionally_L1
+	pha
+	sep #$20
+	lda $8003,x
+	pha
+	rep #$20
+	lda $8001,x
+	dec
+	pha
+	sep #$20
+	lda #$00
+	pha
+	plb
+LevelCommand2C_JumpConditionally_L1:
+	rtl
+CODE_03F3FE:
+	bcs CODE_03F41A
+	sep #$20
+	lda LevelScriptBank
+	pha
+	plb
+	rep #$30
+	plx
+	inx
+	inx
+	inx
+	inx
+	inx
+	inx
+	stx LevelScriptPointer
+	lda #$0001
+	sta ZTimer
+	rts
+CODE_03F41A:
+	sep #$20
+	lda LevelScriptBank
+	pha
+	plb
+	rep #$30
+	plx
+	lda $8004,x
+	tax
+	jmp RunLevelScriptCommands
+LevelCommand28_CallScript:
+	tyx
+	ldy $1730
+	txa
+	sta $1703,y
+	sep #$20
+	lda LevelScriptBank
+	sta $1705,y
+	rep #$20
+	iny
+	iny
+	iny
+	sty $1730
+	sep #$20
+	lda $8003,x
+	sta LevelScriptBank
+	rep #$20
+	lda $8001,x
+	tax
+	inc $1732
+	jmp RunLevelScriptCommands
+LevelCommand2A_Return:
+	tyx
+	ldy $1730
+	dey
+	sep #$20
+	lda $1703,y
+	sta LevelScriptBank
+	rep #$20
+	dey
+	dey
+	ldx $1703,y
+	sty $1730
+	inx
+	inx
+	inx
+	inx
+	dec $1732
+	jmp RunLevelScriptCommands
+LevelCommand1E:
+	tyx
+	jsr CODE_03F484
+	inx
+	jmp RunLevelScriptCommands
+CODE_03F480:
+	jsr CODE_03F484
+	rtl
+CODE_03F484:
+	php
+	sep #$20
+	lda $194D
+	sta BG2VOFS
+	lda $194E
+	sta BG2VOFS
+	lda #$01
+	sta $1954
+	lda #$02
+	sta BGMODE
+	plp
+	rts
+LevelCommand20:
+	tyx
+	jsr CODE_03F4AB
+	inx
+	jmp RunLevelScriptCommands
+CODE_03F4A7:
+	jsr CODE_03F4AB
+	rtl
+CODE_03F4AB:
+	php
+	sep #$20
+	stz $1954
+	lda #$01
+	sta BGMODE
+	lda $194D
+	sta BG2VOFS
+	lda $194E
+	sta BG2VOFS
+	plp
+	rts
+LevelCommand22:
+	tyx
+	sep #$20
+	lda #$01
+	sta $1953
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand24:
+	tyx
+	sep #$20
+	stz $1953
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand1C:
+	tyx
+	sep #$20
+	lda $8001,x
+	sta $1955
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand16:
+	tyx
+	stz $16F9
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand18:
+	tyx
+	lda #$0001
+	sta $16F9
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand1A:
+	tyx
+	lda #$FFFF
+	sta $16F9
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand64:
+	tyx
+	phx
+	lda $16DF
+	tax
 	
 	
 	

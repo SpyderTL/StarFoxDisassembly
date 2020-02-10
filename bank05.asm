@@ -35,4 +35,5 @@
 	INCBIN "levels/venom1atmosphere_main.bin"
 	INCBIN "levels/corneria3_main.bin"
 	INCBIN "levels/asteroid3_main.bin"
-	;(05F691)
+	;Compressed tiles
+	INCBIN "graphics/compressed/unk05FECD.binz"		;char (00FF96)

@@ -9,9 +9,9 @@ DoReset:		;1FBDB1
 	clc			;\Disable emulation mode
 	xce			;/
 	rep #$30
-	lda.w #$0000		;\Clear D register
+	lda #$0000		;\Clear D register
 	tad			;/
-	ldx.w #$02FF		;\Set stack pointer to $02FF
+	ldx #$02FF		;\Set stack pointer to $02FF
 	txs			;/
 	sep #$30
 	pha			;\Set DBR to 0
@@ -20,16 +20,16 @@ DoReset:		;1FBDB1
 	jsl ClearRegisters
 	jsr $BE41
 	rep #$10
-	ldx.w #$02FF		;\Set stack pointer to $02FF (again?)
+	ldx #$02FF		;\Set stack pointer to $02FF (again?)
 	txs			;/
 	sep #$30
 	jsl CODE_02E266
 	jsl CODE_1FF51C
 	jsl CODE_1FF45D
 	sep #$20
-	lda.b #$00
+	lda #$00
 	sta $7EA05A
-	lda.b #$00
+	lda #$00
 	sta $1FDF
 	bra DoResetPart2
 DoSoftReset:		;1FBDEE
@@ -62,7 +62,7 @@ DoSoftReset:		;1FBDEE
 	pla			;|
 	sta $0016D8		;/
 	
-	lda.b #$01
+	lda #$01
 	sta $1F65
 	sta $7EF0B3
 	jsl CODE_02E266
@@ -74,11 +74,11 @@ DoResetPart2:
 ClearRAM:		;1FBE41
 	php			; Save processor status
 	sep #$20
-	lda.b #$7E		;\Set DBR to $7E
+	lda #$7E		;\Set DBR to $7E
 	pha			;|
 	plb			;/
 	rep #$30
-	ldx.w #$2000
+	ldx #$2000
 ClearRAM_L1:			;\Clear page $7E from $2000-$FFFF
 	stz $0000,x		;|
 	stz $0002,x		;|
@@ -86,11 +86,11 @@ ClearRAM_L1:			;\Clear page $7E from $2000-$FFFF
 	stz $0006,x		;|
 	txa			;|
 	clc			;|
-	adc.w #$0008		;|
+	adc #$0008		;|
 	tax			;|
 	bne ClearRAM_L1		;/
 	sep #$20
-	lda.b #$7F		;\Set DBR to $7F
+	lda #$7F		;\Set DBR to $7F
 	pha			;|
 	plb			;/
 	rep #$20
@@ -101,11 +101,11 @@ ClearRAM_L2:			;\Clear all of page $7F
 	stz $0006,x		;|
 	txa			;|
 	clc			;|
-	adc.w #$0008		;|
+	adc #$0008		;|
 	tax			;|
 	bne ClearRAM_L2		;/
 	sep #$20
-	lda.b #$70		;\Set DBR to $70
+	lda #$70		;\Set DBR to $70
 	pha			;|
 	plb			;/
 	rep #$30
@@ -116,15 +116,15 @@ ClearRAM_L3:			;\Clear page $70 from $0000-$7FFF
 	stz $0006,x		;|
 	txa			;|
 	clc			;|
-	adc.w #$0008		;|
+	adc #$0008		;|
 	tax			;|
 	bpl ClearRAM_L3		;/
 	sep #$20
-	lda.b #$00		;\Set DBR to $00
+	lda #$00		;\Set DBR to $00
 	pha			;|
 	plb			;/
 	rep #$20
-	ldx.w #$1CF8
+	ldx #$1CF8
 ClearRAM_L4:			;\Clear page $00 from $1FF8-$82FF
 	stz $0300,x		;|
 	stz $0302,x		;|
@@ -132,10 +132,10 @@ ClearRAM_L4:			;\Clear page $00 from $1FF8-$82FF
 	stz $0306,x		;|
 	txa			;|
 	clc			;|
-	adc.w #$0008		;|
+	adc #$0008		;|
 	tax			;|
 	bpl ClearRAM_L4		;/
-	ldx.w #$00FE
+	ldx #$00FE
 ClearRAM_L5:			;\Clear zero page
 	stz $00,x		;|
 	dex			;|
@@ -144,23 +144,23 @@ ClearRAM_L5:			;\Clear zero page
 	jsl $1FFDFB
 	sep #$20
 	lda STAT78
-	and.b #$10
+	and #$10
 	sta $16F6
 	plp			;\Restore processor status and return
 	rts			;/
 ClearRegisters:		;1FBED4
 	sei
-	lda.b #$01
+	lda #$01
 	sta $16DB
 	jsl $03BD8D
 	sep #$30
-	lda.b #$00
+	lda #$00
 	sta $16DB
 	jsl $03BD8D
 	sep #$30
-	lda.b #$8F
+	lda #$8F
 	sta INIDISP
-	lda.b #$00		; Why not just use stz here?
+	lda #$00		; Why not just use stz here?
 	sta OBSEL
 	sta OAMADDL
 	sta OAMADDH
@@ -187,12 +187,12 @@ ClearRegisters:		;1FBED4
 	sta BG4HOFS
 	sta BG4VOFS
 	sta BG4VOFS
-	ldx.b #$80
+	ldx #$80
 	stx VMAIN
 	sta VMADDL
 	sta VMADDH
 	sta M7SEL
-	ldx.b #$01
+	ldx #$01
 	sta M7A
 	stx M7A
 	sta M7B
@@ -219,14 +219,14 @@ ClearRegisters:		;1FBED4
 	sta TM
 	sta TS
 	sta TMW
-	ldy.b #$30
+	ldy #$30
 	sty CGWSEL
 	sta CGADSUB
-	ldx.b #$E0
+	ldx #$E0
 	stx COLDATA
 	sta SETINI
 	sta NMITIMEN
-	ldx.b #$FF
+	ldx #$FF
 	stx WRIO
 	sta WRMPYA
 	sta WRMPYB
@@ -281,7 +281,7 @@ CODE_1FC002:
 	bne CODE_1FC023
 	ldy D,$00,x
 	sty $121D
-	lda.w #$0000
+	lda #$0000
 	sta $0002,y
 	bra CODE_1FC031
 CODE_1FC023:
@@ -289,7 +289,7 @@ CODE_1FC023:
 	lda D,$00,x
 	tax
 	stx D,$00,y
-	cmp.w #$0000
+	cmp #$0000
 	beq CODE_1FC030
 	sty D,$02,x
 CODE_1FC030:
@@ -308,20 +308,20 @@ CODE_1FC03D:
 	stz $1EFB
 	ldx $121D
 	beq CODE_1FC09D
-	ldy.w #$0000
+	ldy #$0000
 CODE_1FC04B:
 	phx
 	lda D,$2E,x
-	and.w #$0004
+	and #$0004
 	bne CODE_1FC097
 	lda D,$1E,x
-	and.w #$0001
+	and #$0001
 	bne CODE_1FC097
 	lda D,$2A,x
-	and.w #$00FF
+	and #$00FF
 	beq CODE_1FC097
 	lda D,$08,x
-	bit.w #$0001
+	bit #$0001
 	bne CODE_1FC097
 	phx
 	lda D,$04,x
@@ -340,7 +340,7 @@ CODE_1FC04B:
 	inc
 	xce
 	asl $188A,x
-	adc.w #$000A
+	adc #$000A
 	tay
 CODE_1FC097:
 	plx
@@ -360,7 +360,7 @@ CODE_1FC09F:
 	lda D,$13,x
 	tax
 	sep
-	lda.b #$00
+	lda #$00
 	pha
 	plb
 	lda $98A5,x
@@ -381,7 +381,7 @@ CODE_1FC09F:
 	lda RDMPYH
 	jmp CODE_1FC108
 CODE_1FC0D8:
-	eor.b #$FF
+	eor #$FF
 	inc
 	asl
 	sta WRMPYA
@@ -391,7 +391,7 @@ CODE_1FC0D8:
 	nop
 	jmp CODE_1FC102
 CODE_1FC0EA:
-	eor.b #$FF
+	eor #$FF
 	inc
 	sta WRMPYB
 	nop
@@ -401,14 +401,14 @@ CODE_1FC0EA:
 	lda RDMPYH
 	jmp CODE_1FC108
 CODE_1FC0F8:
-	lda.b #$00
+	lda #$00
 	sec
 	sbc RDMPYH
 CODE_1FC108:
 	tax
-	ldx.b #$00
+	ldx #$00
 	sta D,$02
-	cmp.b #$00
+	cmp #$00
 	bpl CODE_1FC112
 	dex
 CODE_1FC112:
@@ -427,7 +427,7 @@ CODE_1FC112:
 	lda RDMPYH
 	jmp CODE_1FC15D
 CODE_1FC12D:
-	eor.b #$FF
+	eor #$FF
 	inc
 	asl
 	sta WRMPYA
@@ -437,7 +437,7 @@ CODE_1FC12D:
 	nop
 	jmp CODE_1FC157
 CODE_1FC13F:
-	eor.b #$FF
+	eor #$FF
 	inc
 	sta WRMPYB
 	nop
@@ -447,20 +447,20 @@ CODE_1FC13F:
 	lda RDMPYH
 	jmp CODE_1FC15D
 CODE_1FC14F:
-	eor.b #$FF
+	eor #$FF
 	inc
 	sta WRMPYB
 	nop
 	nop
 CODE_1FC157:
-	lda.b #$00
+	lda #$00
 	sec
 	sbc RDMPYH
 CODE_1FC15D:
 	tax
-	ldx.b #$00
+	ldx #$00
 	sta D,$90
-	cmp.b #$00
+	cmp #$00
 	bpl CODE_1FC167
 	dex
 CODE_1FC167:
@@ -479,12 +479,12 @@ CODE_1FC177:
 	sty D,$78
 	stz D,$08
 	stz D,$09
-	eor.b #$FF
+	eor #$FF
 	inc
 	tax
 	sep #$10
 	phb
-	lda.b #$00
+	lda #$00
 	pha
 	plb
 	inx
@@ -508,7 +508,7 @@ CODE_1FC196:
 	lda RDMPYH
 	jmp CODE_1FC1DF
 CODE_1FC1AF:
-	eor.b #$FF
+	eor #$FF
 	inc
 	asl
 	sta WRMPYA
@@ -518,7 +518,7 @@ CODE_1FC1AF:
 	nop
 	jmp CODE_1FC1D9
 CODE_1FC1C1:
-	eor.b #$FF
+	eor #$FF
 	inc
 	sta WRMPYB
 	nop
@@ -528,20 +528,20 @@ CODE_1FC1C1:
 	lda RDMPYH
 	jmp CODE_1FC1DF
 CODE_1FC1D1:
-	eor.b #$FF
+	eor #$FF
 	inc
 	sta WRMPYB
 	nop
 	nop
 CODE_1FC1D9:
-	lda.b #$00
+	lda #$00
 	sec
 	sbc RDMPYH
 CODE_1FC1DF:
 	tax
-	ldx.b #$00
+	ldx #$00
 	sta D,$02
-	cmp.b #$00
+	cmp #$00
 	bpl CODE_1FC1E9
 	dex
 CODE_1FC1E9:
@@ -560,7 +560,7 @@ CODE_1FC1E9:
 	lda RDMPYH
 	jmp CODE_1FC234
 CODE_1FC204:
-	eor.b #$FF
+	eor #$FF
 	inc
 	asl
 	sta WRMPYA
@@ -570,7 +570,7 @@ CODE_1FC204:
 	nop
 	jmp CODE_1FC22E
 CODE_1FC216:
-	eor.b #$FF
+	eor #$FF
 	inc
 	sta WRMPYB
 	nop
@@ -580,20 +580,20 @@ CODE_1FC216:
 	lda RDMPYH
 	jmp CODE_1FC234
 CODE_1FC226:
-	eor.b #$FF
+	eor #$FF
 	inc
 	sta WRMPYB
 	nop
 	nop
 CODE_1FC22E:
-	lda.b #$00
+	lda #$00
 	sec
 	sbc RDMPYH
 CODE_1FC234:
 	tax
-	ldx.b #$00
+	ldx #$00
 	sta D,$90
-	cmp.b #$00
+	cmp #$00
 	bpl CODE_1FC23E
 	dex
 CODE_1FC23E:
@@ -603,6 +603,135 @@ CODE_1FC23E:
 	ldy D,$78
 	plb
 	rtl
+CODE_1FC248:
+	lda D,$15,x
+	sta D,$7E
+	stz D,$03
+	stz D,$09
+	stz D,$91
+	stx D,$76
+	sty D,$78
+	lda D,$13,x
+	tay
+	lda D,$12,x
+	eor #$FF
+	inc
+	tax
+	sep #$10
+	phb
+	lda #$00
+	pha
+	plb
+	lda.w SineTable8,y
+	sta D,$7A
+	lda.w SineTable8+$40,y
+	sta D,$7B
+	lda.w SineTable8,x
+	sta D,$82
+	lda.w SineTable8+$40,x
+	sta D,$83
+	lda D,$7E
+	bmi CODE_1FC293
+	asl
+	sta WRMPYA
+	lda D,$7A
+	bmi CODE_1FC2B5
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC2C3
+CODE_1FC293:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$7A
+	bmi CODE_1FC2A5
+	sta WRMPYB
+	nop
+	jmp CODE_1FC2BD
+CODE_1FC2A5:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC2C3
+CODE_1FC2B5:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC2BD:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC2C3:
+	tax
+	sta D,$02
+	lda D,$02
+	bmi CODE_1FC2DF
+	asl
+	sta WRMPYA
+	lda D,$83
+	bmi CODE_1FC301
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC30F
+CODE_1FC2DF:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$83
+	bmi CODE_1FC2F1
+	sta WRMPYB
+	nop
+	jmp CODE_1FC309
+CODE_1FC2F1:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC30F
+CODE_1FC301:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC309:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC30F:
+	tax
+	sta D,$02
+	cmp #$00
+	bpl CODE_1FC318
+	dec D,$03
+CODE_1FC318:
+	lda D,$7E
+	bmi CODE_1FC331
+	asl
+	sta WRMPYA
+	lda D,$7B
+	bmi CODE_1FC353
 	
 	
 	
@@ -610,14 +739,37 @@ CODE_1FC23E:
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
+ApplyTempVelocityShift2:
+	rep #$20
+	asl D,$02
+	asl D,$08
+	asl D,$90
+	asl D,$02
+	asl D,$08
+	asl D,$90
+	bra ApplyTempVelocity_L1
+ApplyTempVelocityShift1:
+	rep #$20
+	asl D,$02
+	asl D,$08
+	asl D,$90
+ApplyTempVelocity:
+	rep #$20
+ApplyTempVelocity_L1:
+	lda D,$0C,x
+	clc
+	adc D,$02
+	sta D,$0C,x
+	lda D,$0E,x
+	clc
+	adc D,$08
+	sta D,$0E,x
+	lda D,$10,x
+	clc
+	adc D,$90
+	sta D,$10,x
+	sep #$20
+	rtl
 ApplyObjectVelocity:
 	rep #$20
 	lda D,$0C,x
@@ -634,6 +786,34 @@ ApplyObjectVelocity:
 	sta D,$10,x
 	sep #$20
 	rtl
+CODE_1FC7D5:
+	stx D,$3A
+	ldx $14CA
+	beq CODE_1FC7F8
+	cmp #$00
+	beq CODE_1FC801
+	txy
+CODE_1FC7E2:
+	cmp D,$04,x
+	beq CODE_1FC7EB
+CODE_1FC7E6:
+	ldy D,$00,x
+	tyx
+	bne CODE_1FC7E2
+CODE_1FC7EB:
+	cpx D,$3A
+	beq CODE_1FC7E6
+	ldy D,$00,x
+	sty $14CA
+	txy
+	ldx D,$3A
+	rtl
+CODE_1FC7F8:
+	ldy #$000
+	sty $14CA
+	ldx D,$3A
+	rtl
+CODE_1FC801:
 	
 	
 	
@@ -643,41 +823,40 @@ ApplyObjectVelocity:
 	
 	
 	
-	
-CreateObject:
+ClearObject:
 	phx
 	tyx
 	ply
-	lda.b #$00
+	lda #$00
 	phy
 	phx
-	ldy.w #$0032
-CreateObject_L1:
+	ldy #$0032
+ClearObject_L1:
 	sta D,$04,x
 	inx
 	dey
-	bne CreateObject_L1
+	bne ClearObject_L1
 	plx
 	phx
-	ldy.w #$0036
-CreateObject_L2:
+	ldy #$0036
+ClearObject_L2:
 	sta $7E1CCA,x
 	inx
 	dey
-	bne CreateObject_L2
+	bne ClearObject_L2
 	plx
 	ply
 	lda D,$08,x
-	ora.b #$10
+	ora #$10
 	sta D,$08,x
 	lda D,$09,x
-	ora.b #$08
+	ora #$08
 	sta D,$09,x
 	lda D,$2E,x
-	ora.b #$04
+	ora #$04
 	sta D,$2E,x
 	lda D,$1F,x
-	ora.b #$08
+	ora #$08
 	sta D,$1F,x
 	phx
 	tyx
@@ -693,40 +872,40 @@ CreateObject_L2:
 CopyPositionIndXToIndY:
 	rep #$20
 	lda D,$0C,x
-	sta D,$0C,y
+	sta $000C,y
 	lda D,$0E,x
-	sta D,$0E,y
+	sta $000E,y
 	lda D,$10,x
-	sta D,$10,y
+	sta $0010,y
 	sep #$20
 	rtl
 CopyPositionIndYToIndX:
 	rep #$20
-	lda D,$0C,y
+	lda $000C,y
 	sta D,$0C,x
-	lda D,$0E,y
+	lda $000E,y
 	sta D,$0E,x
-	lda D,$10,y
+	lda $0010,y
 	sta D,$10,x
 	sep #$20
 	rtl
 CopyRotationIndXToIndY:
 	lda D,$12,x
-	sta D,$12,y
+	sta $0012,y
 	lda D,$13,x
-	sta D,$13,y
+	sta $0013,y
 	lda D,$14,x
-	sta D,$14,y
+	sta $0015,y
 	rtl
 CopyRotationIndYToIndX:
-	lda D,$12,y
+	lda $0012,y
 	sta D,$12,x
-	lda D,$13,y
+	lda $0013,y
 	sta D,$13,x
-	lda D,$14,y
+	lda $0014,y
 	sta D,$14,x
 	rtl
-CODE_1FDB21:
+OffsetZPositionIndX:
 	rep #$20
 	lda $14EA
 	sec
@@ -736,7 +915,7 @@ CODE_1FDB21:
 	sta D,$10,x
 	sep #$20
 	rtl
-CODE_1FDB32:
+OffsetZPositionIndY:
 	rep #$20
 	lda $14EA
 	sec
@@ -747,27 +926,184 @@ CODE_1FDB32:
 	sep #$20
 	rtl
 ClearVelocityIndX:
-	rep #$20
-	stz D,$2F,x
-	stz D,$31,x
-	stz D,$33,x
-	sep #$20
-	stz D,$15,x
-	rtl
+	rep #$20		;\
+	stz D,$2F,x		;|Store zero in velocity X element...
+	stz D,$31,x		;|...same for Y...
+	stz D,$33,x		;|...same for Z...
+	sep #$20		;|
+	stz D,$15,x		;|...and store zero in unknown object property $15
+	rtl			;/
 ClearVelocityIndY:
-	rep #$20
-	lda.w #$0000
-	sta $002F,y
-	sta $0031,y
-	sta $0033,y
+	rep #$20		;\
+	lda #$0000		;|
+	sta $002F,y		;|Store zero in velocity X element...
+	sta $0031,y		;|...same for Y...
+	sta $0033,y		;|...same for Z...
+	sep #$20		;|
+	sta $0015,y		;|...and store zero in unknown object property $15
+	rtl			;/
+	
+	
+	
+	;Compressed tilemap
+	INCBIN "graphics/compressed/venom.mapz"		;1FF963
+CODE_1FF963:
+	php
 	sep #$20
-	sta $0015,y
-	rtl
-	
-	
-	
-	
-	
+	rep #$10
+	jsl CODE_03AD73
+	sei
+	lda #$80
+	jsl CODE_02F8DF
+	lda #$C8
+	sta ScanlineToWaitFor
+	jsl WaitScanline
+	sep #$20
+	rep #$10
+	lda #$BE
+	sta ScanlineToWaitFor
+	jsl WaitScanline
+	sep #$20
+	rep #$10
+	sep #$20
+	lda #$01
+	sta $7EF0B3
+	lda #$0D
+	ldx #$7962
+	sta LevelScriptBank
+	stx LevelScriptPointer
+	jsl CODE_02E2CC
+	jsl CODE_03E8B6
+	rep #$20
+	lda #$0000
+	sta $700090
+	lda #$001F
+	sta $700064
+	lda #$B999
+	sta $700062
+	lda #$6800
+	sta $188A
+	lda #$1000
+	sta $188C
+	sep #$20
+	jsl DoDecompressTileset
+	jsl CODE_7E33BA
+	lda #$22
+	sta BBAD0
+	lda #$80
+	sta CGADD
+	ldx #$0540
+	stx A1T0L
+	lda #$7F
+	sta A1B0
+	ldx #$0100
+	stx DAS0L
+	lda #$00
+	sta DMAP0
+	lda #$01
+	sta MDMAEN
+	lda #$41
+	sta $7E45F3
+	lda #$43
+	sta $7E45F5
+	lda #$3A
+	sta $7E45F7
+	rep #$20
+	lda #$0000
+	sta $70021C
+	lda #$0040
+	sta $700034
+	lda #$0030
+	sta $700036
+	sep #$20
+	lda #$01
+	sta $1F0D
+	stz $15BB
+	stz $15BC
+	stz Pad1Cur+1
+	stz Pad1Cur
+	lda $1FDF
+	beq CODE_1FFA3E
+	brl CODE_1FFA95
+CODE_1FFA3E:
+	lda $7EA05A
+	beq CODE_1FFA47
+	brl CODE_1FFA95
+CODE_1FFA47:
+	sep #$20
+	lda $14D6
+	and #$1F
+	sta $14D6
+CODE_1FFA51:
+	jsl CODE_02FD84
+	rep #$20
+	stz $15AF
+	jsl CODE_03DBD0
+	jsr CODE_1FFD54
+	sep #$20
+	lda Pad1Down+1
+	bit #$20
+	beqe CODE_1FFA79
+	lda $1F0F
+	inc
+	and #$03
+	sta $1F0F
+	lda #$11
+	jsl CODE_03B7F9
+CODE_1FFA79:
+	jsr CODE_1FFDAC
+	rep #$20
+	lda $15BB
+	cmp #$0010
+	bcc CODE_1FFA51
+	sep #$20
+	lda Pad1Down+1
+	bit #$10
+	beq CODE_1FFA51
+	lda #$10
+	jsl CODE_03B7F9
+CODE_1FFA95:
+	sep #$20
+	lda TIMEUP
+	cli
+CODE_1FFA9C:
+	jsl CODE_02FD84
+	jsr CODE_1FFBFF
+	jsr CODE_1FFD54
+	jsr CODE_1FFDAC
+	sep #$20
+	lda $14D6
+	ora #$60
+	sta $14D6
+	lda Pad1Down+1
+	bit #$20
+	beq CODE_1FFACA
+	lda $7EA05A
+	eor #$01
+	sta $7EA05A
+	lda #$11
+	jsl CODE_03B7F9
+CODE_1FFACA:
+	lda $7EA05A
+	beq CODE_1FFAE3
+	lda PadDown+1
+	bit #$08
+	beq CODE_1FFAE3
+	lda #$00
+	sta $7EA05A
+	lda #$11
+	jsl CODE_03B7F9
+CODE_1FFAE3:
+	lda $7EA05A
+	bne CODE_1FFAFC
+	lda Pad1Down+1
+	bit #$04
+	beq CODE_1FFAFC
+	lda #$01
+	sta $7EA05A
+	lda #$11
+	jsl CODE_03B7F9
+CODE_1FFAFC:
 	
 	
 	
@@ -776,76 +1112,77 @@ CODE_1FFDAC:
 	sep #$20
 	rep #$20
 	lda $1F0F
-	cmp.b #$01
+	cmp #$01
 	beq CODE_1FFDCE
-	cmp.b #$02
+	cmp #$02
 	beq CODE_1FFDDD
-	cmp.b #$03
+	cmp #$03
 	beq CODE_1FFDEC
 	rep #$20
-	lda.w #$0000
+	lda #$0000
 	sta $1F35
-	lda.w #$0000
+	lda #$0000
 	sta $1F37
 	rts
 CODE_1FFDCE:
 	rep #$20
-	lda.w #$0000
+	lda #$0000
 	sta $1F35
-	lda.w #$0100
+	lda #$0100
 	sta $1F37
 	rts
 CODE_1FFDDD:
 	rep #$20
-	lda.w #$0100
+	lda #$0100
 	sta $1F35
-	lda.w #$0000
+	lda #$0000
 	sta $1F37
 	rts
 CODE_1FFDEC:
 	rep #$20
-	lda.w #$0100
+	lda #$0100
 	sta $1F35
-	lda.w #$0100
+	lda #$0100
 	sta $1F37
 	rts
 CopyCodeToRam:
 	php
 	sep #$20
 	rep #$10
-	ldx.w #$60
-CopyCodeToRam_L1:
-	lda $1FFE1E,x
-	sta $7E0101,x
-	dex
-	bpl CopyCodeToRam_L1
-	ldx #$59C1
-CopyCodeToRam_L2:
-	lda $028000,x
-	sta $7E3193,x
-	dex
-	bpl CopyCodeToRam_L2
+	ldx.w #(CopiedCodeAEnd-CopiedCodeA-1)		;\Copy first code section to RAM
+CopyCodeToRam_L1:					;|
+	lda.l CopiedCodeA,x				;|
+	sta.l CopiedCodeABase,x				;|
+	dex						;|
+	bpl CopyCodeToRam_L1				;/
+	ldx.w #(CopiedCodeBEnd-CopiedCodeB-1)		;\Copy second code section to RAM
+CopyCodeToRam_L2:					;|
+	lda.l CopiedCodeB,x				;|
+	sta.l CopiedCodeBBase,x				;|
+	dex						;|
+	bpl CopyCodeToRam_L2				;/
 	plp
 	rtl
-	
-	;The following code gets copied to RAM at $7E0101 (originally at ($1FFE1E)
-	BASE $7E0101
+	;THE FOLLOWING CODE GETS COPIED TO RAM AT $7E0101 (ORIGINALLY AT $1FFE1E)
 CopiedCodeA:
+	BASE $7E0101
+CopiedCodeABase:
 	jml DoSoftReset
 	jml DoSoftReset
-	brl CopiedCodeA_L2
-	;This is where the NMI vector points (the IRQ points into a misaligned JMP instruction)
+	brl NMI_L2
+	;This is where the NMI vector points (the IRQ points into a misaligned JML instruction)
+NMI:
 	nop
 	rep #$30
 	pha
 	lda.l SFR
-	bmi CopiedCodeA_L1
+	bmi NMI_L1
 	phb
 	sei
 	phx
 	phy
 	sep #$30
-	lda.b #$00
+	lda #$00
 	pha
 	plb
 	lda SuperFXScreenMode
@@ -855,18 +1192,18 @@ CopiedCodeA:
 	sep #$20
 	inc $1200
 	lda TIMEUP
-	bra CopiedCodeA_L3
-CopiedCodeA_L1:
+	bra NMI_L3
+NMI_L1:
 	pla
 	rti
-CopiedCodeA_L2:
+NMI_L2:
 	rep #$30
 	pha
 	phb
 	phx
 	phy
 	sep #$20
-	lda.b #$00
+	lda #$00
 	pha
 	plb
 	lda SuperFXScreenMode
@@ -877,7 +1214,7 @@ CopiedCodeA_L2:
 	sta SCMR
 	sep #$20
 	lda RDNMI
-CopiedCodeA_L3:
+NMI_L3:
 	rep #$30
 	ply
 	plx
@@ -885,3 +1222,5 @@ CopiedCodeA_L3:
 	pla
 	rti
 	END BASE
+CopiedCodeAEnd:
+	;END OF COPIED CODE

@@ -59,4 +59,5 @@
 	INCBIN "levels/intro.bin"
 	INCBIN "levels/title.bin"
 	INCBIN "levels/controls.bin"
-	;(0DF99D)
+	;Compressed tiles
+	INCBIN "graphics/compressed/unk0DFBB9.binz"		;char (00FF96)
