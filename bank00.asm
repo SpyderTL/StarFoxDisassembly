@@ -1,3 +1,4 @@
+	;Unknown/empty data
 	DB $00,$00,$00,$00,$00,$00
 CODE_008006:
 	rep #$30
@@ -168,7 +169,6 @@ CODE_00817D:
 	bra CODE_008161
 CODE_008199:
 	bra CODE_008199
-DATA_00819B:
 	DB $54,$00
 DATA_00819D:
 	DB $01,$01,$01,$02,$01,$03,$01,$04
@@ -331,7 +331,7 @@ DATA_0089D5:
 	DB $09,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09
 	DB $09,$09,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08
 	DB $08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$07
-UnusedSineTable8:
+UnknownSineTable8:
 	DB $00,$03,$06,$09,$0C,$0F,$12,$15,$18,$1B,$1E,$21,$24,$27,$2A,$2D
 	DB $30,$33,$36,$39,$3B,$3E,$41,$43,$46,$49,$4B,$4E,$50,$52,$55,$57
 	DB $59,$5B,$5E,$60,$62,$64,$66,$67,$69,$6B,$6C,$6E,$70,$71,$72,$74
@@ -463,8 +463,8 @@ DATA_009349:
 	DB $01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01
 	DB $01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01
 ;Goes from 1/(-255) to 1/255
-;1/0 is stored as 0
 ;All values are multiplied by 32768 ($8000)
+;1/0 is stored as 0
 ;1/1 is one less due to being too large
 ReciprocalTable:
         DW $FF80,$FF7F,$FF7F,$FF7E,$FF7E,$FF7D,$FF7D,$FF7C
@@ -554,6 +554,7 @@ UnusedStringRelAxis3:
 UnusedStringTable0:
 	DW UnusedStringHover1,UnusedStringTank,UnusedStringWalker1,UnusedStringRelAxis1,UnusedStringRelAxis2
 	DW $8B8A,$8C0A,$8C8A,$8D0A
+;8-bit sine table for 8-bit angles
 SineTable8:
 	DB $00,$03,$06,$09,$0C,$0F,$12,$15,$18,$1B,$1E,$21,$24,$27,$2A,$2D
 	DB $30,$33,$36,$39,$3B,$3E,$41,$43,$46,$49,$4B,$4E,$50,$52,$55,$57
@@ -575,7 +576,8 @@ SineTable8:
 	DB $30,$33,$36,$39,$3B,$3E,$41,$43,$46,$49,$4B,$4E,$50,$52,$55,$57
 	DB $59,$5B,$5E,$60,$62,$64,$66,$67,$69,$6B,$6C,$6E,$70,$71,$72,$74
 	DB $75,$76,$77,$78,$79,$7A,$7B,$7B,$7C,$7D,$7D,$7E,$7E,$7E,$7E,$7E
-SineTable16:
+;8.8-bit sine table for 8-bit angles
+SineTable8p8:
 	DW $0000,$0324,$0647,$096A,$0C8B,$0FAB,$12C7,$15E1
         DW $18F8,$1C0B,$1F19,$2223,$2527,$2826,$2B1E,$2E10
         DW $30FB,$33DE,$36B9,$398C,$3C56,$3F16,$41CD,$447A
@@ -609,7 +611,8 @@ SineTable16:
         DW $CF05,$D1F0,$D4E2,$D7DA,$DAD9,$DDDD,$E0E7,$E3F5
         DW $E708,$EA1F,$ED39,$F055,$F375,$F696,$F9B9,$FCDC
         DW $0000
-SineTable16Detail:
+;16-bit sine table for 11-bit angles
+SineTable16:
 	DW $0000,$0064,$00C9,$012D,$0192,$01F6,$025B,$02BF
         DW $0324,$0388,$03ED,$0451,$04B6,$051A,$057F,$05E3
         DW $0647,$06AC,$0710,$0775,$07D9,$083D,$08A2,$0906
@@ -782,12 +785,248 @@ BehaviorFunctionTable:
 	BehFuncPtr(Beh01,$00)
 	BehFuncPtr(Beh02,$00)
 	BehFuncPtr(Beh03,$00)
-	
-	
-	
-	
-	
-	
+	BehFuncPtr(Beh04,$01)
+	BehFuncPtr(Beh05,$01)
+	BehFuncPtr(Beh06,$01)
+	BehFuncPtr(Beh07,$01)
+	BehFuncPtr(Beh08,$00)
+	BehFuncPtr(Beh09,$00)
+	BehFuncPtr(Beh0A,$00)
+	BehFuncPtr(Beh0B,$00)
+	BehFuncPtr(Beh0C,$00)
+	BehFuncPtr(Beh0D,$25)
+	BehFuncPtr(Beh0E,$25)
+	BehFuncPtr(Beh0F,$02)
+	BehFuncPtr(Beh10,$02)
+	BehFuncPtr(Beh11,$02)
+	BehFuncPtr(Beh12,$02)
+	BehFuncPtr(Beh13,$02)
+	BehFuncPtr(Beh14,$02)
+	BehFuncPtr(Beh15,$02)
+	BehFuncPtr(Beh16,$02)
+	BehFuncPtr(Beh17,$02)
+	BehFuncPtr(Beh18,$02)
+	BehFuncPtr(Beh19,$02)
+	BehFuncPtr(Beh1A,$02)
+	BehFuncPtr(Beh1B,$02)
+	BehFuncPtr(Beh1C,$02)
+	BehFuncPtr(Beh1D,$02)
+	BehFuncPtr(Beh1E,$02)
+	BehFuncPtr(Beh1F,$02)
+	BehFuncPtr(Beh20,$02)
+	BehFuncPtr(Beh21,$02)
+	BehFuncPtr(Beh22,$02)
+	BehFuncPtr(Beh23,$02)
+	BehFuncPtr(Beh24,$02)
+	BehFuncPtr(Beh25,$02)
+	BehFuncPtr(Beh26,$02)
+	BehFuncPtr(Beh27,$02)
+	BehFuncPtr(Beh28,$02)
+	BehFuncPtr(Beh29,$02)
+	BehFuncPtr(Beh2A,$02)
+	BehFuncPtr(Beh2B,$02)
+	BehFuncPtr(Beh2C,$02)
+	BehFuncPtr(Beh2D,$00)
+	BehFuncPtr(Beh2E,$35)
+	BehFuncPtr(Beh2F,$03)
+	BehFuncPtr(Beh30_Turret,$04)
+	BehFuncPtr(Beh31,$05)
+	BehFuncPtr(Beh32,$06)
+	BehFuncPtr(Beh33,$0D)
+	BehFuncPtr(Beh34_MidLevelRing,$07)
+	BehFuncPtr(Beh35,$08)
+	BehFuncPtr(Beh36,$09)
+	BehFuncPtr(Beh37,$0B)
+	BehFuncPtr(Beh38,$0A)
+	BehFuncPtr(Beh39,$0B)
+	BehFuncPtr(Beh3A,$0B)
+	BehFuncPtr(Beh3B_EnemyShip,$0C)
+	BehFuncPtr(Beh3C,$0E)
+	BehFuncPtr(Beh3D,$0E)
+	BehFuncPtr(Beh3E_CloakingEnemy,$0F)
+	BehFuncPtr(Beh3F_CloakingEnemy,$0F)
+	BehFuncPtr(Beh40_Bee,$10)
+	BehFuncPtr(Beh41,$35)
+	BehFuncPtr(Beh42_FourArmedEnemy,$11)
+	BehFuncPtr(Beh43_HexMissileHead,$12)
+	BehFuncPtr(Beh44_RockCrusher,$13)
+	BehFuncPtr(Beh45_ArmadaBattleshipEntry,$14)
+	BehFuncPtr(Beh46_ArmadaBattleshipEntry,$15)
+	BehFuncPtr(Beh47,$16)
+	BehFuncPtr(Beh48,$17)
+	BehFuncPtr(Beh49,$1B)
+	BehFuncPtr(Beh4A,$18)
+	BehFuncPtr(Beh4B,$19)
+	BehFuncPtr(Beh4C,$19)
+	BehFuncPtr(Beh4D,$1A)
+	BehFuncPtr(Beh4E,$1B)
+	BehFuncPtr(Beh4F_FlyingFish,$00)
+	BehFuncPtr(Beh50,$1F)
+	BehFuncPtr(Beh51_AtomicCoreBossTaser,$2B)
+	BehFuncPtr(Beh52,$00)
+	BehFuncPtr(Beh53,$2E)
+	BehFuncPtr(Beh54,$39)
+	BehFuncPtr(Beh55,$2C)
+	BehFuncPtr(Beh56,$2D)
+	BehFuncPtr(Beh57,$2F)
+	BehFuncPtr(Beh58,$30)
+	BehFuncPtr(Beh59_ExtraCredit,$00)
+	BehFuncPtr(Beh5A,$31)
+	BehFuncPtr(Beh5B_AntennaDish,$32)
+	BehFuncPtr(Beh5C_AntennaBase,$33)
+	BehFuncPtr(Beh5D,$34)
+	BehFuncPtr(Beh5E,$35)
+	BehFuncPtr(Beh5F,$35)
+	BehFuncPtr(Beh60,$36)
+	BehFuncPtr(Beh61,$36)
+	BehFuncPtr(Beh62,$37)
+	BehFuncPtr(Beh63,$09)
+	BehFuncPtr(Beh64_Pylon,$3A)
+	BehFuncPtr(Beh65,$00)
+	BehFuncPtr(Beh66,$00)
+	BehFuncPtr(Beh67,$00)
+	BehFuncPtr(Beh68,$00)
+	BehFuncPtr(Beh69,$00)
+	BehFuncPtr(Beh6A,$3B)
+	BehFuncPtr(Beh6B,$45)
+	BehFuncPtr(Beh6C,$02)
+	BehFuncPtr(Beh6D,$02)
+	BehFuncPtr(Beh6E,$47)
+	BehFuncPtr(Beh6F,$46)
+	BehFuncPtr(Beh70,$00)
+	BehFuncPtr(Beh71,$02)
+	BehFuncPtr(Beh72,$4C)
+	BehFuncPtr(Beh73,$51)
+	BehFuncPtr(Beh74,$4D)
+	BehFuncPtr(Beh75,$4C)
+	BehFuncPtr(Beh76_Motorist,$4F)
+	BehFuncPtr(Beh77_GalacticRiderBoss,$4E)
+	BehFuncPtr(Beh78,$50)
+	BehFuncPtr(Beh79,$52)
+	BehFuncPtr(Beh7A,$54)
+	BehFuncPtr(Beh7B,$00)
+	BehFuncPtr(Beh7C,$55)
+	BehFuncPtr(Beh7D,$5E)
+	BehFuncPtr(Beh7E,$00)
+	BehFuncPtr(Beh7F,$00)
+	BehFuncPtr(Beh80,$68)
+	BehFuncPtr(Beh81,$69)
+	BehFuncPtr(Beh82_BigCargoShip,$6A)
+	BehFuncPtr(Beh83_BigCargoShip,$6A)
+	BehFuncPtr(Beh84,$6E)
+	BehFuncPtr(Beh85,$6F)
+	BehFuncPtr(Beh86,$70)
+	BehFuncPtr(Beh87,$71)
+	BehFuncPtr(Beh88,$00)
+	BehFuncPtr(Beh89,$73)
+	BehFuncPtr(Beh8A_UFO,$72)
+	BehFuncPtr(Beh8B,$75)
+	BehFuncPtr(Beh8C,$76)
+	BehFuncPtr(Beh8D,$75)
+	BehFuncPtr(Beh8E,$77)
+	BehFuncPtr(Beh8F_ProfessorHangerBoss,$78)
+	BehFuncPtr(Beh90,$79)
+	BehFuncPtr(Beh91,$79)
+	BehFuncPtr(Beh92,$79)
+	BehFuncPtr(Beh93,$79)
+	BehFuncPtr(Beh94,$7A)
+	BehFuncPtr(Beh95,$7A)
+	BehFuncPtr(Beh96,$7B)
+	BehFuncPtr(Beh97,$02)
+	BehFuncPtr(Beh98,$7F)
+	BehFuncPtr(Beh99,$7F)
+	BehFuncPtr(Beh9A,$81)
+	BehFuncPtr(Beh9B,$80)
+	BehFuncPtr(Beh9C,$00)
+	BehFuncPtr(Beh9D,$83)
+	BehFuncPtr(Beh9E,$83)
+	BehFuncPtr(Beh9F,$84)
+	BehFuncPtr(BehA0,$85)
+	BehFuncPtr(BehA1,$86)
+	BehFuncPtr(BehA2,$80)
+	BehFuncPtr(BehA3,$56)
+	BehFuncPtr(BehA4,$87)
+	BehFuncPtr(BehA5_BeamStatic,$91)
+	BehFuncPtr(BehA6_BeamRotating,$91)
+	BehFuncPtr(BehA7,$91)
+	BehFuncPtr(BehA8,$91)
+	BehFuncPtr(BehA9,$98)
+	BehFuncPtr(BehAA,$99)
+	BehFuncPtr(BehAB,$9A)
+	BehFuncPtr(BehAC,$9D)
+	BehFuncPtr(BehAD,$91)
+	BehFuncPtr(BehAE_NovaBombItem,$9E)
+	BehFuncPtr(BehAF_ShieldItem,$9F)
+	BehFuncPtr(BehB0_TwinBlasterItem,$A0)
+	BehFuncPtr(BehB1,$A2)
+	BehFuncPtr(BehB2,$A1)
+	BehFuncPtr(BehB3,$A4)
+	BehFuncPtr(BehB4,$00)
+	BehFuncPtr(BehB5,$00)
+	BehFuncPtr(BehB6,$00)
+	BehFuncPtr(BehB7,$A7)
+	BehFuncPtr(BehB8,$A7)
+	BehFuncPtr(BehB9,$A7)
+	BehFuncPtr(BehBA,$A7)
+	BehFuncPtr(BehBB,$A8)
+	BehFuncPtr(BehBC,$A8)
+	BehFuncPtr(BehBD,$1B)
+	BehFuncPtr(BehBE,$00)
+	BehFuncPtr(BehBF_Volcano,$BE)
+	BehFuncPtr(BehC0,$00)
+	BehFuncPtr(BehC1_Volcano,$BF)
+	BehFuncPtr(BehC2,$C0)
+	BehFuncPtr(BehC3,$C2)
+	BehFuncPtr(BehC4,$C8)
+	BehFuncPtr(BehC5,$00)
+	BehFuncPtr(BehC6,$C4)
+	BehFuncPtr(BehC7,$C4)
+	BehFuncPtr(BehC8,$C4)
+	BehFuncPtr(BehC9,$C4)
+	BehFuncPtr(BehCA,$C4)
+	BehFuncPtr(BehCB,$D0)
+	BehFuncPtr(BehCC,$D0)
+	BehFuncPtr(BehCD,$00)
+	BehFuncPtr(BehCE,$D1)
+	BehFuncPtr(BehCF,$D2)
+	BehFuncPtr(BehD0,$D3)
+	BehFuncPtr(BehD1,$00)
+	BehFuncPtr(BehD2,$D5)
+	BehFuncPtr(BehD3,$D6)
+	BehFuncPtr(BehD4,$D7)
+	BehFuncPtr(BehD5,$D8)
+	BehFuncPtr(BehD6,$D8)
+	BehFuncPtr(BehD7,$DF)
+	BehFuncPtr(BehD8,$D7)
+	BehFuncPtr(BehD9,$D6)
+	BehFuncPtr(BehDA,$E0)
+	BehFuncPtr(BehDB,$00)
+	BehFuncPtr(BehDC,$00)
+	BehFuncPtr(BehDD,$E1)
+	BehFuncPtr(BehDE,$00)
+	BehFuncPtr(BehDF,$E1)
+	BehFuncPtr(BehE0,$E2)
+	BehFuncPtr(BehE1_BonusArchway,$00)
+	BehFuncPtr(BehE2_UFO,$72)
+	BehFuncPtr(BehE3,$E3)
+	BehFuncPtr(BehE4,$00)
+	BehFuncPtr(BehE5_BigBlueArchway,$E8)
+	BehFuncPtr(BehE6,$00)
+	BehFuncPtr(BehE7,$EB)
+	BehFuncPtr(BehE8,$EC)
+	BehFuncPtr(BehE9_BigAsteroid,$ED)
+	BehFuncPtr(BehEA_ShootableAsteroid,$C2)
+	BehFuncPtr(BehEB,$00)
+	BehFuncPtr(BehEC,$17)
+	BehFuncPtr(BehED_ShootableAsteroid,$C2)
+	BehFuncPtr(BehEE,$02)
+	BehFuncPtr(BehEF,$37)
+	BehFuncPtr(BehF0,$00)
+	BehFuncPtr(BehF1_TitleHighPolyArwing,$E1)
+	BehFuncPtr(BehF2_UseNextCommand,$00)
+	BehFuncPtr(BehF3,$07)
+	BehFuncPtr(BehF4,$07)
+	BehFuncPtr(BehF5,$07)
 ;Object header table
 ;Each entry points to the vertices/faces/material table that a model uses,
 ;along with other things like hitbox size
@@ -868,8 +1107,8 @@ ObjectHeaderTable:	;00AC15
 	DB $BA,$EE,$11,$9A,$EF,$00,$00,$02,$00,$00,$20,$00,$14,$00,$78,$00,$8C,$01,$3C,$85,$69,$B3,$69,$B3,$69,$B3,$69,$B3	;Flashing Blue Morphing Fire
 	DB $8B,$EF,$11,$ED,$EF,$00,$00,$02,$00,$00,$18,$00,$08,$00,$18,$01,$8C,$01,$3C,$85,$85,$B3,$85,$B3,$85,$B3,$85,$B3	;Flashing Flat Blue Morphing Shot
 	DB $0C,$F0,$11,$1B,$F0,$00,$00,$00,$00,$00,$04,$00,$04,$00,$04,$00,$04,$00,$2E,$85,$A1,$B3,$A1,$B3,$A1,$B3,$A1,$B3	;Weird Flat Asteroid Sprite
-	DB $0C,$F0,$11,$1B,$F0,$00,$00,$01,$00,$00,$08,$00,$08,$00,$08,$00,$08,$00,$2E,$85,$BD,$B3,$BD,$B3,$BD,$B3,$BD,$B3	;...same but bigger
-	DB $0C,$F0,$11,$1B,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$2E,$85,$D9,$B3,$D9,$B3,$D9,$B3,$D9,$B3	;...same but even bigger
+	DB $0C,$F0,$11,$1B,$F0,$00,$00,$01,$00,$00,$08,$00,$08,$00,$08,$00,$08,$00,$2E,$85,$BD,$B3,$BD,$B3,$BD,$B3,$BD,$B3	;...same but bigger?
+	DB $0C,$F0,$11,$1B,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$2E,$85,$D9,$B3,$D9,$B3,$D9,$B3,$D9,$B3	;...same but even bigger?
 	DB $00,$80,$0C,$39,$80,$00,$00,$02,$30,$67,$C8,$00,$78,$01,$78,$00,$74,$01,$13,$82,$F5,$B3,$F5,$B3,$F5,$B3,$F5,$B3	;Walker With Leg Broken
 	DB $4D,$81,$0C,$83,$81,$00,$00,$02,$30,$67,$C8,$00,$78,$01,$84,$00,$C4,$01,$13,$82,$11,$B4,$11,$B4,$11,$B4,$11,$B4	;Walker With Leg Missing
 	DB $B3,$82,$0C,$91,$86,$00,$00,$02,$0C,$67,$80,$00,$88,$01,$88,$00,$A0,$00,$13,$82,$2D,$B4,$2D,$B4,$2D,$B4,$2D,$B4	;Walker Walking
@@ -885,7 +1124,7 @@ ObjectHeaderTable:	;00AC15
 	DB $64,$8D,$0C,$92,$8D,$00,$00,$03,$00,$00,$58,$00,$40,$01,$70,$03,$B8,$03,$73,$88,$17,$B5,$17,$B5,$17,$B5,$F6,$B4	;Slamming Arrow Wall	
 	DB $64,$8D,$0C,$92,$8D,$00,$00,$03,$54,$67,$70,$03,$40,$01,$58,$00,$B8,$03,$73,$88,$33,$B5,$33,$B5,$33,$B5,$33,$B5	;Slamming Arrow Wall
 	DB $64,$8D,$0C,$92,$8D,$00,$00,$03,$66,$67,$70,$03,$40,$01,$58,$00,$B8,$03,$73,$88,$4F,$B5,$4F,$B5,$4F,$B5,$4F,$B5	;Slamming Arrow Wall
-	DB $FB,$8D,$0C,$27,$8E,$00,$00,$00,$00,$00,$3C,$00,$3C,$00,$0A,$00,$42,$00,$13,$82,$6B,$B5,$6B,$B5,$6B,$B5,$6B,$B5	;Flat Four-Armed Enemy
+	DB $FB,$8D,$0C,$27,$8E,$00,$00,$00,$00,$00,$3C,$00,$3C,$00,$0A,$00,$42,$00,$13,$82,$6B,$B5,$6B,$B5,$6B,$B5,$6B,$B5	;Flat Far-Away Four-Armed Enemy
 	DB $96,$8E,$0C,$A5,$8E,$00,$00,$00,$00,$00,$1B,$00,$14,$00,$23,$00,$2D,$00,$13,$82,$87,$B5,$87,$B5,$87,$B5,$87,$B5	;Pyramid
 	DB $DA,$8E,$0C,$EC,$8E,$00,$00,$00,$00,$00,$1E,$00,$29,$00,$00,$00,$29,$00,$13,$82,$A3,$B5,$A3,$B5,$A3,$B5,$A3,$B5	;Flat Far-Away Ship
 	DB $0D,$8F,$0C,$28,$8F,$00,$00,$00,$00,$00,$2A,$00,$28,$00,$2A,$00,$47,$00,$13,$82,$BF,$B5,$DB,$B5,$DB,$B5,$DB,$B5
@@ -958,9 +1197,9 @@ ObjectHeaderTable:	;00AC15
 	DB $23,$DC,$0C,$4F,$DC,$00,$00,$02,$00,$00,$78,$00,$F0,$00,$28,$00,$00,$01,$13,$82,$44,$BC,$44,$BC,$44,$BC,$44,$BC	;Dancing Insector Boss Hat
 	DB $84,$DD,$0C,$BC,$DD,$00,$00,$01,$00,$00,$24,$00,$3A,$00,$AC,$00,$B0,$00,$13,$82,$60,$BC,$60,$BC,$60,$BC,$60,$BC	;Parrot
 	DB $E1,$DF,$0C,$ED,$DF,$00,$00,$00,$00,$00,$0F,$00,$0F,$00,$3E,$00,$0D,$00,$13,$82,$7C,$BC,$7C,$BC,$7C,$BC,$7C,$BC
-	DB $01,$E0,$0C,$42,$E0,$00,$00,$00,$00,$00,$46,$00,$1C,$00,$64,$00,$7D,$00,$7C,$80,$98,$BC,$98,$BC,$98,$BC,$98,$BC	;Shadow Small High-Poly Arwing
-	DB $01,$E0,$0C,$42,$E0,$00,$00,$00,$00,$00,$46,$00,$1C,$00,$64,$00,$7D,$00,$13,$82,$B4,$BC,$B4,$BC,$B4,$BC,$B4,$BC	;Small High-Poly Arwing
-	DB $01,$E0,$0C,$42,$E0,$00,$00,$01,$00,$00,$8C,$00,$38,$00,$C8,$00,$FA,$00,$13,$82,$D0,$BC,$D0,$BC,$D0,$BC,$D0,$BC	;Big High-Poly Arwing
+	DB $01,$E0,$0C,$42,$E0,$00,$00,$00,$00,$00,$46,$00,$1C,$00,$64,$00,$7D,$00,$7C,$80,$98,$BC,$98,$BC,$98,$BC,$98,$BC	;High-Poly Arwing
+	DB $01,$E0,$0C,$42,$E0,$00,$00,$00,$00,$00,$46,$00,$1C,$00,$64,$00,$7D,$00,$13,$82,$B4,$BC,$B4,$BC,$B4,$BC,$B4,$BC	;High-Poly Arwing
+	DB $01,$E0,$0C,$42,$E0,$00,$00,$01,$00,$00,$8C,$00,$38,$00,$C8,$00,$FA,$00,$13,$82,$D0,$BC,$D0,$BC,$D0,$BC,$D0,$BC	;High-Poly Arwing
 	DB $DB,$E2,$0C,$DF,$E3,$00,$00,$02,$00,$00,$20,$00,$90,$01,$00,$00,$90,$01,$72,$85,$EC,$BC,$EC,$BC,$EC,$BC,$EC,$BC
 	DB $F1,$E3,$0C,$4B,$E4,$00,$00,$02,$00,$00,$B4,$00,$90,$01,$8C,$00,$B0,$01,$13,$82,$08,$BD,$08,$BD,$08,$BD,$08,$BD	;Slot Machine
 	DB $98,$E6,$0C,$FB,$E6,$00,$00,$02,$00,$00,$64,$00,$E4,$00,$20,$00,$F0,$00,$13,$82,$24,$BD,$24,$BD,$24,$BD,$24,$BD	;Slot Machine Arm
@@ -968,111 +1207,111 @@ ObjectHeaderTable:	;00AC15
 	DB $1F,$EA,$0C,$36,$EA,$00,$00,$03,$00,$00,$A0,$00,$90,$01,$A0,$00,$90,$01,$85,$85,$5C,$BD,$5C,$BD,$5C,$BD,$5C,$BD	;Andross Elongated Bipyramid
 	DB $CF,$EA,$0C,$01,$EB,$00,$00,$01,$00,$00,$40,$00,$32,$00,$40,$00,$48,$00,$13,$82,$78,$BD,$78,$BD,$78,$BD,$78,$BD	;Tower Top
 	DB $00,$80,$0E,$14,$80,$00,$00,$00,$00,$00,$07,$00,$02,$00,$14,$00,$14,$00,$13,$82,$94,$BD,$94,$BD,$94,$BD,$94,$BD	;Yellow/Red Flashing Shot
-	DB $6F,$80,$0E,$89,$80,$00,$00,$02,$00,$00,$64,$00,$50,$00,$78,$00,$80,$00,$81,$84,$B0,$BD,$B0,$BD,$B0,$BD,$B0,$BD	;Rock Formation
-	DB $FD,$80,$0E,$3E,$81,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$30,$01,$81,$84,$CC,$BD,$CC,$BD,$CC,$BD,$CC,$BD	;Four-Pronged Space Thing
+	DB $6F,$80,$0E,$89,$80,$00,$00,$02,$00,$00,$64,$00,$50,$00,$78,$00,$80,$00,$81,$84,$B0,$BD,$B0,$BD,$B0,$BD,$B0,$BD	;Small Rock
+	DB $FD,$80,$0E,$3E,$81,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$30,$01,$81,$84,$CC,$BD,$CC,$BD,$CC,$BD,$CC,$BD	;Four-Armed Enemy
 	DB $18,$83,$0E,$9F,$84,$00,$00,$00,$4A,$6E,$5A,$00,$3C,$00,$32,$00,$72,$00,$13,$82,$E8,$BD,$E8,$BD,$E8,$BD,$E8,$BD	;Diaphragm Door
-	DB $FC,$85,$0E,$1A,$86,$00,$00,$00,$00,$00,$13,$00,$14,$00,$1D,$00,$1E,$00,$13,$82,$04,$BE,$04,$BE,$04,$BE,$04,$BE	;Rock Reverse Faces
-	DB $68,$86,$0E,$8F,$86,$00,$00,$00,$00,$00,$11,$00,$14,$00,$20,$00,$23,$00,$13,$82,$20,$BE,$20,$BE,$20,$BE,$20,$BE	;Broken Rock Reverse Faces
-	DB $F5,$86,$0E,$4C,$87,$00,$00,$02,$00,$00,$8C,$00,$A0,$00,$50,$00,$A4,$01,$13,$82,$3C,$BE,$3C,$BE,$3C,$BE,$3C,$BE	;Rock Crusher Boss Part
-	DB $7A,$88,$0E,$91,$88,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$54,$00,$13,$82,$58,$BE,$58,$BE,$58,$BE,$58,$BE	;Rock Crusher Boss Flashing Dimple
-	DB $D7,$88,$0E,$1B,$89,$00,$00,$02,$00,$00,$28,$00,$28,$00,$50,$00,$04,$01,$13,$82,$74,$BE,$74,$BE,$74,$BE,$74,$BE	;Rock Crusher Boss Rotating Part
-	DB $9A,$8A,$0E,$A9,$8A,$00,$00,$03,$98,$68,$40,$01,$40,$01,$40,$01,$40,$01,$13,$82,$90,$BE,$90,$BE,$90,$BE,$90,$BE	;Spinning Core Bumpers
-	DB $EF,$8A,$0E,$15,$8B,$00,$00,$03,$AA,$68,$A0,$00,$30,$02,$A0,$00,$40,$01,$13,$82,$AC,$BE,$AC,$BE,$AC,$BE,$AC,$BE	;Electric Thing Under Spinning Core Boss
-	DB $A6,$8B,$0E,$DB,$8B,$00,$00,$03,$00,$00,$D8,$00,$F0,$00,$D8,$00,$E8,$00,$13,$82,$C8,$BE,$C8,$BE,$C8,$BE,$C8,$BE	;Spinning Core Boss
-	DB $B9,$8C,$0E,$D8,$8C,$00,$00,$03,$00,$00,$70,$01,$F8,$00,$08,$02,$10,$02,$13,$82,$E4,$BE,$E4,$BE,$E4,$BE,$E4,$BE	;Spinning Core Boss Top
-	DB $41,$8D,$0E,$60,$8D,$00,$00,$03,$00,$00,$08,$01,$10,$02,$20,$01,$B8,$01,$13,$82,$00,$BF,$00,$BF,$00,$BF,$00,$BF	;Spinning Core Flaps Up
-	DB $C9,$8D,$0E,$E3,$8D,$00,$00,$03,$00,$00,$D8,$00,$E0,$01,$D8,$00,$40,$01,$13,$82,$1C,$BF,$1C,$BF,$1C,$BF,$1C,$BF	;Spinning Core Flaps Down
+	DB $FC,$85,$0E,$1A,$86,$00,$00,$00,$00,$00,$13,$00,$14,$00,$1D,$00,$1E,$00,$13,$82,$04,$BE,$04,$BE,$04,$BE,$04,$BE
+	DB $68,$86,$0E,$8F,$86,$00,$00,$00,$00,$00,$11,$00,$14,$00,$20,$00,$23,$00,$13,$82,$20,$BE,$20,$BE,$20,$BE,$20,$BE
+	DB $F5,$86,$0E,$4C,$87,$00,$00,$02,$00,$00,$8C,$00,$A0,$00,$50,$00,$A4,$01,$13,$82,$3C,$BE,$3C,$BE,$3C,$BE,$3C,$BE	;Rock Crusher Boss Shield
+	DB $7A,$88,$0E,$91,$88,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$54,$00,$13,$82,$58,$BE,$58,$BE,$58,$BE,$58,$BE	;Rock Crusher Boss Weak Point
+	DB $D7,$88,$0E,$1B,$89,$00,$00,$02,$00,$00,$28,$00,$28,$00,$50,$00,$04,$01,$13,$82,$74,$BE,$74,$BE,$74,$BE,$74,$BE	;Rock Crusher Boss Body
+	DB $9A,$8A,$0E,$A9,$8A,$00,$00,$03,$98,$68,$40,$01,$40,$01,$40,$01,$40,$01,$13,$82,$90,$BE,$90,$BE,$90,$BE,$90,$BE	;Spinning Core Boss Weak Point
+	DB $EF,$8A,$0E,$15,$8B,$00,$00,$03,$AA,$68,$A0,$00,$30,$02,$A0,$00,$40,$01,$13,$82,$AC,$BE,$AC,$BE,$AC,$BE,$AC,$BE	;Spinning Core Boss Laser
+	DB $A6,$8B,$0E,$DB,$8B,$00,$00,$03,$00,$00,$D8,$00,$F0,$00,$D8,$00,$E8,$00,$13,$82,$C8,$BE,$C8,$BE,$C8,$BE,$C8,$BE	;Spinning Core Boss Body
+	DB $B9,$8C,$0E,$D8,$8C,$00,$00,$03,$00,$00,$70,$01,$F8,$00,$08,$02,$10,$02,$13,$82,$E4,$BE,$E4,$BE,$E4,$BE,$E4,$BE	;Spinning Core Flaps Open
+	DB $41,$8D,$0E,$60,$8D,$00,$00,$03,$00,$00,$08,$01,$10,$02,$20,$01,$B8,$01,$13,$82,$00,$BF,$00,$BF,$00,$BF,$00,$BF	;Spinning Core Flaps Halfway
+	DB $C9,$8D,$0E,$E3,$8D,$00,$00,$03,$00,$00,$D8,$00,$E0,$01,$D8,$00,$40,$01,$13,$82,$1C,$BF,$1C,$BF,$1C,$BF,$1C,$BF	;Spinning Core Flaps Closed
 	DB $4C,$8E,$0E,$60,$8E,$00,$00,$03,$00,$00,$D8,$00,$E0,$01,$D8,$00,$40,$01,$13,$82,$38,$BF,$38,$BF,$38,$BF,$38,$BF	;Spinning Core Flaps Closed
-	DB $C9,$8E,$0E,$F6,$8E,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$7C,$80,$54,$BF,$54,$BF,$54,$BF,$54,$BF	;Black Lines
-	DB $C9,$8E,$0E,$F6,$8E,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$70,$BF,$70,$BF,$70,$BF,$70,$BF	;Lines
-	DB $C9,$8E,$0E,$F6,$8E,$00,$00,$00,$00,$00,$14,$00,$14,$00,$00,$00,$16,$00,$04,$80,$8C,$BF,$8C,$BF,$8C,$BF,$8C,$BF	;Lines
-	DB $36,$8F,$0E,$57,$8F,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$A8,$BF,$A8,$BF,$A8,$BF,$A8,$BF	;Lines
-	DB $87,$8F,$0E,$9C,$8F,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$C4,$BF,$C4,$BF,$C4,$BF,$C4,$BF	;Lines
-	DB $BC,$8F,$0E,$C5,$8F,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$E0,$BF,$E0,$BF,$E0,$BF,$E0,$BF	;Lines
-	DB $D5,$8F,$0E,$AE,$96,$00,$00,$00,$00,$00,$78,$00,$78,$00,$FA,$00,$9F,$00,$73,$88,$FC,$BF,$FC,$BF,$FC,$BF,$FC,$BF	;Mess
+	DB $C9,$8E,$0E,$F6,$8E,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$7C,$80,$54,$BF,$54,$BF,$54,$BF,$54,$BF
+	DB $C9,$8E,$0E,$F6,$8E,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$70,$BF,$70,$BF,$70,$BF,$70,$BF
+	DB $C9,$8E,$0E,$F6,$8E,$00,$00,$00,$00,$00,$14,$00,$14,$00,$00,$00,$16,$00,$04,$80,$8C,$BF,$8C,$BF,$8C,$BF,$8C,$BF
+	DB $36,$8F,$0E,$57,$8F,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$A8,$BF,$A8,$BF,$A8,$BF,$A8,$BF
+	DB $87,$8F,$0E,$9C,$8F,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$C4,$BF,$C4,$BF,$C4,$BF,$C4,$BF
+	DB $BC,$8F,$0E,$C5,$8F,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$E0,$BF,$E0,$BF,$E0,$BF,$E0,$BF
+	DB $D5,$8F,$0E,$AE,$96,$00,$00,$00,$00,$00,$78,$00,$78,$00,$FA,$00,$9F,$00,$73,$88,$FC,$BF,$FC,$BF,$FC,$BF,$FC,$BF
 	DB $20,$90,$0E,$77,$90,$00,$00,$02,$00,$00,$98,$00,$F0,$00,$90,$01,$C8,$01,$13,$82,$18,$C0,$18,$C0,$18,$C0,$18,$C0	;Armada Battleship Entry
-	DB $97,$92,$0E,$F4,$92,$00,$00,$02,$00,$00,$68,$01,$18,$01,$68,$01,$9C,$01,$13,$82,$34,$C0,$34,$C0,$34,$C0,$34,$C0	;Atoic Base Entry
-	DB $97,$92,$0E,$F4,$92,$00,$00,$04,$00,$00,$A0,$05,$60,$04,$A0,$05,$70,$06,$13,$82,$50,$C0,$50,$C0,$50,$C0,$50,$C0	;Atomic Base Entry Zoom
-	DB $F3,$95,$0E,$11,$96,$00,$00,$00,$00,$00,$32,$00,$32,$00,$0A,$00,$47,$00,$13,$82,$6C,$C0,$6C,$C0,$6C,$C0,$6C,$C0	;Weird Black/Orange Button
-	DB $4D,$96,$0E,$AE,$96,$00,$00,$00,$00,$00,$3C,$00,$78,$00,$47,$00,$93,$00,$13,$82,$88,$C0,$88,$C0,$88,$C0,$88,$C0	;Weird Portal
-	DB $4A,$97,$0E,$83,$97,$00,$00,$00,$00,$00,$78,$00,$78,$00,$0A,$00,$AA,$00,$13,$82,$A4,$C0,$A4,$C0,$A4,$C0,$A4,$C0	;Weird Portal
-	DB $47,$98,$0E,$62,$98,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$9F,$00,$13,$82,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0	;Weird Portal Wireframe
-	DB $8A,$98,$0E,$62,$98,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$9F,$00,$13,$82,$DC,$C0,$DC,$C0,$DC,$C0,$DC,$C0	;Weird Portal Wireframe
-	DB $A5,$98,$0E,$B4,$98,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$9F,$00,$46,$85,$F8,$C0,$F8,$C0,$F8,$C0,$F8,$C0	;Flashing Yellow Stripe
-	DB $C6,$98,$0E,$E1,$98,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$9F,$00,$73,$88,$14,$C1,$14,$C1,$14,$C1,$14,$C1	;Black Rectangle
-	DB $F3,$98,$0E,$0E,$99,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$9F,$00,$99,$88,$30,$C1,$30,$C1,$30,$C1,$30,$C1	;Gray Rectangle
-	DB $20,$99,$0E,$2F,$99,$90,$01,$01,$00,$00,$C8,$00,$46,$00,$14,$00,$3E,$01,$73,$88,$4C,$C1,$4C,$C1,$4C,$C1,$4C,$C1	;Black Rectangle Large
-	DB $41,$99,$0E,$50,$99,$C8,$00,$00,$00,$00,$46,$00,$41,$00,$0A,$00,$9F,$00,$99,$88,$68,$C1,$68,$C1,$68,$C1,$68,$C1	;Gray Rectangle
-	DB $62,$99,$0E,$71,$99,$90,$01,$01,$00,$00,$28,$00,$1E,$00,$14,$00,$3E,$01,$99,$88,$84,$C1,$84,$C1,$84,$C1,$84,$C1	;Gray Rectangle Small
-	DB $83,$99,$0E,$92,$99,$20,$03,$02,$00,$00,$68,$01,$A0,$00,$28,$00,$7C,$02,$99,$88,$A0,$C1,$A0,$C1,$A0,$C1,$A0,$C1	;Gray Rectangle Large
-	DB $A4,$99,$0E,$D7,$99,$00,$00,$00,$00,$00,$00,$00,$00,$00,$2C,$01,$9F,$00,$73,$88,$BC,$C1,$BC,$C1,$BC,$C1,$BC,$C1	;Inside Black Tunnel
-	DB $07,$9A,$0E,$D7,$99,$00,$00,$00,$00,$00,$00,$00,$00,$00,$2C,$01,$9F,$00,$99,$88,$D8,$C1,$D8,$C1,$D8,$C1,$D8,$C1	;Inside Gray Tunnel
+	DB $97,$92,$0E,$F4,$92,$00,$00,$02,$00,$00,$68,$01,$18,$01,$68,$01,$9C,$01,$13,$82,$34,$C0,$34,$C0,$34,$C0,$34,$C0	;Atomic Base Entry
+	DB $97,$92,$0E,$F4,$92,$00,$00,$04,$00,$00,$A0,$05,$60,$04,$A0,$05,$70,$06,$13,$82,$50,$C0,$50,$C0,$50,$C0,$50,$C0	;Atomic Base Entry
+	DB $F3,$95,$0E,$11,$96,$00,$00,$00,$00,$00,$32,$00,$32,$00,$0A,$00,$47,$00,$13,$82,$6C,$C0,$6C,$C0,$6C,$C0,$6C,$C0
+	DB $4D,$96,$0E,$AE,$96,$00,$00,$00,$00,$00,$3C,$00,$78,$00,$47,$00,$93,$00,$13,$82,$88,$C0,$88,$C0,$88,$C0,$88,$C0
+	DB $4A,$97,$0E,$83,$97,$00,$00,$00,$00,$00,$78,$00,$78,$00,$0A,$00,$AA,$00,$13,$82,$A4,$C0,$A4,$C0,$A4,$C0,$A4,$C0
+	DB $47,$98,$0E,$62,$98,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$9F,$00,$13,$82,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
+	DB $8A,$98,$0E,$62,$98,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$9F,$00,$13,$82,$DC,$C0,$DC,$C0,$DC,$C0,$DC,$C0
+	DB $A5,$98,$0E,$B4,$98,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$9F,$00,$46,$85,$F8,$C0,$F8,$C0,$F8,$C0,$F8,$C0
+	DB $C6,$98,$0E,$E1,$98,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$9F,$00,$73,$88,$14,$C1,$14,$C1,$14,$C1,$14,$C1
+	DB $F3,$98,$0E,$0E,$99,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$9F,$00,$99,$88,$30,$C1,$30,$C1,$30,$C1,$30,$C1
+	DB $20,$99,$0E,$2F,$99,$90,$01,$01,$00,$00,$C8,$00,$46,$00,$14,$00,$3E,$01,$73,$88,$4C,$C1,$4C,$C1,$4C,$C1,$4C,$C1
+	DB $41,$99,$0E,$50,$99,$C8,$00,$00,$00,$00,$46,$00,$41,$00,$0A,$00,$9F,$00,$99,$88,$68,$C1,$68,$C1,$68,$C1,$68,$C1
+	DB $62,$99,$0E,$71,$99,$90,$01,$01,$00,$00,$28,$00,$1E,$00,$14,$00,$3E,$01,$99,$88,$84,$C1,$84,$C1,$84,$C1,$84,$C1
+	DB $83,$99,$0E,$92,$99,$20,$03,$02,$00,$00,$68,$01,$A0,$00,$28,$00,$7C,$02,$99,$88,$A0,$C1,$A0,$C1,$A0,$C1,$A0,$C1
+	DB $A4,$99,$0E,$D7,$99,$00,$00,$00,$00,$00,$00,$00,$00,$00,$2C,$01,$9F,$00,$73,$88,$BC,$C1,$BC,$C1,$BC,$C1,$BC,$C1
+	DB $07,$9A,$0E,$D7,$99,$00,$00,$00,$00,$00,$00,$00,$00,$00,$2C,$01,$9F,$00,$99,$88,$D8,$C1,$D8,$C1,$D8,$C1,$D8,$C1
 	DB $3A,$9A,$0E,$56,$9A,$00,$00,$01,$00,$00,$1E,$00,$86,$00,$50,$00,$9C,$00,$13,$82,$F4,$C1,$F4,$C1,$F4,$C1,$F4,$C1	;Little Tower Top
-	DB $FF,$9A,$0E,$0E,$9B,$00,$00,$00,$00,$00,$0F,$00,$28,$00,$0F,$00,$2A,$00,$13,$82,$10,$C2,$10,$C2,$10,$C2,$10,$C2	;Box With Flashing Top
+	DB $FF,$9A,$0E,$0E,$9B,$00,$00,$00,$00,$00,$0F,$00,$28,$00,$0F,$00,$2A,$00,$13,$82,$10,$C2,$10,$C2,$10,$C2,$10,$C2
 	DB $54,$9B,$0E,$AE,$9C,$00,$00,$00,$00,$00,$50,$00,$46,$00,$1E,$00,$6E,$00,$13,$82,$2C,$C2,$2C,$C2,$2C,$C2,$2C,$C2	;Butterfly
-	DB $5F,$9E,$0E,$3C,$9F,$00,$00,$03,$DC,$69,$F0,$00,$A0,$00,$68,$01,$A0,$01,$ED,$82,$48,$C2,$48,$C2,$48,$C2,$48,$C2	;Attack Carrier Right Launcher
-	DB $30,$A0,$0E,$75,$A0,$00,$00,$03,$EE,$69,$A0,$00,$F0,$00,$B8,$01,$D8,$01,$ED,$82,$64,$C2,$64,$C2,$64,$C2,$64,$C2	;Attack Carrier Middle
-	DB $08,$A3,$0E,$32,$A3,$00,$00,$03,$EE,$69,$A0,$00,$F0,$00,$B8,$01,$D8,$01,$ED,$82,$80,$C2,$80,$C2,$80,$C2,$80,$C2	;Attack Carrier Middle (Low Poly)
-	DB $7B,$A4,$0E,$9C,$A4,$00,$00,$03,$12,$6A,$50,$00,$A0,$00,$40,$01,$68,$01,$ED,$82,$9C,$C2,$9C,$C2,$9C,$C2,$9C,$C2	;Attack Carrier Left Shield
-	DB $09,$A5,$0E,$C3,$A5,$00,$00,$03,$24,$6A,$18,$01,$18,$01,$68,$01,$A0,$01,$ED,$82,$B8,$C2,$B8,$C2,$B8,$C2,$B8,$C2	;Attack Carrier Top Left Closing
-	DB $6F,$A6,$0E,$29,$A7,$00,$00,$03,$44,$6B,$18,$01,$48,$01,$68,$01,$B8,$01,$ED,$82,$D4,$C2,$D4,$C2,$D4,$C2,$D4,$C2	;Attack Carrier Bottom Left Closing
-	DB $D5,$A7,$0E,$EF,$A7,$00,$00,$01,$00,$00,$42,$00,$14,$00,$4E,$00,$50,$00,$13,$82,$F0,$C2,$F0,$C2,$F0,$C2,$F0,$C2	;Attack Carrier Mini Ship
-	DB $A4,$A8,$0E,$C4,$A8,$00,$00,$01,$00,$00,$42,$00,$3C,$00,$3C,$00,$54,$00,$13,$82,$0C,$C3,$0C,$C3,$0C,$C3,$0C,$C3	;Yellow Flying Enemy
-	DB $A4,$A8,$0E,$C4,$A8,$00,$00,$01,$00,$00,$42,$00,$3C,$00,$3C,$00,$54,$00,$ED,$82,$28,$C3,$28,$C3,$28,$C3,$28,$C3	;Enemy Wing
-	DB $9A,$A9,$0E,$A9,$A9,$00,$00,$01,$00,$00,$18,$00,$12,$00,$1E,$00,$28,$00,$13,$82,$44,$C3,$44,$C3,$44,$C3,$44,$C3	;Wireframe Shielded Arwing
-	DB $DE,$A9,$0E,$FB,$A9,$F6,$FF,$00,$B2,$5D,$22,$00,$0E,$00,$50,$00,$50,$00,$13,$82,$60,$C3,$60,$C3,$60,$C3,$60,$C3	;Wireframe Arwing Without Right Wing
-	DB $AB,$AA,$0E,$CB,$AA,$F6,$FF,$00,$B2,$5D,$21,$00,$10,$00,$50,$00,$50,$00,$13,$82,$7C,$C3,$7C,$C3,$7C,$C3,$7C,$C3	;Wireframe Arwing Without Left Wing
-	DB $76,$AB,$0E,$96,$AB,$F6,$FF,$00,$B2,$5D,$21,$00,$10,$00,$50,$00,$50,$00,$13,$82,$98,$C3,$98,$C3,$98,$C3,$98,$C3	;Wireframe Arwing No Wings
-	DB $41,$AC,$0E,$5E,$AC,$F6,$FF,$00,$B2,$5D,$19,$00,$0D,$00,$50,$00,$50,$00,$13,$82,$B4,$C3,$B4,$C3,$B4,$C3,$B4,$C3	;Interlocking Doors Opening
-	DB $09,$AD,$0E,$40,$B2,$00,$00,$01,$00,$00,$78,$00,$3C,$00,$28,$00,$8C,$00,$13,$82,$D0,$C3,$D0,$C3,$D0,$C3,$D0,$C3	;Antenna Dish
-	DB $B3,$B3,$0E,$CE,$B3,$00,$00,$02,$00,$00,$50,$00,$50,$00,$4C,$00,$5C,$00,$13,$82,$EC,$C3,$EC,$C3,$EC,$C3,$EC,$C3	;Antenna Base
-	DB $6B,$B4,$0E,$89,$B4,$28,$00,$02,$00,$00,$64,$00,$7C,$00,$64,$00,$7C,$00,$13,$82,$08,$C4,$08,$C4,$08,$C4,$08,$C4	;Pylon
+	DB $5F,$9E,$0E,$3C,$9F,$00,$00,$03,$DC,$69,$F0,$00,$A0,$00,$68,$01,$A0,$01,$ED,$82,$48,$C2,$48,$C2,$48,$C2,$48,$C2	;Attack Carrier Boss Launcher
+	DB $30,$A0,$0E,$75,$A0,$00,$00,$03,$EE,$69,$A0,$00,$F0,$00,$B8,$01,$D8,$01,$ED,$82,$64,$C2,$64,$C2,$64,$C2,$64,$C2	;Attack Carrier Boss Body
+	DB $08,$A3,$0E,$32,$A3,$00,$00,$03,$EE,$69,$A0,$00,$F0,$00,$B8,$01,$D8,$01,$ED,$82,$80,$C2,$80,$C2,$80,$C2,$80,$C2	;Attack Carrier Boss Body LOD
+	DB $7B,$A4,$0E,$9C,$A4,$00,$00,$03,$12,$6A,$50,$00,$A0,$00,$40,$01,$68,$01,$ED,$82,$9C,$C2,$9C,$C2,$9C,$C2,$9C,$C2	;Attack Carrier Boss Shield
+	DB $09,$A5,$0E,$C3,$A5,$00,$00,$03,$24,$6A,$18,$01,$18,$01,$68,$01,$A0,$01,$ED,$82,$B8,$C2,$B8,$C2,$B8,$C2,$B8,$C2	;Attack Carrier Boss Top Left
+	DB $6F,$A6,$0E,$29,$A7,$00,$00,$03,$44,$6B,$18,$01,$48,$01,$68,$01,$B8,$01,$ED,$82,$D4,$C2,$D4,$C2,$D4,$C2,$D4,$C2	;Attack Carrier Boss Bottom Left
+	DB $D5,$A7,$0E,$EF,$A7,$00,$00,$01,$00,$00,$42,$00,$14,$00,$4E,$00,$50,$00,$13,$82,$F0,$C2,$F0,$C2,$F0,$C2,$F0,$C2	;Attack Carrier Boss Mini Ship
+	DB $A4,$A8,$0E,$C4,$A8,$00,$00,$01,$00,$00,$42,$00,$3C,$00,$3C,$00,$54,$00,$13,$82,$0C,$C3,$0C,$C3,$0C,$C3,$0C,$C3	;Flying Enemy
+	DB $A4,$A8,$0E,$C4,$A8,$00,$00,$01,$00,$00,$42,$00,$3C,$00,$3C,$00,$54,$00,$ED,$82,$28,$C3,$28,$C3,$28,$C3,$28,$C3	;Flying Enemy
+	DB $9A,$A9,$0E,$A9,$A9,$00,$00,$01,$00,$00,$18,$00,$12,$00,$1E,$00,$28,$00,$13,$82,$44,$C3,$44,$C3,$44,$C3,$44,$C3	;Flying Enemy Wing
+	DB $DE,$A9,$0E,$FB,$A9,$F6,$FF,$00,$B2,$5D,$22,$00,$0E,$00,$50,$00,$50,$00,$13,$82,$60,$C3,$60,$C3,$60,$C3,$60,$C3	;Shielded Arwing
+	DB $AB,$AA,$0E,$CB,$AA,$F6,$FF,$00,$B2,$5D,$21,$00,$10,$00,$50,$00,$50,$00,$13,$82,$7C,$C3,$7C,$C3,$7C,$C3,$7C,$C3	;Shielded Arwing No Right Wing
+	DB $76,$AB,$0E,$96,$AB,$F6,$FF,$00,$B2,$5D,$21,$00,$10,$00,$50,$00,$50,$00,$13,$82,$98,$C3,$98,$C3,$98,$C3,$98,$C3	;Shielded Arwing No Left Wing
+	DB $41,$AC,$0E,$5E,$AC,$F6,$FF,$00,$B2,$5D,$19,$00,$0D,$00,$50,$00,$50,$00,$13,$82,$B4,$C3,$B4,$C3,$B4,$C3,$B4,$C3	;Shielded Arwing No Wings
+	DB $09,$AD,$0E,$40,$B2,$00,$00,$01,$00,$00,$78,$00,$3C,$00,$28,$00,$8C,$00,$13,$82,$D0,$C3,$D0,$C3,$D0,$C3,$D0,$C3	;Interlocking Door
+	DB $B3,$B3,$0E,$CE,$B3,$00,$00,$02,$00,$00,$50,$00,$50,$00,$4C,$00,$5C,$00,$13,$82,$EC,$C3,$EC,$C3,$EC,$C3,$EC,$C3	;Antenna Dish
+	DB $6B,$B4,$0E,$89,$B4,$28,$00,$02,$00,$00,$64,$00,$7C,$00,$64,$00,$7C,$00,$13,$82,$08,$C4,$08,$C4,$08,$C4,$08,$C4	;Antenna Base
 	DB $DF,$B4,$0E,$10,$B5,$00,$00,$02,$00,$00,$50,$00,$E0,$01,$A0,$00,$E0,$01,$13,$82,$24,$C4,$24,$C4,$24,$C4,$24,$C4	;Pylon
-	DB $DF,$B4,$0E,$10,$B5,$00,$00,$02,$3C,$64,$50,$00,$E0,$01,$A0,$00,$E0,$01,$13,$82,$40,$C4,$40,$C4,$40,$C4,$40,$C4
-	DB $A0,$B5,$0E,$C3,$B5,$00,$00,$00,$00,$00,$23,$00,$3C,$00,$28,$00,$40,$00,$13,$82,$5C,$C4,$5C,$C4,$5C,$C4,$5C,$C4
-	DB $AB,$B6,$0E,$D1,$B6,$00,$00,$01,$00,$00,$28,$00,$28,$00,$22,$00,$2C,$00,$13,$82,$78,$C4,$78,$C4,$78,$C4,$78,$C4
-	DB $8E,$B7,$0E,$83,$B8,$00,$00,$01,$00,$00,$2A,$00,$28,$00,$28,$00,$2E,$00,$13,$82,$94,$C4,$94,$C4,$94,$C4,$94,$C4
-	DB $D6,$B8,$0E,$FF,$B8,$00,$00,$01,$00,$00,$30,$00,$28,$00,$30,$00,$30,$00,$13,$82,$B0,$C4,$B0,$C4,$B0,$C4,$B0,$C4
-	DB $C7,$B9,$0E,$EA,$B9,$00,$00,$00,$00,$00,$24,$00,$0E,$00,$28,$00,$38,$00,$13,$82,$CC,$C4,$CC,$C4,$CC,$C4,$CC,$C4
-	DB $FB,$BA,$0E,$24,$BB,$00,$00,$00,$00,$00,$18,$00,$14,$00,$18,$00,$18,$00,$13,$82,$E8,$C4,$E8,$C4,$E8,$C4,$E8,$C4
+	DB $DF,$B4,$0E,$10,$B5,$00,$00,$02,$3C,$64,$50,$00,$E0,$01,$A0,$00,$E0,$01,$13,$82,$40,$C4,$40,$C4,$40,$C4,$40,$C4	;Pylon
+	DB $A0,$B5,$0E,$C3,$B5,$00,$00,$00,$00,$00,$23,$00,$3C,$00,$28,$00,$40,$00,$13,$82,$5C,$C4,$5C,$C4,$5C,$C4,$5C,$C4	;Twin Blaster Enemy
+	DB $AB,$B6,$0E,$D1,$B6,$00,$00,$01,$00,$00,$28,$00,$28,$00,$22,$00,$2C,$00,$13,$82,$78,$C4,$78,$C4,$78,$C4,$78,$C4	;Twin Blaster Item
+	DB $8E,$B7,$0E,$83,$B8,$00,$00,$01,$00,$00,$2A,$00,$28,$00,$28,$00,$2E,$00,$13,$82,$94,$C4,$94,$C4,$94,$C4,$94,$C4	;Nova Bomb Item
+	DB $D6,$B8,$0E,$FF,$B8,$00,$00,$01,$00,$00,$30,$00,$28,$00,$30,$00,$30,$00,$13,$82,$B0,$C4,$B0,$C4,$B0,$C4,$B0,$C4	;Shield Item
+	DB $C7,$B9,$0E,$EA,$B9,$00,$00,$00,$00,$00,$24,$00,$0E,$00,$28,$00,$38,$00,$13,$82,$CC,$C4,$CC,$C4,$CC,$C4,$CC,$C4	;Wing Repair Item
+	DB $FB,$BA,$0E,$24,$BB,$00,$00,$00,$00,$00,$18,$00,$14,$00,$18,$00,$18,$00,$13,$82,$E8,$C4,$E8,$C4,$E8,$C4,$E8,$C4	;Unused Item
 	DB $D7,$BB,$0E,$FB,$BB,$00,$00,$01,$00,$00,$14,$00,$1E,$00,$12,$00,$1E,$00,$13,$82,$04,$C5,$04,$C5,$04,$C5,$04,$C5
-	DB $96,$BC,$0E,$C1,$BC,$00,$00,$00,$00,$00,$24,$00,$0E,$00,$50,$00,$50,$00,$13,$82,$20,$C5,$20,$C5,$20,$C5,$20,$C5
-	DB $7E,$BD,$0E,$C6,$BD,$00,$00,$00,$00,$00,$28,$00,$28,$00,$32,$00,$47,$00,$13,$82,$3C,$C5,$3C,$C5,$3C,$C5,$3C,$C5
-	DB $BA,$BE,$0E,$E3,$BE,$00,$00,$01,$00,$00,$28,$00,$46,$00,$28,$00,$4C,$00,$13,$82,$58,$C5,$58,$C5,$58,$C5,$58,$C5
-	DB $E0,$BF,$0E,$EC,$C2,$40,$06,$03,$00,$00,$F0,$00,$50,$00,$58,$00,$F0,$00,$13,$82,$74,$C5,$74,$C5,$74,$C5,$74,$C5
-	DB $8C,$C3,$0E,$70,$C6,$00,$00,$03,$00,$00,$40,$01,$20,$03,$40,$01,$48,$03,$13,$82,$90,$C5,$90,$C5,$90,$C5,$90,$C5
-	DB $8C,$C3,$0E,$70,$C6,$00,$00,$03,$64,$6C,$40,$01,$20,$03,$40,$01,$48,$03,$13,$82,$AC,$C5,$AC,$C5,$AC,$C5,$AC,$C5
-	DB $77,$C8,$0E,$93,$C8,$00,$00,$03,$00,$00,$50,$00,$20,$03,$28,$00,$28,$03,$13,$82,$C8,$C5,$C8,$C5,$C8,$C5,$C8,$C5
-	DB $BF,$C8,$0E,$D6,$C8,$00,$00,$02,$00,$00,$F0,$00,$F0,$00,$78,$00,$40,$01,$13,$82,$E4,$C5,$E4,$C5,$E4,$C5,$E4,$C5
-	DB $36,$C9,$0E,$FE,$C9,$00,$00,$03,$F0,$6D,$38,$00,$70,$00,$20,$03,$20,$03,$13,$82,$00,$C6,$00,$C6,$00,$C6,$00,$C6
-	DB $36,$CA,$0E,$77,$CA,$00,$00,$03,$00,$00,$A0,$00,$F0,$00,$C0,$00,$78,$00,$13,$82,$1C,$C6,$1C,$C6,$1C,$C6,$1C,$C6
-	DB $C4,$CA,$0E,$EB,$CA,$00,$00,$00,$00,$00,$3C,$00,$46,$00,$46,$00,$5F,$00,$13,$82,$38,$C6,$38,$C6,$38,$C6,$38,$C6
-	DB $6C,$CB,$0E,$83,$CB,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$A0,$00,$E0,$00,$13,$82,$54,$C6,$54,$C6,$54,$C6,$54,$C6
-	DB $E2,$CB,$0E,$F9,$CB,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$50,$00,$E0,$00,$13,$82,$70,$C6,$70,$C6,$70,$C6,$70,$C6
-	DB $58,$CC,$0E,$D4,$CC,$88,$FF,$02,$00,$00,$E4,$00,$08,$01,$64,$00,$18,$01,$13,$82,$8C,$C6,$8C,$C6,$8C,$C6,$8C,$C6
-	DB $A3,$CD,$0E,$C6,$CD,$00,$00,$02,$00,$00,$3C,$00,$50,$00,$3C,$00,$54,$00,$13,$82,$A8,$C6,$A8,$C6,$A8,$C6,$A8,$C6
-	DB $81,$CE,$0E,$49,$CF,$00,$00,$03,$00,$00,$E0,$01,$A0,$00,$A0,$00,$28,$02,$13,$82,$C4,$C6,$C4,$C6,$C4,$C6,$C4,$C6
-	DB $2D,$D1,$0E,$83,$D1,$00,$00,$01,$14,$6E,$5A,$00,$78,$00,$64,$00,$B4,$00,$13,$82,$E0,$C6,$E0,$C6,$E0,$C6,$E0,$C6
-	DB $6F,$D3,$0E,$83,$D3,$00,$00,$01,$38,$6E,$1A,$00,$56,$00,$1A,$00,$56,$00,$13,$82,$FC,$C6,$FC,$C6,$FC,$C6,$FC,$C6
+	DB $96,$BC,$0E,$C1,$BC,$00,$00,$00,$00,$00,$24,$00,$0E,$00,$50,$00,$50,$00,$13,$82,$20,$C5,$20,$C5,$20,$C5,$20,$C5	;Repairing Arwing
+	DB $7E,$BD,$0E,$C6,$BD,$00,$00,$00,$00,$00,$28,$00,$28,$00,$32,$00,$47,$00,$13,$82,$3C,$C5,$3C,$C5,$3C,$C5,$3C,$C5	;Hexagonal Hover Tank
+	DB $BA,$BE,$0E,$E3,$BE,$00,$00,$01,$00,$00,$28,$00,$46,$00,$28,$00,$4C,$00,$13,$82,$58,$C5,$58,$C5,$58,$C5,$58,$C5	;Enemy With Wireframe
+	DB $E0,$BF,$0E,$EC,$C2,$40,$06,$03,$00,$00,$F0,$00,$50,$00,$58,$00,$F0,$00,$13,$82,$74,$C5,$74,$C5,$74,$C5,$74,$C5	;Atomic Core Boss Blaster
+	DB $8C,$C3,$0E,$70,$C6,$00,$00,$03,$00,$00,$40,$01,$20,$03,$40,$01,$48,$03,$13,$82,$90,$C5,$90,$C5,$90,$C5,$90,$C5	;Atomic Core Boss Body
+	DB $8C,$C3,$0E,$70,$C6,$00,$00,$03,$64,$6C,$40,$01,$20,$03,$40,$01,$48,$03,$13,$82,$AC,$C5,$AC,$C5,$AC,$C5,$AC,$C5	;Atomic Core Boss Body
+	DB $77,$C8,$0E,$93,$C8,$00,$00,$03,$00,$00,$50,$00,$20,$03,$28,$00,$28,$03,$13,$82,$C8,$C5,$C8,$C5,$C8,$C5,$C8,$C5	;Atomic Core Boss Wall Piece
+	DB $BF,$C8,$0E,$D6,$C8,$00,$00,$02,$00,$00,$F0,$00,$F0,$00,$78,$00,$40,$01,$13,$82,$E4,$C5,$E4,$C5,$E4,$C5,$E4,$C5	;Atomic Core Boss Taser
+	DB $36,$C9,$0E,$FE,$C9,$00,$00,$03,$F0,$6D,$38,$00,$70,$00,$20,$03,$20,$03,$13,$82,$00,$C6,$00,$C6,$00,$C6,$00,$C6	;Atomic Core Boss Spark
+	DB $36,$CA,$0E,$77,$CA,$00,$00,$03,$00,$00,$A0,$00,$F0,$00,$C0,$00,$78,$00,$13,$82,$1C,$C6,$1C,$C6,$1C,$C6,$1C,$C6	;Atomic Core Boss Laser
+	DB $C4,$CA,$0E,$EB,$CA,$00,$00,$00,$00,$00,$3C,$00,$46,$00,$46,$00,$5F,$00,$13,$82,$38,$C6,$38,$C6,$38,$C6,$38,$C6	;Atomic Core Boss Debris
+	DB $6C,$CB,$0E,$83,$CB,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$A0,$00,$E0,$00,$13,$82,$54,$C6,$54,$C6,$54,$C6,$54,$C6	;Slot Machine Button
+	DB $E2,$CB,$0E,$F9,$CB,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$50,$00,$E0,$00,$13,$82,$70,$C6,$70,$C6,$70,$C6,$70,$C6	;Slot Machine Button Pushed
+	DB $58,$CC,$0E,$D4,$CC,$88,$FF,$02,$00,$00,$E4,$00,$08,$01,$64,$00,$18,$01,$13,$82,$8C,$C6,$8C,$C6,$8C,$C6,$8C,$C6	;Attack Carrier 2 Boss Shield
+	DB $A3,$CD,$0E,$C6,$CD,$00,$00,$02,$00,$00,$3C,$00,$50,$00,$3C,$00,$54,$00,$13,$82,$A8,$C6,$A8,$C6,$A8,$C6,$A8,$C6	;Attack Carrier 2 Boss Weak Point
+	DB $81,$CE,$0E,$49,$CF,$00,$00,$03,$00,$00,$E0,$01,$A0,$00,$A0,$00,$28,$02,$13,$82,$C4,$C6,$C4,$C6,$C4,$C6,$C4,$C6	;Attack Carrier 2 Boss Body
+	DB $2D,$D1,$0E,$83,$D1,$00,$00,$01,$14,$6E,$5A,$00,$78,$00,$64,$00,$B4,$00,$13,$82,$E0,$C6,$E0,$C6,$E0,$C6,$E0,$C6	;Armada Ship Core Body
+	DB $6F,$D3,$0E,$83,$D3,$00,$00,$01,$38,$6E,$1A,$00,$56,$00,$1A,$00,$56,$00,$13,$82,$FC,$C6,$FC,$C6,$FC,$C6,$FC,$C6	;Armada Ship Core
 	DB $E8,$D3,$0E,$38,$D4,$00,$00,$01,$00,$00,$5A,$00,$78,$00,$28,$00,$96,$00,$13,$82,$18,$C7,$18,$C7,$18,$C7,$18,$C7
-	DB $A9,$D5,$0E,$CA,$D5,$00,$00,$02,$00,$00,$C8,$00,$B4,$00,$C8,$00,$50,$01,$13,$82,$34,$C7,$34,$C7,$34,$C7,$34,$C7
-	DB $7A,$D6,$0E,$1B,$D7,$00,$00,$03,$00,$00,$E0,$01,$B0,$00,$C8,$00,$28,$02,$13,$82,$50,$C7,$50,$C7,$50,$C7,$50,$C7
-	DB $C8,$D7,$0E,$69,$D8,$00,$00,$03,$00,$00,$E0,$01,$B0,$00,$C8,$00,$28,$02,$13,$82,$6C,$C7,$6C,$C7,$6C,$C7,$6C,$C7
-	DB $16,$D9,$0E,$42,$DF,$00,$00,$02,$50,$71,$80,$01,$3C,$01,$10,$01,$B0,$01,$13,$82,$88,$C7,$88,$C7,$88,$C7,$88,$C7
-	DB $24,$E1,$0E,$5C,$E1,$00,$00,$02,$00,$00,$B4,$00,$8C,$00,$F0,$00,$FC,$00,$13,$82,$A4,$C7,$A4,$C7,$A4,$C7,$A4,$C7
-	DB $F5,$E2,$0E,$30,$E3,$00,$00,$05,$BC,$68,$C0,$03,$A0,$05,$A0,$0F,$A0,$0F,$13,$82,$C0,$C7,$C0,$C7,$C0,$C7,$C0,$C7
-	DB $B4,$E4,$0E,$E7,$E4,$00,$00,$01,$00,$00,$32,$00,$28,$00,$3C,$00,$4A,$00,$13,$82,$DC,$C7,$DC,$C7,$DC,$C7,$DC,$C7
-	DB $CA,$E5,$0E,$F4,$E5,$00,$00,$02,$00,$00,$B4,$00,$88,$00,$90,$00,$0C,$01,$13,$82,$F8,$C7,$F8,$C7,$F8,$C7,$F8,$C7
-	DB $E2,$E6,$0E,$F7,$E6,$00,$00,$02,$00,$00,$58,$00,$B0,$00,$78,$00,$CC,$00,$13,$82,$14,$C8,$14,$C8,$14,$C8,$14,$C8
-	DB $6C,$E7,$0E,$81,$E7,$00,$00,$02,$00,$00,$58,$00,$B0,$00,$78,$00,$CC,$00,$13,$82,$30,$C8,$30,$C8,$30,$C8,$30,$C8
+	DB $A9,$D5,$0E,$CA,$D5,$00,$00,$02,$00,$00,$C8,$00,$B4,$00,$C8,$00,$50,$01,$13,$82,$34,$C7,$34,$C7,$34,$C7,$34,$C7	;Attack Carrier 2 Boss Body Middle
+	DB $7A,$D6,$0E,$1B,$D7,$00,$00,$03,$00,$00,$E0,$01,$B0,$00,$C8,$00,$28,$02,$13,$82,$50,$C7,$50,$C7,$50,$C7,$50,$C7	;Attack Carrier 2 Boss Body Right
+	DB $C8,$D7,$0E,$69,$D8,$00,$00,$03,$00,$00,$E0,$01,$B0,$00,$C8,$00,$28,$02,$13,$82,$6C,$C7,$6C,$C7,$6C,$C7,$6C,$C7	;Attack Carrier 2 Boss Body Left
+	DB $16,$D9,$0E,$42,$DF,$00,$00,$02,$50,$71,$80,$01,$3C,$01,$10,$01,$B0,$01,$13,$82,$88,$C7,$88,$C7,$88,$C7,$88,$C7	;Phantron 2 Boss
+	DB $24,$E1,$0E,$5C,$E1,$00,$00,$02,$00,$00,$B4,$00,$8C,$00,$F0,$00,$FC,$00,$13,$82,$A4,$C7,$A4,$C7,$A4,$C7,$A4,$C7	;Phantron Boss
+	DB $F5,$E2,$0E,$30,$E3,$00,$00,$05,$BC,$68,$C0,$03,$A0,$05,$A0,$0F,$A0,$0F,$13,$82,$C0,$C7,$C0,$C7,$C0,$C7,$C0,$C7	;Armada Cruiser
+	DB $B4,$E4,$0E,$E7,$E4,$00,$00,$01,$00,$00,$32,$00,$28,$00,$3C,$00,$4A,$00,$13,$82,$DC,$C7,$DC,$C7,$DC,$C7,$DC,$C7	;Pod Ship
+	DB $CA,$E5,$0E,$F4,$E5,$00,$00,$02,$00,$00,$B4,$00,$88,$00,$90,$00,$0C,$01,$13,$82,$F8,$C7,$F8,$C7,$F8,$C7,$F8,$C7	;Fat Winged Ship
+	DB $E2,$E6,$0E,$F7,$E6,$00,$00,$02,$00,$00,$58,$00,$B0,$00,$78,$00,$CC,$00,$13,$82,$14,$C8,$14,$C8,$14,$C8,$14,$C8	;Phantron 2 Boss Leg Right
+	DB $6C,$E7,$0E,$81,$E7,$00,$00,$02,$00,$00,$58,$00,$B0,$00,$78,$00,$CC,$00,$13,$82,$30,$C8,$30,$C8,$30,$C8,$30,$C8	;Phantron 2 Boss Leg Left
 	DB $F6,$E7,$0E,$89,$E9,$00,$00,$02,$00,$00,$3C,$00,$50,$00,$F0,$00,$FC,$00,$13,$82,$4C,$C8,$4C,$C8,$4C,$C8,$4C,$C8
-	DB $1C,$EB,$0E,$43,$EB,$00,$00,$02,$7C,$81,$78,$00,$A0,$00,$28,$00,$AC,$00,$13,$82,$68,$C8,$68,$C8,$68,$C8,$68,$C8
-	DB $0B,$EC,$0E,$40,$EC,$00,$00,$01,$00,$00,$4A,$00,$36,$00,$DC,$00,$A0,$00,$13,$82,$84,$C8,$84,$C8,$84,$C8,$84,$C8
+	DB $1C,$EB,$0E,$43,$EB,$00,$00,$02,$7C,$81,$78,$00,$A0,$00,$28,$00,$AC,$00,$13,$82,$68,$C8,$68,$C8,$68,$C8,$68,$C8	;Small Bonus Archway
+	DB $0B,$EC,$0E,$40,$EC,$00,$00,$01,$00,$00,$4A,$00,$36,$00,$DC,$00,$A0,$00,$13,$82,$84,$C8,$84,$C8,$84,$C8,$84,$C8	;Long Cannon Tank
 	DB $95,$ED,$0E,$01,$EE,$40,$01,$05,$00,$00,$40,$05,$C0,$02,$80,$07,$C0,$08,$ED,$82,$A0,$C8,$A0,$C8,$A0,$C8,$A0,$C8
-	DB $76,$EF,$0E,$91,$EF,$00,$00,$00,$00,$00,$32,$00,$32,$00,$64,$00,$74,$00,$13,$82,$BC,$C8,$BC,$C8,$BC,$C8,$BC,$C8
-	DB $FE,$EF,$0E,$0D,$F0,$00,$00,$03,$00,$00,$D0,$02,$E0,$01,$D0,$07,$80,$08,$13,$82,$D8,$C8,$D8,$C8,$D8,$C8,$D8,$C8
-	DB $46,$F0,$0E,$91,$F0,$00,$00,$00,$00,$00,$08,$00,$0A,$00,$3C,$00,$22,$00,$13,$82,$F4,$C8,$F4,$C8,$F4,$C8,$F4,$C8
-	DB $46,$F0,$0E,$91,$F0,$00,$00,$00,$00,$00,$08,$00,$0A,$00,$3C,$00,$22,$00,$ED,$82,$10,$C9,$10,$C9,$10,$C9,$10,$C9
+	DB $76,$EF,$0E,$91,$EF,$00,$00,$00,$00,$00,$32,$00,$32,$00,$64,$00,$74,$00,$13,$82,$BC,$C8,$BC,$C8,$BC,$C8,$BC,$C8	;Beveled Tunnel
+	DB $FE,$EF,$0E,$0D,$F0,$00,$00,$03,$00,$00,$D0,$02,$E0,$01,$D0,$07,$80,$08,$13,$82,$D8,$C8,$D8,$C8,$D8,$C8,$D8,$C8	;Tunnel Piece
+	DB $46,$F0,$0E,$91,$F0,$00,$00,$00,$00,$00,$08,$00,$0A,$00,$3C,$00,$22,$00,$13,$82,$F4,$C8,$F4,$C8,$F4,$C8,$F4,$C8	;Letter D
+	DB $46,$F0,$0E,$91,$F0,$00,$00,$00,$00,$00,$08,$00,$0A,$00,$3C,$00,$22,$00,$ED,$82,$10,$C9,$10,$C9,$10,$C9,$10,$C9	;Letter D
 	DB $00,$80,$0F,$15,$80,$00,$00,$03,$E2,$6C,$A0,$00,$40,$01,$A0,$00,$88,$01,$13,$82,$2C,$C9,$2C,$C9,$2C,$C9,$2C,$C9
 	DB $00,$80,$0F,$15,$80,$00,$00,$02,$D0,$6C,$50,$00,$A0,$00,$50,$00,$C4,$00,$13,$82,$48,$C9,$48,$C9,$48,$C9,$48,$C9
 	DB $6A,$80,$0F,$7F,$80,$00,$00,$02,$F4,$6C,$50,$00,$90,$01,$50,$00,$A0,$01,$13,$82,$64,$C9,$64,$C9,$64,$C9,$64,$C9
@@ -1352,15 +1591,15 @@ ObjectHeaderTable:	;00AC15
 	DB $75,$F0,$0C,$5E,$F1,$00,$00,$03,$00,$00,$E0,$01,$80,$02,$C0,$03,$A8,$04,$13,$82,$5C,$E7,$5C,$E7,$5C,$E7,$5C,$E7	;Tunnel With Door Left
 	DB $0E,$F2,$0C,$26,$F3,$00,$00,$02,$00,$00,$48,$00,$EC,$00,$50,$00,$F0,$00,$13,$82,$78,$E7,$78,$E7,$78,$E7,$78,$E7	;Tunnel With Door Right
 	DB $D6,$F3,$0C,$B0,$F4,$00,$00,$03,$5A,$7C,$F0,$00,$40,$01,$90,$01,$28,$01,$13,$82,$94,$E7,$94,$E7,$94,$E7,$94,$E7	;Bonus Doors
-	DB $D7,$F5,$0C,$22,$F6,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$13,$82,$B0,$E7,$B0,$E7,$B0,$E7,$B0,$E7
-	DB $D7,$F5,$0C,$22,$F6,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$ED,$82,$CC,$E7,$CC,$E7,$CC,$E7,$CC,$E7
-	DB $D7,$F5,$0C,$22,$F6,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$C1,$83,$E8,$E7,$E8,$E7,$E8,$E7,$E8,$E7
-	DB $2B,$F7,$0C,$46,$F7,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$13,$82,$04,$E8,$04,$E8,$04,$E8,$04,$E8
-	DB $2B,$F7,$0C,$46,$F7,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$ED,$82,$20,$E8,$20,$E8,$20,$E8,$20,$E8
-	DB $E7,$F7,$0C,$28,$F8,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$13,$82,$3C,$E8,$3C,$E8,$3C,$E8,$3C,$E8
-	DB $E7,$F7,$0C,$28,$F8,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$ED,$82,$58,$E8,$58,$E8,$58,$E8,$58,$E8
-	DB $FD,$F8,$0C,$44,$F9,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$13,$82,$74,$E8,$74,$E8,$74,$E8,$74,$E8
-	DB $FD,$F8,$0C,$44,$F9,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$C1,$83,$90,$E8,$90,$E8,$90,$E8,$90,$E8
+	DB $D7,$F5,$0C,$22,$F6,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$13,$82,$B0,$E7,$B0,$E7,$B0,$E7,$B0,$E7	;Letter E
+	DB $D7,$F5,$0C,$22,$F6,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$ED,$82,$CC,$E7,$CC,$E7,$CC,$E7,$CC,$E7	;Letter E
+	DB $D7,$F5,$0C,$22,$F6,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$C1,$83,$E8,$E7,$E8,$E7,$E8,$E7,$E8,$E7	;Letter E
+	DB $2B,$F7,$0C,$46,$F7,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$13,$82,$04,$E8,$04,$E8,$04,$E8,$04,$E8	;Letter T
+	DB $2B,$F7,$0C,$46,$F7,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$ED,$82,$20,$E8,$20,$E8,$20,$E8,$20,$E8	;Letter T
+	DB $E7,$F7,$0C,$28,$F8,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$13,$82,$3C,$E8,$3C,$E8,$3C,$E8,$3C,$E8	;Letter N
+	DB $E7,$F7,$0C,$28,$F8,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$ED,$82,$58,$E8,$58,$E8,$58,$E8,$58,$E8	;Letter N
+	DB $FD,$F8,$0C,$44,$F9,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$13,$82,$74,$E8,$74,$E8,$74,$E8,$74,$E8	;Letter H
+	DB $FD,$F8,$0C,$44,$F9,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$C1,$83,$90,$E8,$90,$E8,$90,$E8,$90,$E8	;Letter H
 CODE_00E8AC:
 	lda #$7E
 	pha
@@ -3433,7 +3672,7 @@ CODE_00F96C:
 	rtl
 
 ;BEHAVIOR FUNCTION ID $E5
-BehE5:
+BehE5_BigBlueArchway:
 	rep #$20
 	lda #$F9C5
 	sta D,$16,x
@@ -3538,13 +3777,13 @@ BehE5_L14:
 	sta D,$22,x
 	brl BehE5_L1
 ;BEHAVIOR FUNCTION ID $E9
-BehE9:
-	rep #$20		;\Set object behavior routine pointer to $00FAA4
-	lda.w BehE9_Loop	;|
-	sta D,$16,x		;|
-	sep #$20		;|
-	lda.b (BehE9_Loop>>16)	;|
-	sta D,$18,x		;/
+BehE9_BigAsteroid:
+	rep #$20				;\Set object behavior routine pointer to $00FAA4
+	lda.w BehE9_BigAsteroid_Loop		;|
+	sta D,$16,x				;|
+	sep #$20				;|
+	lda.b (BehE9_BigAsteroid_Loop>>16)	;|
+	sta D,$18,x				;/
 	jsl CODE_1FD41A
 	lda D,$1F,x
 	ora #$20
@@ -3570,10 +3809,10 @@ BehE9:
 	sec
 	sbc #$08
 	sta D,$22,x
-BehE9_Loop:
+BehE9_BigAsteroid_Loop:
 	rtl
 ;BEHAVIOR FUNCTION ID $EA
-BehEA:
+BehEA_ShootableAsteroid:
 	rep #$20
 	lda #$459F
 	sta D,$28,x
@@ -3584,7 +3823,7 @@ BehEA:
 	sta D,$2B,x
 	jml Beh9C
 ;BEHAVIOR FUNCTION ID $ED
-BehED:
+BehED_ShootableAsteroid:
 	rep #$20
 	lda #$459B
 	sta D,$28,x

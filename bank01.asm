@@ -3044,6 +3044,7 @@ CODE_018EA1:
 	romb
 	iwt r15,#CODE_01A66B
 	nop
+CODE_018EAD:
 	alt1
 	lms r0,($001C)
 	alt3
@@ -3837,6 +3838,7 @@ CODE_01920B:
 	ldb r0
 	jmp r11
 	swap
+CODE_019263:
 	from r11
 	stw r10
 	inc r10
@@ -3963,6 +3965,523 @@ CODE_0192D0:
 	iwt r15,#CODE_0193F0
 	nop
 CODE_019318:
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	with r2
+	not
+	inc r2
+	with r1
+	not
+	inc r1
+	iwt r15,#CODE_0193F0
+	nop
+	with r3
+	not
+	inc r3
+	ibt r5,#$04
+	moves r1,r1
+	bmi CODE_01939D
+	nop
+	moves r2,r2
+	bmi CODE_019371
+	nop
+	from r1
+	sub r2
+	bcc 16
+	nop
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	with r1
+	not
+	inc r1
+	with r2
+	not
+	inc r2
+	iwt r15,#CODE_0193F0
+	nop
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	with r1
+	not
+	inc r1
+	with r2
+	not
+	inc r2
+	iwt r15,#CODE_0193F0
+	nop
+CODE_019371:
+	with r2
+	not
+	inc r2
+	from r1
+	sub r2
+	bcc CODE_019385
+	nop
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	with r1
+	not
+	inc r1
+	iwt r15,#CODE_0193F0
+	nop
+CODE_019385:
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	with r1
+	not
+	inc r1
+	iwt r15,#CODE_0193F0
+	nop
+CODE_01939D:
+	with r1
+	not
+	inc r1
+	moves r2,r2
+	bmi CODE_0193CE
+	nop
+	from r1
+	sub r2
+	bcc CODE_0193B6
+	nop
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	with r2
+	not
+	inc r2
+	iwt r15,#CODE_0193F0
+	nop
+CODE_0193B6:
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	with r2
+	not
+	inc r2
+	iwt r15,#CODE_0193F0
+	nop
+CODE_0193CE:
+	with r2
+	not
+	inc r2
+	from r1
+	sub r2
+	bcc CODE_0193DF
+	nop
+	link #4
+	iwt r15,#CODE_01942F
+	nop
+	iwt r15,#CODE_0193F0
+	nop
+CODE_0193DF:
+	move r0,r1
+	move r1,r2
+	move r2,r0
+	link #4
+	iwt r15,#CODE_0142F
+	nop
+	move r0,r1
+	move r1,r2
+	move r2,r0
+CODE_0193F0:
+	cache
+	alt1
+	lms r0,($0034)
+	with r1
+	add r0
+	alt1
+	lms r0,($0036)
+	with r2
+	add r0
+	alt1
+	lms r0,($0038)
+	sub r1
+	bge CODE_01940A
+	nop
+	alt1
+	lms r0,($003A)
+	sub r1
+	bge CODE_01940B
+	nop
+	inc r5
+CODE_01940A:
+	inc r5
+CODE_01940B:
+	with r5
+	alt2
+	mult #$04
+	alt1
+	lms r0,($003C)
+	sub r2
+	bge CODE_01941D
+	nop
+	alt1
+	lms r0,($003E)
+	sub r2
+	bge CODE_01941E
+	inc r5
+CODE_01941D:
+	inc r5
+CODE_01941E:
+	ibt r0,#$1F
+	alt1
+	xor r5
+	swap
+	or r5
+	dec r10				;\Pop r15 (pc) from stack and return
+	dec r10				;|
+	to r15				;|
+	ldw r10				;|
+	nop				;/
+	move r0,r1
+	move r1,r2
+	move r2,r0
+CODE_01942F:
+	from r11
+	stw r10
+	inc r10
+	inc r10
+	from r1
+	lob
+	to r4
+	swap
+	from r1
+	hib
+	alt3
+	cmp r3
+	bcs CODE_019473
+	nop
+	move r6,r3
+	link #4
+	iwt r15,#CODE_019493
+	nop
+	iwt r0,#$3FFF
+	sub r4
+	bcc CODE_019462
+	nop
+	move r4,r1
+	from r2
+	lob
+	to r4
+	swap
+	from r2
+	hib
+	move r6,r3
+	link #4
+	iwt r15,#CODE_019493
+	nop
+	with r4
+	to r2
+	dec r10				;\Pop r15 (pc) from stack and return
+	dec r10				;|
+	to r15				;|
+	ldw r10				;|
+	nop				;/
+CODE_019462:
+	move r1,r4
+	from r2
+	lob
+	to r4
+	swap
+	from r2
+	hib
+	move r6,r3
+	link #4
+	iwt r15,#CODE_019493
+	nop
+	move r2,r4
+CODE_019473:
+	ibt r4,#$00
+	from r2
+	lsr
+	with r4
+	ror
+	lsr
+	with r4
+	ror
+	with r4
+	sub r2
+	ibt r6,#$00
+	alt1
+	sbc r6
+	move r6,r1
+	link #4
+	iwt r15,#CODE_019493
+	nop
+	move r2,r4
+	iwt r1,#$3FFF
+	dec r10				;\Pop r15 (pc) from stack and return
+	dec r10				;|
+	to r15				;|
+	ldw r10				;|
+	nop				;/
+CODE_019493:
+	moves r0,r0
+	bmi CODE_01949D
+	nop
+	moves r6,r6
+	bpl CODE_0194A2
+CODE_01949D:
+	with r6
+	lsr
+	lsr
+	with r4
+	ror
+CODE_0194A2:
+	ibt r12,#$10
+	with r4
+	add r4
+	rol
+	move r13,r15
+	sub r6
+	bcc CODE_0194B3
+	nop
+	with r4
+	rol
+	loop
+	rol
+	jmp r11
+	lsr
+CODE_0194B3:
+	add r6
+	with r4
+	add r4
+	loop
+	rol
+	jmp r11
+	lsr
+CODE_0194BA:
+	from r11
+	stw r10
+	inc r10
+	inc r10
+	alt2
+	sms ($0040),r0
+	sub r0
+	alt2
+	sms ($0138),r0
+CODE_0194C5:
+	ldw r7
+	inc r7
+	inc r7
+	alt1
+	lms r9,($0026)
+	to r1
+	add r9
+	ldw r7
+	inc r7
+	inc r7
+	alt1
+	lms r9,($0028)
+	to r2
+	add r9
+	ldw r7
+	inc r7
+	inc r7
+	alt1
+	lms r9,($002A)
+	to r3
+	add r9
+	link #4
+	iwt r15,#CODE_019263
+	nop
+	from r1
+	stw r8
+	inc r8
+	inc r8
+	from r2
+	stw r8
+	inc r8
+	inc r8
+	stw r8
+	inc r8
+	inc r8
+	alt1
+	lms r3,($0138)
+	or r3
+	sbk
+	alt1
+	lms r0,($0040)
+	dec r0
+	bne CODE_0194C5
+	sbk
+	dec r10				;\Pop r15 (pc) from stack and return
+	dec r10				;|
+	to r15				;|
+	ldw r10				;|
+	nop				;/
+CODE_0194FE:
+	inc r9
+	inc r9
+	to r1
+	ldw r9
+	inc r9
+	inc r9
+	to r2
+	ldw r9
+	inc r9
+	inc r9
+	to r3
+	ldw r9
+	from r1
+	stw r9
+	with r9
+	alt2
+	sub #$04
+	from r3
+	stw r9
+	with r9
+	alt2
+	add #$08
+	to r1
+	ldw r9
+	inc r9
+	inc r9
+	to r3
+	ldw r9
+	from r2
+	stw r9
+	inc r9
+	inc r9
+	to r2
+	ldw r9
+	from r1
+	stw r9
+	with r9
+	alt2
+	sub #$04
+	from r2
+	stw r9
+	with r9
+	alt2
+	sub #$06
+	from r3
+	stw r9
+	jmp r11
+	nop
+CODE_01952E:
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+CODE_01A752:
+	from r7
+	to r1
+	hib
+	from r9
+	hib
+	to r12
+	sub r1
+	bmi CODE_01A75E
+	inc r12
+	loop
+	plot
+CODE_01A75E:
+	with r7
+	add r8
+	bpl CODE_01A76C
+	dec r11
+	iwt r0,#$0800
+	add r7
+	bmi CODE_01A76C
+	nop
+	ibt r7,#$00
+CODE_01A76C:
+	with r9
+	add r10
+	bpl CODE_01A77A
+	dec r3
+	iwt r0,#$0800
+	add r9
+	bmi CODE_01A77A
+	nop
+	ibt r9,#$00
+CODE_01A77A:
+	from r11
+	and r3
+	bne CODE_01A752
+	inc r2
+	iwt r15,#CODE_01A6D2
+	nop
+	iwt r15,#CODE_018EAD
+	nop
+	jmp r11
+	nop
+	alt2
+	sms ($019E),r11
+	sub r0
+	alt2
+	ramb
+	alt1
+	cmode
+	ibt r0,#$14
+	alt3
+	romb
+	alt1
+	lms r7,($0062)
+	alt1
+	lms r8,($002C)
+	alt1
+	lms r9,($002E)
+	alt1
+	lms r1,($0142)
+	alt1
+	lms r2,($0144)
+	alt1
+	lms r3,($0146)
+	alt1
+	lms r11,($0152)
+	iwt r0,#$000F
+	alt2
+	sms ($014E),r0
+	cache
+	alt1
+	lms r10,($0150)
+	with r9
+	sub r3
+	iwt r12,#$000F
+	move r13,r15
+	with r9
+	add r3
+	bpl 59
 	
 	
 	

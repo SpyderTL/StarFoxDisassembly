@@ -32,7 +32,7 @@ DoReset:		;1FBDB1
 	lda #$00
 	sta $1FDF
 	bra DoResetPart2
-DoSoftReset:		;1FBDEE
+CODE_1FBDEE:		;1FBDEE
 	rep #$30
 	clc			;\Disable emulation mode
 	xce			;/
@@ -1167,8 +1167,8 @@ CopyCodeToRam_L2:					;|
 CopiedCodeA:
 	BASE $7E0101
 CopiedCodeABase:
-	jml DoSoftReset
-	jml DoSoftReset
+	jml CODE_1FBDEE
+	jml CODE_1FBDEE
 	brl NMI_L2
 	;This is where the NMI vector points (the IRQ points into a misaligned JML instruction)
 NMI:

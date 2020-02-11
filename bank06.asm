@@ -1,5 +1,21 @@
-
-
+CODE_068000:
+	lda #$7E
+	pha
+	plb
+CODE_068004:
+	rep #$20
+	stz $18C5
+	stz $18C7
+	stz $18C9
+	stz $1956
+	lda #$0000
+	sta $70019A
+	sep #$20
+	stz $14D0
+	lda #$08
+	sta $14D1
+	stz $14D3
+	stz $14D2
 
 
 

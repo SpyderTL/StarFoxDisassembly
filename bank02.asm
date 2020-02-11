@@ -1841,7 +1841,7 @@ RunSuperFXRoutine_L1:
 	plb
 	rtl
 CODE_7E4F0C:
-	jml DoSoftReset
+	jml CODE_1FBDEE
 RenderSuperFXObjects:
 	rep #$30
 	lda $14C3
@@ -2147,7 +2147,30 @@ CODE_7E513C:
 	and #$00FF
 CODE_7E513F:
 	sta D,$02
-	
+	lda D,$F6
+	and #$0F
+	beq CODE_7E5155
+	sty D,$F8
+	tay
+	lda D,$02
+CODE_7E514D:
+	asl
+	dey
+	bne CODE_7E514D
+	ldy D,$F8
+	bra CODE_7E5157
+CODE_7E5155:
+	lda D,$02
+CODE_7E5157:
+	clc
+	adc D,$10,x
+	sta D,$6E
+	lda $0003,y
+	clc
+	adc D,$0C,x
+	sta D,$6C
+	jmp CODE_7E5276
+CODE_7E5167:
 	
 	
 	

@@ -23,6 +23,7 @@ struct ObjectList $0336
 	.RotX: skip 1		;12
 	.RotY: skip 1		;13
 	.RotZ: skip 1		;14
+	.Unk15: skip 1
 	.BehFunc: skip 3	;16
 	.Unk19: skip 2
 	.Unk1B: skip 2

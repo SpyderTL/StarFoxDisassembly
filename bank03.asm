@@ -1577,7 +1577,7 @@ LevelScriptCommandJumpTable:
 	DW LevelCommand00_LoadObject16BehNum
 	DW LevelCommand02
 	DW LevelCommand04_LoopSection
-	DW LevelCommand06_Reset
+	DW LevelCommand06
 	DW LevelCommand08_Nop
 	DW LevelCommand0A_RandomGroupBeh16
 	DW LevelCommand0C
@@ -1937,7 +1937,7 @@ CODE_03F022:
 	sta D,$17,x
 	bra CODE_03F04A
 CODE_03F046:
-	jml DoSoftReset
+	jml CODE_1FBDEE
 CODE_03F04A:
 	sep #$20
 	stz $1F05
