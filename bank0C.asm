@@ -78,7 +78,7 @@
 	INCBIN "graphics/models/parrot.mdl"
 	INCBIN "graphics/models/unknown_0CDFE1.mdl"
 	INCBIN "graphics/models/highpolyarwing.mdl"
-	INCBIN "graphics/models/unknown_0CE2DB.mdl"
+	INCBIN "graphics/models/lavaerupto.mdl"
 	INCBIN "graphics/models/slotmachine.mdl"
 	INCBIN "graphics/models/slotmachinearm.mdl"
 	INCBIN "graphics/models/trainingring.mdl"

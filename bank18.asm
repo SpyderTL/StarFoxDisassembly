@@ -6,23 +6,23 @@
 	BASE $0400
 SPC700Start:
 	clrp
-	mov x,#$CF
-	mov sp,x
+	mov x,#$CF			;\Reset stack
+	mov sp,x			;/
 	mov a,#$00
-	mov x,a
-SPC700ClearZeroPage:
-	mov (x)+,a
-	cmp x,#$E0
-	bne SPC700ClearZeroPage
-	mov x,#$00
-SPC700ClearPage2:
-	mov $0200+x,a
-	inc x
-	bne SPC700ClearPage2
-SPC700ClearPage3:
-	mov $0300+x,a
-	inc x
-	bne SPC700ClearPage3
+	mov x,a				;\Clear zero page ($00-$DF)
+SPC700ClearZeroPage:			;|
+	mov (x)+,a			;|
+	cmp x,#$E0			;|
+	bne SPC700ClearZeroPage		;/
+	mov x,#$00			;\Clear page 2 ($0200-$02FF)
+SPC700ClearPage2:			;|
+	mov $0200+x,a			;|
+	inc x				;|
+	bne SPC700ClearPage2		;/
+SPC700ClearPage3:			;\Clear page 3 ($0300-$03FF)
+	mov $0300+x,a			;|
+	inc x				;|
+	bne SPC700ClearPage3		;/
 	inc a
 	call SPC700_0B14
 	set5 $48
@@ -409,4 +409,19 @@ SPC700_067B:
 	
 	
 	;Waves
-	
+	INCBIN "audio/waves/unk18A92A.brr"
+	INCBIN "audio/waves/mechanical.brr"
+	INCBIN "audio/waves/mechanical2.brr"
+	INCBIN "audio/waves/unk18B6CE.brr"
+	INCBIN "audio/waves/laser.brr"
+	INCBIN "audio/waves/bomb.brr"
+	INCBIN "audio/waves/laser2.brr"
+	INCBIN "audio/waves/crash.brr"
+	INCBIN "audio/waves/hit.brr"
+	INCBIN "audio/waves/noise3.brr"
+	INCBIN "audio/waves/noise2.brr"
+	INCBIN "audio/waves/mechanical3.brr"
+	INCBIN "audio/waves/narr_incomingenemy.brr"
+	INCBIN "audio/waves/narr_wing.brr"
+	INCBIN "audio/waves/narr_damaged.brr"
+	INCBIN "audio/waves/narr_twinblaster.brr":$0000-$00F2

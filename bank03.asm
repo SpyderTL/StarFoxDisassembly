@@ -226,29 +226,295 @@
 	DW $3FE4,$3F86,$3F82,$3F31	;Frame data
 	DB $04		;Number of frames
 	DW $3FE0,$3F70,$3F20,$3FF0	;Frame data
-	
+	;EXPLOSION?
 	DW $4639,$8524,$4639,$463A
-	DW $4639,$463A,$4018,$4018
-	DW $8814,$8825,$880F,$8837
-	DW $8840,$8851,$87F5,$8806
-	DW $87E4,$401B,$401F,$87DF
-	
-	
-	;USED FOR FLASHING RING AND EXPLOSIONS
-	DW $875C,$874B
-	
-	;USED FOR THE ANDROSS SQUARE/CUBE/ELONGATED BIPYRAMID MODEL
+	DW $4639,$463A
+	;WEIRD ASTEROID SPRITE
+	DW $4018,$4018
+	;WEAK EXPLOSION
+	DW $8814
+	;SPARKS
+	DW $8825
+	;FLASHING RED/BLUE SHOT
+	DW $880F
+	;SLIGHTLY WEAK EXPLOSION
+	DW $8837
+	;MEDIUM EXPLOSION
+	DW $8840
+	;FULL EXPLOSION
+	DW $8851
+	;FLASHING BLUE
+	DW $87F5
+	;FLASHING YELLOW
+	DW $8806
+	;FLASHING WHITE
+	DW $87E4
+	;SMALL GRAY ASTEROID
+	DW $401B
+	;SMALL GRAY ASTEROID WITH FACE
+	DW $401F
+	;FLASHING RED/YELLOW
+	DW $87DF
+	;SPLASH
+	DW $88BF,$882E
+	;EGG
+	DW $40AA
+	;ROCKET LIZARD
+	DW $40DF,$40DF
+	;NOVA BOMB
+	DW $877B
+	;SPARKS
+	DW $8772
+	;SPIKE BALL
+	DW $40A9
+	;REVERSE EXPLOSION
+	DW $875C
+	;FLASHING RED/BLUE RING
+	DW $874B
+	;METAL BALL
+	DW $4000
+	;AMOEBA
+	DW $8719
+	;ASTEROID OR LAVA BUBBLE?
+	DW $8710
+	;BLACK HOLE
+	DW $46D0,$46D0
+	;FLASHING RED/BLUE OVAL SHOT
+	DW $890F
+	;WHITE FLASH
+	DW $85B8
+	;USED FOR "GAME OVER" SPRITE
+	DW $44D4,$45D4,$44D5,$45D5
+	;LAVA ERUPTION
+	DW $40B4,$8578,$4007
+	;Referenced by the material list above
+	DB $02
+	DW $463B,$463C
+	;BIG ASTEROID
+	DW $46D3
+	;SMALL ORANGE ASTEROID
+	DW $4003
+	;WHITE SHOT?
+	DW $4005
+	;FLASHING METAL BALL
+	DW $8707
+	;USED FOR ANDROSS ELONGATED BIPYRAMID MODEL
+	DW $46A6,$8589
+	;Referenced by the material list above
+	DB $04
+	DW $0000,$0707,$0606
+	;USED FOR ANDROSS SQUARE/CUBE MODEL
 	DW $46A6,$46A6
+	;USED FOR ANDROSS BOSS SQUARE AND ORIGAMI
+	DW $85BF,$85E8,$8611,$863A
+	DW $8663,$868C,$86B5,$86DE
+	;SLOT MACHINE WHEELS
+	DW $42D2
 	;Unknown animated material
 	DB $04
 	DW $400C,$400D,$400E,$400E
-	;USED FOR THE BLACK HOLE BILLBOARD SPRITE
+	;USED FOR BLACK HOLE BILLBOARD SPRITE
 	DW $46D0,$41D0
-	
-	
+	;Flashing white/blue animation
+	DB $02
+	DW $3FEE,$3F77
+	;White flash animation
+	DB $02
+	DW $40CB,$4013
+	;WHITE SHOT?
+	DW $4005
+	;Animation data for Andross boss square/origami
+	DB $20
+	DW $3FDD,$3FDD,$3FED,$3FED
+	DW $3FED,$3FED,$3FED,$3FEE
+	DW $3FEE,$3FEE,$3FEE,$3FEE
+	DW $3FEE,$3FEE,$3FEE,$3FEE
+	DW $3FEE,$3FEE,$3FEE,$3FEE
+	DB $20
+	DW $3FDD,$3FDD,$3FDD,$3FDD
+	DW $3FDD,$3FDD,$3FDD,$3FDD
+	DW $3FDD,$3FDD,$3FDD,$3FDD
+	DW $3FDD,$3FDD,$3FDD,$3FDD
+	DW $3FDD,$3FDD,$3FDD,$3FDD
+	DB $20
+	DW $3FDD,$3FDD,$3FDD,$3FDC
+	DW $3FDC,$3FDD,$3FDC,$3FCC
+	DW $3FCC,$3FCC,$3FCC,$3FCC
+	DW $3FCC,$3FCC,$3FCC,$3FCC
+	DW $3FCC,$3FCC,$3FCC,$3FCC
+	DB $20
+	DW $3FDD,$3FDC,$3FDC,$3FCC
+	DW $3FCC,$3FCB,$3FCB,$3FBB
+	DW $3FBB,$3FBB,$3FBB,$3FBB
+	DW $3FBB,$3FBB,$3FBB,$3FBB
+	DW $3FBB,$3FBB,$3FBB,$3FBB
+	DB $20
+	DW $3FDD,$3FDC,$3FDC,$3FCC
+	DW $3FCB,$3FBB,$3FBB,$3FBA
+	DW $3FBA,$3FAA,$3FAA,$3FAA
+	DW $3FAA,$3FAA,$3FAA,$3FAA
+	DW $3FAA,$3FAA,$3FAA,$3FAA
+	DB $20
+	DW $3FDD,$3FDC,$3FCC,$3FCB
+	DW $3FBB,$3FBA,$3FAA,$3FA9
+	DW $3FA9,$3F99,$3F99,$3F99
+	DW $3F99,$3F99,$3F99,$3F99
+	DW $3F99,$3F99,$3F99,$3F99
+	DB $20
+	DW $3F88,$3F77,$3F66,$3F55
+	DW $3F88,$3F77,$3F66,$3F55
+	DW $3F88,$3F77,$3F55,$3F88
+	DW $3F99,$3F99,$3F55,$3F88
+	DW $3F99,$3F99,$3F22,$3F22
+	DB $20
+	DW $3F88,$3F77,$3F66,$3F55
+	DW $3F88,$3F77,$3F66,$3F55
+	DW $3F88,$3F77,$3F55,$3F88
+	DW $3F55,$3F88,$3F99,$3F99
+	DW $3F99,$3F22,$3F99,$3F22
+	;Animation data for flashing metal ball
+	DB $04
+	DW $40A7,$40AB,$40DC,$40AB
+	;Animation data for asteroid or lava bubble?
+	DB $04
+	DW $4015,$4016,$4017,$4016
+	;Animation data for amoeba
+	DB $04
+	DW $40CC,$40CD,$40CC,$40CE
+	;Animation data for flashing red/blue rings
+	DB $04
+	DW $401E,$401D,$401D,$401D
+	DB $04
+	DW $401D,$401E,$401D,$401D
+	DB $04
+	DW $401D,$401D,$401E,$401D
+	DB $04
+	DW $401D,$401D,$401D,$401E
+	DB $02
+	DW $401E,$401D
+	DB $08
+	DW $401D,$401E,$401D,$401E
+	DW $401D,$401E,$401D,$401E
+	;Animation data for reverse explosion
+	DB $08
+	DW $463D,$463C,$463B,$463B
+	DW $463A,$463A,$4639,$4639
+	;Animation data for flashing red/yellow
+	DB $02
+	DW $3F11,$3F33
+	;Animation data for sparks
+	DB $04
+	DW $400A,$400B,$400F,$400B
+	;Animation data for nova bomb
+	DB $08
+	DW $4019,$401A,$401C,$4019
+	DW $401A,$401C,$4019,$401A
+	;Animation data for flashing red/blue
+	DB $10
+	DW $3F88,$3F77,$3F66,$3F55
+	DW $3F44,$3F44,$3F33,$3F33
+	DW $3F22,$3F22,$3F11,$3F11
+	DW $3F11,$3F22,$3F33,$3F44
+	;Animation data for flashing red/yellow
+	DB $08
+	DW $3F44,$3F33,$3F22,$3F11,$3E00
+	DB $08
+	DW $3F44,$3F33,$3F22,$3F11,$3E06
+	;Animation data for flashing red/blue
+	DB $08
+	DW $3F88,$3F77,$3F66,$3F55
+	DW $3F44,$3F33,$3F22,$3F11
+	;Animation data for flashing blue
+	DB $08
+	DW $3F88,$3F77,$3F66,$3F55,$3E1D
+	;Animation data for flashing red/yellow
+	DB $02
+	DW $3F44,$3F11
+	;Animation data for flashing white
+	DB $08
+	DW $3FEE,$3FDD,$3FCC,$3FBB
+	DW $3FAA,$3F99,$3F99,$3F99
+	;Animation data for flashing white/blue
+	DB $08
+	DW $3FEE,$3F88,$3FEE,$3F77
+	DW $3FEE,$3F88,$3FEE,$3F66
+	;Animation data for flashing white/yellow
+	DB $04
+	DW $3FEE,$3F33,$3FEE,$3F44
+	;Animation data for flashing red/blue shot
+	DB $02
+	DW $4010,$4011
+	;Animation data for weak explosion
+	DB $08
+	DW $4639,$4008,$40C1,$40C2
+	DW $40C3,$40C4,$40C5,$40C6
+	;Animation data for sparks
+	DB $04
+	DW $400A,$400B,$400F,$400B
+	;Unknown animation data
+	DB $04
+	DW $400C,$400D,$400E,$400D
+	;Animation data for slightly weak explosion
+	DB $04
+	DW $4639,$463A,$4008,$4009
+	;Animation data for medium explosion
+	DB $08
+	DW $4639,$463A,$463B,$463E
+	DW $463F,$4640,$4640,$4640
+	;Animation data for full explosion
+	DB $08
+	DW $4639,$463A,$463B,$463C
+	DW $463D,$463E,$463F,$4640
+	;Animation data for flashing blue/white/yellow/red
+	DB $08
+	DW $3F66,$3F66,$3FEE,$3FEE
+	DW $3F33,$3F33,$3F11,$3F11
+	;A MATERIAL TABLE
+	;Flat colors
+	DW $3F00,$3F11,$3F22,$3F33
+	DW $3F44,$3F55,$3F66,$3F77
+	DW $3F88,$3F99,$3FAA,$3FBB
+	DW $3FCC,$3FDD,$3FEE,$3FFF
+	;Other materials
+	DW $8862,$40A8,$40A8
+	;ANOTHER MATERIAL TABLE
+	;Flat colors
+	DW $3F00,$3F11,$3F22,$3F33
+	DW $3F44,$3F55,$3F66,$3F77
+	DW $3F88,$3FAA,$3FBB,$3FCC
+	DW $3FDD,$3FEE,$3FEE,$3FFF
+	;Other materials
+	DW $8862,$40A8,$40A8
+	;Animation data for splash
+	DB $08
+	DW $40A0,$40A1,$40A2,$40A3
+	DW $40A4,$40A4,$40A5,$40A5
+	;YELLOW/WHITE FLASH
+	DW $88D2
+	;Animation data for yellow/white flash
+	DB $02
+	DW $4012,$4013
+	;Animation data for flashing white
+	DB $08
+	DW $3FEE,$3FDD,$3FCC,$3FBB
+	DW $3FAA,$3FA9,$3F99,$3F99
+	;Animation data for flashing red
+	DB $08
+	DW $3F22,$3F22,$3F21,$3F21
+	DW $3F11,$3F11,$3F11,$3F11
+	;Animation data for flashing white
+	DB $08
+	DW $3FDD,$3FCC,$3FBB,$3FAA
+	DW $3FA9,$3F99,$3F99,$3F99
+	;Animation data for flashing red/black
+	DB $02
+	DW $3F19,$3F22
+	;Animation data for flashing red/blue oval shot
+	DB $04
+	DW $40C7,$40C9,$40C8,$40C9
 	;The following table is used to translate the low byte of a textured material into a pointer
 	;for the upper left corner of the texture to be used (the high byte is used for the size/mirroring).
-TexCoordOffsTable:	;038918
+TexCoordOffsTable:
 	DL $128000,$128020,$128040,$128060
 	DL $128080,$1280A0,$1280C0,$1280E0
 	DL $12A000,$12A020,$12A040,$12A060
@@ -302,7 +568,7 @@ DATA_038A3E:
 	;Base color palette, three varieties.
 	;The first one is more blue-tinted, the second one is more red-tinted,
 	;and the third one is more green-tinted.
-BaseColorTable:	;038ACA
+BaseColorTable:
 	DW $0000,$0451,$153A,$22BD
 	DW $377F,$5445,$6D2B,$7E8F
 	DW $7FB6,$0CA3,$2588,$424E
@@ -317,8 +583,8 @@ BaseColorTable:	;038ACA
 	DW $4B5F,$6D40,$7E2C,$7F6D
 	DW $7FF5,$24C3,$3989,$4E05
 	DW $62D3,$7778,$7FFD,$0220
-	;This table to rows of lit colors in b03p6GSUCol_LitColorTable
-LitColorPointerTable:	;038B2A
+	;This table points to rows of lit colors in LitColorTable
+LitColorPointerTable:
 	DW $8E0A,$8E14,$8E1E,$8E28
 	DW $8E32,$8E3C,$8E46,$8E50
 	DW $8E5A,$8E64,$8E64,$8E64
@@ -336,7 +602,7 @@ LitColorPointerTable:	;038B2A
 	DW $8F86,$8F90,$8F90,$8F90
 	;Dithered 4bpp format (same as the $3E material type).
 	;The exact set of colors used is determined programmatically.
-FlatColorTable:	;038B8A
+FlatColorTable:
 	DB $99,$9A,$AA,$AB,$BB,$BC,$CC,$CD
 	DB $DD,$DE,$EE,$11,$12,$22,$23,$33
 	DB $34,$44,$55,$56,$66,$67,$77,$78
@@ -424,7 +690,7 @@ FlatColorTable:	;038B8A
 	;Dithered 4bpp format (same as the $3E material type).
 	;These are used by the lit/shaded materials.
 	;The exact set of colors used is determined programmatically.
-LitColorTable:	;038E0A
+LitColorTable:
 	DB $AB,$AB,$BB,$BB,$BC,$CC,$CD,$DD,$DE,$EE
 	DB $9A,$9A,$AA,$AA,$AB,$BB,$BC,$CC,$CD,$DD
 	DB $19,$1A,$11,$12,$22,$23,$33,$34,$44,$EE
@@ -1518,7 +1784,7 @@ DATA_03D66C:
 	DB $FF,$FF,$FE,$FD,$FC,$FA,$F8,$F6
 	DB $F4,$F2,$F0,$EE,$EC,$EA,$E7,$E4
 	DB $E1,$06,$00,$80
-b03ps9LevHeader_LevelTable:	;03D6A0
+LevelHeaderTable:
 	;Level 2
 	DB $00,$E6,$00,$03,$04,$14,$00,$8C,$5C,$0D,$58,$01,$04,$4E,$00,$F8,$FF,$FF
 	DB $02,$04,$00,$03,$04,$0E,$03,$72,$5E,$0D,$59,$01,$04,$4E,$00,$F8,$04,$4E,$00,$F8,$02,$0E,$08,$F8,$FF,$FF
@@ -1553,6 +1819,10 @@ b03ps9LevHeader_LevelTable:	;03D6A0
 	DB $00,$03,$00,$00,$0F,$A5,$55,$0D,$5C,$00,$FF,$FF
 	;Out of this Dimension
 	DB $00,$03,$00,$00,$0E,$0B,$48,$0D,$73,$00,$FF,$FF
+	
+	
+	
+	
 
 RunLevelScript:			;03EDA1
 	php
@@ -2636,11 +2906,1122 @@ LevelCommand64:
 	phx
 	lda $16DF
 	tax
-	
-	
-	
-	
-	
-	
-	
-	
+	lda.l DATA_03AC42,x
+	sta D,$02
+	lda.l DATA_03AC42+1,x
+	ora D,$02
+	beq LevelCommand64_L1
+	plx
+	stx LevelScriptPointer
+	rts
+LevelCommand64_L1:
+	plx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand62:
+	tyx
+	lda $8001,x
+	and #$00FF
+	sta $16E1
+	lda $8002,x
+	sta $16DF
+	sta $1741
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand10_SetupLevelBGMusicEtc:
+	tyx
+	phx
+	rep #$20
+	lda $8001,x
+	jsl CODE_03F550
+	plx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+CODE_03F550:
+	sta $1741
+	lda $1F13
+	ora #$0004
+	sta $1F13
+	rtl
+CODE_03F55D:
+	rep #$20
+	ldx $1741
+CODE_03F562:
+	lda.l DATA_03AC42,x
+	sta D,$02
+	lda.l DATA_03AC42+1,x
+	sta D,$04
+	ora D,$02
+	beq CODE_03F590
+	phx
+	sep #$20
+	lda.b #((CODE_03F588-1)>>16)
+	pha
+	rep #$20
+	lda.w #(CODE_03F588-1)
+	pha
+	sep #$20
+	lda D,$02
+	pha
+	ldx D,$04
+	dex
+	phx
+	rtl
+CODE_03F588:
+	rep #$20
+	plx
+	inx
+	inx
+	inx
+	bra CODE_03F562
+CODE_03F590:
+	rtl
+LevelCommand0E_ShowStageNum:
+	tyx
+	lda #$0032
+	sta $15B9
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand70_LoadObject8BehNum:
+	tyx
+	lda $8001,x
+	and #$00FF
+	asl
+	asl
+	asl
+	asl
+	sta ZTimer
+	phx
+	ldx $121D
+	txy
+	ldx $121F
+	bne LevelCommand70_LoadObject8BehNum_L1
+	tyx
+	jmp LevelCommand70_LoadObject8BehNum_L12
+LevelCommand70_LoadObject8BehNum_L1:
+	lda D,$00,x
+	sta $121F
+	tya
+	bne LevelCommand70_LoadObject8BehNum_L2
+	lda $121D
+	sta D,$00,x
+	stz D,$02,x
+	stx $121D
+	bra LevelCommand70_LoadObject8BehNum_L3
+LevelCommand70_LoadObject8BehNum_L2:
+	lda $0000,y
+	sta D,$00,x
+	stx D,$00,y
+	sty D,$02,x
+LevelCommand70_LoadObject8BehNum_L3:
+	ldy D,$00,x
+	beq LevelCommand70_LoadObject8BehNum_L4
+	stx D,$0002,y
+LevelCommand70_LoadObject8BehNum_L4:
+	txy
+	plx
+	sep #$20
+	jsl ClearObject
+	rep #$20
+	lda $8002,x
+	bit #$0080
+	beq LevelCommand70_LoadObject8BehNum_L5
+	ora #$FF00
+	bra LevelCommand70_LoadObject8BehNum_L6
+LevelCommand70_LoadObject8BehNum_L5:
+	and #$00FF
+LevelCommand70_LoadObject8BehNum_L6:
+	asl
+	asl
+	sta $000C,y
+	lda $8003,x
+	bit #$0080
+	beq LevelCommand70_LoadObject8BehNum_L7
+	ora #$FF00
+	bra LevelCommand70_LoadObject8BehNum_L8
+LevelCommand70_LoadObject8BehNum_L7:
+	and #$00FF
+LevelCommand70_LoadObject8BehNum_L8:
+	asl
+	asl
+	sta $000E,y
+	lda $8004,x
+	and #$00FF
+	asl
+	asl
+	asl
+	asl
+	phy
+	ldy $1238
+	clc
+	adc $0010,y
+	ply
+	sta $0010,y
+	lda $8000,x
+	and #$00FF
+	cmp #$0076
+	bne LevelCommand70_LoadObject8BehNum_L9
+	lda $8005,x
+	phx
+	and #$00FF
+	asl
+	asl
+	tax
+	lda BehaviorFunctionTable,x
+	sta $0016,y
+	sep #$20
+	lda BehaviorFunctionTable+2,x
+	sta $0018,y
+	lda BehaviorFunctionTable+3,x
+	rep #$20
+	and #$00FF
+	asl
+	tax
+	lda ModelIDTable,x
+	sta $0004,y
+	plx
+	bra LevelCommand70_LoadObject8BehNum_L10
+LevelCommand70_LoadObject8BehNum_L9:
+	lda $8005,x
+	phx
+	and #$00FF
+	asl
+	tax
+	lda ModelIDTable,x
+	sta $0004,y
+	plx
+	lda $8006,x
+	phx
+	and #$00FF
+	asl
+	asl
+	tax
+	lda BehaviorFunctionTable,x
+	sta $0016,y
+	sep #$20
+	lda BehaviorFunctionTable+2,x
+	sta $0018,y
+	plx
+LevelCommand70_LoadObject8BehNum_L10:
+	rep #$20
+	sty $16F7
+	jsr CODE_03F6B3
+	lda ZTimer
+	bne LevelCommand70_LoadObject8BehNum_L11
+	jmp RunLevelScriptCommands
+LevelCommand70_LoadObject8BehNum_L11:
+	stx LevelScriptPointer
+	rts
+LevelCommand70_LoadObject8BehNum_L12:
+	rep #$20
+	ldx #$0000
+	stx $16F7
+	plx
+	jsr CODE_03F6B3
+	lda $16FB
+	bne LevelCommand70_LoadObject8BehNum_L11
+	jmp RunLevelScriptCommands
+CODE_03F6B3:
+	lda $8000,x
+	and #$00FF
+	cmp #$0076
+	beq CODE_03F6C5
+	txa
+	clc
+	adc #$0007
+	tax
+	rts
+CODE_03F6C5:
+	txa
+	clc
+	adc #$0006
+	tax
+	rts
+LevelCommand72:
+	tyx
+	lda $8001,x
+	and #$00FF
+	asl
+	asl
+	sta ZTimer
+	phx
+	ldx $121D
+	txy
+	ldx $121F
+	bne LevelCommand72_L1
+	tyx
+	jmp LevelCommand72_L12
+LevelCommand72_L1:
+	lda D,$00,x
+	sta $121F
+	tya
+	bne LevelCommand72_L2
+	lda $121D
+	sta D,$00,x
+	stz D,$02,x
+	stx $121D
+	bra LevelCommand72_L3
+LevelCommand72_L2:
+	lda $0000,y
+	sta D,$00,x
+	stx D,$00,y
+	sty D,$02,x
+LevelCommand72_L3:
+	ldy D,$00,x
+	beq LevelCommand72_L4
+	stx D,$02,y
+LevelCommand72_L4:
+	txy
+	plx
+	sep #$20
+	jsl ClearObject
+	rep #$20
+	lda $8002,x
+	bit #$0080
+	beq LevelCommand72_L5
+	ora #$FF00
+	bra LevelCommand72_L6
+LevelCommand72_L5:
+	and #$00FF
+LevelCommand72_L6:
+	asl
+	asl
+	sta $000C,y
+	lda $8003,x
+	bit #$0080
+	beq LevelCommand72_L7
+	ora #$FF00
+	bra LevelCommand72_L8
+LevelCommand72_L7:
+	and #$00FF
+LevelCommand72_L8:
+	asl
+	asl
+	sta $000E,y
+	lda $8004,x
+	bit #$0080
+	beq LevelCommand72_L9
+	ora #$FF00
+	bra LevelCommand72_L10
+LevelCommand72_L9:
+	and #$00FF
+LevelCommand72_L10:
+	asl
+	asl
+	asl
+	asl
+	phy
+	ldy $1238
+	clc
+	adc $0010,y
+	ply
+	sta $0010,y
+	lda $8005,x
+	sta $0004,y
+	lda $8006,x
+	sta $0016,y
+	sep #$20
+	lda $8008,x
+	sta $0018,y
+	rep #$20
+	sty $16F7
+	txa
+	clc
+	adc #$0007
+	tax
+	lda ZTimer
+	bne LevelCommand72_L11
+	jmp RunLevelScriptCommands
+LevelCommand72_L11:
+	stx LevelScriptPointer
+	rts
+LevelCommand72_L12:
+	rep #$20
+	stz $16F7
+	pla
+	clc
+	adc #$0007
+	tax
+	lda ZTimer
+	bne LevelCommand72_L11
+	jmp RunLevelScriptCommands
+LevelCommand00_LoadObject16BehNum:
+	tyx
+	lda $8001,x
+	sta ZTimer
+	phx
+	ldx $121D
+	txy
+	ldx $121F
+	bne LevelCommand00_LoadObject16BehNum_L1
+	tyx
+	jmp LevelCommand00_LoadObject16BehNum_L6
+LevelCommand00_LoadObject16BehNum_L1:
+	lda D,$00,x
+	sta $121F
+	tya
+	bne LevelCommand00_LoadObject16BehNum_L2
+	lda $121D
+	sta D,$00,x
+	stz D,$02,x
+	bra LevelCommand00_LoadObject16BehNum_L3
+LevelCommand00_LoadObject16BehNum_L2:
+	lda $0000,y
+	sta D,$00,x
+	stx D,$00,y
+	sty D,$02,x
+LevelCommand00_LoadObject16BehNum_L3:
+	ldy D,$00,x
+	beq LevelCommand00_LoadObject16BehNum_L4
+	stx D,$00,y
+LevelCommand00_LoadObject16BehNum_L4:
+	txy
+	plx
+	sep #$20
+	jsl ClearObject
+	rep #$20
+	lda $8003,x
+	sta $000C,y
+	lda $8005,x
+	sta $000E,y
+	phy
+	ldy $1238
+	lda $0010,y
+	ply
+	clc
+	adc $8007,x
+	sta $0010,y
+	lda $8009,x
+	phx
+	and #$00FF
+	asl
+	tax
+	lda ModelIDTable,x
+	sta $0004,x
+	plx
+	lda $8009,x
+	phx
+	and #$00FF
+	asl
+	asl
+	tax
+	lda BehaviorFunctionTable,x
+	sta $0016,y
+	sep #$20
+	lda BehaviorFunctionTable+2,x
+	sta $0018,y
+	plx
+	sty $16F7
+	rep #$20
+	txa
+	clc
+	adc #$000B
+	tax
+	lda ZTimer
+	bne LevelCommand00_LoadObject16BehNum_L5
+	jmp RunLevelScriptCommands
+LevelCommand00_LoadObject16BehNum_L5:
+	stx LevelScriptPointer
+	rts
+LevelCommand00_LoadObject16BehNum_L6:
+	rep #$20
+	stz $16F7
+	pla
+	clc
+	adc #$000B
+	tax
+	lda ZTimer
+	bne LevelCommand00_LoadObject16BehNum_L5
+	jmp RunLevelScriptCommands
+LevelCommand74_LoadMacroObj16:
+	tyx
+	lda $8001,x
+	sta ZTimer
+	phx
+	ldx $121D
+	txy
+	ldx $121F
+	bne LevelCommand74_LoadMacroObj16_L1
+	tyx
+	jmp LevelCommand74_LoadMacroObj16_L6
+LevelCommand74_LoadMacroObj16_L1:
+	lda D,$00,x
+	sta $121F
+	tya
+	bne LevelCommand74_LoadMacroObj16_L2
+	lda $121D
+	sta D,$00,x
+	stz D,$02,x
+	stx $121D
+	bra LevelCommand74_LoadMacroObj16_L3
+LevelCommand74_LoadMacroObj16_L2:
+	lda $0000,y
+	sta D,$00,x
+	stx D,$00,y
+	sty D,$02,x
+LevelCommand74_LoadMacroObj16_L3:
+	ldy D,$00,x
+	beq LevelCommand74_LoadMacroObj16_L4
+	stx D,$02,y
+LevelCommand74_LoadMacroObj16_L4:
+	txy
+	plx
+	sep #$20
+	jsl ClearObject
+	rep #$20
+	lda $8003,x
+	sta $000C,y
+	lda $8005,x
+	sta $000E,y
+	phy
+	ldy $1238
+	lda $0010,y
+	ply
+	clc
+	adc $8007,x
+	sta $0010,y
+	lda $8009,x
+	phx
+	and #$00FF
+	asl
+	tax
+	lda ModelIDTable,x
+	sta $0004,y
+	plx
+	lda $8009,x
+	phx
+	and #$00FF
+	asl
+	asl
+	tax
+	lda BehaviorFunctionTable,x
+	sta $0016,y
+	sep #$20
+	lda BehaviorFunctionTable+2,x
+	sta $0018,y
+	plx
+	lda $800B,x
+	sta $0015,y
+	sty $16F7
+	rep #$20
+	txa
+	clc
+	adc #$000C
+	tax
+	lda ZTimer
+	bne LevelCommand74_LoadMacroObj16_L5
+	jmp RunLevelScriptCommands
+LevelCommand74_LoadMacroObj16_L5:
+	stx LevelScriptPointer
+	rts
+LevelCommand74_LoadMacroObj16_L6:
+	rep #$20
+	stz $16F7
+	pla
+	clc
+	adc #$000C
+	tax
+	lda ZTimer
+	bne LevelCommand74_LoadMacroObj16_L5
+	jmp RunLevelScriptCommands
+LevelCommand02_Stop:
+	tyx
+	stx LevelScriptPointer
+	rts
+LevelCommand04_LoopSection:
+	tya
+	ldx #$0000
+LevelCommand04_LoopSection_L1:
+	cmp $174B,x
+	beq LevelCommand04_LoopSection_L2
+	inx
+	inx
+	cpx #$08
+	bne LevelCommand04_LoopSection_L1
+	ldx $1753
+	sta $174B,x
+	lda $8003,y
+	sta $1743,x
+	inc $1753
+	inc $1753
+	lda $8001,y
+	tax
+	jmp RunLevelScriptCommands
+LevelCommand04_LoopSection_L2:
+	lda $1743,x
+	dec
+	beq LevelCommand04_LoopSection_L3
+	sta $1743,x
+	tyx
+	lda $8001,x
+	tax
+	jmp RunLevelScriptCommands
+LevelCommand04_LoopSection_L3:
+	stz $174B,x
+	stz $1743,x
+	dec $1753
+	dec $1753
+	tyx
+	inx
+	inx
+	inx
+	inx
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand06:
+	jml CODE_1FBDEE
+LevelCommand08_Nop:
+	inx
+	jmp RunLevelScriptCommands
+LevelCommand86_LoadObject16BehAddr:
+	tyx
+	lda $8001,x
+	sta ZTimer
+	phx
+	ldx $121D
+	txy
+	ldx $121F
+	bne LevelCommand86_LoadObject16BehAddr_L1
+	tyx
+	jmp LevelCommand86_LoadObject16BehAddr_L7
+LevelCommand86_LoadObject16BehAddr_L1:
+	lda D,$00,x
+	sta $121F
+	tya
+	bne LevelCommand86_LoadObject16BehAddr_L2
+	lda $121D
+	sta D,$00,x
+	stz D,$02,x
+	stx $121D
+	bra LevelCommand86_LoadObject16BehAddr_L3
+LevelCommand86_LoadObject16BehAddr_L2:
+	lda $0000,y
+	sta D,$00,x
+	stx D,$00,y
+	sty D,$02,x
+LevelCommand86_LoadObject16BehAddr_L3:
+	ldy D,$00,x
+	beq LevelCommand86_LoadObject16BehAddr_L4
+	stx D,$02,y
+LevelCommand86_LoadObject16BehAddr_L4:
+	txy
+	sty
+	plx
+	sep #$20
+	jsl ClearObject
+	rep #$20
+	lda $8003,x
+	sta $000C,y
+	lda $8005,x
+	sta $000E,y
+	phy
+	ldy $1238
+	lda $0010,y
+	ply
+	clc
+	adc $8007,x
+	sta $0010,y
+	lda $8009,x
+	sta $0004,y
+	lda $800B,x
+	sta $0016,y
+	lda $800C,x
+	sta $0017,y
+	rep #$20
+	txa
+	clc
+	adc #$000E
+	tax
+LevelCommand86_LoadObject16BehAddr_L5:
+	lda ZTimer
+	bne LevelCommand86_LoadObject16BehAddr_L6
+	jmp RunLevelScriptCommands
+LevelCommand86_LoadObject16BehAddr_L6:
+	stx LevelScriptPointer
+	rts
+LevelCommand86_LoadObject16BehAddr_L7:
+	rep #$20
+	stz $16F7
+	pla
+	clc
+	adc #$000E
+	tax
+	bra LevelCommand86_LoadObject16BehAddr_L5
+LevelCommand0A_RandomGroupBeh16:
+	tyx
+	lda $8001,x
+	sta ZTimer
+	phx
+	ldx $121D
+	txy
+	ldx $121F
+	bne LevelCommand0A_RandomGroupBeh16_L1
+	tyx
+	jmp LevelCommand0A_RandomGroupBeh16_L7
+LevelCommand0A_RandomGroupBeh16_L1:
+	lda D,$00,x
+	sta $121F
+	tya
+	bne LevelCommand0A_RandomGroupBeh16_L2
+	lda $121D
+	sta D,$00,x
+	stz D,$02,x
+	stx $121D
+	bra LevelCommand0A_RandomGroupBeh16_L3
+LevelCommand0A_RandomGroupBeh16_L2:
+	lda $0000,y
+	sta D,$00,x
+	stx D,$00,y
+	sty D,$02,x
+LevelCommand0A_RandomGroupBeh16_L3:
+	ldy D,$00,x
+	beq LevelCommand0A_RandomGroupBeh16_L4
+	stx D,$0002,y
+LevelCommand0A_RandomGroupBeh16_L4:
+	txy
+	sty $16F7
+	plx
+	sep #$20
+	jsl ClearObject
+	rep #$20
+	lda $8003,x
+	sta $000C,y
+	lda $8005,x
+	sta $000E,y
+	phy
+	ldy $1238
+	lda $0010,y
+	ply
+	clc
+	adc $8007,x
+	sta $0010,y
+	lda $8009,x
+	sta $0004,y
+	lda $800B,x
+	sta $0016,y
+	lda $800C,x
+	sta $8017,y
+	lda $800E,x
+	sta $0006,y
+	lda #$0008
+	sta $0009,y
+	rep #$20
+	txa
+	clc
+	adc #$0010
+	tax
+LevelCommand0A_RandomGroupBeh16_L5:
+	lda ZTimer
+	bne LevelCommand0A_RandomGroupBeh16_L6
+	jmp RunLevelScriptCommands
+LevelCommand0A_RandomGroupBeh16_L6:
+	stx LevelScriptPointer
+	rts
+LevelCommand0A_RandomGroupBeh16_L7:
+	rep #$20
+	stz $16F7
+	pla
+	clc
+	adc #$0010
+	tax
+	bra LevelCommand0A_RandomGroupBeh16_L5
+LevelCommand0C:
+	ldx $121D
+	beq LevelCommand0C_L2
+LevelCommand0C_L1:
+	lda D,$00,x
+	tax
+	beq LevelCommand0C_L2
+	lda $8003,y
+	cmp D,$04,x
+	bne LevelCommand0C_L1
+	phy
+	jsl CODE_1FBFDC
+	ply
+LevelCommand0C_L2:
+	tya
+	clc
+	adc #$0005
+	tax
+	jmp RunLevelScriptCommands
+LevelCommand12_SetZTimer16:
+	tyx
+	inx
+	inx
+	inx
+	lda $7FFE,x
+	beq LevelCommand12_SetZTimer16_L1
+	sta ZTimer
+	stx LevelScriptPointer
+	rts
+LevelCommand12_SetZTimer16_L1:
+	jmp RunLevelScriptCommands
+CODE_03FB7C:
+	php
+	rep #$20
+CODE_03FB7F:
+	lda D,$26,x
+	bmi CODE_03FB85
+	bne CODE_03FBB2
+CODE_03FB85:
+	phx
+	lda D,$06,x
+	txy
+	tax
+	pea #STACKIFY(CODE_03FBAF)
+	lda.l $058001,x
+	sta $0026,y
+	lda.l $058000,x
+	and #$00FF
+	tax
+	jmp (DATA_03FB9F,x)
+DATA_03FB9F:
+	DW CODE_03FBBA,CODE_03FD1B,CODE_03FD4C,CODE_03FD55
+	DW CODE_03FC87,CODE_03FC7C,CODE_03FCF4,CODE_03FC93
+CODE_03FBAF:
+	plx
+	bra CODE_03FB7F
+CODE_03FBB2:
+	sec
+	sbc $1701
+	sta D,$26,x
+	plp
+	rtl
+CODE_03FBBA:
+	lda $0006,y
+	tax
+	phy
+	lda $000C,y
+	sta D,$02
+	lda $000E,y
+	sta D,$08
+	lda $0010,y
+	sta D,$90
+	phx
+	ldx $121D
+	txy
+	ldx $121F
+	bne CODE_03FBDC
+	tyx
+	jmp CODE_03FC70
+CODE_03FBDC:
+	lda D,$00,x
+	sta $121F
+	tya
+	bne CODE_03FBF0
+	lda $121D
+	sta D,$00,x
+	stz D,$02,x
+	stx $121D
+	bra CODE_03FBF9
+CODE_03FBF0:
+	lda $0000,y
+	sta D,$00,x
+	stx D,$00,y
+	sty D,$02,x
+CODE_03FBF9:
+	ldy D,$00,x
+	beq CODE_03FBFF
+	stx D,$02,y
+CODE_03FBFF:
+	txy
+	plx
+	sep #$20
+	jsl ClearObject
+	rep #$20
+	lda D,$02
+	clc
+	adc.l $058003,x
+	sta $000C,y
+	lda D,$08
+	clc
+	adc.l $058005,x
+	sta $000E,y
+	lda D,$90
+	clc
+	adc.l $058007,x
+	sta $0010,y
+	lda.l $058009,x
+	sta $0004,y
+	lda.l $05800B,x
+	sta $0016,y
+	lda.l $05800C,x
+	sta $0017,y
+	phx
+	tyx
+	lda #$0000
+	sta $7E1CD3,x
+	sta $7E1CD0,x
+	plx
+	sep #$20
+	lda #$00
+	sta $0008,y
+	sta $001D,y
+	sta $0012,y
+	sta $0013,y
+	sta $0014,y
+	lda #$08
+	sta $0009,y
+	rep #$20
+	txa
+	clc
+	adc #$000E
+	tax
+	ply
+	txa
+	sta $0006,y
+	rts
+CODE_03FC70:
+	rep #$20
+	pla
+	ply
+	clc
+	adc #$000E
+	sta $0006,y
+	rts
+CODE_03FC7C:
+	lda $0006,y
+	clc
+	adc #$0003
+	sta $0006,y
+	rts
+CODE_03FC87:
+	lda $0006,y
+	tax
+	lda.l $058003,x
+	sta $0006,y
+	rts
+CODE_03FC93:
+	lda $0006,y
+	tax
+	phy
+	lda.l $058007,x
+	and #$00FF
+	cmp #$0000
+	beq CODE_03FCCB
+	cmp #$0001
+	beq CODE_03FCD6
+	cmp #$0002
+	beq CODE_03FCC0
+	cmp #$0003
+	beq CODE_03FCB5
+	bra CODE_03FCEA
+CODE_03FCB5:
+	lda $1755
+	cmp.l $058003,x
+	bcs CODE_03FCE1
+	bra CODE_03FCEA
+CODE_03FCC0:
+	lda $1755
+	cmp.l $058003,x
+	bcc CODE_03FCE1
+	bra CODE_03FCEA
+CODE_03FCCB:
+	lda $1755
+	cmp.l $058003,x
+	beq CODE_03FCE1
+	bra CODE_03FCEA
+CODE_03FCD6:
+	lda $1755
+	cmp.l $058003,x
+	bne CODE_03FCE1
+	bra CODE_03FCEA
+CODE_03FCE1:
+	ply
+	txa
+	clc
+	adc #$008
+	sta $0006,y
+	rts
+CODE_03FCF4:
+	lda $0006,y
+	tax
+	phy
+	phx
+	stz $1755
+	lda.l $058003,x
+	ldx $121D
+CODE_03FD04:
+	cmp D,$04,x
+	bne CODE_03FD0B
+	inc $1755
+CODE_03FD0B:
+	ldy D,$00,x
+	tyx
+	bne CODE_03FD04
+	plx
+	ply
+	txa
+	clc
+	adc #$0005
+	sta $0006,y
+	rts
+CODE_03FD1B:
+	lda $0006,y
+	tax
+	sep #$20
+	lda.l $058005,x
+	sta D,$02
+	lda $0024,y
+	inc
+	cmp D,$02
+	bmi CODE_03FD3F
+	lda #$00
+	sta $0024,y
+	rep #$20
+	txa
+	clc
+	adc #$0006
+	sta $0006,y
+	rts
+CODE_03FD3F:
+	sta $0024,y
+	rep #$20
+	lda.l $058003,x
+	sta $0006,y
+	rts
+CODE_03FD4C:
+	tyx
+	jsl CODE_1FD501
+	plx
+	plx
+	plp
+	rtl
+CODE_03FD55:
+	lda $0006,y
+	tax
+	phy
+	phx
+	sep #$20
+	jsl CODE_02FC58
+	sta D,$04
+	jsl CODE_02FC58
+	sta D,$05
+	jsl CODE_02FC58
+	sta D,$0A
+	jsl CODE_02FC58
+	sta D,$0B
+	jsl CODE_02FC58
+	sta $15C2
+	jsl CODE_02FC58
+	sta $15C3
+	rep #$20
+	lda.l $058003,x
+	beq CODE_03FD98
+	lsr
+	sta D,$02
+	lda.l $058003,x
+	dec
+	and D,$04
+	sec
+	sbc D,$02
+CODE_03FD98:
+	clc
+	adc $000C,y
+	sta D,$02
+	lda.l $058005,x
+	beq CODE_03FDB1
+	lsr
+	sta D,$08
+	lda.l $058005,x
+	dec
+	and D,$0A
+	sec
+	sbc D,$08
+CODE_03FDB1:
+	clc
+	adc $000E,y
+	sta D,$08
+	lda.l $058007,x
+	beq CODE_03FDCB
+	lsr
+	sta D,$90
+	lda.l $058007,x
+	dec
+	and $15C2
+	sec
+	sbc D,$90
+CODE_03FDCB:
+	clc
+	adc $0010,y
+	sta D,$90
+	ldx $121D
+	txy
+	ldx $121F
+	bne CODE_03FDDE
+	tyx
+	jmp CODE_03FE63
+CODE_03FDDE:
+	lda D,$00,x
+	sta $121F
+	tya
+	bne CODE_03FDF2
+	lda $121D
+	sta D,$00,x
+	stz D,$02,x
+	stx $121D
+	bra CODE_03FDFB
+CODE_03FDF2:
+	lda $0000,y
+	sta D,$00,x
+	stx D,$00,y
+	sty D,$02,x
+CODE_03FDFB:
+	ldy D,$00,x
+	beq CODE_03FE01
+	stx D,$02,y
+CODE_03FE01:
+	txy
+	plx
+	sep #$20
+	jsl ClearObject
+	rep #$20
+	lda D,$02
+	sta $000C,y
+	lda D,$08
+	sta $000E,y
+	lda D,$90
+	sta $0010,y
+	lda.l $058009,x
+	sta $0004,y
+	lda.l $05800B,x
+	sta $0016,y
+	lda.l $05800C,x
+	sta $0017,y
+	phx
+	tyx
+	lda #$0000
+	sta $7E1CD3,x
+	sta $7E1CD0,x
+	plx
+	sep #$20
+	lda #$0000
+	sta $0008,y
+	sta $001D,y
+	sta $0012,y
+	sta $0013,y
+	sta $0014,y
+	lda #$08
+	sta $0009,y
+	rep #$20
+	txa
+	clc
+	adc #$000E
+	tax
+	ply
+	txa
+	sta $0006,y
+	rts
+CODE_03FE63:
+	rep #$20
+	pla
+	ply
+	clc
+	adc #$000E
+	sta $0006,y
+	rts

@@ -2,6 +2,7 @@ CODE_048000:
 	lda #$7E
 	pha
 	plb
+
 ;BEHAVIOR FUNCTION ID $F2
 BehF2:
 	lda #$0A
@@ -231,6 +232,7 @@ Beh9C_E4_F2_LoopJumpTable:
 	DB $04,$95,$85,$00
 	DB $04,$92,$84,$00
 	DB $04,$86,$A0,$00
+
 CODE_048318:
 	lda #$00
 	sta D,$24,x

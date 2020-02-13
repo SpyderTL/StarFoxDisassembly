@@ -781,252 +781,252 @@ ModelIDTable:
         DW $DCC0
 ;Behavior function pointer table for level commands 00/70/74/etc.
 BehaviorFunctionTable:
-	BehFuncPtr(Beh00,$00)
-	BehFuncPtr(Beh01,$00)
-	BehFuncPtr(Beh02,$00)
-	BehFuncPtr(Beh03,$00)
-	BehFuncPtr(Beh04,$01)
-	BehFuncPtr(Beh05,$01)
-	BehFuncPtr(Beh06,$01)
-	BehFuncPtr(Beh07,$01)
-	BehFuncPtr(Beh08,$00)
-	BehFuncPtr(Beh09,$00)
-	BehFuncPtr(Beh0A,$00)
-	BehFuncPtr(Beh0B,$00)
-	BehFuncPtr(Beh0C,$00)
-	BehFuncPtr(Beh0D,$25)
-	BehFuncPtr(Beh0E,$25)
-	BehFuncPtr(Beh0F,$02)
-	BehFuncPtr(Beh10,$02)
-	BehFuncPtr(Beh11,$02)
-	BehFuncPtr(Beh12,$02)
-	BehFuncPtr(Beh13,$02)
-	BehFuncPtr(Beh14,$02)
-	BehFuncPtr(Beh15,$02)
-	BehFuncPtr(Beh16,$02)
-	BehFuncPtr(Beh17,$02)
-	BehFuncPtr(Beh18,$02)
-	BehFuncPtr(Beh19,$02)
-	BehFuncPtr(Beh1A,$02)
-	BehFuncPtr(Beh1B,$02)
-	BehFuncPtr(Beh1C,$02)
-	BehFuncPtr(Beh1D,$02)
-	BehFuncPtr(Beh1E,$02)
-	BehFuncPtr(Beh1F,$02)
-	BehFuncPtr(Beh20,$02)
-	BehFuncPtr(Beh21,$02)
-	BehFuncPtr(Beh22,$02)
-	BehFuncPtr(Beh23,$02)
-	BehFuncPtr(Beh24,$02)
-	BehFuncPtr(Beh25,$02)
-	BehFuncPtr(Beh26,$02)
-	BehFuncPtr(Beh27,$02)
-	BehFuncPtr(Beh28,$02)
-	BehFuncPtr(Beh29,$02)
-	BehFuncPtr(Beh2A,$02)
-	BehFuncPtr(Beh2B,$02)
-	BehFuncPtr(Beh2C,$02)
-	BehFuncPtr(Beh2D,$00)
-	BehFuncPtr(Beh2E,$35)
-	BehFuncPtr(Beh2F,$03)
-	BehFuncPtr(Beh30_Turret,$04)
-	BehFuncPtr(Beh31,$05)
-	BehFuncPtr(Beh32,$06)
-	BehFuncPtr(Beh33,$0D)
-	BehFuncPtr(Beh34_MidLevelRing,$07)
-	BehFuncPtr(Beh35,$08)
-	BehFuncPtr(Beh36,$09)
-	BehFuncPtr(Beh37,$0B)
-	BehFuncPtr(Beh38,$0A)
-	BehFuncPtr(Beh39,$0B)
-	BehFuncPtr(Beh3A,$0B)
-	BehFuncPtr(Beh3B_EnemyShip,$0C)
-	BehFuncPtr(Beh3C,$0E)
-	BehFuncPtr(Beh3D,$0E)
-	BehFuncPtr(Beh3E_CloakingEnemy,$0F)
-	BehFuncPtr(Beh3F_CloakingEnemy,$0F)
-	BehFuncPtr(Beh40_Bee,$10)
-	BehFuncPtr(Beh41,$35)
-	BehFuncPtr(Beh42_FourArmedEnemy,$11)
-	BehFuncPtr(Beh43_HexMissileHead,$12)
-	BehFuncPtr(Beh44_RockCrusher,$13)
-	BehFuncPtr(Beh45_ArmadaBattleshipEntry,$14)
-	BehFuncPtr(Beh46_ArmadaBattleshipEntry,$15)
-	BehFuncPtr(Beh47,$16)
-	BehFuncPtr(Beh48,$17)
-	BehFuncPtr(Beh49,$1B)
-	BehFuncPtr(Beh4A,$18)
-	BehFuncPtr(Beh4B,$19)
-	BehFuncPtr(Beh4C,$19)
-	BehFuncPtr(Beh4D,$1A)
-	BehFuncPtr(Beh4E,$1B)
-	BehFuncPtr(Beh4F_FlyingFish,$00)
-	BehFuncPtr(Beh50,$1F)
-	BehFuncPtr(Beh51_AtomicCoreBossTaser,$2B)
-	BehFuncPtr(Beh52,$00)
-	BehFuncPtr(Beh53,$2E)
-	BehFuncPtr(Beh54,$39)
-	BehFuncPtr(Beh55,$2C)
-	BehFuncPtr(Beh56,$2D)
-	BehFuncPtr(Beh57,$2F)
-	BehFuncPtr(Beh58,$30)
-	BehFuncPtr(Beh59_ExtraCredit,$00)
-	BehFuncPtr(Beh5A,$31)
-	BehFuncPtr(Beh5B_AntennaDish,$32)
-	BehFuncPtr(Beh5C_AntennaBase,$33)
-	BehFuncPtr(Beh5D,$34)
-	BehFuncPtr(Beh5E,$35)
-	BehFuncPtr(Beh5F,$35)
-	BehFuncPtr(Beh60,$36)
-	BehFuncPtr(Beh61,$36)
-	BehFuncPtr(Beh62,$37)
-	BehFuncPtr(Beh63,$09)
-	BehFuncPtr(Beh64_Pylon,$3A)
-	BehFuncPtr(Beh65,$00)
-	BehFuncPtr(Beh66,$00)
-	BehFuncPtr(Beh67,$00)
-	BehFuncPtr(Beh68,$00)
-	BehFuncPtr(Beh69,$00)
-	BehFuncPtr(Beh6A,$3B)
-	BehFuncPtr(Beh6B,$45)
-	BehFuncPtr(Beh6C,$02)
-	BehFuncPtr(Beh6D,$02)
-	BehFuncPtr(Beh6E,$47)
-	BehFuncPtr(Beh6F,$46)
-	BehFuncPtr(Beh70,$00)
-	BehFuncPtr(Beh71,$02)
-	BehFuncPtr(Beh72,$4C)
-	BehFuncPtr(Beh73,$51)
-	BehFuncPtr(Beh74,$4D)
-	BehFuncPtr(Beh75,$4C)
-	BehFuncPtr(Beh76_Motorist,$4F)
-	BehFuncPtr(Beh77_GalacticRiderBoss,$4E)
-	BehFuncPtr(Beh78,$50)
-	BehFuncPtr(Beh79,$52)
-	BehFuncPtr(Beh7A,$54)
-	BehFuncPtr(Beh7B,$00)
-	BehFuncPtr(Beh7C,$55)
-	BehFuncPtr(Beh7D,$5E)
-	BehFuncPtr(Beh7E,$00)
-	BehFuncPtr(Beh7F,$00)
-	BehFuncPtr(Beh80,$68)
-	BehFuncPtr(Beh81,$69)
-	BehFuncPtr(Beh82_BigCargoShip,$6A)
-	BehFuncPtr(Beh83_BigCargoShip,$6A)
-	BehFuncPtr(Beh84,$6E)
-	BehFuncPtr(Beh85,$6F)
-	BehFuncPtr(Beh86,$70)
-	BehFuncPtr(Beh87,$71)
-	BehFuncPtr(Beh88,$00)
-	BehFuncPtr(Beh89,$73)
-	BehFuncPtr(Beh8A_UFO,$72)
-	BehFuncPtr(Beh8B,$75)
-	BehFuncPtr(Beh8C,$76)
-	BehFuncPtr(Beh8D,$75)
-	BehFuncPtr(Beh8E,$77)
-	BehFuncPtr(Beh8F_ProfessorHangerBoss,$78)
-	BehFuncPtr(Beh90,$79)
-	BehFuncPtr(Beh91,$79)
-	BehFuncPtr(Beh92,$79)
-	BehFuncPtr(Beh93,$79)
-	BehFuncPtr(Beh94,$7A)
-	BehFuncPtr(Beh95,$7A)
-	BehFuncPtr(Beh96,$7B)
-	BehFuncPtr(Beh97,$02)
-	BehFuncPtr(Beh98,$7F)
-	BehFuncPtr(Beh99,$7F)
-	BehFuncPtr(Beh9A,$81)
-	BehFuncPtr(Beh9B,$80)
-	BehFuncPtr(Beh9C,$00)
-	BehFuncPtr(Beh9D,$83)
-	BehFuncPtr(Beh9E,$83)
-	BehFuncPtr(Beh9F,$84)
-	BehFuncPtr(BehA0,$85)
-	BehFuncPtr(BehA1,$86)
-	BehFuncPtr(BehA2,$80)
-	BehFuncPtr(BehA3,$56)
-	BehFuncPtr(BehA4,$87)
-	BehFuncPtr(BehA5_BeamStatic,$91)
-	BehFuncPtr(BehA6_BeamRotating,$91)
-	BehFuncPtr(BehA7,$91)
-	BehFuncPtr(BehA8,$91)
-	BehFuncPtr(BehA9,$98)
-	BehFuncPtr(BehAA,$99)
-	BehFuncPtr(BehAB,$9A)
-	BehFuncPtr(BehAC,$9D)
-	BehFuncPtr(BehAD,$91)
-	BehFuncPtr(BehAE_NovaBombItem,$9E)
-	BehFuncPtr(BehAF_ShieldItem,$9F)
-	BehFuncPtr(BehB0_TwinBlasterItem,$A0)
-	BehFuncPtr(BehB1,$A2)
-	BehFuncPtr(BehB2,$A1)
-	BehFuncPtr(BehB3,$A4)
-	BehFuncPtr(BehB4,$00)
-	BehFuncPtr(BehB5,$00)
-	BehFuncPtr(BehB6,$00)
-	BehFuncPtr(BehB7,$A7)
-	BehFuncPtr(BehB8,$A7)
-	BehFuncPtr(BehB9,$A7)
-	BehFuncPtr(BehBA,$A7)
-	BehFuncPtr(BehBB,$A8)
-	BehFuncPtr(BehBC,$A8)
-	BehFuncPtr(BehBD,$1B)
-	BehFuncPtr(BehBE,$00)
-	BehFuncPtr(BehBF_Volcano,$BE)
-	BehFuncPtr(BehC0,$00)
-	BehFuncPtr(BehC1_Volcano,$BF)
-	BehFuncPtr(BehC2,$C0)
-	BehFuncPtr(BehC3,$C2)
-	BehFuncPtr(BehC4,$C8)
-	BehFuncPtr(BehC5,$00)
-	BehFuncPtr(BehC6,$C4)
-	BehFuncPtr(BehC7,$C4)
-	BehFuncPtr(BehC8,$C4)
-	BehFuncPtr(BehC9,$C4)
-	BehFuncPtr(BehCA,$C4)
-	BehFuncPtr(BehCB,$D0)
-	BehFuncPtr(BehCC,$D0)
-	BehFuncPtr(BehCD,$00)
-	BehFuncPtr(BehCE,$D1)
-	BehFuncPtr(BehCF,$D2)
-	BehFuncPtr(BehD0,$D3)
-	BehFuncPtr(BehD1,$00)
-	BehFuncPtr(BehD2,$D5)
-	BehFuncPtr(BehD3,$D6)
-	BehFuncPtr(BehD4,$D7)
-	BehFuncPtr(BehD5,$D8)
-	BehFuncPtr(BehD6,$D8)
-	BehFuncPtr(BehD7,$DF)
-	BehFuncPtr(BehD8,$D7)
-	BehFuncPtr(BehD9,$D6)
-	BehFuncPtr(BehDA,$E0)
-	BehFuncPtr(BehDB,$00)
-	BehFuncPtr(BehDC,$00)
-	BehFuncPtr(BehDD,$E1)
-	BehFuncPtr(BehDE,$00)
-	BehFuncPtr(BehDF,$E1)
-	BehFuncPtr(BehE0,$E2)
-	BehFuncPtr(BehE1_BonusArchway,$00)
-	BehFuncPtr(BehE2_UFO,$72)
-	BehFuncPtr(BehE3,$E3)
-	BehFuncPtr(BehE4,$00)
-	BehFuncPtr(BehE5_BigBlueArchway,$E8)
-	BehFuncPtr(BehE6,$00)
-	BehFuncPtr(BehE7,$EB)
-	BehFuncPtr(BehE8,$EC)
-	BehFuncPtr(BehE9_BigAsteroid,$ED)
-	BehFuncPtr(BehEA_ShootableAsteroid,$C2)
-	BehFuncPtr(BehEB,$00)
-	BehFuncPtr(BehEC,$17)
-	BehFuncPtr(BehED_ShootableAsteroid,$C2)
-	BehFuncPtr(BehEE,$02)
-	BehFuncPtr(BehEF,$37)
-	BehFuncPtr(BehF0,$00)
-	BehFuncPtr(BehF1_TitleHighPolyArwing,$E1)
-	BehFuncPtr(BehF2_UseNextCommand,$00)
-	BehFuncPtr(BehF3,$07)
-	BehFuncPtr(BehF4,$07)
-	BehFuncPtr(BehF5,$07)
+	BEHFUNCPTR(Beh00,$00)
+	BEHFUNCPTR(Beh01,$00)
+	BEHFUNCPTR(Beh02,$00)
+	BEHFUNCPTR(Beh03,$00)
+	BEHFUNCPTR(Beh04,$01)
+	BEHFUNCPTR(Beh05,$01)
+	BEHFUNCPTR(Beh06,$01)
+	BEHFUNCPTR(Beh07,$01)
+	BEHFUNCPTR(Beh08,$00)
+	BEHFUNCPTR(Beh09,$00)
+	BEHFUNCPTR(Beh0A,$00)
+	BEHFUNCPTR(Beh0B,$00)
+	BEHFUNCPTR(Beh0C,$00)
+	BEHFUNCPTR(Beh0D,$25)
+	BEHFUNCPTR(Beh0E,$25)
+	BEHFUNCPTR(Beh0F,$02)
+	BEHFUNCPTR(Beh10,$02)
+	BEHFUNCPTR(Beh11,$02)
+	BEHFUNCPTR(Beh12,$02)
+	BEHFUNCPTR(Beh13,$02)
+	BEHFUNCPTR(Beh14,$02)
+	BEHFUNCPTR(Beh15,$02)
+	BEHFUNCPTR(Beh16,$02)
+	BEHFUNCPTR(Beh17,$02)
+	BEHFUNCPTR(Beh18,$02)
+	BEHFUNCPTR(Beh19,$02)
+	BEHFUNCPTR(Beh1A,$02)
+	BEHFUNCPTR(Beh1B,$02)
+	BEHFUNCPTR(Beh1C,$02)
+	BEHFUNCPTR(Beh1D,$02)
+	BEHFUNCPTR(Beh1E,$02)
+	BEHFUNCPTR(Beh1F,$02)
+	BEHFUNCPTR(Beh20,$02)
+	BEHFUNCPTR(Beh21,$02)
+	BEHFUNCPTR(Beh22,$02)
+	BEHFUNCPTR(Beh23,$02)
+	BEHFUNCPTR(Beh24,$02)
+	BEHFUNCPTR(Beh25,$02)
+	BEHFUNCPTR(Beh26,$02)
+	BEHFUNCPTR(Beh27,$02)
+	BEHFUNCPTR(Beh28,$02)
+	BEHFUNCPTR(Beh29,$02)
+	BEHFUNCPTR(Beh2A,$02)
+	BEHFUNCPTR(Beh2B,$02)
+	BEHFUNCPTR(Beh2C,$02)
+	BEHFUNCPTR(Beh2D,$00)
+	BEHFUNCPTR(Beh2E,$35)
+	BEHFUNCPTR(Beh2F,$03)
+	BEHFUNCPTR(Beh30_Turret,$04)
+	BEHFUNCPTR(Beh31,$05)
+	BEHFUNCPTR(Beh32,$06)
+	BEHFUNCPTR(Beh33,$0D)
+	BEHFUNCPTR(Beh34_MidLevelRing,$07)
+	BEHFUNCPTR(Beh35,$08)
+	BEHFUNCPTR(Beh36,$09)
+	BEHFUNCPTR(Beh37,$0B)
+	BEHFUNCPTR(Beh38,$0A)
+	BEHFUNCPTR(Beh39,$0B)
+	BEHFUNCPTR(Beh3A,$0B)
+	BEHFUNCPTR(Beh3B_EnemyShip,$0C)
+	BEHFUNCPTR(Beh3C,$0E)
+	BEHFUNCPTR(Beh3D,$0E)
+	BEHFUNCPTR(Beh3E_CloakingEnemy,$0F)
+	BEHFUNCPTR(Beh3F_CloakingEnemy,$0F)
+	BEHFUNCPTR(Beh40_Bee,$10)
+	BEHFUNCPTR(Beh41,$35)
+	BEHFUNCPTR(Beh42_FourArmedEnemy,$11)
+	BEHFUNCPTR(Beh43_HexMissileHead,$12)
+	BEHFUNCPTR(Beh44_RockCrusher,$13)
+	BEHFUNCPTR(Beh45_ArmadaBattleshipEntry,$14)
+	BEHFUNCPTR(Beh46_ArmadaBattleshipEntry,$15)
+	BEHFUNCPTR(Beh47,$16)
+	BEHFUNCPTR(Beh48,$17)
+	BEHFUNCPTR(Beh49,$1B)
+	BEHFUNCPTR(Beh4A,$18)
+	BEHFUNCPTR(Beh4B,$19)
+	BEHFUNCPTR(Beh4C,$19)
+	BEHFUNCPTR(Beh4D,$1A)
+	BEHFUNCPTR(Beh4E,$1B)
+	BEHFUNCPTR(Beh4F_FlyingFish,$00)
+	BEHFUNCPTR(Beh50,$1F)
+	BEHFUNCPTR(Beh51_AtomicCoreBossTaser,$2B)
+	BEHFUNCPTR(Beh52,$00)
+	BEHFUNCPTR(Beh53,$2E)
+	BEHFUNCPTR(Beh54,$39)
+	BEHFUNCPTR(Beh55,$2C)
+	BEHFUNCPTR(Beh56,$2D)
+	BEHFUNCPTR(Beh57,$2F)
+	BEHFUNCPTR(Beh58,$30)
+	BEHFUNCPTR(Beh59_ExtraCredit,$00)
+	BEHFUNCPTR(Beh5A,$31)
+	BEHFUNCPTR(Beh5B_AntennaDish,$32)
+	BEHFUNCPTR(Beh5C_AntennaBase,$33)
+	BEHFUNCPTR(Beh5D,$34)
+	BEHFUNCPTR(Beh5E,$35)
+	BEHFUNCPTR(Beh5F,$35)
+	BEHFUNCPTR(Beh60,$36)
+	BEHFUNCPTR(Beh61,$36)
+	BEHFUNCPTR(Beh62,$37)
+	BEHFUNCPTR(Beh63,$09)
+	BEHFUNCPTR(Beh64_Pylon,$3A)
+	BEHFUNCPTR(Beh65,$00)
+	BEHFUNCPTR(Beh66,$00)
+	BEHFUNCPTR(Beh67,$00)
+	BEHFUNCPTR(Beh68,$00)
+	BEHFUNCPTR(Beh69,$00)
+	BEHFUNCPTR(Beh6A,$3B)
+	BEHFUNCPTR(Beh6B,$45)
+	BEHFUNCPTR(Beh6C,$02)
+	BEHFUNCPTR(Beh6D,$02)
+	BEHFUNCPTR(Beh6E,$47)
+	BEHFUNCPTR(Beh6F,$46)
+	BEHFUNCPTR(Beh70,$00)
+	BEHFUNCPTR(Beh71,$02)
+	BEHFUNCPTR(Beh72,$4C)
+	BEHFUNCPTR(Beh73,$51)
+	BEHFUNCPTR(Beh74,$4D)
+	BEHFUNCPTR(Beh75,$4C)
+	BEHFUNCPTR(Beh76_Motorist,$4F)
+	BEHFUNCPTR(Beh77_GalacticRiderBoss,$4E)
+	BEHFUNCPTR(Beh78,$50)
+	BEHFUNCPTR(Beh79,$52)
+	BEHFUNCPTR(Beh7A,$54)
+	BEHFUNCPTR(Beh7B,$00)
+	BEHFUNCPTR(Beh7C,$55)
+	BEHFUNCPTR(Beh7D,$5E)
+	BEHFUNCPTR(Beh7E,$00)
+	BEHFUNCPTR(Beh7F,$00)
+	BEHFUNCPTR(Beh80,$68)
+	BEHFUNCPTR(Beh81,$69)
+	BEHFUNCPTR(Beh82_BigCargoShip,$6A)
+	BEHFUNCPTR(Beh83_BigCargoShip,$6A)
+	BEHFUNCPTR(Beh84,$6E)
+	BEHFUNCPTR(Beh85,$6F)
+	BEHFUNCPTR(Beh86,$70)
+	BEHFUNCPTR(Beh87,$71)
+	BEHFUNCPTR(Beh88,$00)
+	BEHFUNCPTR(Beh89,$73)
+	BEHFUNCPTR(Beh8A_UFO,$72)
+	BEHFUNCPTR(Beh8B,$75)
+	BEHFUNCPTR(Beh8C,$76)
+	BEHFUNCPTR(Beh8D,$75)
+	BEHFUNCPTR(Beh8E,$77)
+	BEHFUNCPTR(Beh8F_ProfessorHangerBoss,$78)
+	BEHFUNCPTR(Beh90,$79)
+	BEHFUNCPTR(Beh91,$79)
+	BEHFUNCPTR(Beh92,$79)
+	BEHFUNCPTR(Beh93,$79)
+	BEHFUNCPTR(Beh94,$7A)
+	BEHFUNCPTR(Beh95,$7A)
+	BEHFUNCPTR(Beh96,$7B)
+	BEHFUNCPTR(Beh97,$02)
+	BEHFUNCPTR(Beh98,$7F)
+	BEHFUNCPTR(Beh99,$7F)
+	BEHFUNCPTR(Beh9A,$81)
+	BEHFUNCPTR(Beh9B,$80)
+	BEHFUNCPTR(Beh9C,$00)
+	BEHFUNCPTR(Beh9D,$83)
+	BEHFUNCPTR(Beh9E,$83)
+	BEHFUNCPTR(Beh9F,$84)
+	BEHFUNCPTR(BehA0,$85)
+	BEHFUNCPTR(BehA1,$86)
+	BEHFUNCPTR(BehA2,$80)
+	BEHFUNCPTR(BehA3,$56)
+	BEHFUNCPTR(BehA4,$87)
+	BEHFUNCPTR(BehA5_BeamStatic,$91)
+	BEHFUNCPTR(BehA6_BeamRotating,$91)
+	BEHFUNCPTR(BehA7,$91)
+	BEHFUNCPTR(BehA8,$91)
+	BEHFUNCPTR(BehA9,$98)
+	BEHFUNCPTR(BehAA,$99)
+	BEHFUNCPTR(BehAB,$9A)
+	BEHFUNCPTR(BehAC,$9D)
+	BEHFUNCPTR(BehAD,$91)
+	BEHFUNCPTR(BehAE_NovaBombItem,$9E)
+	BEHFUNCPTR(BehAF_ShieldItem,$9F)
+	BEHFUNCPTR(BehB0_TwinBlasterItem,$A0)
+	BEHFUNCPTR(BehB1,$A2)
+	BEHFUNCPTR(BehB2,$A1)
+	BEHFUNCPTR(BehB3,$A4)
+	BEHFUNCPTR(BehB4,$00)
+	BEHFUNCPTR(BehB5,$00)
+	BEHFUNCPTR(BehB6,$00)
+	BEHFUNCPTR(BehB7,$A7)
+	BEHFUNCPTR(BehB8,$A7)
+	BEHFUNCPTR(BehB9,$A7)
+	BEHFUNCPTR(BehBA,$A7)
+	BEHFUNCPTR(BehBB,$A8)
+	BEHFUNCPTR(BehBC,$A8)
+	BEHFUNCPTR(BehBD,$1B)
+	BEHFUNCPTR(BehBE,$00)
+	BEHFUNCPTR(BehBF_Volcano,$BE)
+	BEHFUNCPTR(BehC0,$00)
+	BEHFUNCPTR(BehC1_Volcano,$BF)
+	BEHFUNCPTR(BehC2,$C0)
+	BEHFUNCPTR(BehC3,$C2)
+	BEHFUNCPTR(BehC4,$C8)
+	BEHFUNCPTR(BehC5,$00)
+	BEHFUNCPTR(BehC6,$C4)
+	BEHFUNCPTR(BehC7,$C4)
+	BEHFUNCPTR(BehC8,$C4)
+	BEHFUNCPTR(BehC9,$C4)
+	BEHFUNCPTR(BehCA,$C4)
+	BEHFUNCPTR(BehCB,$D0)
+	BEHFUNCPTR(BehCC,$D0)
+	BEHFUNCPTR(BehCD,$00)
+	BEHFUNCPTR(BehCE,$D1)
+	BEHFUNCPTR(BehCF_EnergyRing,$D2)
+	BEHFUNCPTR(BehD0,$D3)
+	BEHFUNCPTR(BehD1,$00)
+	BEHFUNCPTR(BehD2,$D5)
+	BEHFUNCPTR(BehD3,$D6)
+	BEHFUNCPTR(BehD4,$D7)
+	BEHFUNCPTR(BehD5,$D8)
+	BEHFUNCPTR(BehD6,$D8)
+	BEHFUNCPTR(BehD7,$DF)
+	BEHFUNCPTR(BehD8,$D7)
+	BEHFUNCPTR(BehD9,$D6)
+	BEHFUNCPTR(BehDA,$E0)
+	BEHFUNCPTR(BehDB,$00)
+	BEHFUNCPTR(BehDC,$00)
+	BEHFUNCPTR(BehDD,$E1)
+	BEHFUNCPTR(BehDE,$00)
+	BEHFUNCPTR(BehDF,$E1)
+	BEHFUNCPTR(BehE0,$E2)
+	BEHFUNCPTR(BehE1_BonusArchway,$00)
+	BEHFUNCPTR(BehE2_UFO,$72)
+	BEHFUNCPTR(BehE3,$E3)
+	BEHFUNCPTR(BehE4,$00)
+	BEHFUNCPTR(BehE5_BigBlueArchway,$E8)
+	BEHFUNCPTR(BehE6,$00)
+	BEHFUNCPTR(BehE7,$EB)
+	BEHFUNCPTR(BehE8,$EC)
+	BEHFUNCPTR(BehE9_BigAsteroid,$ED)
+	BEHFUNCPTR(BehEA_ShootableAsteroid,$C2)
+	BEHFUNCPTR(BehEB,$00)
+	BEHFUNCPTR(BehEC,$17)
+	BEHFUNCPTR(BehED_ShootableAsteroid,$C2)
+	BEHFUNCPTR(BehEE,$02)
+	BEHFUNCPTR(BehEF,$37)
+	BEHFUNCPTR(BehF0,$00)
+	BEHFUNCPTR(BehF1_TitleHighPolyArwing,$E1)
+	BEHFUNCPTR(BehF2_UseNextCommand,$00)
+	BEHFUNCPTR(BehF3,$07)
+	BEHFUNCPTR(BehF4,$07)
+	BEHFUNCPTR(BehF5,$07)
 ;Object header table
 ;Each entry points to the vertices/faces/material table that a model uses,
 ;along with other things like hitbox size
@@ -1042,62 +1042,62 @@ ObjectHeaderTable:	;00AC15
 	DB $6A,$F0,$11,$82,$F0,$00,$00,$01,$00,$00,$C8,$00,$C8,$00,$C8,$00,$C8,$00,$90,$85,$4D,$AC,$4D,$AC,$4D,$AC,$4D,$AC	;Andross Square
 	DB $6A,$F0,$11,$A1,$F0,$00,$00,$02,$00,$00,$90,$01,$90,$01,$90,$01,$90,$01,$AF,$85,$69,$AC,$69,$AC,$69,$AC,$69,$AC	;Black Hole Billboard Sprite
 	DB $25,$EE,$11,$40,$EE,$00,$00,$00,$00,$00,$C8,$00,$C8,$00,$C8,$00,$C8,$00,$90,$85,$85,$AC,$85,$AC,$85,$AC,$85,$AC	;Andross Cube
-	DB $00,$00,$00,$00,$00,$00,$00,$02,$00,$00,$88,$00,$88,$00,$90,$00,$BC,$00,$2E,$85,$A1,$AC,$A1,$AC,$A1,$AC,$A1,$AC	;Nothing (used for BehaviorFunctionTable entries which do not need a model)
+	DB $00,$00,$00,$00,$00,$00,$00,$02,$00,$00,$88,$00,$88,$00,$90,$00,$BC,$00,$2E,$85,$A1,$AC,$A1,$AC,$A1,$AC,$A1,$AC	;Nothing (used for BehaviorFunctionTable entries which have no model)
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$E8,$03,$E8,$03,$00,$00,$BD,$AC,$BD,$AC,$BD,$AC,$BD,$AC
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$C8,$00,$C8,$00,$00,$00,$D9,$AC,$D9,$AC,$D9,$AC,$D9,$AC
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$5A,$00,$5A,$00,$00,$00,$F5,$AC,$F5,$AC,$F5,$AC,$F5,$AC
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$32,$00,$32,$00,$00,$00,$11,$AD,$11,$AD,$11,$AD,$11,$AD
-	DB $5B,$F0,$11,$49,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$28,$00,$58,$85,$2D,$AD,$2D,$AD,$2D,$AD,$2D,$AD	;Explosion
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$88,$00,$88,$00,$90,$00,$BC,$00,$2E,$85,$49,$AD,$49,$AD,$49,$AD,$49,$AD
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$78,$00,$28,$00,$5A,$85,$65,$AD,$65,$AD,$65,$AD,$65,$AD
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$50,$00,$50,$00,$F0,$00,$50,$00,$5C,$85,$D0,$CA,$81,$AD,$81,$AD,$81,$AD
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$28,$00,$60,$85,$D0,$CA,$9D,$AD,$9D,$AD,$9D,$AD
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$50,$00,$50,$00,$50,$00,$50,$00,$60,$85,$D0,$CA,$B9,$AD,$B9,$AD,$B9,$AD
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$28,$00,$30,$85,$D5,$AD,$D5,$AD,$D5,$AD,$D5,$AD
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$50,$00,$50,$00,$50,$00,$50,$00,$30,$85,$F1,$AD,$F1,$AD,$F1,$AD,$F1,$AD
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$A0,$00,$A0,$00,$A0,$00,$A0,$00,$30,$85,$0D,$AE,$0D,$AE,$0D,$AE,$0D,$AE
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$05,$00,$00,$40,$01,$40,$01,$40,$01,$40,$01,$30,$85,$29,$AE,$29,$AE,$29,$AE,$29,$AE
+	DB $5B,$F0,$11,$49,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$28,$00,$58,$85,$2D,$AD,$2D,$AD,$2D,$AD,$2D,$AD	;Reverse Explosion
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$88,$00,$88,$00,$90,$00,$BC,$00,$2E,$85,$49,$AD,$49,$AD,$49,$AD,$49,$AD	;Weird Asteroid Sprite
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$78,$00,$28,$00,$5A,$85,$65,$AD,$65,$AD,$65,$AD,$65,$AD	;Flashing Red/Blue Ring
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$50,$00,$50,$00,$F0,$00,$50,$00,$5C,$85,$D0,$CA,$81,$AD,$81,$AD,$81,$AD	;Metal Ball
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$28,$00,$60,$85,$D0,$CA,$9D,$AD,$9D,$AD,$9D,$AD	;Asteroid Or Lava Bubble?
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$50,$00,$50,$00,$50,$00,$50,$00,$60,$85,$D0,$CA,$B9,$AD,$B9,$AD,$B9,$AD	;Asteroid Or Lava Bubble?
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$28,$00,$30,$85,$D5,$AD,$D5,$AD,$D5,$AD,$D5,$AD	;Weak Explosion
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$50,$00,$50,$00,$50,$00,$50,$00,$30,$85,$F1,$AD,$F1,$AD,$F1,$AD,$F1,$AD	;Weak Explosion
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$A0,$00,$A0,$00,$A0,$00,$A0,$00,$30,$85,$0D,$AE,$0D,$AE,$0D,$AE,$0D,$AE	;Weak Explosion
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$05,$00,$00,$40,$01,$40,$01,$40,$01,$40,$01,$30,$85,$29,$AE,$29,$AE,$29,$AE,$29,$AE	;Weak Explosion
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$24,$00,$1E,$00,$62,$00,$62,$00,$D8,$81,$45,$AE,$45,$AE,$45,$AE,$45,$AE
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$24,$00,$1E,$00,$62,$00,$62,$00,$D8,$81,$61,$AE,$61,$AE,$61,$AE,$61,$AE
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$24,$00,$1E,$00,$62,$00,$62,$00,$D8,$81,$7D,$AE,$7D,$AE,$7D,$AE,$7D,$AE
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$D8,$81,$99,$AE,$99,$AE,$99,$AE,$99,$AE
-	DB $D4,$F0,$11,$C0,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$48,$85,$B5,$AE,$B5,$AE,$B5,$AE,$B5,$AE
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$48,$85,$D1,$AE,$D1,$AE,$D1,$AE,$D1,$AE
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$34,$85,$ED,$AE,$ED,$AE,$ED,$AE,$ED,$AE
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$40,$00,$40,$00,$40,$00,$40,$00,$34,$85,$09,$AF,$09,$AF,$09,$AF,$09,$AF
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$70,$00,$70,$00,$70,$00,$70,$00,$56,$85,$25,$AF,$25,$AF,$25,$AF,$25,$AF
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$52,$85,$41,$AF,$41,$AF,$41,$AF,$41,$AF
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$40,$00,$40,$00,$40,$00,$40,$00,$42,$85,$5D,$AF,$5D,$AF,$5D,$AF,$5D,$AF
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$40,$00,$40,$00,$40,$00,$40,$00,$44,$85,$79,$AF,$79,$AF,$79,$AF,$79,$AF
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$42,$85,$95,$AF,$95,$AF,$95,$AF,$95,$AF
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$44,$85,$B1,$AF,$B1,$AF,$B1,$AF,$B1,$AF
+	DB $D4,$F0,$11,$C0,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$48,$85,$B5,$AE,$B5,$AE,$B5,$AE,$B5,$AE	;Splash
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$48,$85,$D1,$AE,$D1,$AE,$D1,$AE,$D1,$AE	;Splash
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$34,$85,$ED,$AE,$ED,$AE,$ED,$AE,$ED,$AE	;Flashing Red/Blue Shot
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$40,$00,$40,$00,$40,$00,$40,$00,$34,$85,$09,$AF,$09,$AF,$09,$AF,$09,$AF	;Flashing Red/Blue Shot
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$70,$00,$70,$00,$70,$00,$70,$00,$56,$85,$25,$AF,$25,$AF,$25,$AF,$25,$AF	;Spike Ball
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$52,$85,$41,$AF,$41,$AF,$41,$AF,$41,$AF	;Nova Bomb
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$40,$00,$40,$00,$40,$00,$40,$00,$42,$85,$5D,$AF,$5D,$AF,$5D,$AF,$5D,$AF	;Small Gray Asteroid
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$40,$00,$40,$00,$40,$00,$40,$00,$44,$85,$79,$AF,$79,$AF,$79,$AF,$79,$AF	;Small Gray Asteroid With Face
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$42,$85,$95,$AF,$95,$AF,$95,$AF,$95,$AF	;Small Gray Asteroid
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$44,$85,$B1,$AF,$B1,$AF,$B1,$AF,$B1,$AF	;Small Gray Asteroid With Face
 	DB $5B,$F0,$11,$49,$F0,$00,$00,$06,$00,$00,$00,$01,$00,$01,$00,$01,$00,$01,$7D,$85,$CD,$AF,$CD,$AF,$CD,$AF,$CD,$AF	;Big Asteroid
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$42,$85,$E9,$AF,$E9,$AF,$E9,$AF,$E9,$AF
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$40,$00,$40,$00,$40,$00,$40,$00,$62,$85,$05,$B0,$05,$B0,$05,$B0,$05,$B0
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$66,$85,$21,$B0,$21,$B0,$21,$B0,$21,$B0
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$42,$85,$E9,$AF,$E9,$AF,$E9,$AF,$E9,$AF	;Small Gray Asteroid
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$40,$00,$40,$00,$40,$00,$40,$00,$62,$85,$05,$B0,$05,$B0,$05,$B0,$05,$B0	;Black Hole
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$66,$85,$21,$B0,$21,$B0,$21,$B0,$21,$B0	;Flashing Red/Blue Oval Shot
 	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$81,$84,$3D,$B0,$3D,$B0,$3D,$B0,$3D,$B0
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$30,$00,$30,$00,$30,$00,$30,$00,$4C,$85,$59,$B0,$59,$B0,$59,$B0,$59,$B0
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$40,$00,$40,$00,$40,$00,$40,$00,$D0,$88,$75,$B0,$75,$B0,$75,$B0,$75,$B0
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$D0,$88,$91,$B0,$91,$B0,$91,$B0,$91,$B0
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$D0,$88,$AD,$B0,$AD,$B0,$AD,$B0,$AD,$B0
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$30,$00,$30,$00,$30,$00,$30,$00,$4C,$85,$59,$B0,$59,$B0,$59,$B0,$59,$B0	;Egg LOD
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$40,$00,$40,$00,$40,$00,$40,$00,$D0,$88,$75,$B0,$75,$B0,$75,$B0,$75,$B0	;Yellow/White Flash
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$D0,$88,$91,$B0,$91,$B0,$91,$B0,$91,$B0	;Yellow/White Flash
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$D0,$88,$AD,$B0,$AD,$B0,$AD,$B0,$AD,$B0	;Yellow/White Flash
 	DB $5B,$F0,$11,$49,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$52,$85,$C9,$B0,$C9,$B0,$C9,$B0,$C9,$B0	;Nova Bomb
 	DB $5B,$F0,$11,$49,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$10,$00,$52,$85,$E5,$B0,$E5,$B0,$E5,$B0,$E5,$B0	;Nova Bomb
-	DB $5B,$F0,$11,$49,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$36,$85,$01,$B1,$01,$B1,$01,$B1,$01,$B1	;Explosion
-	DB $5B,$F0,$11,$49,$F0,$00,$00,$04,$00,$00,$40,$00,$40,$00,$40,$00,$40,$00,$38,$85,$1D,$B1,$1D,$B1,$1D,$B1,$1D,$B1	;Explosion
-	DB $5B,$F0,$11,$49,$F0,$00,$00,$05,$00,$00,$80,$00,$80,$00,$80,$00,$80,$00,$3A,$85,$39,$B1,$39,$B1,$39,$B1,$39,$B1	;Explosion
-	DB $5B,$F0,$11,$49,$F0,$00,$00,$06,$00,$00,$00,$01,$00,$01,$00,$01,$00,$01,$3A,$85,$55,$B1,$55,$B1,$55,$B1,$55,$B1	;Explosion
-	DB $5B,$F0,$11,$49,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$3A,$85,$71,$B1,$71,$B1,$71,$B1,$71,$B1	;Explosion
-	DB $5B,$F0,$11,$49,$F0,$70,$FE,$02,$00,$00,$28,$00,$28,$00,$28,$00,$28,$00,$5E,$85,$8D,$B1,$8D,$B1,$8D,$B1,$8D,$B1	;Explosion
-	DB $5B,$F0,$11,$49,$F0,$E0,$FC,$03,$00,$00,$50,$00,$50,$00,$50,$00,$50,$00,$5E,$85,$A9,$B1,$A9,$B1,$A9,$B1,$A9,$B1	;Explosion
-	DB $5B,$F0,$11,$49,$F0,$00,$00,$01,$00,$00,$08,$00,$08,$00,$08,$00,$08,$00,$20,$85,$C5,$B1,$C5,$B1,$C5,$B1,$C5,$B1	;Explosion
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$83,$85,$E1,$B1,$E1,$B1,$E1,$B1,$E1,$B1	;Nothing?
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$40,$00,$28,$00,$78,$00,$10,$00,$BD,$85,$FD,$B1,$FD,$B1,$FD,$B1,$FD,$B1	;Nothing?
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$01,$00,$00,$14,$00,$14,$00,$14,$00,$14,$00,$68,$85,$19,$B2,$19,$B2,$19,$B2,$19,$B2	;Nothing?
+	DB $5B,$F0,$11,$49,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$36,$85,$01,$B1,$01,$B1,$01,$B1,$01,$B1	;Slightly Weak Explosion
+	DB $5B,$F0,$11,$49,$F0,$00,$00,$04,$00,$00,$40,$00,$40,$00,$40,$00,$40,$00,$38,$85,$1D,$B1,$1D,$B1,$1D,$B1,$1D,$B1	;Medium Explosion
+	DB $5B,$F0,$11,$49,$F0,$00,$00,$05,$00,$00,$80,$00,$80,$00,$80,$00,$80,$00,$3A,$85,$39,$B1,$39,$B1,$39,$B1,$39,$B1	;Full Explosion
+	DB $5B,$F0,$11,$49,$F0,$00,$00,$06,$00,$00,$00,$01,$00,$01,$00,$01,$00,$01,$3A,$85,$55,$B1,$55,$B1,$55,$B1,$55,$B1	;Full Explosion
+	DB $5B,$F0,$11,$49,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$3A,$85,$71,$B1,$71,$B1,$71,$B1,$71,$B1	;Full Explosion
+	DB $5B,$F0,$11,$49,$F0,$70,$FE,$02,$00,$00,$28,$00,$28,$00,$28,$00,$28,$00,$5E,$85,$8D,$B1,$8D,$B1,$8D,$B1,$8D,$B1	;Amoeba
+	DB $5B,$F0,$11,$49,$F0,$E0,$FC,$03,$00,$00,$50,$00,$50,$00,$50,$00,$50,$00,$5E,$85,$A9,$B1,$A9,$B1,$A9,$B1,$A9,$B1	;Amoeba
+	DB $5B,$F0,$11,$49,$F0,$00,$00,$01,$00,$00,$08,$00,$08,$00,$08,$00,$08,$00,$20,$85,$C5,$B1,$C5,$B1,$C5,$B1,$C5,$B1	;Explosion?
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$83,$85,$E1,$B1,$E1,$B1,$E1,$B1,$E1,$B1	;Flashing Metal Ball
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$40,$00,$28,$00,$78,$00,$10,$00,$BD,$85,$FD,$B1,$FD,$B1,$FD,$B1,$FD,$B1	;White Shot
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$01,$00,$00,$14,$00,$14,$00,$14,$00,$14,$00,$68,$85,$19,$B2,$19,$B2,$19,$B2,$19,$B2	;White Flash
 	DB $73,$F0,$11,$82,$F0,$00,$00,$03,$00,$00,$50,$00,$50,$00,$50,$00,$50,$00,$6A,$85,$35,$B2,$35,$B2,$35,$B2,$35,$B2	;GAME
 	DB $73,$F0,$11,$82,$F0,$00,$00,$03,$00,$00,$50,$00,$50,$00,$50,$00,$50,$00,$6E,$85,$51,$B2,$51,$B2,$51,$B2,$51,$B2	;OVER
-	DB $5B,$F0,$11,$82,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$4E,$85,$6D,$B2,$6D,$B2,$6D,$B2,$6D,$B2	;Alien Pilot
+	DB $5B,$F0,$11,$82,$F0,$00,$00,$03,$00,$00,$20,$00,$20,$00,$20,$00,$20,$00,$4E,$85,$6D,$B2,$6D,$B2,$6D,$B2,$6D,$B2	;Rocket Lizard
 	DB $5B,$F0,$11,$49,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$32,$85,$89,$B2,$89,$B2,$89,$B2,$89,$B2	;Sparks
-	DB $37,$F0,$11,$2D,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$54,$85,$A5,$B2,$A5,$B2,$A5,$B2,$A5,$B2	;Nothing?
+	DB $37,$F0,$11,$2D,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$54,$85,$A5,$B2,$A5,$B2,$A5,$B2,$A5,$B2	;Sparks
 	DB $93,$EE,$11,$9F,$EE,$00,$00,$00,$00,$00,$14,$00,$14,$00,$00,$00,$16,$00,$40,$85,$C1,$B2,$C1,$B2,$C1,$B2,$C1,$B2	;Flashing Antenna
 	DB $93,$EE,$11,$9F,$EE,$00,$00,$01,$00,$00,$28,$00,$28,$00,$00,$00,$2C,$00,$40,$85,$DD,$B2,$DD,$B2,$DD,$B2,$DD,$B2	;Bigger Flashing Antenna
 	DB $93,$EE,$11,$9F,$EE,$00,$00,$02,$00,$00,$50,$00,$50,$00,$00,$00,$58,$00,$40,$85,$F9,$B2,$F9,$B2,$F9,$B2,$F9,$B2	;Bigger Flashing Antenna
@@ -1106,9 +1106,9 @@ ObjectHeaderTable:	;00AC15
 	DB $BA,$EE,$11,$9A,$EF,$00,$00,$02,$00,$00,$08,$00,$08,$00,$78,$00,$8C,$01,$3E,$85,$4D,$B3,$4D,$B3,$4D,$B3,$4D,$B3	;Flashing Yellow Morphing Fire
 	DB $BA,$EE,$11,$9A,$EF,$00,$00,$02,$00,$00,$20,$00,$14,$00,$78,$00,$8C,$01,$3C,$85,$69,$B3,$69,$B3,$69,$B3,$69,$B3	;Flashing Blue Morphing Fire
 	DB $8B,$EF,$11,$ED,$EF,$00,$00,$02,$00,$00,$18,$00,$08,$00,$18,$01,$8C,$01,$3C,$85,$85,$B3,$85,$B3,$85,$B3,$85,$B3	;Flashing Flat Blue Morphing Shot
-	DB $0C,$F0,$11,$1B,$F0,$00,$00,$00,$00,$00,$04,$00,$04,$00,$04,$00,$04,$00,$2E,$85,$A1,$B3,$A1,$B3,$A1,$B3,$A1,$B3	;Weird Flat Asteroid Sprite
-	DB $0C,$F0,$11,$1B,$F0,$00,$00,$01,$00,$00,$08,$00,$08,$00,$08,$00,$08,$00,$2E,$85,$BD,$B3,$BD,$B3,$BD,$B3,$BD,$B3	;...same but bigger?
-	DB $0C,$F0,$11,$1B,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$2E,$85,$D9,$B3,$D9,$B3,$D9,$B3,$D9,$B3	;...same but even bigger?
+	DB $0C,$F0,$11,$1B,$F0,$00,$00,$00,$00,$00,$04,$00,$04,$00,$04,$00,$04,$00,$2E,$85,$A1,$B3,$A1,$B3,$A1,$B3,$A1,$B3	;Weird Asteroid Sprite
+	DB $0C,$F0,$11,$1B,$F0,$00,$00,$01,$00,$00,$08,$00,$08,$00,$08,$00,$08,$00,$2E,$85,$BD,$B3,$BD,$B3,$BD,$B3,$BD,$B3	;Weird Asteroid Sprite
+	DB $0C,$F0,$11,$1B,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$2E,$85,$D9,$B3,$D9,$B3,$D9,$B3,$D9,$B3	;Weird Asteroid Sprite
 	DB $00,$80,$0C,$39,$80,$00,$00,$02,$30,$67,$C8,$00,$78,$01,$78,$00,$74,$01,$13,$82,$F5,$B3,$F5,$B3,$F5,$B3,$F5,$B3	;Walker With Leg Broken
 	DB $4D,$81,$0C,$83,$81,$00,$00,$02,$30,$67,$C8,$00,$78,$01,$84,$00,$C4,$01,$13,$82,$11,$B4,$11,$B4,$11,$B4,$11,$B4	;Walker With Leg Missing
 	DB $B3,$82,$0C,$91,$86,$00,$00,$02,$0C,$67,$80,$00,$88,$01,$88,$00,$A0,$00,$13,$82,$2D,$B4,$2D,$B4,$2D,$B4,$2D,$B4	;Walker Walking
@@ -1136,7 +1136,7 @@ ObjectHeaderTable:	;00AC15
 	DB $9F,$91,$0C,$B3,$91
 	DB $28,$92,$0C,$39,$92
 	DB $6E,$92,$0C,$9A,$92,$00,$00,$00,$00,$00,$50,$00,$28,$00,$14,$00,$50,$00,$13,$82,$43,$B6,$43,$B6,$43,$B6,$43,$B6	;Cloaking Ship
-	DB $C9,$93,$0C,$EC,$93,$00,$00,$00,$00,$00,$23,$00,$2F,$00,$1E,$00,$38,$00,$13,$82,$5F,$B6,$5F,$B6,$7B,$B6,$7B,$B6	;???
+	DB $C9,$93,$0C,$EC,$93,$00,$00,$00,$00,$00,$23,$00,$2F,$00,$1E,$00,$38,$00,$13,$82,$5F,$B6,$5F,$B6,$7B,$B6,$7B,$B6
 	DB $C7,$94,$0C,$DB,$94
 	DB $12,$95,$0C,$23,$95,$00,$00,$00,$00,$00,$0A,$00,$0C,$00,$05,$00,$22,$00,$13,$82,$80,$B6,$80,$B6,$80,$B6,$80,$B6	;Caterpillar 2 Part
 	DB $50,$95,$0C,$67,$95,$00,$00,$00,$00,$00,$0A,$00,$14,$00,$07,$00,$31,$00,$13,$82,$9C,$B6,$9C,$B6,$9C,$B6,$9C,$B6	;Caterpillar 2 Head
@@ -1200,7 +1200,7 @@ ObjectHeaderTable:	;00AC15
 	DB $01,$E0,$0C,$42,$E0,$00,$00,$00,$00,$00,$46,$00,$1C,$00,$64,$00,$7D,$00,$7C,$80,$98,$BC,$98,$BC,$98,$BC,$98,$BC	;High-Poly Arwing
 	DB $01,$E0,$0C,$42,$E0,$00,$00,$00,$00,$00,$46,$00,$1C,$00,$64,$00,$7D,$00,$13,$82,$B4,$BC,$B4,$BC,$B4,$BC,$B4,$BC	;High-Poly Arwing
 	DB $01,$E0,$0C,$42,$E0,$00,$00,$01,$00,$00,$8C,$00,$38,$00,$C8,$00,$FA,$00,$13,$82,$D0,$BC,$D0,$BC,$D0,$BC,$D0,$BC	;High-Poly Arwing
-	DB $DB,$E2,$0C,$DF,$E3,$00,$00,$02,$00,$00,$20,$00,$90,$01,$00,$00,$90,$01,$72,$85,$EC,$BC,$EC,$BC,$EC,$BC,$EC,$BC
+	DB $DB,$E2,$0C,$DF,$E3,$00,$00,$02,$00,$00,$20,$00,$90,$01,$00,$00,$90,$01,$72,$85,$EC,$BC,$EC,$BC,$EC,$BC,$EC,$BC	;Lava Eruption
 	DB $F1,$E3,$0C,$4B,$E4,$00,$00,$02,$00,$00,$B4,$00,$90,$01,$8C,$00,$B0,$01,$13,$82,$08,$BD,$08,$BD,$08,$BD,$08,$BD	;Slot Machine
 	DB $98,$E6,$0C,$FB,$E6,$00,$00,$02,$00,$00,$64,$00,$E4,$00,$20,$00,$F0,$00,$13,$82,$24,$BD,$24,$BD,$24,$BD,$24,$BD	;Slot Machine Arm
 	DB $47,$E8,$0C,$7A,$E8,$00,$00,$01,$00,$00,$50,$00,$50,$00,$0A,$00,$56,$00,$13,$82,$40,$BD,$40,$BD,$40,$BD,$40,$BD	;Training Ring
@@ -1312,91 +1312,91 @@ ObjectHeaderTable:	;00AC15
 	DB $FE,$EF,$0E,$0D,$F0,$00,$00,$03,$00,$00,$D0,$02,$E0,$01,$D0,$07,$80,$08,$13,$82,$D8,$C8,$D8,$C8,$D8,$C8,$D8,$C8	;Tunnel Piece
 	DB $46,$F0,$0E,$91,$F0,$00,$00,$00,$00,$00,$08,$00,$0A,$00,$3C,$00,$22,$00,$13,$82,$F4,$C8,$F4,$C8,$F4,$C8,$F4,$C8	;Letter D
 	DB $46,$F0,$0E,$91,$F0,$00,$00,$00,$00,$00,$08,$00,$0A,$00,$3C,$00,$22,$00,$ED,$82,$10,$C9,$10,$C9,$10,$C9,$10,$C9	;Letter D
-	DB $00,$80,$0F,$15,$80,$00,$00,$03,$E2,$6C,$A0,$00,$40,$01,$A0,$00,$88,$01,$13,$82,$2C,$C9,$2C,$C9,$2C,$C9,$2C,$C9
-	DB $00,$80,$0F,$15,$80,$00,$00,$02,$D0,$6C,$50,$00,$A0,$00,$50,$00,$C4,$00,$13,$82,$48,$C9,$48,$C9,$48,$C9,$48,$C9
-	DB $6A,$80,$0F,$7F,$80,$00,$00,$02,$F4,$6C,$50,$00,$90,$01,$50,$00,$A0,$01,$13,$82,$64,$C9,$64,$C9,$64,$C9,$64,$C9
-	DB $D4,$80,$0F,$92,$81,$00,$00,$01,$C0,$79,$2A,$00,$24,$00,$5E,$00,$6C,$00,$13,$82,$80,$C9,$80,$C9,$80,$C9,$80,$C9
-	DB $E6,$81,$0F,$72,$82,$00,$00,$01,$E4,$70,$4E,$00,$48,$00,$B2,$00,$BA,$00,$13,$82,$9C,$C9,$9C,$C9,$9C,$C9,$9C,$C9
-	DB $38,$86,$0F,$B6,$8D,$00,$00,$00,$86,$71,$26,$00,$75,$00,$24,$00,$80,$00,$13,$82,$B8,$C9,$B8,$C9,$B8,$C9,$B8,$C9
-	DB $BD,$8E,$0F,$6D,$91,$00,$00,$02,$CE,$71,$C8,$00,$C8,$00,$DC,$00,$F0,$00,$13,$82,$D4,$C9,$D4,$C9,$D4,$C9,$D4,$C9
-	DB $BD,$8E,$0F,$6D,$91,$00,$00,$02,$BC,$71,$C8,$00,$C8,$00,$DC,$00,$F0,$00,$13,$82,$F0,$C9,$F0,$C9,$F0,$C9,$F0,$C9
-	DB $BD,$8E,$0F,$6D,$91,$00,$00,$02,$AA,$71,$C8,$00,$C8,$00,$DC,$00,$F0,$00,$13,$82,$0C,$CA,$0C,$CA,$0C,$CA,$0C,$CA
-	DB $EC,$93,$0F,$2D,$94,$00,$00,$00,$00,$00,$28,$00,$24,$00,$58,$00,$5D,$00,$13,$82,$28,$CA,$28,$CA,$28,$CA,$28,$CA
-	DB $59,$95,$0F,$3D,$97,$00,$00,$02,$F2,$71,$58,$01,$8C,$01,$50,$01,$90,$01,$13,$82,$44,$CA,$44,$CA,$44,$CA,$44,$CA
-	DB $59,$95,$0F,$3D,$97,$00,$00,$02,$00,$00,$8C,$01,$8C,$01,$50,$01,$90,$01,$13,$82,$60,$CA,$60,$CA,$60,$CA,$60,$CA
-	DB $E8,$98,$0F,$05,$99,$00,$00,$02,$00,$00,$88,$00,$A0,$00,$44,$00,$AC,$00,$13,$82,$7C,$CA,$7C,$CA,$7C,$CA,$7C,$CA
-	DB $67,$99,$0F,$7E,$99,$00,$00,$02,$00,$00,$78,$00,$78,$00,$78,$00,$78,$00,$13,$82,$98,$CA,$98,$CA,$98,$CA,$98,$CA
-	DB $E8,$99,$0F,$04,$9C,$00,$00,$01,$00,$00,$76,$00,$82,$00,$28,$00,$84,$00,$13,$82,$B4,$CA,$B4,$CA,$B4,$CA,$B4,$CA
+	DB $00,$80,$0F,$15,$80,$00,$00,$03,$E2,$6C,$A0,$00,$40,$01,$A0,$00,$88,$01,$13,$82,$2C,$C9,$2C,$C9,$2C,$C9,$2C,$C9	;Short Building
+	DB $00,$80,$0F,$15,$80,$00,$00,$02,$D0,$6C,$50,$00,$A0,$00,$50,$00,$C4,$00,$13,$82,$48,$C9,$48,$C9,$48,$C9,$48,$C9	;Short Building
+	DB $6A,$80,$0F,$7F,$80,$00,$00,$02,$F4,$6C,$50,$00,$90,$01,$50,$00,$A0,$01,$13,$82,$64,$C9,$64,$C9,$64,$C9,$64,$C9	;Tall Building
+	DB $D4,$80,$0F,$92,$81,$00,$00,$01,$C0,$79,$2A,$00,$24,$00,$5E,$00,$6C,$00,$13,$82,$80,$C9,$80,$C9,$80,$C9,$80,$C9	;Galactic Rider Boss Door
+	DB $E6,$81,$0F,$72,$82,$00,$00,$01,$E4,$70,$4E,$00,$48,$00,$B2,$00,$BA,$00,$13,$82,$9C,$C9,$9C,$C9,$9C,$C9,$9C,$C9	;Galactic Rider Boss Body
+	DB $38,$86,$0F,$B6,$8D,$00,$00,$00,$86,$71,$26,$00,$75,$00,$24,$00,$80,$00,$13,$82,$B8,$C9,$B8,$C9,$B8,$C9,$B8,$C9	;Base Shooting Rings
+	DB $BD,$8E,$0F,$6D,$91,$00,$00,$02,$CE,$71,$C8,$00,$C8,$00,$DC,$00,$F0,$00,$13,$82,$D4,$C9,$D4,$C9,$D4,$C9,$D4,$C9	;Metal Smasher Boss Body
+	DB $BD,$8E,$0F,$6D,$91,$00,$00,$02,$BC,$71,$C8,$00,$C8,$00,$DC,$00,$F0,$00,$13,$82,$F0,$C9,$F0,$C9,$F0,$C9,$F0,$C9	;Metal Smasher Boss Body
+	DB $BD,$8E,$0F,$6D,$91,$00,$00,$02,$AA,$71,$C8,$00,$C8,$00,$DC,$00,$F0,$00,$13,$82,$0C,$CA,$0C,$CA,$0C,$CA,$0C,$CA	;Metal Smasher Boss Body
+	DB $EC,$93,$0F,$2D,$94,$00,$00,$00,$00,$00,$28,$00,$24,$00,$58,$00,$5D,$00,$13,$82,$28,$CA,$28,$CA,$28,$CA,$28,$CA	;Truck
+	DB $59,$95,$0F,$3D,$97,$00,$00,$02,$F2,$71,$58,$01,$8C,$01,$50,$01,$90,$01,$13,$82,$44,$CA,$44,$CA,$44,$CA,$44,$CA	;Blade Barrier Boss Fan
+	DB $59,$95,$0F,$3D,$97,$00,$00,$02,$00,$00,$8C,$01,$8C,$01,$50,$01,$90,$01,$13,$82,$60,$CA,$60,$CA,$60,$CA,$60,$CA	;Blade Barrier Boss Fan
+	DB $E8,$98,$0F,$05,$99,$00,$00,$02,$00,$00,$88,$00,$A0,$00,$44,$00,$AC,$00,$13,$82,$7C,$CA,$7C,$CA,$7C,$CA,$7C,$CA	;Blade Barrier Boss Body
+	DB $67,$99,$0F,$7E,$99,$00,$00,$02,$00,$00,$78,$00,$78,$00,$78,$00,$78,$00,$13,$82,$98,$CA,$98,$CA,$98,$CA,$98,$CA	;Blade Barrier Boss Tail
+	DB $E8,$99,$0F,$04,$9C,$00,$00,$01,$00,$00,$76,$00,$82,$00,$28,$00,$84,$00,$13,$82,$B4,$CA,$B4,$CA,$B4,$CA,$B4,$CA	;Blade Barrier Boss Web
 	DB $15,$9D,$0F,$29,$9D,$00,$00,$01,$00,$00,$28,$00,$00,$00,$28,$00,$28,$00,$D8,$81,$D0,$CA,$D0,$CA,$D0,$CA,$D0,$CA
 	DB $3F,$9D,$0F,$51,$9D,$00,$00,$00,$00,$00,$14,$00,$14,$00,$1E,$00,$24,$00,$13,$82,$EC,$CA,$EC,$CA,$EC,$CA,$EC,$CA
 	DB $6F,$9D,$0F,$AE,$9D,$00,$00,$01,$00,$00,$1C,$00,$78,$00,$14,$00,$7C,$00,$13,$82,$08,$CB,$08,$CB,$08,$CB,$08,$CB
-	DB $46,$9E,$0F,$96,$9E,$00,$00,$06,$00,$00,$00,$0A,$00,$0A,$40,$06,$00,$0C,$13,$82,$24,$CB,$24,$CB,$24,$CB,$24,$CB
-	DB $3D,$A1,$0F,$8D,$A1,$00,$00,$06,$00,$00,$00,$0A,$00,$0A,$80,$02,$80,$0A,$13,$82,$40,$CB,$40,$CB,$40,$CB,$40,$CB
+	DB $46,$9E,$0F,$96,$9E,$00,$00,$06,$00,$00,$00,$0A,$00,$0A,$40,$06,$00,$0C,$13,$82,$24,$CB,$24,$CB,$24,$CB,$24,$CB	;Titania Mountain Entry
+	DB $3D,$A1,$0F,$8D,$A1,$00,$00,$06,$00,$00,$00,$0A,$00,$0A,$80,$02,$80,$0A,$13,$82,$40,$CB,$40,$CB,$40,$CB,$40,$CB	;Titania Mountain Entry LOD
 	DB $DC,$A2,$0F,$F4,$A2,$40,$0C,$03,$00,$00,$18,$00,$38,$00,$80,$02,$80,$02,$13,$82,$5C,$CB,$5C,$CB,$5C,$CB,$5C,$CB
-	DB $3A,$A3,$0F,$4F,$A3,$40,$0C,$03,$00,$00,$40,$00,$90,$00,$C8,$00,$00,$01,$13,$82,$78,$CB,$78,$CB,$78,$CB,$78,$CB
-	DB $CC,$A3,$0F,$00,$A5,$00,$00,$00,$00,$00,$32,$00,$3C,$00,$5A,$00,$6A,$00,$13,$82,$94,$CB,$94,$CB,$94,$CB,$94,$CB
-	DB $5B,$A8,$0F,$01,$AB,$00,$00,$01,$00,$00,$40,$00,$80,$00,$0A,$00,$90,$00,$13,$82,$B0,$CB,$B0,$CB,$B0,$CB,$B0,$CB
-	DB $6F,$AC,$0F,$A5,$AC,$00,$00,$03,$00,$00,$60,$00,$80,$02,$B8,$01,$A0,$02,$13,$82,$CC,$CB,$CC,$CB,$CC,$CB,$CC,$CB
-	DB $6F,$AC,$0F,$A5,$AC,$00,$00,$03,$00,$00,$60,$00,$80,$02,$B8,$01,$A0,$02,$ED,$82,$E8,$CB,$E8,$CB,$E8,$CB,$E8,$CB
-	DB $6F,$AC,$0F,$A5,$AC,$00,$00,$03,$00,$00,$60,$00,$80,$02,$B8,$01,$A0,$02,$C1,$83,$04,$CC,$04,$CC,$04,$CC,$04,$CC
-	DB $4C,$AD,$0F,$82,$AD,$00,$00,$03,$00,$00,$60,$00,$80,$02,$B8,$01,$A0,$02,$13,$82,$20,$CC,$20,$CC,$20,$CC,$20,$CC
-	DB $4C,$AD,$0F,$82,$AD,$00,$00,$03,$00,$00,$60,$00,$80,$02,$B8,$01,$A0,$02,$ED,$82,$3C,$CC,$3C,$CC,$3C,$CC,$3C,$CC
-	DB $4C,$AD,$0F,$82,$AD,$00,$00,$03,$00,$00,$60,$00,$80,$02,$B8,$01,$A0,$02,$C1,$83,$58,$CC,$58,$CC,$58,$CC,$58,$CC
-	DB $29,$AE,$0F,$5B,$AE,$00,$00,$03,$00,$00,$88,$00,$80,$02,$B8,$01,$A8,$02,$13,$82,$74,$CC,$74,$CC,$74,$CC,$74,$CC
-	DB $29,$AE,$0F,$5B,$AE,$00,$00,$03,$00,$00,$88,$00,$80,$02,$B8,$01,$A8,$02,$ED,$82,$90,$CC,$90,$CC,$90,$CC,$90,$CC
-	DB $29,$AE,$0F,$5B,$AE,$00,$00,$03,$00,$00,$88,$00,$80,$02,$B8,$01,$A8,$02,$C1,$83,$AC,$CC,$AC,$CC,$AC,$CC,$AC,$CC
-	DB $02,$AF,$0F,$34,$AF,$00,$00,$03,$00,$00,$88,$00,$80,$02,$B8,$01,$A8,$02,$13,$82,$C8,$CC,$C8,$CC,$C8,$CC,$C8,$CC
-	DB $02,$AF,$0F,$34,$AF,$00,$00,$03,$00,$00,$88,$00,$80,$02,$B8,$01,$A8,$02,$ED,$82,$E4,$CC,$E4,$CC,$E4,$CC,$E4,$CC
-	DB $02,$AF,$0F,$34,$AF,$00,$00,$03,$00,$00,$88,$00,$80,$02,$B8,$01,$A8,$02,$C1,$83,$00,$CD,$00,$CD,$00,$CD,$00,$CD
-	DB $DB,$AF,$0F,$10,$B0,$00,$00,$03,$00,$00,$D0,$00,$80,$02,$B8,$01,$B8,$02,$13,$82,$1C,$CD,$1C,$CD,$1C,$CD,$1C,$CD
-	DB $DB,$AF,$0F,$10,$B0,$00,$00,$03,$00,$00,$D0,$00,$80,$02,$B8,$01,$B8,$02,$ED,$82,$38,$CD,$38,$CD,$38,$CD,$38,$CD
-	DB $DB,$AF,$0F,$10,$B0,$00,$00,$03,$00,$00,$D0,$00,$80,$02,$B8,$01,$B8,$02,$C1,$83,$54,$CD,$54,$CD,$54,$CD,$54,$CD
-	DB $B7,$B0,$0F,$EC,$B0,$00,$00,$03,$00,$00,$D0,$00,$80,$02,$B8,$01,$B8,$02,$13,$82,$70,$CD,$70,$CD,$70,$CD,$70,$CD
-	DB $B7,$B0,$0F,$EC,$B0,$00,$00,$03,$00,$00,$D0,$00,$80,$02,$B8,$01,$B8,$02,$ED,$82,$8C,$CD,$8C,$CD,$8C,$CD,$8C,$CD
-	DB $B7,$B0,$0F,$EC,$B0,$00,$00,$03,$00,$00,$D0,$00,$80,$02,$B8,$01,$B8,$02,$C1,$83,$A8,$CD,$A8,$CD,$A8,$CD,$A8,$CD
-	DB $93,$B1,$0F,$15,$B2,$00,$00,$00,$00,$00,$3C,$00,$19,$00,$3C,$00,$41,$00,$13,$82,$C4,$CD,$C4,$CD,$C4,$CD,$C4,$CD
-	DB $64,$B3,$0F,$09,$B4,$00,$00,$01,$00,$00,$22,$00,$14,$00,$14,$00,$24,$00,$13,$82,$E0,$CD,$E0,$CD,$E0,$CD,$E0,$CD
-	DB $AA,$B4,$0F,$D4,$B4,$00,$00,$03,$00,$00,$B8,$00,$90,$01,$A0,$00,$B0,$01,$13,$82,$FC,$CD,$FC,$CD,$FC,$CD,$FC,$CD
-	DB $AA,$B4,$0F,$D4,$B4,$00,$00,$03,$00,$00,$B8,$00,$90,$01,$A0,$00,$B0,$01,$ED,$82,$18,$CE,$18,$CE,$18,$CE,$18,$CE
-	DB $AA,$B4,$0F,$D4,$B4,$00,$00,$03,$00,$00,$B8,$00,$90,$01,$A0,$00,$B0,$01,$C1,$83,$34,$CE,$34,$CE,$34,$CE,$34,$CE
-	DB $83,$B5,$0F,$9E,$B6,$00,$00,$00,$00,$00,$37,$00,$28,$00,$3C,$00,$3F,$00,$13,$82,$50,$CE,$50,$CE,$50,$CE,$50,$CE
-	DB $B7,$B7,$0F,$41,$B8,$00,$00,$00,$00,$00,$3C,$00,$3C,$00,$14,$00,$55,$00,$13,$82,$6C,$CE,$6C,$CE,$6C,$CE,$6C,$CE
-	DB $A6,$B8,$0F,$8A,$BA,$00,$00,$02,$00,$00,$48,$00,$64,$00,$48,$00,$D4,$00,$13,$82,$88,$CE,$88,$CE,$88,$CE,$88,$CE
+	DB $3A,$A3,$0F,$4F,$A3,$40,$0C,$03,$00,$00,$40,$00,$90,$00,$C8,$00,$00,$01,$13,$82,$78,$CB,$78,$CB,$78,$CB,$78,$CB	;Titania Mountain Tunnel Piece
+	DB $CC,$A3,$0F,$00,$A5,$00,$00,$00,$00,$00,$32,$00,$3C,$00,$5A,$00,$6A,$00,$13,$82,$94,$CB,$94,$CB,$94,$CB,$94,$CB	;Professor Hanger Boss
+	DB $5B,$A8,$0F,$01,$AB,$00,$00,$01,$00,$00,$40,$00,$80,$00,$0A,$00,$90,$00,$13,$82,$B0,$CB,$B0,$CB,$B0,$CB,$B0,$CB	;Titania Mountain Door
+	DB $6F,$AC,$0F,$A5,$AC,$00,$00,$03,$00,$00,$60,$00,$80,$02,$B8,$01,$A0,$02,$13,$82,$CC,$CB,$CC,$CB,$CC,$CB,$CC,$CB	;Mountain Thin Left
+	DB $6F,$AC,$0F,$A5,$AC,$00,$00,$03,$00,$00,$60,$00,$80,$02,$B8,$01,$A0,$02,$ED,$82,$E8,$CB,$E8,$CB,$E8,$CB,$E8,$CB	;Mountain Thin Left
+	DB $6F,$AC,$0F,$A5,$AC,$00,$00,$03,$00,$00,$60,$00,$80,$02,$B8,$01,$A0,$02,$C1,$83,$04,$CC,$04,$CC,$04,$CC,$04,$CC	;Mountain Thin Left
+	DB $4C,$AD,$0F,$82,$AD,$00,$00,$03,$00,$00,$60,$00,$80,$02,$B8,$01,$A0,$02,$13,$82,$20,$CC,$20,$CC,$20,$CC,$20,$CC	;Mountain Thin Right
+	DB $4C,$AD,$0F,$82,$AD,$00,$00,$03,$00,$00,$60,$00,$80,$02,$B8,$01,$A0,$02,$ED,$82,$3C,$CC,$3C,$CC,$3C,$CC,$3C,$CC	;Mountain Thin Right
+	DB $4C,$AD,$0F,$82,$AD,$00,$00,$03,$00,$00,$60,$00,$80,$02,$B8,$01,$A0,$02,$C1,$83,$58,$CC,$58,$CC,$58,$CC,$58,$CC	;Mountain Thin Right
+	DB $29,$AE,$0F,$5B,$AE,$00,$00,$03,$00,$00,$88,$00,$80,$02,$B8,$01,$A8,$02,$13,$82,$74,$CC,$74,$CC,$74,$CC,$74,$CC	;Mountain Left
+	DB $29,$AE,$0F,$5B,$AE,$00,$00,$03,$00,$00,$88,$00,$80,$02,$B8,$01,$A8,$02,$ED,$82,$90,$CC,$90,$CC,$90,$CC,$90,$CC	;Mountain Left
+	DB $29,$AE,$0F,$5B,$AE,$00,$00,$03,$00,$00,$88,$00,$80,$02,$B8,$01,$A8,$02,$C1,$83,$AC,$CC,$AC,$CC,$AC,$CC,$AC,$CC	;Mountain Left
+	DB $02,$AF,$0F,$34,$AF,$00,$00,$03,$00,$00,$88,$00,$80,$02,$B8,$01,$A8,$02,$13,$82,$C8,$CC,$C8,$CC,$C8,$CC,$C8,$CC	;Mountain Right
+	DB $02,$AF,$0F,$34,$AF,$00,$00,$03,$00,$00,$88,$00,$80,$02,$B8,$01,$A8,$02,$ED,$82,$E4,$CC,$E4,$CC,$E4,$CC,$E4,$CC	;Mountain Right
+	DB $02,$AF,$0F,$34,$AF,$00,$00,$03,$00,$00,$88,$00,$80,$02,$B8,$01,$A8,$02,$C1,$83,$00,$CD,$00,$CD,$00,$CD,$00,$CD	;Mountain Right
+	DB $DB,$AF,$0F,$10,$B0,$00,$00,$03,$00,$00,$D0,$00,$80,$02,$B8,$01,$B8,$02,$13,$82,$1C,$CD,$1C,$CD,$1C,$CD,$1C,$CD	;Mountain Wide Left
+	DB $DB,$AF,$0F,$10,$B0,$00,$00,$03,$00,$00,$D0,$00,$80,$02,$B8,$01,$B8,$02,$ED,$82,$38,$CD,$38,$CD,$38,$CD,$38,$CD	;Mountain Wide Left
+	DB $DB,$AF,$0F,$10,$B0,$00,$00,$03,$00,$00,$D0,$00,$80,$02,$B8,$01,$B8,$02,$C1,$83,$54,$CD,$54,$CD,$54,$CD,$54,$CD	;Mountain Wide Left
+	DB $B7,$B0,$0F,$EC,$B0,$00,$00,$03,$00,$00,$D0,$00,$80,$02,$B8,$01,$B8,$02,$13,$82,$70,$CD,$70,$CD,$70,$CD,$70,$CD	;Mountain Wide Right
+	DB $B7,$B0,$0F,$EC,$B0,$00,$00,$03,$00,$00,$D0,$00,$80,$02,$B8,$01,$B8,$02,$ED,$82,$8C,$CD,$8C,$CD,$8C,$CD,$8C,$CD	;Mountain Wide Right
+	DB $B7,$B0,$0F,$EC,$B0,$00,$00,$03,$00,$00,$D0,$00,$80,$02,$B8,$01,$B8,$02,$C1,$83,$A8,$CD,$A8,$CD,$A8,$CD,$A8,$CD	;Mountain Wide Right
+	DB $93,$B1,$0F,$15,$B2,$00,$00,$00,$00,$00,$3C,$00,$19,$00,$3C,$00,$41,$00,$13,$82,$C4,$CD,$C4,$CD,$C4,$CD,$C4,$CD	;Helicopter
+	DB $64,$B3,$0F,$09,$B4,$00,$00,$01,$00,$00,$22,$00,$14,$00,$14,$00,$24,$00,$13,$82,$E0,$CD,$E0,$CD,$E0,$CD,$E0,$CD	;Metal Smasher Boss Mine
+	DB $AA,$B4,$0F,$D4,$B4,$00,$00,$03,$00,$00,$B8,$00,$90,$01,$A0,$00,$B0,$01,$13,$82,$FC,$CD,$FC,$CD,$FC,$CD,$FC,$CD	;Mountain
+	DB $AA,$B4,$0F,$D4,$B4,$00,$00,$03,$00,$00,$B8,$00,$90,$01,$A0,$00,$B0,$01,$ED,$82,$18,$CE,$18,$CE,$18,$CE,$18,$CE	;Mountain
+	DB $AA,$B4,$0F,$D4,$B4,$00,$00,$03,$00,$00,$B8,$00,$90,$01,$A0,$00,$B0,$01,$C1,$83,$34,$CE,$34,$CE,$34,$CE,$34,$CE	;Mountain
+	DB $83,$B5,$0F,$9E,$B6,$00,$00,$00,$00,$00,$37,$00,$28,$00,$3C,$00,$3F,$00,$13,$82,$50,$CE,$50,$CE,$50,$CE,$50,$CE	;Fish
+	DB $B7,$B7,$0F,$41,$B8,$00,$00,$00,$00,$00,$3C,$00,$3C,$00,$14,$00,$55,$00,$13,$82,$6C,$CE,$6C,$CE,$6C,$CE,$6C,$CE	;Growing Leaf
+	DB $A6,$B8,$0F,$8A,$BA,$00,$00,$02,$00,$00,$48,$00,$64,$00,$48,$00,$D4,$00,$13,$82,$88,$CE,$88,$CE,$88,$CE,$88,$CE	;Growing Flower
 	DB $5B,$BC,$0F,$87,$BD,$00,$00,$00,$00,$00,$14,$00,$32,$00,$14,$00,$32,$00,$13,$82,$A4,$CE,$A4,$CE,$A4,$CE,$A4,$CE
 	DB $31,$BE,$0F,$CE,$C0,$38,$FF,$01,$00,$00,$4C,$00,$46,$00,$50,$00,$60,$00,$13,$82,$C0,$CE,$C0,$CE,$C0,$CE,$C0,$CE
 	DB $42,$C2,$0F,$6E,$C3,$00,$00,$00,$00,$00,$0F,$00,$32,$00,$0F,$00,$32,$00,$13,$82,$DC,$CE,$DC,$CE,$DC,$CE,$DC,$CE
 	DB $FE,$C3,$0F,$0D,$C4,$00,$00,$00,$00,$00,$14,$00,$28,$00,$14,$00,$2E,$00,$13,$82,$30,$CF,$F8,$CE,$F8,$CE,$F8,$CE
 	DB $39,$C4,$0F,$48,$C4,$00,$00,$00,$00,$00,$0F,$00,$28,$00,$0A,$00,$2B,$00,$13,$82,$14,$CF,$14,$CF,$14,$CF,$14,$CF
 	DB $74,$C4,$0F,$83,$C4,$00,$00,$00,$00,$00,$1C,$00,$28,$00,$1C,$00,$38,$00,$D8,$81,$30,$CF,$30,$CF,$30,$CF,$30,$CF
-	DB $A2,$C4,$0F,$F8,$C4,$00,$00,$01,$00,$00,$34,$00,$82,$00,$2A,$00,$82,$00,$13,$82,$4C,$CF,$4C,$CF,$4C,$CF,$4C,$CF
-	DB $EF,$C7,$0F,$54,$C8,$00,$00,$01,$00,$00,$34,$00,$AA,$00,$2A,$00,$AA,$00,$13,$82,$68,$CF,$68,$CF,$68,$CF,$68,$CF
+	DB $A2,$C4,$0F,$F8,$C4,$00,$00,$01,$00,$00,$34,$00,$82,$00,$2A,$00,$82,$00,$13,$82,$4C,$CF,$4C,$CF,$4C,$CF,$4C,$CF	;Small Flower
+	DB $EF,$C7,$0F,$54,$C8,$00,$00,$01,$00,$00,$34,$00,$AA,$00,$2A,$00,$AA,$00,$13,$82,$68,$CF,$68,$CF,$68,$CF,$68,$CF	;Big Flower
 	DB $8A,$CB,$0F,$57,$CC,$00,$00,$00,$00,$00,$0F,$00,$78,$00,$17,$00,$78,$00,$13,$82,$84,$CF,$84,$CF,$84,$CF,$84,$CF
 	DB $09,$CD,$0F,$23,$CD,$00,$00,$00,$00,$00,$0F,$00,$32,$00,$0F,$00,$32,$00,$13,$82,$A0,$CF,$A0,$CF,$A0,$CF,$A0,$CF
-	DB $A5,$CD,$0F,$D2,$CD,$00,$00,$02,$0A,$7E,$78,$00,$50,$00,$C8,$00,$CC,$00,$13,$82,$BC,$CF,$BC,$CF,$BC,$CF,$BC,$CF
-	DB $86,$CF,$0F,$2B,$D2,$00,$00,$02,$1C,$7E,$1C,$01,$C4,$00,$64,$00,$A0,$00,$13,$82,$D8,$CF,$D8,$CF,$D8,$CF,$D8,$CF
-	DB $A0,$D2,$0F,$45,$D5,$00,$00,$02,$2E,$7E,$1C,$01,$C4,$00,$64,$00,$A0,$00,$13,$82,$F4,$CF,$F4,$CF,$F4,$CF,$F4,$CF
-	DB $BA,$D5,$0F,$2F,$D6,$00,$00,$05,$00,$00,$E0,$04,$80,$07,$E0,$05,$60,$08,$13,$82,$10,$D0,$10,$D0,$10,$D0,$10,$D0
+	DB $A5,$CD,$0F,$D2,$CD,$00,$00,$02,$0A,$7E,$78,$00,$50,$00,$C8,$00,$CC,$00,$13,$82,$BC,$CF,$BC,$CF,$BC,$CF,$BC,$CF	;Crab Head
+	DB $86,$CF,$0F,$2B,$D2,$00,$00,$02,$1C,$7E,$1C,$01,$C4,$00,$64,$00,$A0,$00,$13,$82,$D8,$CF,$D8,$CF,$D8,$CF,$D8,$CF	;Crab Leg Left
+	DB $A0,$D2,$0F,$45,$D5,$00,$00,$02,$2E,$7E,$1C,$01,$C4,$00,$64,$00,$A0,$00,$13,$82,$F4,$CF,$F4,$CF,$F4,$CF,$F4,$CF	;Crab Leg Right
+	DB $BA,$D5,$0F,$2F,$D6,$00,$00,$05,$00,$00,$E0,$04,$80,$07,$E0,$05,$60,$08,$13,$82,$10,$D0,$10,$D0,$10,$D0,$10,$D0	;Venom Entry
 	DB $E5,$D9,$0F,$09,$DA,$40,$06,$04,$00,$00,$70,$00,$40,$06,$40,$06,$40,$06,$13,$82,$2C,$D0,$2C,$D0,$2C,$D0,$2C,$D0
-	DB $20,$DB,$0F,$3E,$DC,$00,$00,$02,$00,$00,$60,$00,$00,$00,$60,$00,$6C,$00,$13,$82,$48,$D0,$48,$D0,$48,$D0,$48,$D0
-	DB $8B,$DC,$0F,$F1,$DE,$00,$00,$01,$00,$00,$70,$00,$7E,$00,$14,$00,$A8,$00,$13,$82,$64,$D0,$64,$D0,$64,$D0,$64,$D0
+	DB $20,$DB,$0F,$3E,$DC,$00,$00,$02,$00,$00,$60,$00,$00,$00,$60,$00,$6C,$00,$13,$82,$48,$D0,$48,$D0,$48,$D0,$48,$D0	;Venom Entry Door
+	DB $8B,$DC,$0F,$F1,$DE,$00,$00,$01,$00,$00,$70,$00,$7E,$00,$14,$00,$A8,$00,$13,$82,$64,$D0,$64,$D0,$64,$D0,$64,$D0	;Venom Entry Door 2
 	DB $3C,$E0,$0F,$54,$E0,$00,$00,$02,$00,$00,$40,$00,$14,$00,$94,$00,$A0,$00,$13,$82,$80,$D0,$80,$D0,$80,$D0,$80,$D0
 	DB $B0,$E0,$0F,$CA,$E0,$00,$00,$02,$00,$00,$1C,$00,$64,$00,$70,$00,$94,$00,$13,$82,$9C,$D0,$9C,$D0,$9C,$D0,$9C,$D0
-	DB $78,$E1,$0F,$87,$E1,$00,$00,$04,$00,$00,$E0,$01,$20,$03,$50,$00,$B0,$03,$94,$85,$B8,$D0,$B8,$D0,$B8,$D0,$B8,$D0
-	DB $DA,$E1,$0F,$E9,$E1,$00,$00,$02,$00,$00,$78,$00,$C8,$00,$14,$00,$EC,$00,$94,$85,$D4,$D0,$D4,$D0,$D4,$D0,$D4,$D0
-	DB $DA,$E1,$0F,$E9,$E1,$00,$00,$02,$00,$00,$78,$00,$C8,$00,$14,$00,$EC,$00,$13,$82,$F0,$D0,$F0,$D0,$F0,$D0,$F0,$D0
-	DB $3C,$E2,$0F,$4B,$E2,$00,$00,$00,$00,$00,$1E,$00,$32,$00,$05,$00,$3B,$00,$13,$82,$0C,$D1,$0C,$D1,$0C,$D1,$0C,$D1
-	DB $3C,$E2,$0F,$4B,$E2,$00,$00,$01,$00,$00,$3C,$00,$64,$00,$0A,$00,$76,$00,$13,$82,$28,$D1,$28,$D1,$28,$D1,$28,$D1
-	DB $9E,$E2,$0F,$86,$E8,$00,$00,$04,$10,$81,$E0,$01,$C0,$03,$90,$01,$60,$04,$94,$85,$44,$D1,$44,$D1,$44,$D1,$44,$D1
-	DB $81,$EB,$0F,$5B,$F0,$00,$00,$04,$10,$81,$C0,$01,$C0,$03,$D0,$03,$A0,$04,$94,$85,$60,$D1,$60,$D1,$60,$D1,$60,$D1
+	DB $78,$E1,$0F,$87,$E1,$00,$00,$04,$00,$00,$E0,$01,$20,$03,$50,$00,$B0,$03,$94,$85,$B8,$D0,$B8,$D0,$B8,$D0,$B8,$D0	;Andross Boss Square
+	DB $DA,$E1,$0F,$E9,$E1,$00,$00,$02,$00,$00,$78,$00,$C8,$00,$14,$00,$EC,$00,$94,$85,$D4,$D0,$D4,$D0,$D4,$D0,$D4,$D0	;Andross Boss Square 2
+	DB $DA,$E1,$0F,$E9,$E1,$00,$00,$02,$00,$00,$78,$00,$C8,$00,$14,$00,$EC,$00,$13,$82,$F0,$D0,$F0,$D0,$F0,$D0,$F0,$D0	;Andross Boss Square 2
+	DB $3C,$E2,$0F,$4B,$E2,$00,$00,$00,$00,$00,$1E,$00,$32,$00,$05,$00,$3B,$00,$13,$82,$0C,$D1,$0C,$D1,$0C,$D1,$0C,$D1	;Andross Boss Square 3
+	DB $3C,$E2,$0F,$4B,$E2,$00,$00,$01,$00,$00,$3C,$00,$64,$00,$0A,$00,$76,$00,$13,$82,$28,$D1,$28,$D1,$28,$D1,$28,$D1	;Andross Boss Square 3
+	DB $9E,$E2,$0F,$86,$E8,$00,$00,$04,$10,$81,$E0,$01,$C0,$03,$90,$01,$60,$04,$94,$85,$44,$D1,$44,$D1,$44,$D1,$44,$D1	;Andross Boss Face
+	DB $81,$EB,$0F,$5B,$F0,$00,$00,$04,$10,$81,$C0,$01,$C0,$03,$D0,$03,$A0,$04,$94,$85,$60,$D1,$60,$D1,$60,$D1,$60,$D1	;Andross Boss Face 2
 	DB $2A,$F3,$0F,$6E,$F3,$00,$00,$00,$00,$00,$32,$00,$3C,$00,$3C,$00,$55,$00,$13,$82,$7C,$D1,$7C,$D1,$7C,$D1,$7C,$D1
-	DB $5F,$F4,$0F,$DC,$F7,$00,$00,$01,$AE,$82,$5A,$00,$3C,$00,$14,$00,$6E,$00,$13,$82,$98,$D1,$98,$D1,$98,$D1,$98,$D1
-	DB $B8,$F8,$0F,$D9,$F8,$00,$00,$04,$00,$00,$D0,$00,$60,$00,$A0,$01,$D0,$01,$13,$82,$B4,$D1,$B4,$D1,$B4,$D1,$B4,$D1
-	DB $37,$F9,$0F,$49,$F9,$00,$00,$04,$00,$00,$D0,$00,$60,$00,$A0,$01,$D0,$01,$13,$82,$D0,$D1,$D0,$D1,$D0,$D1,$D0,$D1
-	DB $A7,$F9,$0F,$B9,$F9,$00,$00,$04,$00,$00,$D0,$00,$60,$00,$A0,$01,$D0,$01,$13,$82,$EC,$D1,$EC,$D1,$EC,$D1,$EC,$D1
-	DB $17,$FA,$0F,$29,$FA,$00,$00,$04,$00,$00,$D0,$00,$60,$00,$A0,$01,$D0,$01,$13,$82,$08,$D2,$08,$D2,$08,$D2,$08,$D2
-	DB $87,$FA,$0F,$96,$FA,$00,$00,$04,$00,$00,$D0,$00,$60,$00,$40,$01,$90,$01,$13,$82,$24,$D2,$24,$D2,$24,$D2,$24,$D2
-	DB $CF,$FA,$0F,$DE,$FA,$00,$00,$04,$00,$00,$D0,$00,$60,$00,$40,$01,$90,$01,$13,$82,$40,$D2,$40,$D2,$40,$D2,$40,$D2
-	DB $17,$FB,$0F,$34,$FB,$00,$00,$04,$00,$00,$E0,$00,$A0,$00,$20,$03,$40,$03,$13,$82,$5C,$D2,$5C,$D2,$5C,$D2,$5C,$D2
+	DB $5F,$F4,$0F,$DC,$F7,$00,$00,$01,$AE,$82,$5A,$00,$3C,$00,$14,$00,$6E,$00,$13,$82,$98,$D1,$98,$D1,$98,$D1,$98,$D1	;Vertical Tunnel Door
+	DB $B8,$F8,$0F,$D9,$F8,$00,$00,$04,$00,$00,$D0,$00,$60,$00,$A0,$01,$D0,$01,$13,$82,$B4,$D1,$B4,$D1,$B4,$D1,$B4,$D1	;Armada Tunnel Upward Piece
+	DB $37,$F9,$0F,$49,$F9,$00,$00,$04,$00,$00,$D0,$00,$60,$00,$A0,$01,$D0,$01,$13,$82,$D0,$D1,$D0,$D1,$D0,$D1,$D0,$D1	;Armada Tunnel Upward Piece 2
+	DB $A7,$F9,$0F,$B9,$F9,$00,$00,$04,$00,$00,$D0,$00,$60,$00,$A0,$01,$D0,$01,$13,$82,$EC,$D1,$EC,$D1,$EC,$D1,$EC,$D1	;Armada Tunnel Upward Piece
+	DB $17,$FA,$0F,$29,$FA,$00,$00,$04,$00,$00,$D0,$00,$60,$00,$A0,$01,$D0,$01,$13,$82,$08,$D2,$08,$D2,$08,$D2,$08,$D2	;Armada Tunnel Downward Piece
+	DB $87,$FA,$0F,$96,$FA,$00,$00,$04,$00,$00,$D0,$00,$60,$00,$40,$01,$90,$01,$13,$82,$24,$D2,$24,$D2,$24,$D2,$24,$D2	;Armada Tunnel Piece
+	DB $CF,$FA,$0F,$DE,$FA,$00,$00,$04,$00,$00,$D0,$00,$60,$00,$40,$01,$90,$01,$13,$82,$40,$D2,$40,$D2,$40,$D2,$40,$D2	;Armada Tunnel Piece 2
+	DB $17,$FB,$0F,$34,$FB,$00,$00,$04,$00,$00,$E0,$00,$A0,$00,$20,$03,$40,$03,$13,$82,$5C,$D2,$5C,$D2,$5C,$D2,$5C,$D2	;Armada Tunnel Twist Piece
 	DB $E6,$F0,$11,$F5,$F0,$00,$00,$00,$00,$00,$28,$00,$28,$00,$28,$00,$45,$00,$13,$82,$78,$D2,$78,$D2,$78,$D2,$78,$D2
 	DB $55,$F1,$11,$F5,$F0,$00,$00,$00,$00,$00,$05,$00,$3C,$00,$05,$00,$45,$00,$13,$82,$94,$D2,$94,$D2,$94,$D2,$94,$D2
 	DB $64,$F1,$11,$F5,$F0,$00,$00,$00,$00,$00,$05,$00,$3C,$00,$05,$00,$45,$00,$13,$82,$B0,$D2,$B0,$D2,$B0,$D2,$B0,$D2
@@ -3779,10 +3779,10 @@ BehE5_L14:
 ;BEHAVIOR FUNCTION ID $E9
 BehE9_BigAsteroid:
 	rep #$20				;\Set object behavior routine pointer to $00FAA4
-	lda.w BehE9_BigAsteroid_Loop		;|
+	lda.w #LO16(BehE9_BigAsteroid_Loop)	;|
 	sta D,$16,x				;|
 	sep #$20				;|
-	lda.b (BehE9_BigAsteroid_Loop>>16)	;|
+	lda.b #HI8(BehE9_BigAsteroid_Loop)	;|
 	sta D,$18,x				;/
 	jsl CODE_1FD41A
 	lda D,$1F,x
@@ -3844,10 +3844,10 @@ CODE_00FAD6:
 	ora #$10
 	sta D,$2E,x
 	rep #$20		;\Set object behavior routine pointer to $00FB03
-	lda.w #CODE_00FB03	;|
+	lda.w #LO16(CODE_00FB03);|
 	sta D,$16,x		;|
 	sep #$20		;|
-	lda.b #(CODE_00FB03>>16);|
+	lda.b #HI8(CODE_00FB03)	;|
 	sta D,$18,x		;/
 	jsl CODE_1FD41A
 	lda D,$13,x
@@ -3966,10 +3966,10 @@ CODE_00FBD7:
 	lda #$00
 	sta $1CE7,x
 	rep #$20		;\Set object behavior routine pointer to $00FC29
-	lda.w #CODE_00FC29	;|
+	lda.w #LO16(CODE_00FC29);|
 	sta D,$16,x		;|
 	sep #$20		;|
-	lda.b #(CODE_00FC29>>16);|
+	lda.b #HI8(CODE_00FC29)	;|
 	sta D,$18,x		;/
 	lda #$46
 	sta D,$15,x
@@ -4029,11 +4029,14 @@ CODE_00FC63:
 	sta D,$1E,x
 CODE_00FC69:
 	rtl
+
 ;unknown data
 DATA_00FC6A:
 	DB $A9,$00,$48,$AB
+
 	;Compressed tilemap
 	INCBIN "graphics/compressed/unk00FF96.binz"		;map
+
 Reset_L1:
 	clc
 	xce
@@ -4042,7 +4045,7 @@ Reset:
 	bra Reset_L1
 GeneralInterrupt:
 	rti
-	
+
 ;;;;;;;;;;;;;;;;;;;;;;
 ;INTERNAL SNES HEADER;
 ;;;;;;;;;;;;;;;;;;;;;;

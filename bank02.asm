@@ -805,18 +805,18 @@ CODE_7E3845:
 	rep #$20
 	lda JOY1L
 	pha
-	eor Pad1Cur
+	eor Pad1HiPrev
 	and JOY1L
 	sta Pad1Down
 	lda JOY2L
 	pha
-	eor Pad2Cur
+	eor Pad2HiPrev
 	and JOY2L
 	sta Pad2Down
 	pla
-	sta Pad2Cur
+	sta Pad2HiPrev
 	pla
-	sta Pad1Cur
+	sta Pad1HiPrev
 	sep #$20
 	jsr CODE_7E4021
 	rtl
@@ -1038,18 +1038,18 @@ CODE_7E3A9E:
 	rep #$20
 	lda JOY1L
 	pha
-	eor Pad1Cur
+	eor Pad1HiPrev
 	and JOY1L
 	sta Pad1Down
 	lda JOY2L
 	pha
-	eor Pad2Cur
+	eor Pad2HiPrev
 	and JOY2L
 	sta Pad2Down
 	pla
-	sta Pad2Cur
+	sta Pad2HiPrev
 	pla
-	sta Pad1Cur
+	sta Pad1HiPrev
 	sep #$20
 	jsr CODE_7E4021
 	lda #$20
@@ -1280,19 +1280,19 @@ CODE_7E3CD7:
 	jsr CODE_7E4021
 	rep #$20
 	lda JOY1L
-	eor Pad1Cur
+	eor Pad1HiPrev
 	and JOY1L
 	sta Pad1Down
 	jsr CODE_7E3E35
 	sep #$20
-	lda Pad2Cur+1
-	sta Pad2Cur
-	lda $1208
-	sta $1207
+	lda Pad2HiCur
+	sta Pad2HiPrev
+	lda Pad2LoCur
+	sta Pad2LoPrev
 	lda JOY2L
-	sta $1208
+	sta Pad2LoCur
 	lda JOY2H
-	sta Pad2Cur+1
+	sta Pad2HiCur
 	jsr CODE_7E3DAB
 	ldx D,$4A
 	ldy D,$4C
@@ -1420,10 +1420,10 @@ CODE_7E3E34:
 	rts
 CODE_7E3E35:
 	sep #$20
-	lda Pad1Cur+1
-	sta Pad1Cur
-	lda $1204
-	sta $1203
+	lda Pad1HiCur
+	sta Pad1HiPrev
+	lda Pad1LoCur
+	sta Pad1LoPrev
 	lda $1F0F
 	and #$03
 	asl
@@ -1439,13 +1439,13 @@ DATA_7E3E51:
 	DW DATA_7E3EAE
 DATA_7E3E59:
 	lda JOY1L
-	sta $1204
+	sta Pad1LoCur
 	lda JOY1H
-	sta Pad1Cur+1
+	sta Pad1HiCur
 	rts
 DATA_7E3E66:
 	lda JOY1L
-	sta $1204
+	sta Pad1LoCur
 	lda JOY1H
 	and #$C0
 	lsr
@@ -1461,11 +1461,11 @@ DATA_7E3E66:
 	lda JOY1H
 	and #$3F
 	ora DATA_7E3EEF,x
-	sta Pad1Cur+1
+	sta Pad1HiCur
 	rts
 DATA_7E3E89:
 	lda JOY1L
-	sta $1204
+	sta Pad1LoCur
 	lda JOY1H
 	and #$0C
 	lsr
@@ -1479,11 +1479,11 @@ DATA_7E3E89:
 	lda JOY1H
 	and #$F3
 	ora $16C7
-	sta Pad1Cur+1
+	sta Pad1HiCur
 	rts
 DATA_7E3EAE:
 	lda JOY1L
-	sta $1204
+	sta Pad1LoCur
 	lda JOY1H
 	and #$0C
 	lsr
@@ -1514,7 +1514,7 @@ DATA_7E3EAE:
 	sta $16C7
 	pla
 	ora $16C7
-	sta Pad1Cur+1
+	sta Pad1HiCur
 	rts
 DATA_7E3EEF:
 	DB $00,$80,$40,$C0

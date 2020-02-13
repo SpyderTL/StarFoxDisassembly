@@ -16,7 +16,7 @@
 	INCBIN "graphics/compressed/fortuna.mapz"
 	INCBIN "graphics/compressed/sectorz.mapz"
 	INCBIN "graphics/compressed/venomatmoshpere.mapz"
-	INCBIN "graphics/compressed/unk16E024.binz"		;char
+	INCBIN "graphics/compressed/continue2.4bpp.chrz"
 	INCBIN "graphics/compressed/circles.mapz"
 	INCBIN "graphics/compressed/macbeth.mapz"
 	INCBIN "graphics/compressed/unk16F344.binz"		;map
