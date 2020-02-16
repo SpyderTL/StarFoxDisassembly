@@ -1138,14 +1138,247 @@ CODE_1FC5C5:
 	plb
 	rtl
 
-CODE_1FCE4:
+CODE_1FC5E4:
 	sta D, $7E
+	stx D, $76
+	sty D, $78
+	stz D, $08
+	stz D, $09
+	sec
+	lda #$40
+	sbc D, $13, X
+	tax
+	sep #$10
+	phb
+	lda #$00
+	pha
+	plb
+	inx
+	lda $98A5, X
+	sta D, $7A
+	lda $98E5, X
+	sta D, $7B
+	lda D, $7E
+	bmi CODE_1FC61F
+	asl
+	sta WRMPYA
+	lda D, $7A
+	bmi CODE_1FC641
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC64F
+CODE_1FC61F:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D, $7A
+	bmi CODE_1FC631
+	sta WRMPYB
+	nop
+	jmp CODE_1FC649
+CODE_1FC631:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC64F
+CODE_1FC641:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	lda #$00
+	sec
+	sbc RDMPYH
+	tax
+	ldx #$00
+	sta D, $02
+	cmp #$00
+	bpl CODE_1FC659
+	dex
+	stx D, $03
+	lda D, $7E
+	bmi CODE_1FC674
+	asl
+	sta WRMPYA
+	lda D, $7B
+	bmi CODE_1FC696
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC6A4
+CODE_1FC674:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D, 7B
+	bmi CODE_1FC686
+	sta WRMPYB
+	nop
+	jmp CODE_1FC69E
+CODE_1FC686:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC6A4
+CODE_1FC696:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	lda 00
+	sec
+	sbc RDMPYH
+	tax
+	ldx #$00
+	sta D, $90
+	cmp #$00
+	bpl CODE_1FC6AE
+	dex
+	stx D, $91
+	rep #$10
+	ldx $76
+	ldy $78
+	plb
+	rtl
 
+CODE_1FC6B8:
+	sta D, $7E
+	stx D, $76
+	sty D, $78
+	stz D, $08
+	stz D, $09
+	lda D, $13, X
+	tax
+	sep #$10
+	phb
+	lda #$00
+	pha
+	plb
+	inx
+	lda $98A5, X
+	sta D, $7A
+	lda $98E5, X
+	sta D, $7B
+	lda D, $7E
+	bmi CODE_1FC6F0
+	asl
+	sta WRMPYA
+	lda D, $7A
+	bmi CODE_1FC712
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC720
+CODE_1FC6F0 eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D, $7A
+	bmi CODE_1FC702
+	sta WRMPYB
+	nop
+	jmp CODE_1FC71A
+CODE_1FC702 eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC720
+CODE_1FC712 eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	lda #$00
+	sec
+	sbc RDMPYH
+	tax
+	ldx #$00
+	sta D, $02
+	cmp #$00
+	bpl CODE_1FC72A
+	dex
+	stx D, $03
+	lda D, $7E
+	bmi CODE_1FC745
+	asl
+	sta WRMPYA
+	lda D, $7B
+	bmi CODE_1FC767
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC775
+CODE_1FC745 eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D, $7B
+	bmi CODE_1FC757
+	sta WRMPYB
+	nop
+	jmp CODE_1FC76F
+CODE_1FC757 eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC775
+CODE_1FC767 eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	lda #$00
+	sec
+	sbc RDMPYH
+	tax
+	ldx #$00
+	sta D, $90
+	cmp #$00
+	bpl CODE_1FC77F
+	dex
+	stx D, $91
+	rep #$10
+	ldx $76
+	ldy $78
+	plb
+	rtl
 	
-	
-	
-	
-	
+CODE_1FC789:
 ApplyTempVelocityShift2:
 	rep #$20
 	asl D,$02
@@ -1220,16 +1453,12 @@ CODE_1FC7F8:
 	sty $14CA
 	ldx D,$3A
 	rtl
-CODE_1FC801:
+DATA_1FC801:
 	
+INCBIN "bank1F_1FC801.bin"
 	
-	
-	
-	
-	
-	
-	
-	
+
+CODE_1FD36E:
 ClearObject:
 	phx
 	tyx
