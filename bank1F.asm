@@ -489,9 +489,9 @@ CODE_1FC177:
 	plb
 	inx
 	iny
-	lda $98A5,x
+	lda $98A5,x				;Sine8 Table
 	sta D,$7A
-	lda $98E5,x
+	lda $98E5,x				;Sine8 Table + 0x40
 	sta D,$7B
 CODE_1FC196:
 	lda D,$7E
@@ -732,8 +732,415 @@ CODE_1FC318:
 	sta WRMPYA
 	lda D,$7B
 	bmi CODE_1FC353
-	
-	
+
+
+
+
+
+
+
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC361
+CODE_1FC331:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$7B
+	bmi CODE_1FC343
+	sta WRMPYB
+	nop
+	jmp CODE_1FC35B
+CODE_1FC343:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC361
+CODE_1FC353:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	lda #$00
+	sec
+	sbc RDMPYH
+	tax
+	sta D, $90
+	lda D, $90
+	bmi CODE_1FC37D
+	asl
+	sta WRMPYA
+	lda D, $83
+	bmi CODE_1FC39F
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC3AD
+CODE_1FC37D:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,#$83
+	bmi CODE_1FC38F
+	sta WRMPYB
+	nop
+	jmp CODE_1FC3A7
+CODE_1FC38F:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC3AD
+CODE_1FC39F:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	lda #$00
+	sec
+	sbc RDMPYH
+	tax
+	sta D, $90
+	cmp #$00
+	bpl CODE_1FC3B6
+	dec D, $91
+	lda D, $7E
+	bmi CODE_1FC3CF
+	asl
+	sta WRMPYA
+	lda D, $82
+	bmi CODE_1FC3F1
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC3FF
+CODE_1FC3CF:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D, $82
+	bmi CODE_1FC3E1
+	sta WRMPYB
+	nop
+	jmp CODE_1FC3F9
+CODE_1FC3E1:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC3FF
+CODE_1FC3F1:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	lda #$00
+	sec
+	sbc RDMPYH
+	tax
+	sta D, $08
+	cmp #$00
+	bpl CODE_1FC408
+	dec D, $09
+	rep $10
+	ldx D, $76
+	ldy D, $78
+	plb
+	rtl
+
+CODE_1FC410:
+	lda D, $15, X
+	sta D, $7E
+	lda D, $13
+	sta $15A7
+	lda D, #12
+	sta $15A6
+	stz D, $03
+	stz D, $09
+	stz D, $91
+	stx D, $76
+	sty D, $78
+	phb
+	lda #$00
+	pha
+	plb
+	lda $15A7
+	eor #$ff
+	inc
+	tay
+	lda $15A6
+	tax
+	sep #$10
+	lda $98A5, Y		; Sine8 Table
+	sta D, $7A
+	lda $98E5, Y		; Sine8 Table + 0x40
+	sta D, $7B
+	lda $98A5, X		; Sine8 Table
+	sta D, $82
+	lda $98E5, X		; Sine8 Table + 0x40
+	sta D, $83
+	lda D, $7E
+	bmi CODE_1FC467
+	asl
+	sta WRMPYA
+	lda D, $7A
+	bmi CODE_1FC489
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC497
+CODE_1FC467:
+	eor #$ff
+	inc
+	asl
+	sta WRMPYA
+	lda D, $7A
+	bmi CODE_1FC479
+	sta WRMPYB
+	nop
+	jmp CODE_1FC491
+CODE_1FC479:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC497
+CODE_1FC489:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	lda #$00
+	sec
+	sbc RDMPYH
+	tax
+	sta D, $02
+	lda D, $02
+	bmi CODE_1FC4B3
+	asl
+	sta WRMPYA
+	lda D, $83
+	bmi CODE_1FC4D5
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC4E3
+CODE_1FC4B3:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D, $83
+	bmi CODE_1FC4C5
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC4E3
+CODE_1FC4D5:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	sta #$00
+	sec
+	sbc RDMPYH
+	tax
+	sta D, $02
+	cmp #$00
+	bpl CODE_1FC4EC
+CODE_1FC4EA:
+	dec D, $03
+	lda D, $7E
+	bmi CODE_1FC505
+	asl
+	sta WRMPYA
+	lda D, $7B
+	bmi CODE_1FC527
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC535
+CODE_1FC505:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D, $7B
+	bmi CODE_1FC517
+	sta WRMPYB
+	nop
+	jmp CODE_1FC52F
+CODE_1FC517:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC535
+CODE_1FC527:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	lda #$00
+	sec
+	sbc RDMPYH
+	tax
+	sta D, $90
+	lda D, $90
+	bmi CODE_1FC551
+	asl
+	sta WRMPYA
+	lda D, $83
+	bmi CODE_1FC573
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC581
+CODE_1FC551:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D, $83
+	bmi CODE_1FC563
+	sta WRMPYB
+	nop
+	jmp CODE_1FC57B
+CODE_1FC563:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_!FC581
+CODE_1FC573:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	sta #$00
+	sec
+	sbc RDMPYH
+	tax
+	sta D, $90
+	cmp #$00
+	bpl CODE_!FC58A
+	dec D, $91
+	lda D, $7E
+	bmi CODE_1FC5A3
+	asl
+	sta WRMPYA
+	lda D, $82
+	bmi CODE_1FC5C5
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC5D3
+CODE_1FC5A3:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D, $82
+	bmi CODE_1FC5B5
+	sta WRMPYB
+	nop
+	jmp CODE_1FC5CD
+CODE_1FC5B5:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC5D3
+CODE_1FC5C5:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	sta #$00
+	sec
+	sbc RDMPYH
+	tax
+	sta D, $08
+	cmp #$00
+	bpl CODE_1FC5DC
+	dec D, $09
+	rep #$10
+	stx D, $76
+	sty D, $78
+	plb
+	rtl
+
+CODE_1FCE4:
+	sta D, $7E
+
 	
 	
 	
