@@ -24,20 +24,31 @@ endmacro
 
 ;Zero Page
 CurNMITask		= $00
-TempX			= $02
+TempPosX		= $02
 
-TempY			= $08
+TempPosY		= $08
 
-TempZ			= $90
+SavedIndX		= $76
+SavedIndY		= $78
+TempSinIndY		= $7A
+TempCosIndY		= $7B
+
+TempSinIndX		= $82
+TempCosIndX		= $83
+
+TempPosZ		= $90
 
 ;Object data ($0336-????)
 struct ObjectList $0336
-	.Unk00: skip 2
-	.Unk02: skip 2
+	.PrevObj: skip 2	;00
+	.NextObj: skip 2	;02
 	.ID: skip 2		;04
-	.Unk06: skip 2
-	.Unk08: skip 2
-	.Unk0A: skip 2
+	.Unk06: skip 1
+	.Unk07: skip 1
+	.Unk08: skip 1
+	.Unk09: skip 1
+	.Unk0A: skip 1
+	.Unk0B: skip 1
 	.PosX: skip 2		;0C
 	.PosY: skip 2		;0E
 	.PosZ: skip 2		;10
@@ -46,17 +57,28 @@ struct ObjectList $0336
 	.RotZ: skip 1		;14
 	.Unk15: skip 1
 	.BehFunc: skip 3	;16
-	.Unk19: skip 2
-	.Unk1B: skip 2
-	.Unk1D: skip 2
-	.Unk1F: skip 2
-	.Unk21: skip 2
-	.Unk23: skip 2
-	.Unk25: skip 2
-	.Unk27: skip 2
-	.Unk29: skip 2
-	.Unk2B: skip 2
-	.Unk2D: skip 2
+	.Unk19: skip 1
+	.Unk1A: skip 1
+	.Unk1B: skip 1
+	.Unk1C: skip 1
+	.Unk1D: skip 1
+	.Unk1E: skip 1
+	.Unk1F: skip 1
+	.Unk20: skip 1
+	.Unk21: skip 1
+	.Unk22: skip 1
+	.Unk23: skip 1
+	.Unk24: skip 1
+	.Unk25: skip 1
+	.Unk26: skip 1
+	.Unk27: skip 1
+	.Unk28: skip 1
+	.Unk29: skip 1
+	.Unk2A: skip 1		;Shield
+	.Unk2B: skip 1
+	.Unk2C: skip 1
+	.Unk2D: skip 1
+	.Unk2E: skip 1
 	.VelX: skip 2		;2F
 	.VelY: skip 2		;31
 	.VelZ: skip 2		;33
@@ -86,10 +108,16 @@ SuperFXScreenMode	= $1260
 OAMMirror		= $1261
 
 ;Page $15
+			= $15A6
+			= $15A7
+NovaBombs		= $15AD
 			= $15B9
 
 
 ;Page $16
+Lives			= $16AE
+StageID			= $16D6
+LevelID			= $16D8
 ScanlineToWaitFor	= $16DB
 			= $16F7
 ZTimer			= $16FB

@@ -41,7 +41,7 @@ CODE_068004:
 	ARCH SUPERFX
 CODE_06FB5D:
 	alt1
-	lms r7,($63)
+	lms r7,($00C6)
 	with r7
 	asr
 	from r7

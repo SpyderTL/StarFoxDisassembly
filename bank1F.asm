@@ -732,13 +732,686 @@ CODE_1FC318:
 	sta WRMPYA
 	lda D,$7B
 	bmi CODE_1FC353
-	
-	
-	
-	
-	
-	
-	
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC361
+CODE_1FC331:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$7B
+	bmi CODE_1FC343
+	sta WRMPYB
+	nop
+	jmp CODE_1FC35B
+CODE_1FC343:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC361
+CODE_1FC353:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC35B:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC361:
+	tax
+	sta D,$90
+	lda D,$90
+	bmi CODE_1FC37D
+	asl
+	sta WRMPYA
+	lda D,$83
+	bmi CODE_1FC39F
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC3AD
+CODE_1FC37D:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$83
+	bmi CODE_1FC38F
+	sta WRMPYB
+	nop
+	jmp CODE_1FC3A7
+CODE_1FC38F:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC3AD
+CODE_1FC39F:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC3A7:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC3AD:
+	tax
+	sta D,$90
+	cmp #$00
+	bpl CODE_1FC3B6
+	dec D,$91
+CODE_1FC3B6:
+	lda D,$7E
+	bmi CODE_1FC3CF
+	asl
+	sta WRMPYA
+	lda D,$82
+	bmi CODE_1FC3F1
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC3FF
+CODE_1FC3CF:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$82
+	bmi CODE_1FC3E1
+	sta WRMPYA
+	nop
+	jmp CODE_1FC3F9
+CODE_1FC3E1:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC3FF
+CODE_1FC3F1:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC3F9:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC3FF:
+	tax
+	sta D,$08
+	cmp #$00
+	bpl CODE_1FC408
+	dec D,$09
+CODE_1FC408:
+	rep #$10
+	ldx D,$76
+	ldy D,$78
+	plb
+	rtl
+CODE_1FC410:
+	lda D,$15,x
+	sta D,$7E
+	lda D,$13,x
+	sta $15A7
+	lda D,$12,x
+	sta $16A6
+CODE_1FC41E:
+	stz D,$03
+	stz D,$09
+	stz D,$91
+	stx D,$76
+	sty D,$78
+	phb
+	lda #$00
+	pha
+	plb
+	lda $15A7
+	eor #$FF
+	inc
+	tay
+	lda $15A6
+	tax
+	sep #$10
+	lda.w SineTable8,y
+	sta D,$7A
+	lda.w SineTable8+$40,y
+	sta D,$7B
+	lda.w SineTable8,x
+	sta D,$82
+	lda.w SineTable8+$40,x
+	sta D,$83
+	lda D,$7E
+	bmi CODE_1FC467
+	asl
+	sta WRMPYA
+	lda D,$7A
+	bmi CODE_1FC489
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC497
+CODE_1FC467:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$7A
+	bmi CODE_1FC479
+	sta WRMPYB
+	nop
+	jmp CODE_1FC491
+CODE_1FC479:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC497
+CODE_1FC489:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC491:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC497:
+	tax
+	sta D,$02
+	lda D,$02
+	bmi CODE_1FC4B3
+	asl
+	sta WRMPYA
+	lda D,$83
+	bmi CODE_1FC4D5
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC4E3
+CODE_1FC4B3:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$83
+	bmi CODE_1FC4C5
+	sta WRMPYB
+	nop
+	jmp CODE_1FC4DD
+CODE_1FC4C5:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC4E3
+CODE_1FC4D5:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC4DD:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC4E3:
+	tax
+	sta D,$02
+	cmp #$00
+	bpl CODE_1FC4EC
+	dec D,$03
+CODE_1FC4EC:
+	lda D,$7E
+	bmi CODE_1FC505
+	asl
+	sta WRMPYA
+	lda D,$7B
+	bmi CODE_1FC527
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC535
+CODE_1FC505:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$7B
+	bmi CODE_1FC517
+	sta WRMPYB
+	nop
+	jmp CODE_1FC52F:
+CODE_1FC517:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC535
+CODE_1FC527:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC52F:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC535:
+	tax
+	sta D,$90
+	lda D,$90
+	bmi CODE_1FC551
+	asl
+	sta WRMPYA
+	lda D,$83
+	bmi CODE_1FC573
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC581
+CODE_1FC551:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$83
+	bmi CODE_1FC563
+	sta WRMPYB
+	nop
+	jmp CODE_1FC57B
+CODE_1FC563:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC581
+CODE_1FC573:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC57B:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC581:
+	tax
+	sta D,$90
+	cmp #$00
+	bpl CODE_1FC58A
+	dec D,$91
+CODE_1FC58A:
+	lda D,$7E
+	bmi CODE_1FC5A3
+	asl
+	sta WRMPYA
+	lda D,$82
+	bmi CODE_1FC5C5
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC5D3
+CODE_1FC5A3:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$82
+	bmi CODE_1FC5B5
+	sta WRMPYB
+	nop
+	jmp CODE_1FC5CD
+CODE_1FC5B5:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC5D3
+CODE_1FC5C5:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC5CD:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC5D3:
+	tax
+	sta D,TempPosY
+	cmp #$00
+	bpl CODE_1FC5DC
+	dec D,TempPosY+1
+CODE_1FC5DC:
+	rep #$10
+	ldx D,TempIndX
+	ldy D,TempIndY
+	plb
+	rtl
+CODE_1FC5E4:
+	sta D,$7E
+	stx D,$76
+	sty D,$78
+	stz D,TempPosY
+	stz D,TempPosY+1
+	sec
+	lda #$40
+	sbc D,$13,x
+	tax
+	sep #$10
+	phb
+	lda #$00
+	pha
+	plb
+	inx
+	lda.w SineTable8,x
+	sta D,$7A
+	lda.w SineTable8+$40,x
+	sta D,$7B
+	lda D,$7E
+	bmi CODE_1FC61F
+	asl
+	sta WRMPYA
+	lda D,$7A
+	bmi CODE_1FC641
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC64F
+CODE_1FC61F:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$7A
+	bmi CODE_1FC631
+	sta WRMPYB
+	nop
+	jmp CODE_1FC649
+CODE_1FC631:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC64F
+CODE_1FC641:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC649:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC64F:
+	tax
+	ldx #$00
+	sta D,TempPosX
+	cmp #$00
+	bpl CODE_1FC659
+	dex
+CODE_1FC659:
+	stx D,TempPosX+1
+	lda D,$7E
+	bmi CODE_1FC674
+	asl
+	sta WRMPYA
+	lda D,$7B
+	bmi CODE_1FC696
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC6A4
+CODE_1FC674:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,$7B
+	bmi CODE_1FC686
+	sta WRMPYB
+	nop
+	jmp CODE_1FC69E
+CODE_1FC686:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC6A4
+CODE_1FC696:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC69E:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC6A4:
+	tax
+	lda #$00
+	sta D,TempPosZ
+	cmp #$00
+	bpl CODE_1FC6AE
+	dex
+CODE_1FC6AE:
+	stx D,TempPosZ+1
+	rep #$10
+	ldx D,$76
+	ldy D,$78
+	plb
+	rtl
+CODE_1FC6B8:
+	sta D,$7E
+	stx D,TempIndX
+	sty D,TempIndY
+	stz D,TempPosY
+	stz D,TempPosY+1
+	lda D,$13,x
+	tax
+	sep #$10
+	phb
+	lda #$00
+	pha
+	plb
+	inx
+	lda.w SineTable8,x
+	sta D,TempSinIndX
+	lda.w SineTable8+$40,x
+	sta D,TempCosIndX
+	lda D,$7E
+	bmi CODE_1FC6F0
+	asl
+	sta WRMPYA
+	lda D,TempSinIndX
+	bmi CODE_1FC712
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC720
+CODE_1FC6F0:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,TempSinIndX
+	bmi CODE_1FC702
+	sta WRMPYB
+	nop
+	jmp CODE_1FC71A
+CODE_1FC702:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC720
+CODE_1FC712:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC71A:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC720:
+	tax
+	ldx #$00
+	sta D,TempPosX
+	cmp #$00
+	bpl CODE_1FC72A
+	dex
+CODE_1FC72A:
+	stx D,TempPosX+1
+	lda D,$7E
+	bmi CODE_1FC745
+	asl
+	sta WRMPYA
+	lda D,TempCosIndX
+	bmi CODE_1FC767
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC775
+CODE_1FC745:
+	eor #$FF
+	inc
+	asl
+	sta WRMPYA
+	lda D,TempCosIndX
+	bmi CODE_1FC757
+	sta WRMPYB
+	nop
+	jmp CODE_1FC76F
+CODE_1FC757:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+	nop
+	nop
+	lda RDMPYH
+	jmp CODE_1FC775
+CODE_1FC767:
+	eor #$FF
+	inc
+	sta WRMPYB
+	nop
+	nop
+CODE_1FC76F:
+	lda #$00
+	sec
+	sbc RDMPYH
+CODE_1FC775:
+	tax
+	ldx #$00
+	sta D,TempPosZ
+	cmp #$00
+	bpl CODE_1FC77F
+	dex
+CODE_1FC77F:
+	stx D,TempPosZ+1
+	rep #$20
+	ldx TempIndX
+	ldy TempIndY
+	plb
+	rtl
 ApplyTempVelocityShift2:
 	rep #$20
 	asl D,$02
@@ -814,15 +1487,271 @@ CODE_1FC7F8:
 	ldx D,$3A
 	rtl
 CODE_1FC801:
+	ldy D,$00,x
+	beq CODE_1FC7F8
+	tyx
+	cpx D,$3A
+	beq CODE_1FC801
+	lda D,$1F,x
+	and #$0008
+	beq CODE_1FC801
+	stx $14CA
+	ldx D,$3A
+	rtl
+CODE_1FC817:
+	cmp #$0000
+	beq CODE_1FC84C
+	stx D,$3A
+	ldx $14CA
+	beq CODE_1FC7F8
+	txy
+CODE_1FC824:
+	cmp D,$04,x
+	beq CODE_1FC82D
+CODE_1FC828:
+	ldy D,$00,x
+	tyx
+	bne CODE_1FC824
+CODE_1FC82D:
+	cpx D,$3A
+	beq CODE_1FC828
+	sta $14C5
+	sep #$20
+	lda D,$1D,x
+	and D,$02
+	rep #$20
+	bne CODE_1FC843
+	lda $14C5
+	bra CODE_1FC828
+CODE_1FC843:
+	ldy D,$00,x
+	sty $14CA
+	txy
+	ldx D,$3A
+	rtl
+CODE_1FC84C:
+	stx D,$3A
+	ldx $14CA
+	beq CODE_1FC7F8
+	txy
+	sep #$20
+CODE_1FC856:
+	cpx D,$3A
+	beq CODE_1FC860
+	lda D,$1D,x
+	and D,$02
+	bne CODE_1FC865
+CODE_1FC860:
+	ldy D,$00,x
+	tyx
+	bne CODE_1FC856
+CODE_1FC865:
+	ldy D,$00,x
+	sty $14CA
+	txy
+	ldx D,$3A
+	rep #$20
+	rtl
+CODE_1FC870:
+	stx D,$04
+	ldx $14CA
+	bne CODE_1FC87A
+	brl CODE_1FC8B3
+CODE_1FC87A:
+	cmp #$00
+	beq CODE_1FC8B9
+	sta D,$0A
+	stz D,$3C
+CODE_1FC883:
+	cpx D,$04
+	beq CODE_1FC8A4
+	lda D,$04,x
+	cmp D,$0A
+	bne CODE_1FC8A4
+	ldy D,$04
+	jsl CODE_1FD0AB
+	rep #$20
+	lda $1250
+	cmp D,$3A
+	bpl CODE_1FC8A4
+	cmp D,$3E
+	bmi CODE_1FC8A4
+	sta D,$3A
+	stx D,$3C
+CODE_1FC8A4:
+	ldy D,$00,x
+	tyx
+	bne CODE_1FC883
+	ldy D,$00,x
+	sty $14CA
+	ldy D,$3C
+	ldx D,$04
+	rtl
+CODE_1FC8B3:
+	ldy #$0000
+	ldx D,$04
+	rtl
+CODE_1FC8B9:
+	stz D,$3C
+CODE_1FC8BB:
+	cpx D,$04
+	beq CODE_1FC8DD
+	lda D,$1F,x
+	and #$0008
+	beq CODE_1FC8DD
+	ldy D,$04
+	jsl CODE_1FCD0AB
+	rep #$20
+	lda $1250
+	cmp D,$3A
+	bpl CODE_1FC8DD
+	cmp D,$3E
+	bmi CODE_1FC8DD
+	sta D,$3A
+	stx D,$3C
+CODE_1FC8DD:
+	ldy D,$00,x
+	tyx
+	bne CODE_1FC8BB
+	sty $14CA
+	ldy D,$3C
+	ldx D,$04
+	rtl
+CODE_1FC8EA:
 	
 	
 	
 	
 	
-	
-	
-	
-	
+ProcObject:
+	php
+	rep #$30
+	cpx $156B
+	bne ProcObject_L1
+	brl ProcObject_L9
+ProcObject_L1:
+	lda D,$2E,x
+	and #$FFFB
+	sta D,$2E,x
+	lda D,$0C,x
+	sta $1513
+	lda D,$0E,x
+	sta $1515
+	lda D,$10,x
+	sta $1517
+	sep #$20
+	stx $123A
+	lda D,$2A,x
+	bne ProcObject_L4
+	lda D,$09,x
+	and #$10
+	beq ProcObject_L2
+	jmp ProcObject_L4
+ProcObject_L2:
+	rep #$20
+	lda $7E1CD6,x
+	beq ProcObject_L3
+	sep #$20
+	lda D,$1E,x
+	and #$02
+	bne ProcObject_L6
+ProcObject_L3:
+	sep #$20
+	lda $7E1CD2,x
+	sta $1244
+	rep #$20
+	lda $7E1CD0,x
+	bne ProcObject_L8
+	sep #$20
+ProcObject_L4:
+	lda D,$09,x
+	and #$EF
+	sta D,$09,x
+	lda D,$1D,x
+	and #$80
+	beq ProcObject_L5
+	lda $7E1CD5,x
+	sta $1244
+	rep #$20
+	lda $7E1CD3,x
+	bne ProcObject_L8
+	sep #$20
+	lda D,$1D,x
+	and #$7F
+	sta D,$1D,x
+	bra ProcObject_L7
+ProcObject_L5:
+	lda D,$1E,x
+	and #$02
+	beq ProcObject_L7
+ProcObject_L6:
+	lda D,$1E,x
+	and #$FD
+	sta D,$1E,x
+	lda $7E1CD8,x
+	sta $1244
+	rep #$20
+	lda $7E1CD6,x
+	bne $1FD30F
+	sep #$20
+ProcObject_L7:
+	lda D,$18,x
+	sta $1244
+	rep #$20
+	lda D,$16,x
+	beq ProcObject_L10
+ProcObject_L8:
+	sta $1242
+	sep #$20
+	lda.b #HI8(STACKIFY(ProcObject_L9))
+	pha
+	rep #$20
+	lda.w #LO16(STACKIFY(ProcObject_L9))
+	pha
+	sep #$20
+	lda $1244
+	pha
+	rep #$20
+	stz $1521
+	lda $1242
+	dec
+	pha
+	sep #$20
+	rtl
+ProcObject_L9:
+	sep #$20
+	lda $14C9
+ProcObject_L10:
+	plp
+	rtl
+CODE_1FD337:
+	sep #$20
+	stz NMITIMEN
+	stz HDMAEN
+	stz TM
+	stz TS
+	pha
+CODE_1FD346:
+	stz HDMAEN
+	lda #$80
+	sta INIDISP
+	pla
+	stz CGADD
+	sta CGDATA
+	inc
+	sta CGDATA
+	inc
+	and #$0F
+	pha
+	lda $120E
+	sta HDMAEN
+	lda #$0F
+	sta INIDISP
+	nop
+	nop
+	nop
+	nop
+	bra CODE_1FD346
 ClearObject:
 	phx
 	tyx
@@ -862,6 +1791,10 @@ ClearObject_L2:
 	tyx
 	ply
 	rtl
+	
+	
+	
+	
 	
 	
 	
@@ -945,6 +1878,57 @@ ClearVelocityIndY:
 	
 	
 	
+	
+	
+MoveObjectAlongRailsIndX:
+	rep #$20
+	lda D,$10,x
+	clc
+	adc $14F4
+	sta D,$10,x
+	sep #$20
+	rtl
+MoveObjectAlongRailsIndY:
+	rep #$20
+	lda D,$0010,y
+	clc
+	adc $14F4
+	sta D,$0010,y
+	sep #$20
+	rtl
+CODE_1FDC85:
+	rts
+CODE_1FDC86:
+	rts
+CODE_1FDC87:
+	rtl
+CODE_1FDC88:
+	rts
+	
+	
+	
+BehF1_TitleHighPolyArwing:
+	lda #$EF		;\Init X Rotation
+	sta D,$12,x		;/
+	lda #$60		;\Init Y Rotation
+	sta D,$13,x		;/
+	lda #$00		;\Init Z Rotation
+	sta D,$14,x		;/
+	
+	rep #$20
+	lda.w #LO16(BehF1_TitleHighPolyArwing_L1)
+	sta D,$16,x
+	sep #$20
+	lda.b #HI8(BehF1_TitleHighPolyArwing_L1)
+	sta D,$18,x
+	
+BehF1_TitleHighPolyArwing_L1:
+	lda D,$14,x		;\Rotate about local Z
+	clc			;|
+	adc #$02		;|
+	sta D,$14,x		;/
+	jsl MoveObjectAlongRailsIndX
+	rtl
 	;Compressed tilemap
 	INCBIN "graphics/compressed/venom.mapz"		;1FF963
 CODE_1FF963:
