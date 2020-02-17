@@ -1293,7 +1293,8 @@ CODE_1FC6B8:
 	nop
 	lda RDMPYH
 	jmp CODE_1FC720
-CODE_1FC6F0 eor #$FF
+CODE_1FC6F0:
+	eor #$FF
 	inc
 	asl
 	sta WRMPYA
@@ -1302,7 +1303,8 @@ CODE_1FC6F0 eor #$FF
 	sta WRMPYB
 	nop
 	jmp CODE_1FC71A
-CODE_1FC702 eor #$FF
+CODE_1FC702:
+	eor #$FF
 	inc
 	sta WRMPYB
 	nop
@@ -1311,7 +1313,8 @@ CODE_1FC702 eor #$FF
 	nop
 	lda RDMPYH
 	jmp CODE_1FC720
-CODE_1FC712 eor #$FF
+CODE_1FC712:
+	eor #$FF
 	inc
 	sta WRMPYB
 	nop
@@ -1339,7 +1342,8 @@ CODE_1FC712 eor #$FF
 	nop
 	lda RDMPYH
 	jmp CODE_1FC775
-CODE_1FC745 eor #$FF
+CODE_1FC745:
+	eor #$FF
 	inc
 	asl
 	sta WRMPYA
@@ -1348,7 +1352,8 @@ CODE_1FC745 eor #$FF
 	sta WRMPYB
 	nop
 	jmp CODE_1FC76F
-CODE_1FC757 eor #$FF
+CODE_1FC757:
+	eor #$FF
 	inc
 	sta WRMPYB
 	nop
@@ -1357,7 +1362,8 @@ CODE_1FC757 eor #$FF
 	nop
 	lda RDMPYH
 	jmp CODE_1FC775
-CODE_1FC767 eor #$FF
+CODE_1FC767:
+	eor #$FF
 	inc
 	sta WRMPYB
 	nop
@@ -1742,8 +1748,161 @@ CODE_1FFAE3:
 CODE_1FFAFC:
 	
 	
-	
-	
+
+	lda $1209
+	bit #$40
+	beq CODE_1FFB06
+	jmp CODE_1FFA47
+CODE_1FFB06:
+	lda $120A
+	bit #$40
+	beq CODE_1FFB10
+	jmp CODE_1FFA47
+CODE_1FFB10:
+	lda $1209
+	bit #$80
+	bne CODE_1FFB28
+	lda $120A
+	bit #$80
+	bne CODE_1FFB28
+	lda $120A
+	bit #$10
+	bne CODE_1FFB28
+	jmp CODE_1FFA9C
+CODE_1FFB28:
+	sep #$20
+	lda #$10
+	jsr CODE_03B7F9
+	lda #$F1
+	sta $1F47
+	stz $1F46
+	lda #$FF
+	sta $18B2
+	jsr CODE_02FD84
+	jsr CODE_1FFBFF
+	jsr CODE_1FFD54
+	sep #$20
+	lda $18B2
+	and #$FF
+	bne CODE_1FFB3D
+	stz $1F0D
+	lda $7EA05A
+	beq CODE_1FFB5C
+	jmp CODE_1FFBFD
+CODE_1FFB5C:
+	jsr CODE_02E266
+	sep #$20
+	rep #$10
+	lda #$0D
+	ldx $6DC0
+	sta $1FF4
+	stx $16FD
+	jsr CODE_02E2CC
+	sep #$20
+	lda #$01
+	sta $16EC
+	stz $15BB
+	stz $15BC
+	jsr CODE_02FD84
+	jsr CODE_02D956
+	jsr CODE_03EA26
+	rep #$20
+	lda $15BB
+	cmp $0014
+	bpl $1FFB80
+	sep #$20
+	lda $1FD2
+	cmp $0A
+	beq CODE_1FFBE5
+	lda $14D1
+	and #$08
+	beq CODE_1FFBAD
+	lda $14D7
+	bit #$80
+	bne CODE_1FFB80
+	lda $120A
+	bit #$10
+	beq CODE_1FFB80
+	sep #$20
+	lda #$F1
+	sta $1F47
+	stz $1F46
+	lda #$FF
+	sta $18B2
+	jsr CODE_02FD84
+	jsr CODE_02D956
+	sep #$20
+	lda $18B2
+	and #$FF
+	bne CODE_1FFBC3
+	jsr CODE_02E266
+	sep #$20
+	lda #$01
+	sta $7EA05A
+	sta $1FDF
+	jmp CODE_1FFBF6
+	jsr CODE_02E266
+	sep #$20
+	lda #$00
+	sta $7EA05A
+	lda #$01
+	sta $1FDF
+	stz $1FD2
+	plp
+	jmp CODE_1FF963
+
+CODE_1FFBFE:
+	rtl
+
+CODE 1FFBFF:
+	rep #$30
+	ldx #$0000
+	stx $15AF
+	ldx #$0000
+	lda $7EA05A
+	beq CODE_1FFC13
+	ldx #$0078
+	ldy $15AF
+	lda $97A8
+	sta $14C5
+CODE_1FFC1C:
+	lda $14C5
+	sta $1261, Y
+	lda $1FFC64, X
+	clc
+	adc #$3080
+	sta $1263, Y
+	iny
+	iny
+	iny
+	iny
+	inx
+	inx
+	lda $14C5
+	clc
+	adc #$0008
+	sta $14C5
+	and #$00FF
+	cmp #$00F8
+	bne CODE_1FFC1C
+	lda $14C5
+	and #$FF00
+	clc
+	adc #$0800
+	cmp #$C700
+	beq CODE_1FFC5C
+	or #$00A8
+	sta $14C5
+	jmp CODE_1FFC1C
+CODE_1FFC5C:
+	sty $15AF
+	jsr CODE_03DBD0
+	rts
+
+DATA_1FFC64:
+
+INCBIN "bank1F_1FFC64.bin"
+
 CODE_1FFDAC:
 	sep #$20
 	rep #$20
