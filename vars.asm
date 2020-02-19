@@ -2,46 +2,61 @@
 ;MACROS;
 ;;;;;;;;
 ;General macros
-macro HI8(Label)
+macro BANKOF(Label)
 	(Label>>16)
-endmacro
-macro LO16(Label)
-	(Label&0xFFFF)
 endmacro
 macro STACKIFY(Label)
 	(Label-1)
 endmacro
 
 ;For BehaviorFunctionTable
-macro BEHFUNCPTR(Func,ModelID)
-	DL Func
+macro BEHFUNCPTR(FuncPtr,ModelID)
+	DL FuncPtr
 	DB ModelID
+endmacro
+;For PresetFunctionTable
+macro PRESETFUNCPTR(FuncPtr)
+	DB $00,$00,$00
+	DB BANKOF(FuncPtr)
+	DW FuncPtr
+endmacro
+;For calls to CODE_09BADE
+macro JUMPTABLE(FuncPtr)
+	DB BANKOF(FuncPtr)
+	DW FuncPtr
+	DB $00
 endmacro
 
 ;;;;;;;;;;;;;;;;;;
 ;VARS AND STRUCTS;
 ;;;;;;;;;;;;;;;;;;
 
-;Zero Page
+;Zero Page ($00)
 CurNMITask		= $00
-TempPosX		= $02
+TempPresetFuncPtr	= $02
+TempVecX		= $02
 
-TempPosY		= $08
+TempVecY		= $08
+
+TempSelf		= $3A
 
 SavedIndX		= $76
 SavedIndY		= $78
 TempSinIndY		= $7A
 TempCosIndY		= $7B
 
-TempSinIndX		= $82
-TempCosIndX		= $83
+TempSin			= $82
+TempCos			= $83
 
-TempPosZ		= $90
+TempVecZ		= $90
 
-;Object data ($0336-????)
+;Object data
+;This is an open doubly linked list,
+;where each entry points to the previous/next one.
+;Space is available for 70 objects.
 struct ObjectList $0336
-	.PrevObj: skip 2	;00
-	.NextObj: skip 2	;02
+	.NextObj: skip 2	;00
+	.PrevObj: skip 2	;02
 	.ID: skip 2		;04
 	.Unk06: skip 1
 	.Unk07: skip 1
@@ -74,7 +89,7 @@ struct ObjectList $0336
 	.Unk27: skip 1
 	.Unk28: skip 1
 	.Unk29: skip 1
-	.Unk2A: skip 1		;Shield
+	.HP: skip 1		;2A
 	.Unk2B: skip 1
 	.Unk2C: skip 1
 	.Unk2D: skip 1
@@ -84,6 +99,8 @@ struct ObjectList $0336
 	.VelZ: skip 2		;33
 	.Unk35: skip 1
 endstruct
+;Flags
+
 
 ;Page $12
 Pad1HiPrev		= $1201
@@ -97,15 +114,23 @@ Pad2LoCur		= $1208
 Pad1Down		= $1209
 Pad2Down		= $120B
 
-			= $121D
-			= $121F
+			= $120E
+
+FirstObject		= $121D
+LastObject		= $121F
 			
 			= $1236
 			= $1238
 			= $123A
 
 SuperFXScreenMode	= $1260
+;$0220 bytes long
 OAMMirror		= $1261
+
+;Page $14
+FirstCandidate		= $14CA
+TrueZVel		= $14EA
+RailOffset		= $14F4
 
 ;Page $15
 			= $15A6
@@ -126,7 +151,7 @@ LevelScriptPointer	= $16FD
 ;Page $17
 			= $1730
 			= $1732
-			= $1741
+Preset			= $1741
 
 ;Page $18
 			= $188C
@@ -135,11 +160,16 @@ LevelScriptPointer	= $16FD
 			= $18B3
 
 ;Page $19
-
+;Page $1A
+;Page $1B
+;Page $1C
+;Page $1D
 ;Page $1E
 
 ;Page $1F
 			= $1F13
+			= $1F35
+			= $1F37
 			= $1F3F
 			= $1F41
 			= $1F47
@@ -147,5 +177,11 @@ LevelScriptPointer	= $16FD
 			= $1F65
 LevelScriptBank		= $1FF4
 
-;Bank $7E High
+;Bank $70 (first 2 pages)
+
+
+;Bank $70 high
+
+
+;Bank $7E high
 

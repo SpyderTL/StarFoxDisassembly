@@ -4562,10 +4562,10 @@ CODE_01AC1D:	;Seems to be the main entry point for drawing models
 	link #4
 	iwt r15,#$D624
 	nop
-	alt1
-	rpix
-	stop
-	nop
+	alt1				;\Flush pixel buffer
+	rpix				;/
+	stop				;\End SuperFX task
+	nop				;/
 CODE_01AC97:
 	alt1
 	lm r1,($021E)
@@ -4644,6 +4644,402 @@ CODE_01AC97:
 	
 	;B301
 DecompressGraphics:
+	alt1
+	lms r0,($0062)
+	alt3
+	romb
+	sub r0
+	alt2
+	ramb
+	alt1
+	lms r14,($0062)
+	dec r14
+	to r1
+	getb
+	dec r14
+	with r1
+	alt1
+	getbh
+	dec r14
+	dec r14
+	dec r14
+	to r3
+	getb
+	dec r14
+	with r3
+	alt1
+	getbh
+	dec r14
+	to r2
+	getb
+	dec r14
+	with r2
+	alt1
+	getbh
+	alt1
+	lms r9,($002C)
+	with r1
+	add r9
+	alt2
+	sms ($005A),r1
+	ibt r4,#$00
+	ibt r6,#$00
+	ibt r5,#$00
+	iwt r7,#$B4B6
+	cache
+	move r8,r15
+	ibt r12,#$03
+	link #4
+	iwt r14,#CODE_01B4B2
+	with r4
+	ibt r0,#$FF
+	and r4
+	bne CODE_01B348
+	nop
+	iwt r15,#CODE_01B3C1
+	nop
+CODE_01B348:
+	ibt r0,#$07
+	alt3
+	cmp r4
+	bne CODE_01B380
+	nop
+	with r2
+	lsr
+	with r3
+	ror
+	from r2
+	or r3
+	bne CODE_01B35D
+	nop
+	iwt r15,#CODE_01B49A
+	dec r14
+CODE_01B35D:
+	bcc CODE_01B376
+	bio
+	ibt r12,#$0A
+	link #4
+	iwt r15,#CODE_01B4B2
+	with r4
+	moves r4,r4
+	bne CODE_01B380
+	nop
+	ibt r12,#$12
+	link #4
+	iwt r15,#CODE_01B4B2
+	with r4
+	bra CODE_01B380
+	nop
+CODE_01B376:
+	ibt r12,#$04
+	link #4
+	iwt r15,#CODE_01B4B2
+	with r4
+	with r4
+	alt2
+	add #$07
+CODE_01B380:
+	ibt r12,#$08
+	with r15
+	to r13
+	with r2
+	lsr
+	with r3
+	ror
+	from r2
+	or r3
+	beq CODE_01B39E
+	with r6
+	rol
+	with r5
+	rol
+	loop
+	nop
+	dec r1
+	from r6
+	alt1
+	stb r1
+	dec r4
+	bne CODE_01B380
+	nop
+	bra CODE_01B3C1
+	nop
+	dec r14
+	to r3
+	getb
+	dec r14
+	with r3
+	alt1
+	getbh
+	dec r14
+	to r2
+	getb
+	dec r14
+	with r2
+	alt1
+	getbh
+	ibt r0,#$01
+	ror
+	with r2
+	ror
+	with r3
+	ror
+	with r6
+	ror
+	with r5
+	rol
+	loop
+	nop
+	dec r1
+	from r6
+	alt1
+	stb r1
+	dec r4
+	bne CODE_01B380
+	nop
+CODE_01B3C1:
+	with r9
+	alt3
+	cmp r1
+	bne CODE_01B3E6
+	ibt r12,#$02
+	alt2
+	sms ($0062),r14
+	alt1
+	lms r3,($0090)
+	moves r3,r3
+	beq CODE_01B3E4
+	nop
+	alt1
+	lms r1,($002C)
+	alt1
+	lms r2,($005A)
+	to r12
+	from r2
+	sub r1
+	move r13,r15
+	ldw r1
+	add r3
+	stw r1
+	inc r1
+	loop
+	inc r1
+CODE_01B3E4:
+	stop
+	nop
+CODE_01B3E6:
+	cache
+	link #4
+	iwt r15,#CODE_01B4B2
+	with r4
+	ibt r6,#$02
+	ibt r5,#$00
+	ibt r12,#$08
+	moves r4,r4
+	bne CODE_01B3FB
+	nop
+	iwt r15,#CODE_01B486
+	nop
+CODE_01B3FB:
+	ibt r6,#$04
+	ibt r0,#$02
+	alt3
+	cmp r4
+	beq CODE_01B45E
+	nop
+	ibt r6,#$03
+	ibt r0,#$01
+	alt3
+	cmp r4
+	beq CODE_01B445
+	nop
+	ibt r12,#$02
+	link #4
+	iwt r15,#CODE_01B4B2
+	with r4
+	ibt r0,#$03
+	alt3
+	cmp r4
+	beq CODE_01B439
+	nop
+	ibt r0,#$02
+	alt3
+	cmp r4
+	beq CODE_01B42A
+	nop
+	with r4
+	alt2
+	add #$05
+	move r6,r4
+	bra CODE_01B45E
+	nop
+CODE_01B42A:
+	ibt r12,#$02
+	link #4
+	iwt r15,#CODE_01B4B2
+	with r4
+	with r4
+	alt2
+	add #$07
+	move r6,r4
+	bra CODE_01B45E
+	nop
+CODE_01B439:
+	ibt r12,#$08
+	link #4
+	iwt r15,#CODE_01B4B2
+	with r4
+	with r4
+	to r6
+	bra CODE_01B45E
+	nop
+CODE_01B445:
+	ibt r12,#$08
+	with r2
+	lsr
+	with r3
+	ror
+	from r2
+	or r3
+	bne CODE_01B456
+	nop
+	link #4
+	iwt r15,#CODE_01B49A
+	dec r14
+	nop
+CODE_01B456:
+	bcs CODE_01B486
+	nop
+	ibt r12,#$0E
+	bra CODE_01B486
+	nop
+CODE_01B45E:
+	ibt r12,#$10
+	with r2
+	lsr
+	with r3
+	ror
+	from r2
+	or r3
+	bne CODE_01B46E
+	nop
+	link #4
+	iwt r15,#CODE_01B49A
+	dec r14
+CODE_01B46E:
+	bcc CODE_01B486
+	nop
+	ibt r12,#$08
+	with r2
+	lsr
+	with r3
+	ror
+	from r2
+	or r3
+	bne CODE_01B481
+	nop
+	link #4
+	iwt r15,#CODE_01B49A
+	dec r14
+CODE_01B481:
+	bcs CODE_01B486
+	nop
+	ibt r12,#$0C
+CODE_01B486:
+	link #4
+	iwt r15,#CODE_01B4B2
+	with r4
+	dec r6
+CODE_01B48C:
+	from r1
+	add r4
+	dec r0
+	alt1
+	ldb r0
+	dec r1
+	alt1
+	ldb r0
+	dec r1
+	alt1
+	stb r1
+	dec r6
+	bpl CODE_01B48C
+	nop
+	jmp r8
+	nop
+CODE_01B49A:
+	to r3
+	getb
+	dec r14
+	with r3
+	alt1
+	getbh
+	dec r14
+	to r2
+	getb
+	dec r14
+	with r2
+	alt1
+	getbh
+	ibt r0,#$01
+	ror
+	with r2
+	ror
+	with r3
+	ror
+	from r2
+	or r3
+	jmp r11
+	nop
+CODE_01B4B2:
+	sub r4
+	move r13,r7
+	with r2
+	lsr
+	with r3
+	ror
+	from r2
+	or r3
+	beq CODE_01B4C4
+	nop
+	with r4
+	rol
+	loop
+	with r2
+	jmp r11
+	nop
+CODE_01B4C4:
+	dec r14
+	to r3
+	getb
+	dec r14
+	with r3
+	alt1
+	getbh
+	dec r14
+	to r2
+	getb
+	dec r14
+	with r2
+	alt1
+	getbh
+	ibt r0,#$01
+	ror
+	with r2
+	ror
+	with r3
+	ror
+	with r4
+	rol
+	loop
+	with r2
+	jmp r11
+	nop
+	
+CODE_01B4DF:
+	iwt r1,#$0200
+	iwt r12,#$3F00
+	move r13,r15
 	
 	
 	

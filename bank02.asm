@@ -6,26 +6,26 @@ RunNMITask:
 	ldx D,CurNMITask
 	jmp (NMITaskJumpTable,x)
 NMITaskJumpTable:
-	DW CODE_7E3AF4	;
-	DW CODE_7E3AFD	;
-	DW CODE_7E3B46	;
-	DW CODE_7E3BAA	;
-	DW CODE_7E3510	;
-	DW CODE_7E3831	;
-	DW CODE_7E383A	;
-	DW CODE_7E3843	;
-	DW CODE_7E32B2	;
-	DW CODE_7E3308	;
-	DW CODE_7E33BA	;
-	DW CODE_7E335F	;
-	DW CODE_7E38DF	;
-	DW CODE_7E39EA	;
-	DW CODE_7E3A39	;
-	DW CODE_7E3A98	;
-	DW CODE_7E39DB	;
-	DW CODE_7E33EA	;
-	DW InitializeMode1
-	DW InitializeMode2
+	DW NoNMITask		;00
+	DW CODE_7E3AFD		;02
+	DW CODE_7E3B46		;04
+	DW CODE_7E3BAA		;06
+	DW CODE_7E3510		;08
+	DW CODE_7E3831		;0A
+	DW CODE_7E383A		;0C
+	DW CODE_7E3843		;0E
+	DW CODE_7E32B2		;10
+	DW CODE_7E3308		;12
+	DW CODE_7E33BA		;14
+	DW CODE_7E335F		;16
+	DW CODE_7E38DF		;18
+	DW CODE_7E39EA		;1A
+	DW CODE_7E3A39		;1C
+	DW CODE_7E3A98		;1E
+	DW CODE_7E39DB		;20
+	DW CODE_7E33EA		;22
+	DW InitializeMode1	;24
+	DW InitializeMode2	;26
 InitializeMode1:
 	rep #$10
 	lda #$0A
@@ -1055,7 +1055,7 @@ CODE_7E3A9E:
 	lda #$20
 	sta D,CurNMITask
 	rtl
-CODE_7E3AF4:
+NoNMITask:
 	lda #$01
 	sta $18AC
 	jsr CODE_7E4021
@@ -2928,7 +2928,201 @@ DATA_7E5DB2:
 	
 	END BASE
 CopiedCodeBEnd:
-	
+CODE_02D9C2:
+	lda #$0000
+	bra CODE_02D9E2
+	lda $16A0
+	clc
+	adc $1701
+	cmp #$07D0
+	bcc CODE_02D9E2
+	lda $169C
+	cmp #$00D4
+	beq CODE_02D9E5
+	inc
+	sta $169C
+	lda #$0000
+CODE_02D9E2:
+	sta $16A0
+CODE_02D9E5:
+	jsr CODE_02DC3A
+	jsr CODE_02DCC3
+	jsl CODE_02DB27
+	sep #$20
+	rep #$10
+	lda $1FD1
+	bne CODE_02D9FB
+	inc $1F10
+CODE_02D9FB:
+	lda $177A
+	bit #$01
+	beq CODE_02DA05
+	brl CODE_02DA08
+CODE_02DA05:
+	jsr UpdateObjects
+CODE_02DA08:
+	sep #$20
+	lda Pad1HiCur
+	sta $15A4
+	lda Pad1LoCur
+	sta $15A5
+	jsl CODE_02F934
+	jsl CODE_03B269
+	jsl CODE_02F6FC
+	jsl CODE_02F6DA
+	jsl CODE_02F4E6
+	jsl CODE_02F6D5
+	jsl CODE_02DB86
+	jsr CODE_02DD0A
+	jsl CODE_1FC03D
+	sep #$20
+CODE_02DA3B:
+	lda $18BB
+	beq CODE_02DA3B
+	lda $1F13
+	beq CODE_02DA48
+	jsr CODE_02DAA9
+CODE_02DA48:
+	jsl CODE_02DC16
+CODE_02DA4C:
+	lda $18BB
+	cmp #$02
+	bne CODE_02DA4C
+	stz $18BB
+	rep #$20
+	lda $16F9
+	sta $70019E
+	beq CODE_02DA65
+	jsl CODE_03BAF7
+CODE_02DA65:
+	jsl RenderSuperFXObjects
+	jsr CODE_02E20D
+	sep #$20
+	lda $1FD1
+	beq CODE_02DA76
+	inc $1F10
+CODE_02DA76:
+	sep #$20
+	lda $1200
+	sta $14E3
+	lda $16A4
+	clc
+	adc $16A3
+	sta $16A4
+	inc $16A5
+	lda $16A4
+	cmp #$3C
+	bcc CODE_02DAA4
+	lda $16A5
+	sta $16A6
+	stz $16A5
+	lda $16A4
+	sec
+	sbc #$3C
+	sta $16A4
+CODE_02DAA4:
+	rtl
+CODE_02DAA5:
+	jsr CODE_02DAA9
+	rtl
+CODE_02DAA9:
+	lda $18BB
+	cmp #$02
+	bne CODE_02DAA9
+	sei
+	lda D,CurNMITask
+	stz D,CurNMITask
+	pha
+	lda TIMEUP
+	cli
+	sep #$20
+	lda $1F13
+	bit #$01
+	beq CODE_02DAC8
+	jsl CODE_0993C8
+CODE_02DAC8:
+	rep #$30
+	lda $1F13
+	bit #$0004
+	beq CODE_02DAD6
+	jsl LoadPreset
+CODE_02DAD6:
+	rep #$30
+	lda $1F13
+	bit #$0008
+	beq CODE_02DAE4
+	jsl CODE_03F022
+CODE_02DAE4:
+	sep #$20
+	lda $1F13
+	and #$F2
+	sta $1F13
+	pla
+	sta D,CurNMITask
+	rts
+UpdateObjects:
+	inc $15BB
+	bne CODE_02DAFA
+	inc $15BC
+CODE_02DAFA:
+	phb
+	lda #$7E
+	pha
+	plb
+	jsl CODE_0681D5
+	jsl CODE_03ED7E
+	ldx FirstObject
+CODE_02DB0A:
+	stz $1248
+	jsl ProcObject
+	lda $1248
+	bne CODE_02DB1D
+	ldy D,$00,x
+CODE_02DB18:
+	tyx
+	bne CODE_02DB0A
+	bra CODE_02DB25
+CODE_02DB1D:
+	ldy D,$00,x
+	jsl CODE_1FBFDC
+	bra CODE_02DB18
+CODE_02DB25:
+	plb
+	rts
+CODE_02DB27:
+	php
+	sep #$20
+	rep #$10
+	jsr CODE_02DB31
+	plp
+	rtl
+CODE_02DB31:
+	stz $14C6
+	lda $14C1
+	sta $14C5
+	rep #$20
+	beq CODE_02DB4F
+	ldx #$0008
+	lda #$1481
+CODE_02DB44:
+	ror $14C5
+	bcs CODE_02DB52
+	adc #$0008
+	dex
+	bne CODE_02DB44
+CODE_02DB4F:
+	lda #$0000
+CODE_02DB52:
+	sta $16A7
+	rts
+CODE_02DB56:
+	jsr CODE_02DB5A
+	rtl
+CODE_02DB5A:
+	rep #$30
+	stz $1951
+	lda $1954
+	and #$00FF
 	
 	
 	

@@ -125,9 +125,9 @@ CODE_00804E:
 	sta BBAD1
 	lda #$00
 	sta A1B1
-	ldx #$819B
+	ldx.w #CODE_00819B
 	stx A1T1L
-	stz DASB1
+	stz DAS10
 	stz BG1VOFS
 	stz BG1VOFS
 	lda #$F9
@@ -169,6 +169,7 @@ CODE_00817D:
 	bra CODE_008161
 CODE_008199:
 	bra CODE_008199
+CODE_00819B:
 	DB $54,$00
 DATA_00819D:
 	DB $01,$01,$01,$02,$01,$03,$01,$04
@@ -531,6 +532,7 @@ ReciprocalTable:
         DW $008C,$008C,$008B,$008A,$008A,$0089,$0089,$0088
         DW $0087,$0087,$0086,$0086,$0085,$0085,$0084,$0084
         DW $0083,$0083,$0082,$0082,$0081,$0081,$0080
+DATA_009847:
 	DB $0C,$62
 ;Some unused strings
 UnusedStringHover1:
@@ -553,6 +555,7 @@ UnusedStringRelAxis3:
 	DB "REL AXIS 3",$00
 UnusedStringTable0:
 	DW UnusedStringHover1,UnusedStringTank,UnusedStringWalker1,UnusedStringRelAxis1,UnusedStringRelAxis2
+DATA_00989D:
 	DW $8B8A,$8C0A,$8C8A,$8D0A
 ;8-bit sine table for 8-bit angles
 SineTable8:
@@ -707,6 +710,7 @@ UnusedStringTriLaser:
 	DB "TRILASER",$00
 UnusedStringShotGun:
 	.db "SHOT GUN",$00
+DATA_00A07B:
 	DB $00,$00,$00,$00,$00,$00,$00,$00
 	DB $70,$70,$70,$70,$70,$70,$00,$00
 ;Ship and guideline sprites for the map screen
@@ -1627,10 +1631,10 @@ CODE_00E8D1:
 	rts
 CODE_00E8D4:
 	rep #$20
-	lda #$E943
+	lda.w #CODE_00E943
 	sta D,$16,x
 	sep #$20
-	lda #$00
+	lda.b #BANKOF(CODE_00E943)
 	sta D,$18,x
 	lda #$06
 	sta $1CD5,x
@@ -3779,10 +3783,10 @@ BehE5_L14:
 ;BEHAVIOR FUNCTION ID $E9
 BehE9_BigAsteroid:
 	rep #$20				;\Set object behavior routine pointer to $00FAA4
-	lda.w #LO16(BehE9_BigAsteroid_Loop)	;|
+	lda.w #BehE9_BigAsteroid_Loop		;|
 	sta D,$16,x				;|
 	sep #$20				;|
-	lda.b #HI8(BehE9_BigAsteroid_Loop)	;|
+	lda.b #BANKOF(BehE9_BigAsteroid_Loop)	;|
 	sta D,$18,x				;/
 	jsl CODE_1FD41A
 	lda D,$1F,x
@@ -3843,12 +3847,12 @@ CODE_00FAD6:
 	lda D,$2E,x
 	ora #$10
 	sta D,$2E,x
-	rep #$20		;\Set object behavior routine pointer to $00FB03
-	lda.w #LO16(CODE_00FB03);|
-	sta D,$16,x		;|
-	sep #$20		;|
-	lda.b #HI8(CODE_00FB03)	;|
-	sta D,$18,x		;/
+	rep #$20			;\Set object behavior routine pointer to $00FB03
+	lda.w #CODE_00FB03		;|
+	sta D,$16,x			;|
+	sep #$20			;|
+	lda.b #BANKOF(CODE_00FB03)	;|
+	sta D,$18,x			;/
 	jsl CODE_1FD41A
 	lda D,$13,x
 	clc
@@ -3909,7 +3913,7 @@ CODE_00FB5C:
 	sta D,$0E,x		;/
 	sep #$20
 CODE_00FB65:
-	jsl CODE_1FDC69
+	jsl MoveObjectAlongRails
 	lda D,$1E,x
 	and #$40
 	beq CODE_00FB73
@@ -3917,7 +3921,7 @@ CODE_00FB65:
 CODE_00FB73:
 	rep #$20
 	lda D,$0C,x
-	sta D,$3A
+	sta D,TempSelf
 	lda #$FF38
 	jsl CODE_1FD6AB
 	sta D,$0C,x
@@ -3936,7 +3940,7 @@ CODE_00FB99:
 CODE_00FB9D:
 	rep #$20
 	lda D,$0C,x
-	sta D,$3A
+	sta D,TempSelf
 	lda #$00C8
 	jsl CODE_1FD6AB
 	sta D,$0C,x
@@ -3965,12 +3969,12 @@ CODE_00FBD7:
 	sta D,$13,x
 	lda #$00
 	sta $1CE7,x
-	rep #$20		;\Set object behavior routine pointer to $00FC29
-	lda.w #LO16(CODE_00FC29);|
-	sta D,$16,x		;|
-	sep #$20		;|
-	lda.b #HI8(CODE_00FC29)	;|
-	sta D,$18,x		;/
+	rep #$20			;\Set object behavior routine pointer to $00FC29
+	lda.w #CODE_00FC29		;|
+	sta D,$16,x			;|
+	sep #$20			;|
+	lda.b #BANKOF(CODE_00FC29)	;|
+	sta D,$18,x			;/
 	lda #$46
 	sta D,$15,x
 	lda D,$15,x
@@ -3978,9 +3982,9 @@ CODE_00FBD7:
 	lda D,$13,x
 	jsl CODE_1FC177
 	rep #$20
-	lda D,$02
+	lda D,TempVecX
 	sta D,$2F,x
-	lda D,$90
+	lda D,TempVecZ
 	sta D,$33,x
 	sep #$20
 	rep #$20
@@ -4006,7 +4010,7 @@ CODE_00FC29:
 	sta D,$31,x
 	sep #$20
 	jsl ApplyObjectVelocity
-	jsl CODE_1FDC69
+	jsl MoveObjectAlongRails
 	rep #$20
 	lda D,$0E,x
 	cmp #$0000
@@ -4029,14 +4033,11 @@ CODE_00FC63:
 	sta D,$1E,x
 CODE_00FC69:
 	rtl
-
 ;unknown data
 DATA_00FC6A:
 	DB $A9,$00,$48,$AB
-
 	;Compressed tilemap
 	INCBIN "graphics/compressed/unk00FF96.binz"		;map
-
 Reset_L1:
 	clc
 	xce

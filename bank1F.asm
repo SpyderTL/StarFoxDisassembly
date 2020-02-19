@@ -1,10 +1,13 @@
 
 
 	
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;RESET AND INTERRUPT ROUTINES;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	ORG $1FBDB0
 CODE_1FBDB0:
 	rtl
-DoReset:		;1FBDB1
+DoReset:
 	sei			; Disable interrupts
 	clc			;\Disable emulation mode
 	xce			;/
@@ -18,7 +21,7 @@ DoReset:		;1FBDB1
 	plb			;/
 	sep #$30
 	jsl ClearRegisters
-	jsr $BE41
+	jsr ClearRAM
 	rep #$10
 	ldx #$02FF		;\Set stack pointer to $02FF (again?)
 	txs			;/
@@ -32,7 +35,7 @@ DoReset:		;1FBDB1
 	lda #$00
 	sta $1FDF
 	bra DoResetPart2
-CODE_1FBDEE:		;1FBDEE
+CODE_1FBDEE:
 	rep #$30
 	clc			;\Disable emulation mode
 	xce			;/
@@ -69,9 +72,8 @@ CODE_1FBDEE:		;1FBDEE
 DoResetPart2:
 	jsl CODE_1FF963
 	jsl CODE_02E266
-	jmp Main	;03BDDF
-
-ClearRAM:		;1FBE41
+	jmp Main
+ClearRAM:
 	php			; Save processor status
 	sep #$20
 	lda #$7E		;\Set DBR to $7E
@@ -79,7 +81,7 @@ ClearRAM:		;1FBE41
 	plb			;/
 	rep #$30
 	ldx #$2000
-ClearRAM_L1:			;\Clear page $7E from $2000-$FFFF
+ClearRAM_Bank7EHi:		;\Clear bank $7E from $2000-$FFFF
 	stz $0000,x		;|
 	stz $0002,x		;|
 	stz $0004,x		;|
@@ -88,13 +90,13 @@ ClearRAM_L1:			;\Clear page $7E from $2000-$FFFF
 	clc			;|
 	adc #$0008		;|
 	tax			;|
-	bne ClearRAM_L1		;/
+	bne ClearRAM_Bank7EHi	;/
 	sep #$20
 	lda #$7F		;\Set DBR to $7F
 	pha			;|
 	plb			;/
 	rep #$20
-ClearRAM_L2:			;\Clear all of page $7F
+ClearRAM_Bank7F:		;\Clear all of bank $7F
 	stz $0000,x		;|
 	stz $0002,x		;|
 	stz $0004,x		;|
@@ -103,13 +105,13 @@ ClearRAM_L2:			;\Clear all of page $7F
 	clc			;|
 	adc #$0008		;|
 	tax			;|
-	bne ClearRAM_L2		;/
+	bne ClearRAM_Bank7F	;/
 	sep #$20
 	lda #$70		;\Set DBR to $70
 	pha			;|
 	plb			;/
 	rep #$30
-ClearRAM_L3:			;\Clear page $70 from $0000-$7FFF
+ClearRAM_Bank70:		;\Clear bank $70 from $0000-$7FFF
 	stz $0000,x		;|
 	stz $0002,x		;|
 	stz $0004,x		;|
@@ -118,14 +120,14 @@ ClearRAM_L3:			;\Clear page $70 from $0000-$7FFF
 	clc			;|
 	adc #$0008		;|
 	tax			;|
-	bpl ClearRAM_L3		;/
+	bpl ClearRAM_Bank70	;/
 	sep #$20
 	lda #$00		;\Set DBR to $00
 	pha			;|
 	plb			;/
 	rep #$20
 	ldx #$1CF8
-ClearRAM_L4:			;\Clear page $00 from $1FF8-$82FF
+ClearRAM_Bank00Misc:		;\Clear bank $00 from $1FF8-$82FF
 	stz $0300,x		;|
 	stz $0302,x		;|
 	stz $0304,x		;|
@@ -134,13 +136,13 @@ ClearRAM_L4:			;\Clear page $00 from $1FF8-$82FF
 	clc			;|
 	adc #$0008		;|
 	tax			;|
-	bpl ClearRAM_L4		;/
+	bpl ClearRAM_Bank00Misc	;/
 	ldx #$00FE
-ClearRAM_L5:			;\Clear zero page
+ClearRAM_ZeroPage:		;\Clear zero page
 	stz $00,x		;|
 	dex			;|
 	dex			;|
-	bpl ClearRAM_L5		;/
+	bpl ClearRAM_ZeroPage	;/
 	jsl $1FFDFB
 	sep #$20
 	lda STAT78
@@ -148,7 +150,7 @@ ClearRAM_L5:			;\Clear zero page
 	sta $16F6
 	plp			;\Restore processor status and return
 	rts			;/
-ClearRegisters:		;1FBED4
+ClearRegisters:
 	sei
 	lda #$01
 	sta $16DB
@@ -243,6 +245,9 @@ ClearRegisters:		;1FBED4
 	rtl
 CODE_1FBFDB:
 	rtl
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;OBJECT MANAGEMENT ROUTINES;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 CODE_1FBFDC:
 	jsr CODE_1FBFE0
 	rtl
@@ -254,7 +259,7 @@ CODE_1FBFE0:
 	rep #$20
 	phx
 	txa
-	ldx $121D
+	ldx FirstObject
 CODE_1FBFEE:
 	cmp D,$19,x
 	bne CODE_1FBFF4
@@ -280,7 +285,7 @@ CODE_1FC002:
 	ldy D,$02,x
 	bne CODE_1FC023
 	ldy D,$00,x
-	sty $121D
+	sty FirstObject
 	lda #$0000
 	sta $0002,y
 	bra CODE_1FC031
@@ -295,9 +300,9 @@ CODE_1FC023:
 CODE_1FC030:
 	plx
 CODE_1FC031:
-	lda $121F
+	lda LastObject
 	sta D,$00,x
-	stx $121F
+	stx LastObject
 	plp
 	ply
 	plx
@@ -306,7 +311,7 @@ CODE_1FC03D:
 	php
 	rep #$30
 	stz $1EFB
-	ldx $121D
+	ldx FirstObject
 	beq CODE_1FC09D
 	ldy #$0000
 CODE_1FC04B:
@@ -349,6 +354,7 @@ CODE_1FC097:
 	bne CODE_1FC04B
 	plp
 	rtl
+
 CODE_1FC09F:
 	lda D,$14,x
 	sta D,$7E
@@ -363,9 +369,9 @@ CODE_1FC09F:
 	lda #$00
 	pha
 	plb
-	lda $98A5,x
+	lda.w SineTable8,x
 	sta D,$7A
-	lda $98E5,x
+	lda.w SineTable8+$40,x
 	sta D,$7B
 	lda D,$7E
 	bmi CODE_1FC0D8
@@ -489,9 +495,9 @@ CODE_1FC177:
 	plb
 	inx
 	iny
-	lda $98A5,x
+	lda.w SineTable8,x
 	sta D,$7A
-	lda $98E5,x
+	lda.w SineTable8+$40,x
 	sta D,$7B
 CODE_1FC196:
 	lda D,$7E
@@ -1146,10 +1152,10 @@ CODE_1FC5CD:
 	sbc RDMPYH
 CODE_1FC5D3:
 	tax
-	sta D,TempPosY
+	sta D,TempVecY
 	cmp #$00
 	bpl CODE_1FC5DC
-	dec D,TempPosY+1
+	dec D,TempVecY+1
 CODE_1FC5DC:
 	rep #$10
 	ldx D,TempIndX
@@ -1160,8 +1166,8 @@ CODE_1FC5E4:
 	sta D,$7E
 	stx D,$76
 	sty D,$78
-	stz D,TempPosY
-	stz D,TempPosY+1
+	stz D,TempVecY
+	stz D,TempVecY+1
 	sec
 	lda #$40
 	sbc D,$13,x
@@ -1222,12 +1228,12 @@ CODE_1FC649:
 CODE_1FC64F:
 	tax
 	ldx #$00
-	sta D,TempPosX
+	sta D,TempVecX
 	cmp #$00
 	bpl CODE_1FC659
 	dex
 CODE_1FC659:
-	stx D,TempPosX+1
+	stx D,TempVecX+1
 	lda D,$7E
 	bmi CODE_1FC674
 	asl
@@ -1274,12 +1280,12 @@ CODE_1FC69E:
 CODE_1FC6A4:
 	tax
 	lda #$00
-	sta D,TempPosZ
+	sta D,TempVecZ
 	cmp #$00
 	bpl CODE_1FC6AE
 	dex
 CODE_1FC6AE:
-	stx D,TempPosZ+1
+	stx D,TempVecZ+1
 	rep #$10
 	ldx D,$76
 	ldy D,$78
@@ -1289,8 +1295,8 @@ CODE_1FC6B8:
 	sta D,$7E
 	stx D,TempIndX
 	sty D,TempIndY
-	stz D,TempPosY
-	stz D,TempPosY+1
+	stz D,TempVecY
+	stz D,TempVecY+1
 	lda D,$13,x
 	tax
 	sep #$10
@@ -1300,14 +1306,14 @@ CODE_1FC6B8:
 	plb
 	inx
 	lda.w SineTable8,x
-	sta D,TempSinIndX
+	sta D,TempSin
 	lda.w SineTable8+$40,x
-	sta D,TempCosIndX
+	sta D,TempCos
 	lda D,$7E
 	bmi CODE_1FC6F0
 	asl
 	sta WRMPYA
-	lda D,TempSinIndX
+	lda D,TempSin
 	bmi CODE_1FC712
 	sta WRMPYB
 	nop
@@ -1321,7 +1327,7 @@ CODE_1FC6F0:
 	inc
 	asl
 	sta WRMPYA
-	lda D,TempSinIndX
+	lda D,TempSin
 	bmi CODE_1FC702
 	sta WRMPYB
 	nop
@@ -1349,17 +1355,17 @@ CODE_1FC71A:
 CODE_1FC720:
 	tax
 	ldx #$00
-	sta D,TempPosX
+	sta D,TempVecX
 	cmp #$00
 	bpl CODE_1FC72A
 	dex
 CODE_1FC72A:
-	stx D,TempPosX+1
+	stx D,TempVecX+1
 	lda D,$7E
 	bmi CODE_1FC745
 	asl
 	sta WRMPYA
-	lda D,TempCosIndX
+	lda D,TempCos
 	bmi CODE_1FC767
 	sta WRMPYB
 	nop
@@ -1373,7 +1379,7 @@ CODE_1FC745:
 	inc
 	asl
 	sta WRMPYA
-	lda D,TempCosIndX
+	lda D,TempCos
 	bmi CODE_1FC757
 	sta WRMPYB
 	nop
@@ -1401,45 +1407,46 @@ CODE_1FC76F:
 CODE_1FC775:
 	tax
 	ldx #$00
-	sta D,TempPosZ
+	sta D,TempVecZ
 	cmp #$00
 	bpl CODE_1FC77F
 	dex
 CODE_1FC77F:
-	stx D,TempPosZ+1
+	stx D,TempVecZ+1
 	rep #$20
 	ldx TempIndX
 	ldy TempIndY
 	plb
 	rtl
+;Routines to apply object velocity to position
 ApplyTempVelocityShift2:
 	rep #$20
-	asl D,$02
-	asl D,$08
-	asl D,$90
-	asl D,$02
-	asl D,$08
-	asl D,$90
-	bra ApplyTempVelocity_L1
+	asl D,TempVecX
+	asl D,TempVecY
+	asl D,TempVecZ
+	asl D,TempVecX
+	asl D,TempVecY
+	asl D,TempVecZ
+	bra DoApplyTempVelocity
 ApplyTempVelocityShift1:
 	rep #$20
-	asl D,$02
-	asl D,$08
-	asl D,$90
+	asl D,TempVecX
+	asl D,TempVecY
+	asl D,TempVecZ
 ApplyTempVelocity:
 	rep #$20
-ApplyTempVelocity_L1:
+DoApplyTempVelocity:
 	lda D,$0C,x
 	clc
-	adc D,$02
+	adc D,TempVecX
 	sta D,$0C,x
 	lda D,$0E,x
 	clc
-	adc D,$08
+	adc D,TempVecY
 	sta D,$0E,x
 	lda D,$10,x
 	clc
-	adc D,$90
+	adc D,TempVecZ
 	sta D,$10,x
 	sep #$20
 	rtl
@@ -1459,51 +1466,52 @@ ApplyObjectVelocity:
 	sta D,$10,x
 	sep #$20
 	rtl
-CODE_1FC7D5:
-	stx D,$3A
-	ldx $14CA
-	beq CODE_1FC7F8
-	cmp #$00
-	beq CODE_1FC801
+;Object getter routines
+GetObjectByID:
+	stx D,TempSelf
+	ldx FirstCandidate		;\Load X with first candidate to check...
+	beq GetObjectByID_NoSelf	;/...if null, return null
+	cmp #$00			;\If desired ID is 0, just get any empty object
+	beq GetObjectByID_Any		;/
 	txy
-CODE_1FC7E2:
-	cmp D,$04,x
-	beq CODE_1FC7EB
-CODE_1FC7E6:
-	ldy D,$00,x
-	tyx
-	bne CODE_1FC7E2
-CODE_1FC7EB:
-	cpx D,$3A
-	beq CODE_1FC7E6
-	ldy D,$00,x
-	sty $14CA
-	txy
-	ldx D,$3A
-	rtl
-CODE_1FC7F8:
-	ldy #$000
-	sty $14CA
-	ldx D,$3A
-	rtl
-CODE_1FC801:
-	ldy D,$00,x
-	beq CODE_1FC7F8
-	tyx
-	cpx D,$3A
-	beq CODE_1FC801
-	lda D,$1F,x
-	and #$0008
-	beq CODE_1FC801
-	stx $14CA
-	ldx D,$3A
-	rtl
+GetObjectByID_CheckObj:
+	cmp D,$04,x			;\Check this object for a match
+	beq GetObjectByID_Match		;/
+GetObjectByID_NextCand:
+	ldy D,$00,x			;\Get next object...
+	tyx				;|
+	bne GetObjectByID_CheckObj	;/...and try again
+GetObjectByID_Match:
+	cpx D,TempSelf			;\If candidate is self, try again
+	beq GetObjectByID_NextCand	;/
+	ldy D,$00,x			;\Set first candidate to next object...
+	sty FirstCandidate		;|
+	txy				;|
+	ldx D,TempSelf			;|
+	rtl				;/...and return
+GetObjectByID_NoSelf:
+	ldy #$0000			;\Return null
+	sty FirstCandidate		;|
+	ldx D,TempSelf			;|
+	rtl				;/
+GetObjectByID_Any:
+	ldy D,$00,x			;\If next object is null...
+	beq GetObjectByID_NoSelf	;/...return null
+	tyx				;\Get next object...
+	cpx D,TempSelf			;|if self...
+	beq GetObjectByID_Any		;/...try again
+	lda D,$1F,x			;\If some flag is set...
+	and #$0008			;|
+	beq GetObjectByID_Any		;/...try again
+	stx FirstCandidate		;\Set first candidate to next object...
+	ldx D,TempSelf			;|
+	rtl				;/...and return
 CODE_1FC817:
 	cmp #$0000
 	beq CODE_1FC84C
-	stx D,$3A
-	ldx $14CA
-	beq CODE_1FC7F8
+	stx D,TempSelf
+	ldx FirstCandidate
+	beq GetObjectByID_NoSelf
 	txy
 CODE_1FC824:
 	cmp D,$04,x
@@ -1513,7 +1521,7 @@ CODE_1FC828:
 	tyx
 	bne CODE_1FC824
 CODE_1FC82D:
-	cpx D,$3A
+	cpx D,TempSelf
 	beq CODE_1FC828
 	sta $14C5
 	sep #$20
@@ -1525,18 +1533,18 @@ CODE_1FC82D:
 	bra CODE_1FC828
 CODE_1FC843:
 	ldy D,$00,x
-	sty $14CA
+	sty FirstCandidate
 	txy
-	ldx D,$3A
+	ldx D,TempSelf
 	rtl
 CODE_1FC84C:
-	stx D,$3A
-	ldx $14CA
+	stx D,TempSelf
+	ldx FirstCandidate
 	beq CODE_1FC7F8
 	txy
 	sep #$20
 CODE_1FC856:
-	cpx D,$3A
+	cpx D,TempSelf
 	beq CODE_1FC860
 	lda D,$1D,x
 	and D,$02
@@ -1547,14 +1555,14 @@ CODE_1FC860:
 	bne CODE_1FC856
 CODE_1FC865:
 	ldy D,$00,x
-	sty $14CA
+	sty FirstCandidate
 	txy
-	ldx D,$3A
+	ldx D,TempSelf
 	rep #$20
 	rtl
 CODE_1FC870:
 	stx D,$04
-	ldx $14CA
+	ldx FirstCandidate
 	bne CODE_1FC87A
 	brl CODE_1FC8B3
 CODE_1FC87A:
@@ -1572,18 +1580,18 @@ CODE_1FC883:
 	jsl CODE_1FD0AB
 	rep #$20
 	lda $1250
-	cmp D,$3A
+	cmp D,TempSelf
 	bpl CODE_1FC8A4
 	cmp D,$3E
 	bmi CODE_1FC8A4
-	sta D,$3A
+	sta D,TempSelf
 	stx D,$3C
 CODE_1FC8A4:
 	ldy D,$00,x
 	tyx
 	bne CODE_1FC883
 	ldy D,$00,x
-	sty $14CA
+	sty FirstCandidate
 	ldy D,$3C
 	ldx D,$04
 	rtl
@@ -1603,32 +1611,118 @@ CODE_1FC8BB:
 	jsl CODE_1FCD0AB
 	rep #$20
 	lda $1250
-	cmp D,$3A
+	cmp D,TempSelf
 	bpl CODE_1FC8DD
 	cmp D,$3E
 	bmi CODE_1FC8DD
-	sta D,$3A
+	sta D,TempSelf
 	stx D,$3C
 CODE_1FC8DD:
 	ldy D,$00,x
 	tyx
 	bne CODE_1FC8BB
-	sty $14CA
+	sty FirstCandidate
 	ldy D,$3C
 	ldx D,$04
 	rtl
 CODE_1FC8EA:
+	stx D,$04
+	ldx FirstCandidate
+	beq CODE_1FC8B3
+	cmp #$0000
+	beq CODE_1FC925
+	sta D,$0A
+	stz D,$3C
+CODE_1FC8FA:
+	cpx D,$04
+	beq CODE_1FC917
+	lda D,$04,x
+	cmp D,$0A
+	bne CODE_1FC917
+	ldy D,$04
+	jsl CODE_1FD0AB
+	rep #$20
+CODE_1FC90C:
+	lda $1250
+	cmp D,TempSelf
+	bpl CODE_1FC917
+	cmp D,$3E
+	bpl CODE_1FC91C
+CODE_1FC917:
+	ldy D,$00,x
+	tyx
+	bne CODE_1FC8FA
+CODE_1FC91C:
+	ldy D,$00,x
+	sty FirstCandidate
+	txy
+	ldx D,$04
+	rtl
+CODE_1FC925:
+	cpx D,$04
+	beq CODE_1FC943
+	lda D,$1F,x
+	and #$0008
+	beq CODE_1FC943
+	ldy D,$04
+	jsl CODE_1FD0AB
+	rep #$20
+	lda $1250
+	cmp D,TempSelf
+	bpl CODE_1FC943
+	cmp D,$3E
+	bpl CODE_1FC948
+CODE_1FC943:
+	ldy D,$00,x
+	tyx
+	bne CODE_1FC925
+CODE_1FC948:
+	ldy D,$00,x
+	sty FirstCandidate
+	txy
+	ldx D,$04
+	rtl
+CODE_1FC951:
+	php
+	ldy FirstObject
+CODE_1FC955:
+	tyx
+	cmp D,$04,x
+	beq CODE_1FC961
+	ldy D,$00,x
+	bne CODE_1FC955
+	ldx #$0000
+CODE_1FC961:
+	plp
+	rtl
+CODE_1FC963:
+	php
+	ldy FirstObject
+	stz $14C5
+CODE_1FC96A:
+	tyx
+	cmp D,$04,x
+	bne CODE_1FC972
+	inc $14C5
+CODE_1FC972:
+	ldy D,$00,x
+	bne CODE_1FC96A
+	lda $14C5
+	plp
+	rtl
+
+CODE_1FC97B:
 	
 	
 	
 	
-	
+;Object processing routines
 ProcObject:
 	php
 	rep #$30
 	cpx $156B
 	bne ProcObject_L1
-	brl ProcObject_L9
+	brl ProcObject_Return
 ProcObject_L1:
 	lda D,$2E,x
 	and #$FFFB
@@ -1699,14 +1793,14 @@ ProcObject_L7:
 	sta $1244
 	rep #$20
 	lda D,$16,x
-	beq ProcObject_L10
+	beq ProcObject_Exit
 ProcObject_L8:
 	sta $1242
 	sep #$20
-	lda.b #HI8(STACKIFY(ProcObject_L9))
+	lda.b #BANKOF(STACKIFY(ProcObject_Return))
 	pha
 	rep #$20
-	lda.w #LO16(STACKIFY(ProcObject_L9))
+	lda.w #STACKIFY(ProcObject_Return)
 	pha
 	sep #$20
 	lda $1244
@@ -1718,10 +1812,10 @@ ProcObject_L8:
 	pha
 	sep #$20
 	rtl
-ProcObject_L9:
+ProcObject_Return:
 	sep #$20
 	lda $14C9
-ProcObject_L10:
+ProcObject_Exit:
 	plp
 	rtl
 CODE_1FD337:
@@ -1838,27 +1932,27 @@ CopyRotationIndYToIndX:
 	lda $0014,y
 	sta D,$14,x
 	rtl
-OffsetZPositionIndX:
+MoveObjectAgainstRails:
 	rep #$20
-	lda $14EA
+	lda TrueZVel
 	sec
-	sbc $14F4
+	sbc RailOffset
 	clc
 	adc D,$10,x
 	sta D,$10,x
 	sep #$20
 	rtl
-OffsetZPositionIndY:
+MoveObjectAgainstRailsIndY:
 	rep #$20
-	lda $14EA
+	lda TrueZVel
 	sec
-	sbc $14F4
+	sbc RailOffset
 	clc
 	adc $0010,y
 	sta $0010,y
 	sep #$20
 	rtl
-ClearVelocityIndX:
+ClearVelocity:
 	rep #$20		;\
 	stz D,$2F,x		;|Store zero in velocity X element...
 	stz D,$31,x		;|...same for Y...
@@ -1880,22 +1974,22 @@ ClearVelocityIndY:
 	
 	
 	
-MoveObjectAlongRailsIndX:
-	rep #$20
-	lda D,$10,x
-	clc
-	adc $14F4
-	sta D,$10,x
-	sep #$20
-	rtl
+MoveObjectAlongRails:
+	rep #$20		;\
+	lda D,$10,x		;|Add rail offset to Z position
+	clc			;|
+	adc RailOffset		;|
+	sta D,$10,x		;|
+	sep #$20		;|
+	rtl			;/
 MoveObjectAlongRailsIndY:
-	rep #$20
-	lda D,$0010,y
-	clc
-	adc $14F4
-	sta D,$0010,y
-	sep #$20
-	rtl
+	rep #$20		;\
+	lda D,$0010,y		;|Add rail offset to Z position
+	clc			;|
+	adc RailOffset		;|
+	sta D,$0010,y		;|
+	sep #$20		;|
+	rtl			;/
 CODE_1FDC85:
 	rts
 CODE_1FDC86:
@@ -1914,20 +2008,19 @@ BehF1_TitleHighPolyArwing:
 	sta D,$13,x		;/
 	lda #$00		;\Init Z Rotation
 	sta D,$14,x		;/
-	
+	;Set object behavior function pointer to skip this initialization
 	rep #$20
-	lda.w #LO16(BehF1_TitleHighPolyArwing_L1)
+	lda.w #BehF1_TitleHighPolyArwing_Main
 	sta D,$16,x
 	sep #$20
-	lda.b #HI8(BehF1_TitleHighPolyArwing_L1)
+	lda.b #BANKOF(BehF1_TitleHighPolyArwing_Main)
 	sta D,$18,x
-	
-BehF1_TitleHighPolyArwing_L1:
+BehF1_TitleHighPolyArwing_Main:
 	lda D,$14,x		;\Rotate about local Z
 	clc			;|
 	adc #$02		;|
 	sta D,$14,x		;/
-	jsl MoveObjectAlongRailsIndX
+	jsl MoveObjectAlongRails
 	rtl
 	;Compressed tilemap
 	INCBIN "graphics/compressed/venom.mapz"		;1FF963

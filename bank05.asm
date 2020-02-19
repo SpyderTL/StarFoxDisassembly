@@ -29,6 +29,7 @@ Level1Scripts:
 	INCBIN "levels/venom3atmosphere_main.bin"
 	INCBIN "levels/unknown_05C2F2.bin"
 	INCBIN "levels/venom3_main.bin"
+	;Unknown data
 	INCBIN "levels/unknown_05D19B.bin"
 	;Additional level scripts
 	INCBIN "levels/asteroid1_end.bin"
