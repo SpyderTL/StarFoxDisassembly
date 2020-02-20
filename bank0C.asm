@@ -1,9 +1,9 @@
 	;Models
-	INCBIN "graphics/models/walkerlegbroken.mdl"
-	INCBIN "graphics/models/walkerlegmissing.mdl"
-	INCBIN "graphics/models/walkerwalking.mdl"
+	INCBIN "graphics/models/cyclopslegbroken.mdl"
+	INCBIN "graphics/models/cyclopslegmissing.mdl"
+	INCBIN "graphics/models/cyclopswalking.mdl"
 	INCBIN "graphics/models/growingcolumn.mdl"
-	INCBIN "graphics/models/beefighter.mdl"
+	INCBIN "graphics/models/bee.mdl"
 	INCBIN "graphics/models/weirdantenna.mdl"
 	INCBIN "graphics/models/unknown_0C8AF5.mdl"
 	INCBIN "graphics/models/weirdantennatop.mdl"

@@ -125,9 +125,9 @@ CODE_00804E:
 	sta BBAD1
 	lda #$00
 	sta A1B1
-	ldx #$819B
+	ldx.w #CODE_00819B
 	stx A1T1L
-	stz DASB1
+	stz DAS10
 	stz BG1VOFS
 	stz BG1VOFS
 	lda #$F9
@@ -169,6 +169,7 @@ CODE_00817D:
 	bra CODE_008161
 CODE_008199:
 	bra CODE_008199
+CODE_00819B:
 	DB $54,$00
 DATA_00819D:
 	DB $01,$01,$01,$02,$01,$03,$01,$04
@@ -531,6 +532,7 @@ ReciprocalTable:
         DW $008C,$008C,$008B,$008A,$008A,$0089,$0089,$0088
         DW $0087,$0087,$0086,$0086,$0085,$0085,$0084,$0084
         DW $0083,$0083,$0082,$0082,$0081,$0081,$0080
+DATA_009847:
 	DB $0C,$62
 ;Some unused strings
 UnusedStringHover1:
@@ -553,6 +555,7 @@ UnusedStringRelAxis3:
 	DB "REL AXIS 3",$00
 UnusedStringTable0:
 	DW UnusedStringHover1,UnusedStringTank,UnusedStringWalker1,UnusedStringRelAxis1,UnusedStringRelAxis2
+DATA_00989D:
 	DW $8B8A,$8C0A,$8C8A,$8D0A
 ;8-bit sine table for 8-bit angles
 SineTable8:
@@ -707,6 +710,7 @@ UnusedStringTriLaser:
 	DB "TRILASER",$00
 UnusedStringShotGun:
 	.db "SHOT GUN",$00
+DATA_00A07B:
 	DB $00,$00,$00,$00,$00,$00,$00,$00
 	DB $70,$70,$70,$70,$70,$70,$00,$00
 ;Ship and guideline sprites for the map screen
@@ -1051,8 +1055,8 @@ ObjectHeaderTable:	;00AC15
 	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$88,$00,$88,$00,$90,$00,$BC,$00,$2E,$85,$49,$AD,$49,$AD,$49,$AD,$49,$AD	;Weird Asteroid Sprite
 	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$78,$00,$28,$00,$5A,$85,$65,$AD,$65,$AD,$65,$AD,$65,$AD	;Flashing Red/Blue Ring
 	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$50,$00,$50,$00,$F0,$00,$50,$00,$5C,$85,$D0,$CA,$81,$AD,$81,$AD,$81,$AD	;Metal Ball
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$28,$00,$60,$85,$D0,$CA,$9D,$AD,$9D,$AD,$9D,$AD	;Asteroid Or Lava Bubble?
-	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$50,$00,$50,$00,$50,$00,$50,$00,$60,$85,$D0,$CA,$B9,$AD,$B9,$AD,$B9,$AD	;Asteroid Or Lava Bubble?
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$28,$00,$60,$85,$D0,$CA,$9D,$AD,$9D,$AD,$9D,$AD	;Lava Rock
+	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$50,$00,$50,$00,$50,$00,$50,$00,$60,$85,$D0,$CA,$B9,$AD,$B9,$AD,$B9,$AD	;Lava Rock
 	DB $D4,$F0,$11,$CA,$F0,$00,$00,$02,$00,$00,$28,$00,$28,$00,$28,$00,$28,$00,$30,$85,$D5,$AD,$D5,$AD,$D5,$AD,$D5,$AD	;Weak Explosion
 	DB $D4,$F0,$11,$CA,$F0,$00,$00,$03,$00,$00,$50,$00,$50,$00,$50,$00,$50,$00,$30,$85,$F1,$AD,$F1,$AD,$F1,$AD,$F1,$AD	;Weak Explosion
 	DB $D4,$F0,$11,$CA,$F0,$00,$00,$04,$00,$00,$A0,$00,$A0,$00,$A0,$00,$A0,$00,$30,$85,$0D,$AE,$0D,$AE,$0D,$AE,$0D,$AE	;Weak Explosion
@@ -1109,11 +1113,11 @@ ObjectHeaderTable:	;00AC15
 	DB $0C,$F0,$11,$1B,$F0,$00,$00,$00,$00,$00,$04,$00,$04,$00,$04,$00,$04,$00,$2E,$85,$A1,$B3,$A1,$B3,$A1,$B3,$A1,$B3	;Weird Asteroid Sprite
 	DB $0C,$F0,$11,$1B,$F0,$00,$00,$01,$00,$00,$08,$00,$08,$00,$08,$00,$08,$00,$2E,$85,$BD,$B3,$BD,$B3,$BD,$B3,$BD,$B3	;Weird Asteroid Sprite
 	DB $0C,$F0,$11,$1B,$F0,$00,$00,$02,$00,$00,$10,$00,$10,$00,$10,$00,$10,$00,$2E,$85,$D9,$B3,$D9,$B3,$D9,$B3,$D9,$B3	;Weird Asteroid Sprite
-	DB $00,$80,$0C,$39,$80,$00,$00,$02,$30,$67,$C8,$00,$78,$01,$78,$00,$74,$01,$13,$82,$F5,$B3,$F5,$B3,$F5,$B3,$F5,$B3	;Walker With Leg Broken
-	DB $4D,$81,$0C,$83,$81,$00,$00,$02,$30,$67,$C8,$00,$78,$01,$84,$00,$C4,$01,$13,$82,$11,$B4,$11,$B4,$11,$B4,$11,$B4	;Walker With Leg Missing
-	DB $B3,$82,$0C,$91,$86,$00,$00,$02,$0C,$67,$80,$00,$88,$01,$88,$00,$A0,$00,$13,$82,$2D,$B4,$2D,$B4,$2D,$B4,$2D,$B4	;Walker Walking
+	DB $00,$80,$0C,$39,$80,$00,$00,$02,$30,$67,$C8,$00,$78,$01,$78,$00,$74,$01,$13,$82,$F5,$B3,$F5,$B3,$F5,$B3,$F5,$B3	;Cyclops With Leg Broken
+	DB $4D,$81,$0C,$83,$81,$00,$00,$02,$30,$67,$C8,$00,$78,$01,$84,$00,$C4,$01,$13,$82,$11,$B4,$11,$B4,$11,$B4,$11,$B4	;Cyclops With Leg Missing
+	DB $B3,$82,$0C,$91,$86,$00,$00,$02,$0C,$67,$80,$00,$88,$01,$88,$00,$A0,$00,$13,$82,$2D,$B4,$2D,$B4,$2D,$B4,$2D,$B4	;Cyclops Walking
 	DB $8B,$87,$0C,$83,$88,$00,$00,$02,$6C,$61,$20,$00,$3C,$01,$28,$00,$4C,$01,$13,$82,$49,$B4,$49,$B4,$49,$B4,$49,$B4	;Growing Column
-	DB $C9,$88,$0C,$15,$89,$00,$00,$00,$00,$00,$1E,$00,$30,$00,$3B,$00,$4C,$00,$81,$84,$65,$B4,$65,$B4,$65,$B4,$65,$B4	;Bee Fighter
+	DB $C9,$88,$0C,$15,$89,$00,$00,$00,$00,$00,$1E,$00,$30,$00,$3B,$00,$4C,$00,$81,$84,$65,$B4,$65,$B4,$65,$B4,$65,$B4	;Bee
 	DB $0E,$8A,$0C,$31,$8A,$00,$00,$00,$00,$00,$14,$00,$4C,$00,$14,$00,$56,$00,$13,$82,$81,$B4,$81,$B4,$81,$B4,$81,$B4	;Weird Antenna
 	DB $F5,$8A,$0C,$09,$8B
 	DB $43,$8B,$0C,$5A,$8B,$00,$00,$00,$00,$00,$14,$00,$1E,$00,$14,$00,$1E,$00,$13,$82,$A2,$B4,$9D,$B4,$9D,$B4,$9D,$B4	;Weird Antenna Top
@@ -1222,12 +1226,12 @@ ObjectHeaderTable:	;00AC15
 	DB $41,$8D,$0E,$60,$8D,$00,$00,$03,$00,$00,$08,$01,$10,$02,$20,$01,$B8,$01,$13,$82,$00,$BF,$00,$BF,$00,$BF,$00,$BF	;Spinning Core Flaps Halfway
 	DB $C9,$8D,$0E,$E3,$8D,$00,$00,$03,$00,$00,$D8,$00,$E0,$01,$D8,$00,$40,$01,$13,$82,$1C,$BF,$1C,$BF,$1C,$BF,$1C,$BF	;Spinning Core Flaps Closed
 	DB $4C,$8E,$0E,$60,$8E,$00,$00,$03,$00,$00,$D8,$00,$E0,$01,$D8,$00,$40,$01,$13,$82,$38,$BF,$38,$BF,$38,$BF,$38,$BF	;Spinning Core Flaps Closed
-	DB $C9,$8E,$0E,$F6,$8E,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$7C,$80,$54,$BF,$54,$BF,$54,$BF,$54,$BF
-	DB $C9,$8E,$0E,$F6,$8E,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$70,$BF,$70,$BF,$70,$BF,$70,$BF
-	DB $C9,$8E,$0E,$F6,$8E,$00,$00,$00,$00,$00,$14,$00,$14,$00,$00,$00,$16,$00,$04,$80,$8C,$BF,$8C,$BF,$8C,$BF,$8C,$BF
-	DB $36,$8F,$0E,$57,$8F,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$A8,$BF,$A8,$BF,$A8,$BF,$A8,$BF
-	DB $87,$8F,$0E,$9C,$8F,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$C4,$BF,$C4,$BF,$C4,$BF,$C4,$BF
-	DB $BC,$8F,$0E,$C5,$8F,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$E0,$BF,$E0,$BF,$E0,$BF,$E0,$BF
+	DB $C9,$8E,$0E,$F6,$8E,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$7C,$80,$54,$BF,$54,$BF,$54,$BF,$54,$BF	;8 Lines
+	DB $C9,$8E,$0E,$F6,$8E,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$70,$BF,$70,$BF,$70,$BF,$70,$BF	;8 Lines
+	DB $C9,$8E,$0E,$F6,$8E,$00,$00,$00,$00,$00,$14,$00,$14,$00,$00,$00,$16,$00,$04,$80,$8C,$BF,$8C,$BF,$8C,$BF,$8C,$BF	;8 Lines
+	DB $36,$8F,$0E,$57,$8F,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$A8,$BF,$A8,$BF,$A8,$BF,$A8,$BF	;5 Lines
+	DB $87,$8F,$0E,$9C,$8F,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$C4,$BF,$C4,$BF,$C4,$BF,$C4,$BF	;3 Lines
+	DB $BC,$8F,$0E,$C5,$8F,$00,$00,$03,$00,$00,$A0,$00,$A0,$00,$00,$00,$B0,$00,$04,$80,$E0,$BF,$E0,$BF,$E0,$BF,$E0,$BF	;1 Line
 	DB $D5,$8F,$0E,$AE,$96,$00,$00,$00,$00,$00,$78,$00,$78,$00,$FA,$00,$9F,$00,$73,$88,$FC,$BF,$FC,$BF,$FC,$BF,$FC,$BF
 	DB $20,$90,$0E,$77,$90,$00,$00,$02,$00,$00,$98,$00,$F0,$00,$90,$01,$C8,$01,$13,$82,$18,$C0,$18,$C0,$18,$C0,$18,$C0	;Armada Battleship Entry
 	DB $97,$92,$0E,$F4,$92,$00,$00,$02,$00,$00,$68,$01,$18,$01,$68,$01,$9C,$01,$13,$82,$34,$C0,$34,$C0,$34,$C0,$34,$C0	;Atomic Base Entry
@@ -1627,10 +1631,10 @@ CODE_00E8D1:
 	rts
 CODE_00E8D4:
 	rep #$20
-	lda #$E943
+	lda.w #CODE_00E943
 	sta D,$16,x
 	sep #$20
-	lda #$00
+	lda.b #BANKOF(CODE_00E943)
 	sta D,$18,x
 	lda #$06
 	sta $1CD5,x
@@ -3779,10 +3783,10 @@ BehE5_L14:
 ;BEHAVIOR FUNCTION ID $E9
 BehE9_BigAsteroid:
 	rep #$20				;\Set object behavior routine pointer to $00FAA4
-	lda.w #LO16(BehE9_BigAsteroid_Loop)	;|
+	lda.w #BehE9_BigAsteroid_Loop		;|
 	sta D,$16,x				;|
 	sep #$20				;|
-	lda.b #HI8(BehE9_BigAsteroid_Loop)	;|
+	lda.b #BANKOF(BehE9_BigAsteroid_Loop)	;|
 	sta D,$18,x				;/
 	jsl CODE_1FD41A
 	lda D,$1F,x
@@ -3843,12 +3847,12 @@ CODE_00FAD6:
 	lda D,$2E,x
 	ora #$10
 	sta D,$2E,x
-	rep #$20		;\Set object behavior routine pointer to $00FB03
-	lda.w #LO16(CODE_00FB03);|
-	sta D,$16,x		;|
-	sep #$20		;|
-	lda.b #HI8(CODE_00FB03)	;|
-	sta D,$18,x		;/
+	rep #$20			;\Set object behavior routine pointer to $00FB03
+	lda.w #CODE_00FB03		;|
+	sta D,$16,x			;|
+	sep #$20			;|
+	lda.b #BANKOF(CODE_00FB03)	;|
+	sta D,$18,x			;/
 	jsl CODE_1FD41A
 	lda D,$13,x
 	clc
@@ -3909,7 +3913,7 @@ CODE_00FB5C:
 	sta D,$0E,x		;/
 	sep #$20
 CODE_00FB65:
-	jsl CODE_1FDC69
+	jsl MoveObjectAlongRails
 	lda D,$1E,x
 	and #$40
 	beq CODE_00FB73
@@ -3917,7 +3921,7 @@ CODE_00FB65:
 CODE_00FB73:
 	rep #$20
 	lda D,$0C,x
-	sta D,$3A
+	sta D,TempSelf
 	lda #$FF38
 	jsl CODE_1FD6AB
 	sta D,$0C,x
@@ -3936,7 +3940,7 @@ CODE_00FB99:
 CODE_00FB9D:
 	rep #$20
 	lda D,$0C,x
-	sta D,$3A
+	sta D,TempSelf
 	lda #$00C8
 	jsl CODE_1FD6AB
 	sta D,$0C,x
@@ -3965,12 +3969,12 @@ CODE_00FBD7:
 	sta D,$13,x
 	lda #$00
 	sta $1CE7,x
-	rep #$20		;\Set object behavior routine pointer to $00FC29
-	lda.w #LO16(CODE_00FC29);|
-	sta D,$16,x		;|
-	sep #$20		;|
-	lda.b #HI8(CODE_00FC29)	;|
-	sta D,$18,x		;/
+	rep #$20			;\Set object behavior routine pointer to $00FC29
+	lda.w #CODE_00FC29		;|
+	sta D,$16,x			;|
+	sep #$20			;|
+	lda.b #BANKOF(CODE_00FC29)	;|
+	sta D,$18,x			;/
 	lda #$46
 	sta D,$15,x
 	lda D,$15,x
@@ -3978,9 +3982,9 @@ CODE_00FBD7:
 	lda D,$13,x
 	jsl CODE_1FC177
 	rep #$20
-	lda D,$02
+	lda D,TempVecX
 	sta D,$2F,x
-	lda D,$90
+	lda D,TempVecZ
 	sta D,$33,x
 	sep #$20
 	rep #$20
@@ -4006,7 +4010,7 @@ CODE_00FC29:
 	sta D,$31,x
 	sep #$20
 	jsl ApplyObjectVelocity
-	jsl CODE_1FDC69
+	jsl MoveObjectAlongRails
 	rep #$20
 	lda D,$0E,x
 	cmp #$0000
@@ -4029,14 +4033,11 @@ CODE_00FC63:
 	sta D,$1E,x
 CODE_00FC69:
 	rtl
-
 ;unknown data
 DATA_00FC6A:
 	DB $A9,$00,$48,$AB
-
 	;Compressed tilemap
 	INCBIN "graphics/compressed/unk00FF96.binz"		;map
-
 Reset_L1:
 	clc
 	xce

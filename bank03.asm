@@ -275,7 +275,7 @@
 	DW $4000
 	;AMOEBA
 	DW $8719
-	;ASTEROID OR LAVA BUBBLE?
+	;LAVA ROCK
 	DW $8710
 	;BLACK HOLE
 	DW $46D0,$46D0
@@ -288,8 +288,8 @@
 	;LAVA ERUPTION
 	DW $40B4,$8578,$4007
 	;Referenced by the material list above
-	DB $02
-	DW $463B,$463C
+	DB $02		;Number of frames
+	DW $463B,$463C		;Frame data
 	;BIG ASTEROID
 	DW $46D3
 	;SMALL ORANGE ASTEROID
@@ -301,8 +301,8 @@
 	;USED FOR ANDROSS ELONGATED BIPYRAMID MODEL
 	DW $46A6,$8589
 	;Referenced by the material list above
-	DB $04
-	DW $0000,$0707,$0606
+	DB $04		;Number of frames?
+	DW $0000,$0707,$0606	;Frame data
 	;USED FOR ANDROSS SQUARE/CUBE MODEL
 	DW $46A6,$46A6
 	;USED FOR ANDROSS BOSS SQUARE AND ORIGAMI
@@ -311,163 +311,163 @@
 	;SLOT MACHINE WHEELS
 	DW $42D2
 	;Unknown animated material
-	DB $04
-	DW $400C,$400D,$400E,$400E
+	DB $04		;Number of frames
+	DW $400C,$400D,$400E,$400E	;Frame data
 	;USED FOR BLACK HOLE BILLBOARD SPRITE
 	DW $46D0,$41D0
 	;Flashing white/blue animation
-	DB $02
-	DW $3FEE,$3F77
+	DB $02		;Number of frames
+	DW $3FEE,$3F77		;Frame data
 	;White flash animation
-	DB $02
-	DW $40CB,$4013
+	DB $02		;Number of frames
+	DW $40CB,$4013		;Frame data
 	;WHITE SHOT?
 	DW $4005
 	;Animation data for Andross boss square/origami
-	DB $20
-	DW $3FDD,$3FDD,$3FED,$3FED
+	DB $20		;Number of frames?
+	DW $3FDD,$3FDD,$3FED,$3FED	;Frame data
 	DW $3FED,$3FED,$3FED,$3FEE
 	DW $3FEE,$3FEE,$3FEE,$3FEE
 	DW $3FEE,$3FEE,$3FEE,$3FEE
 	DW $3FEE,$3FEE,$3FEE,$3FEE
-	DB $20
+	DB $20		;Number of frames?
+	DW $3FDD,$3FDD,$3FDD,$3FDD	;Frame data
 	DW $3FDD,$3FDD,$3FDD,$3FDD
 	DW $3FDD,$3FDD,$3FDD,$3FDD
 	DW $3FDD,$3FDD,$3FDD,$3FDD
 	DW $3FDD,$3FDD,$3FDD,$3FDD
-	DW $3FDD,$3FDD,$3FDD,$3FDD
-	DB $20
-	DW $3FDD,$3FDD,$3FDD,$3FDC
+	DB $20		;Number of frames?
+	DW $3FDD,$3FDD,$3FDD,$3FDC	;Frame data
 	DW $3FDC,$3FDD,$3FDC,$3FCC
 	DW $3FCC,$3FCC,$3FCC,$3FCC
 	DW $3FCC,$3FCC,$3FCC,$3FCC
 	DW $3FCC,$3FCC,$3FCC,$3FCC
-	DB $20
-	DW $3FDD,$3FDC,$3FDC,$3FCC
+	DB $20		;Number of frames?
+	DW $3FDD,$3FDC,$3FDC,$3FCC	;Frame data
 	DW $3FCC,$3FCB,$3FCB,$3FBB
 	DW $3FBB,$3FBB,$3FBB,$3FBB
 	DW $3FBB,$3FBB,$3FBB,$3FBB
 	DW $3FBB,$3FBB,$3FBB,$3FBB
-	DB $20
-	DW $3FDD,$3FDC,$3FDC,$3FCC
+	DB $20		;Number of frames?
+	DW $3FDD,$3FDC,$3FDC,$3FCC	;Frame data
 	DW $3FCB,$3FBB,$3FBB,$3FBA
 	DW $3FBA,$3FAA,$3FAA,$3FAA
 	DW $3FAA,$3FAA,$3FAA,$3FAA
 	DW $3FAA,$3FAA,$3FAA,$3FAA
-	DB $20
-	DW $3FDD,$3FDC,$3FCC,$3FCB
+	DB $20		;Number of frames?
+	DW $3FDD,$3FDC,$3FCC,$3FCB	;Frame data
 	DW $3FBB,$3FBA,$3FAA,$3FA9
 	DW $3FA9,$3F99,$3F99,$3F99
 	DW $3F99,$3F99,$3F99,$3F99
 	DW $3F99,$3F99,$3F99,$3F99
-	DB $20
-	DW $3F88,$3F77,$3F66,$3F55
+	DB $20		;Number of frames?
+	DW $3F88,$3F77,$3F66,$3F55	;Frame data
 	DW $3F88,$3F77,$3F66,$3F55
 	DW $3F88,$3F77,$3F55,$3F88
 	DW $3F99,$3F99,$3F55,$3F88
 	DW $3F99,$3F99,$3F22,$3F22
-	DB $20
-	DW $3F88,$3F77,$3F66,$3F55
+	DB $20		;Number of frames?
+	DW $3F88,$3F77,$3F66,$3F55	;Frame data
 	DW $3F88,$3F77,$3F66,$3F55
 	DW $3F88,$3F77,$3F55,$3F88
 	DW $3F55,$3F88,$3F99,$3F99
 	DW $3F99,$3F22,$3F99,$3F22
 	;Animation data for flashing metal ball
-	DB $04
-	DW $40A7,$40AB,$40DC,$40AB
-	;Animation data for asteroid or lava bubble?
-	DB $04
-	DW $4015,$4016,$4017,$4016
+	DB $04		;Number of frames
+	DW $40A7,$40AB,$40DC,$40AB	;Frame data
+	;Animation data for lava rock
+	DB $04		;Number of frames
+	DW $4015,$4016,$4017,$4016	;Frame data
 	;Animation data for amoeba
-	DB $04
-	DW $40CC,$40CD,$40CC,$40CE
+	DB $04		;Number of frames
+	DW $40CC,$40CD,$40CC,$40CE	;Frame data
 	;Animation data for flashing red/blue rings
-	DB $04
-	DW $401E,$401D,$401D,$401D
-	DB $04
-	DW $401D,$401E,$401D,$401D
-	DB $04
-	DW $401D,$401D,$401E,$401D
-	DB $04
-	DW $401D,$401D,$401D,$401E
-	DB $02
-	DW $401E,$401D
-	DB $08
-	DW $401D,$401E,$401D,$401E
+	DB $04		;Number of frames
+	DW $401E,$401D,$401D,$401D	;Frame data
+	DB $04		;Number of frames
+	DW $401D,$401E,$401D,$401D	;Frame data
+	DB $04		;Number of frames
+	DW $401D,$401D,$401E,$401D	;Frame data
+	DB $04		;Number of frames
+	DW $401D,$401D,$401D,$401E	;Frame data
+	DB $02		;Number of frames
+	DW $401E,$401D		;Frame data
+	DB $08		;Number of frames
+	DW $401D,$401E,$401D,$401E	;Frame data
 	DW $401D,$401E,$401D,$401E
 	;Animation data for reverse explosion
-	DB $08
-	DW $463D,$463C,$463B,$463B
+	DB $08		;Number of frames
+	DW $463D,$463C,$463B,$463B	;Frame data
 	DW $463A,$463A,$4639,$4639
 	;Animation data for flashing red/yellow
-	DB $02
-	DW $3F11,$3F33
+	DB $02		;Number of frames
+	DW $3F11,$3F33		;Frame data
 	;Animation data for sparks
-	DB $04
-	DW $400A,$400B,$400F,$400B
+	DB $04		;Number of frames
+	DW $400A,$400B,$400F,$400B	;Frame data
 	;Animation data for nova bomb
-	DB $08
-	DW $4019,$401A,$401C,$4019
+	DB $08		;Number of frames
+	DW $4019,$401A,$401C,$4019	;Frame data
 	DW $401A,$401C,$4019,$401A
 	;Animation data for flashing red/blue
-	DB $10
-	DW $3F88,$3F77,$3F66,$3F55
+	DB $10		;Number of frames
+	DW $3F88,$3F77,$3F66,$3F55	;Frame data
 	DW $3F44,$3F44,$3F33,$3F33
 	DW $3F22,$3F22,$3F11,$3F11
 	DW $3F11,$3F22,$3F33,$3F44
 	;Animation data for flashing red/yellow
-	DB $08
-	DW $3F44,$3F33,$3F22,$3F11,$3E00
-	DB $08
-	DW $3F44,$3F33,$3F22,$3F11,$3E06
+	DB $08		;Number of frames
+	DW $3F44,$3F33,$3F22,$3F11,$3E00	;Frame data
+	DB $08		;Number of frames
+	DW $3F44,$3F33,$3F22,$3F11,$3E06	;Frame data
 	;Animation data for flashing red/blue
-	DB $08
-	DW $3F88,$3F77,$3F66,$3F55
+	DB $08		;Number of frames
+	DW $3F88,$3F77,$3F66,$3F55	;Frame data
 	DW $3F44,$3F33,$3F22,$3F11
 	;Animation data for flashing blue
-	DB $08
-	DW $3F88,$3F77,$3F66,$3F55,$3E1D
+	DB $08		;Number of frames?
+	DW $3F88,$3F77,$3F66,$3F55,$3E1D	;Frame data
 	;Animation data for flashing red/yellow
-	DB $02
-	DW $3F44,$3F11
+	DB $02		;Number of frames
+	DW $3F44,$3F11		;Frame data
 	;Animation data for flashing white
-	DB $08
-	DW $3FEE,$3FDD,$3FCC,$3FBB
+	DB $08		;Number of frames
+	DW $3FEE,$3FDD,$3FCC,$3FBB	;Frame data
 	DW $3FAA,$3F99,$3F99,$3F99
 	;Animation data for flashing white/blue
-	DB $08
-	DW $3FEE,$3F88,$3FEE,$3F77
+	DB $08		;Number of frames
+	DW $3FEE,$3F88,$3FEE,$3F77	;Frame data
 	DW $3FEE,$3F88,$3FEE,$3F66
 	;Animation data for flashing white/yellow
-	DB $04
-	DW $3FEE,$3F33,$3FEE,$3F44
+	DB $04		;Number of frames
+	DW $3FEE,$3F33,$3FEE,$3F44	;Frame data
 	;Animation data for flashing red/blue shot
-	DB $02
-	DW $4010,$4011
+	DB $02		;Number of frames
+	DW $4010,$4011		;Frame data
 	;Animation data for weak explosion
-	DB $08
-	DW $4639,$4008,$40C1,$40C2
+	DB $08		;Number of frames
+	DW $4639,$4008,$40C1,$40C2	;Frame data
 	DW $40C3,$40C4,$40C5,$40C6
 	;Animation data for sparks
-	DB $04
-	DW $400A,$400B,$400F,$400B
+	DB $04		;Number of frames
+	DW $400A,$400B,$400F,$400B	;Frame data
 	;Unknown animation data
-	DB $04
-	DW $400C,$400D,$400E,$400D
+	DB $04		;Number of frames
+	DW $400C,$400D,$400E,$400D	;Frame data
 	;Animation data for slightly weak explosion
-	DB $04
-	DW $4639,$463A,$4008,$4009
+	DB $04		;Number of frames
+	DW $4639,$463A,$4008,$4009	;Frame data
 	;Animation data for medium explosion
-	DB $08
-	DW $4639,$463A,$463B,$463E
+	DB $08		;Number of frames
+	DW $4639,$463A,$463B,$463E	;Frame data
 	DW $463F,$4640,$4640,$4640
 	;Animation data for full explosion
-	DB $08
-	DW $4639,$463A,$463B,$463C
+	DB $08		;Number of frames
+	DW $4639,$463A,$463B,$463C	;Frame data
 	DW $463D,$463E,$463F,$4640
 	;Animation data for flashing blue/white/yellow/red
-	DB $08
-	DW $3F66,$3F66,$3FEE,$3FEE
+	DB $08		;Number of frames
+	DW $3F66,$3F66,$3FEE,$3FEE	;Frame data
 	DW $3F33,$3F33,$3F11,$3F11
 	;A MATERIAL TABLE
 	;Flat colors
@@ -486,34 +486,34 @@
 	;Other materials
 	DW $8862,$40A8,$40A8
 	;Animation data for splash
-	DB $08
-	DW $40A0,$40A1,$40A2,$40A3
+	DB $08		;Number of frames
+	DW $40A0,$40A1,$40A2,$40A3	;Frame data
 	DW $40A4,$40A4,$40A5,$40A5
 	;YELLOW/WHITE FLASH
 	DW $88D2
 	;Animation data for yellow/white flash
-	DB $02
-	DW $4012,$4013
+	DB $02		;Number of frames
+	DW $4012,$4013		;Frame data
 	;Animation data for flashing white
-	DB $08
-	DW $3FEE,$3FDD,$3FCC,$3FBB
+	DB $08		;Number of frames
+	DW $3FEE,$3FDD,$3FCC,$3FBB	;Frame data
 	DW $3FAA,$3FA9,$3F99,$3F99
 	;Animation data for flashing red
-	DB $08
-	DW $3F22,$3F22,$3F21,$3F21
+	DB $08		;Number of frames
+	DW $3F22,$3F22,$3F21,$3F21	;Frame data
 	DW $3F11,$3F11,$3F11,$3F11
 	;Animation data for flashing white
-	DB $08
-	DW $3FDD,$3FCC,$3FBB,$3FAA
+	DB $08		;Number of frames
+	DW $3FDD,$3FCC,$3FBB,$3FAA	;Frame data
 	DW $3FA9,$3F99,$3F99,$3F99
 	;Animation data for flashing red/black
-	DB $02
-	DW $3F19,$3F22
+	DB $02		;Number of frames
+	DW $3F19,$3F22		;Frame data
 	;Animation data for flashing red/blue oval shot
-	DB $04
-	DW $40C7,$40C9,$40C8,$40C9
-	;The following table is used to translate the low byte of a textured material into a pointer
-	;for the upper left corner of the texture to be used (the high byte is used for the size/mirroring).
+	DB $04		;Number of frames
+	DW $40C7,$40C9,$40C8,$40C9	;Frame data
+;The following table is used to translate the low byte of a textured material into a pointer
+;for the upper left corner of the texture to be used (the high byte is used for the size/mirroring).
 TexCoordOffsTable:
 	DL $128000,$128020,$128040,$128060
 	DL $128080,$1280A0,$1280C0,$1280E0
@@ -565,9 +565,9 @@ DATA_038A3E:
 	DB $84,$00,$AD,$01,$C6,$00,$31,$02
 	DB $08,$01,$B5,$02,$4A,$01,$39,$03
 	DB $8C,$01,$FF,$03
-	;Base color palette, three varieties.
-	;The first one is more blue-tinted, the second one is more red-tinted,
-	;and the third one is more green-tinted.
+;Base color palette, three varieties.
+;The first one is more blue-tinted, the second one is more red-tinted,
+;and the third one is more green-tinted.
 BaseColorTable:
 	DW $0000,$0451,$153A,$22BD
 	DW $377F,$5445,$6D2B,$7E8F
@@ -583,7 +583,7 @@ BaseColorTable:
 	DW $4B5F,$6D40,$7E2C,$7F6D
 	DW $7FF5,$24C3,$3989,$4E05
 	DW $62D3,$7778,$7FFD,$0220
-	;This table points to rows of lit colors in LitColorTable
+;This table points to rows of lit colors in LitColorTable
 LitColorPointerTable:
 	DW $8E0A,$8E14,$8E1E,$8E28
 	DW $8E32,$8E3C,$8E46,$8E50
@@ -600,8 +600,8 @@ LitColorPointerTable:
 	DW $8F3C,$8F40,$8F4A,$8F54
 	DW $8F5E,$8F68,$8F72,$8F7C
 	DW $8F86,$8F90,$8F90,$8F90
-	;Dithered 4bpp format (same as the $3E material type).
-	;The exact set of colors used is determined programmatically.
+;Dithered 4bpp format (same as the $3E material type).
+;The exact set of colors used is determined programmatically.
 FlatColorTable:
 	DB $99,$9A,$AA,$AB,$BB,$BC,$CC,$CD
 	DB $DD,$DE,$EE,$11,$12,$22,$23,$33
@@ -687,9 +687,9 @@ FlatColorTable:
 	DB $1A,$1A,$1B,$19,$19,$19,$19,$19
 	DB $19,$1A,$19,$19,$19,$19,$19,$19
 	DB $1A,$19,$19,$19,$1A,$19,$19,$1A
-	;Dithered 4bpp format (same as the $3E material type).
-	;These are used by the lit/shaded materials.
-	;The exact set of colors used is determined programmatically.
+;Dithered 4bpp format (same as the $3E material type).
+;These are used by the lit/shaded materials.
+;The exact set of colors used is determined programmatically.
 LitColorTable:
 	DB $AB,$AB,$BB,$BB,$BC,$CC,$CD,$DD,$DE,$EE
 	DB $9A,$9A,$AA,$AA,$AB,$BB,$BC,$CC,$CD,$DD
@@ -739,20 +739,210 @@ DATA_038F9A:
 	DB $00,$00,$C0,$00,$00,$00,$00,$00
 	DB $F6,$F3,$F1,$00,$FE,$FD,$FC,$00
 	DB $FE,$FD,$FC,$00,$F6,$F3,$C1,$00
+LoadPreset_BlackHole:
+	sep #$20
+	jsr CODE_03AB12
+	jsr DecompressTileset
+	DL $16A648
+	DB $00,$5C,$00,$18
+	jsr DecompressTilemap
+	DL $16ED34
+	DB $00,$70,$00,$20
+	jsr CODE_03ABFE
+	DB $60,$03,$7F,$E0,$00
+	lda #$00
+	sta D,CurNMITask
+	lda $120E
+	ora #$04
+	sta $120E
+	lda #$16
+	sta $1785
+	ldx #$822A
+	stx $1786
+	lda #$0B
+	sta $1788
+	sep #$20
+	lda #$00
+	sta $14DB
+	jsl CODE_06BA91
+	lda #$05
+	sta $14DC
+	rep #$20
+	lda #$0000
+	sta $169C
+	sta $194D
+	sep #$20
+	lda #$0C
+	sta $1FE2
+	rep #$20
+	lda #$0000
+	sta $7001A8
+	lda #$00A0
+	sta $7001AA
+	lda #$0001
+	sta $7001AC
+	sep #$20
+	jsl LoadAudio_BlackHole
+	stz $16C9
+	lda #$01
+	sta $18C2
+	stz $194F
+	stz $1950
+	lda #$8A
+	sta $70004E
+	lda #$8B
+	sta $70004F
+	lda $120E
+	sta HDMAEN
+CODE_039056:
+	lda D,CurNMITask
+	beq CODE_03905E
+	cmp #$20
+	bne CODE_039056
+CODE_03905E:
+	rtl
+LoadPreset_Scramble:
+	sep #$20
+	jsr CODE_03AB12
+	jsr DecompressTileset
+	DL $14DB6E
+	DB $00,$5C,$00,$18
+	jsr DecompressTilemap
+	DL $14DC0E
+	DB $00,$70,$00,$20
+	JSR CODE_03ABFE
+	DB $E0,$00,$7F,$E0,$00
+	lda #$10
+	sta D,CurNMITask
+	lda $120E
+	ora #$04
+	sta $120E
+	lda #$02
+	sta $1785
+	ldx #$8004
+	stx $1786
+	lda #$0B
+	sta $1788
+	sep #$20
+	lda #$00
+	sta $14DB
+	jsl CODE_06BA91
+	lda #$02
+	sta $14DC
+	lda #$08
+	sta $1FE2
+	rep #$20
+	lda #$8FAE
+	sta $700050
+	sep #$20
+	rep #$10
+	jsl LoadAudio_Scramble1
+	lda #$00
+	sta $70021C
+	rep #$20
+	lda #$0000
+	sta $195F
+	sep #$20
+	lda #$01
+	sta $16C9
+	lda $120E
+	ora #$10
+	sta $120E
+	stz $194F
+	stz $1950
+	stz $1862
+	lda #$8A
+	sta $70004E
+	lda #$8B
+	sta $70004F
+	lda $120E
+	sta HDMAEN
+CODE_0390FA:
+	lda D,CurNMITask
+	beq CODE_039102
+	cmp #$20
+	bne CODE_0390FA
+CODE_039102:
+	rtl
+CODE_039103:
+	jml CODE_1FBDEE
+CODE_039107:
+	jml CODE_1FBDEE
+CODE_03910B:
+	sep #$20
+	jsr CODE_03AB12
 	
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+CODE_03AB12:
+	sep #$20
+	rep #$10
+CODE_03AB16:
+	lda D,CurNMITask
+	beq CODE_03AB1E
+	cmp #$20
+	bne CODE_03AB16
+CODE_03AB1E:
+	lda #$26
+	sta D,CurNMITask
+CODE_03AB22:
+	lda D,CurNMITask
+	beq CODE_03AB2A
+	cmp #$20
+	bne CODE_03AB22
+CODE_03AB2A:
+	rts
 DoDecompressTileset:
 	php
 	rep #$20
 	lda #$2800
 	sta $70002C
 	sep #$20
-	lda #$01
-	ldx #$B301
+	lda.b #BANKOF(DecompressGraphics)
+	ldx.w #DecompressGraphics
 	jsl RunSuperFXRoutine
 	plp
 	rtl
@@ -764,12 +954,12 @@ DoDecompressTilemap:
 	lda #$4000
 	sta $70002C
 	sep #$20
-	lda #$01
-	ldx #$B301
+	lda.b #BANKOF(DecompressGraphics)
+	ldx.w #DecompressGraphics
 	jsl RunSuperFXRoutine
 	plp
 	rtl
-CODE_03AB60:
+DoDecompressTilemap2:
 	php
 	rep #$20
 	lda #$0000
@@ -777,19 +967,19 @@ CODE_03AB60:
 	lda #$4000
 	sta $70002C
 	sep #$20
-	lda #$01
-	ldx #$B301
+	lda.b #BANKOF(DecompressGraphics)
+	ldx.w #DecompressGraphics
 	jsl RunSuperFXRoutine
 	plp
 	rtl
-CODE_03AB7E:
+DoDecompressTileset2:
 	php
 	rep #$20
 	lda #$2800
 	sta $70002C
 	sep #$20
-	lda #$01
-	ldx #$B301
+	lda.b #BANKOF(DecompressGraphics)
+	ldx.w #DecompressGraphics
 	jsl RunSuperFXRoutine
 	plp
 	rtl
@@ -868,7 +1058,7 @@ CODE_03AC34:
 	plb
 	ply
 	rts
-DATA_03AC42:
+PresetFunctionTable:
 	DB $00,$00,$00,$03,$5F,$90
 	DB $00,$00,$00,$03,$03,$91
 	DB $00,$00,$00,$03,$07,$91
@@ -917,48 +1107,739 @@ DATA_03AC42:
 	DB $00,$00,$00,$03,$35,$92
 	DB $00,$00,$00,$00,$00,$00
 	DB $00
-	
-	
-	
-	
-	
-	
-CODE_03AD5D:
+LoadAudio_InitData:
 	php
 	rep #$10
 	ldx #$0000
-	jsr HandleAudio
+	jsr LoadAudio
 	plp
 	rtl
-CODE_03AD68:
+LoadAudio_Title:
 	php
 	rep #$10
 	ldx #$001C
-	jsr HandleAudio
+	jsr LoadAudio
 	plp
 	rtl
-CODE_03AD73:
+LoadAudio_Controls:
 	php
 	rep #$10
 	ldx #$0025
-	jsr HandleAudio
+	jsr LoadAudio
 	plp
 	rtl
-CODE_03AD7E:
+LoadAudio_Training:
 	php
 	rep #$10
 	ldx #$0033
-	jsr HandleAudio
+	jsr LoadAudio
 	plp
 	rtl
-CODE_03AD89:
+LoadAudio_Map:
 	php
 	rep #$10
 	ldx #$0041
-	jsr HandleAudio
+	jsr LoadAudio
 	plp
 	rtl
+LoadAudio_Scramble1:
+	php
+	rep #$10
+	ldx #$0061
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Corneria1:
+	php
+	rep #$10
+	ldx #$0074
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Asteroid1:
+	php
+	rep #$10
+	ldx #$008C
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_SpaceArmadaBlastIn:
+	php
+	rep #$10
+	ldx #$009A
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_SpaceArmada:
+	php
+	rep #$10
+	ldx #$00A8
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Meteor:
+	php
+	rep #$10
+	ldx #$00B6
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_VenomAtmosphere1:
+	php
+	rep #$10
+	ldx #$00CE
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Venom1:
+	php
+	rep #$10
+	ldx #$00DC
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Scramble2:
+	php
+	rep #$10
+	ldx #$00EF
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Silence2:
+	php
+	rep #$10
+	ldx #$0102
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_SectorX:
+	php
+	rep #$10
+	ldx #$0110
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Titania:
+	php
+	rep #$10
+	ldx #$011E
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_SectorY:
+	php
+	rep #$10
+	ldx #$0136
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_VenomAtmosphere2:
+	php
+	rep #$10
+	ldx #$0144
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Highway:
+	php
+	rep #$10
+	ldx #$0152
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Scramble3:
+	php
+	rep #$10
+	ldx #$0165
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Silence3:
+	php
+	rep #$10
+	ldx #$0178
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Asteroid3:
+	php
+	rep #$10
+	ldx #$0186
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Fortuna:
+	php
+	rep #$10
+	ldx #$0194
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_SectorZ:
+	php
+	rep #$10
+	ldx #$01AC
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Macbeth:
+	php
+	rep #$10
+	ldx #$01BA
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_VenomAtmosphere3:
+	php
+	rep #$10
+	ldx #$01CD
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Venom3:
+	php
+	rep #$10
+	ldx #$01DB
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Continue:
+	php
+	rep #$10
+	ldx #$004F
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_BlackHole:
+	php
+	rep #$10
+	ldx #$0058
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Intro:
+	php
+	rep #$10
+	ldx #$0009
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Ending:
+	php
+	rep #$10
+	ldx #$01EE
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_Credits:
+	php
+	rep #$10
+	ldx #$01F7
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_GameOver:
+	php
+	rep #$10
+	ldx #$0200
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_OutOfThisDimension:
+	php
+	rep #$10
+	ldx #$0209
+	jsr LoadAudio
+	plp
+	rtl
+LoadAudio_BossTunnel:
+	php
+	rep #$10
+	ldx #$0217
+	jsr LoadAudio
+	plp
+	rtl
+AudioPacketData:
+	DB $00,$00,$80,$18,$C2,$28,$00,$00,$00									;(Initialization Data)
+	DB $12,$C2,$A8,$18,$CC,$73,$8E,$9C,$19,$74,$35,$33,$FA,$0C,$5C,$05,$00,$00,$00				;Intro
+	DB $12,$BE,$B5,$1B,$E7,$59,$00,$00,$00									;Title
+	DB $12,$C2,$A8,$18,$CC,$73,$CD,$FB,$0F,$1E,$04,$00,$00,$00						;Controls
+	DB $03,$02,$D2,$19,$B0,$2D,$45,$B9,$1E,$F3,$07,$00,$00,$00						;Training
+	DB $01,$8E,$9C,$19,$74,$35,$A2,$A6,$1B,$1C,$0F,$00,$00,$00						;Map
+	DB $0A,$75,$95,$1D,$7E,$11,$00,$00,$00									;Continue
+	DB $03,$71,$FC,$0A,$A8,$01,$00,$00,$00									;Black Hole
+	DB $10,$BA,$94,$1E,$A7,$0B,$77,$8E,$1F,$CA,$05,$7E,$92,$1A,$24,$94,$00,$00,$00				;Scramble 1
+	DB $03,$C2,$A8,$18,$CC,$73,$02,$D2,$19,$B0,$2D,$BA,$94,$1E,$A7,$0B,$77,$8E,$1F,$CA,$05,$00,$00,$00	;Corneria 1
+	DB $03,$C1,$CD,$1E,$42,$0C,$89,$FB,$11,$AB,$02,$00,$00,$00						;Asteroid 1
+	DB $09,$03,$DA,$1E,$B3,$06,$4A,$9F,$1F,$3E,$04,$00,$00,$00						;Space Armada (Blast In)
+	DB $03,$03,$DA,$1E,$B3,$06,$4A,$9F,$1F,$3E,$04,$00,$00,$00						;Space Armada
+	DB $03,$02,$D2,$19,$B0,$2D,$B2,$FF,$19,$CC,$12,$61,$A0,$1E,$BE,$0C,$38,$9A,$1F,$12,$05,$00,$00,$00	;Meteor
+	DB $03,$C1,$CD,$1E,$42,$0C,$88,$A3,$1F,$FB,$03,$00,$00,$00						;Venom 1 Atmosphere
+	DB $03,$44,$F1,$1E,$02,$07,$88,$A3,$1F,$FB,$03,$B0,$AF,$1F,$35,$08,$00,$00,$00				;Venom 1
+	DB $10,$BA,$94,$1E,$A7,$0B,$77,$8E,$1F,$CA,$05,$7E,$92,$1A,$24,$94,$00,$00,$00				;Scramble 2
+	DB $03,$C2,$A8,$18,$CC,$73,$02,$D2,$19,$B0,$2D,$00,$00,$00						;Silence 2
+	DB $03,$AC,$EB,$1E,$98,$05,$89,$FB,$11,$AB,$02,$00,$00,$00						;Sector X
+	DB $03,$02,$D2,$19,$B0,$2D,$B2,$FF,$19,$CC,$12,$1F,$AD,$1E,$26,$0C,$41,$94,$1F,$F7,$05,$00,$00,$00	;Titania
+	DB $03,$79,$F8,$10,$4A,$07,$89,$FB,$11,$AB,$02,$00,$00,$00						;Sector Y
+	DB $03,$C1,$CD,$1E,$42,$0C,$88,$A3,$1F,$FB,$03,$00,$00,$00						;Venom 2 Atmosphere
+	DB $03,$B6,$E0,$1E,$F6,$0A,$88,$A3,$1F,$FB,$03,$B0,$AF,$1F,$35,$08,$00,$00,$00				;Highway
+	DB $10,$BA,$94,$1E,$A7,$0B,$77,$8E,$1F,$CA,$05,$7E,$92,$1A,$24,$94,$00,$00,$00				;Scramble 3
+	DB $03,$C2,$A8,$18,$CC,$73,$02,$D2,$19,$B0,$2D,$00,$00,$00						;Silence 3
+	DB $03,$C1,$CD,$1E,$42,$0C,$89,$FB,$11,$AB,$02,$00,$00,$00						;Asteroid 3
+	DB $03,$02,$D2,$19,$B0,$2D,$B2,$FF,$19,$CC,$12,$B6,$F2,$08,$FE,$08,$62,$FC,$0E,$7E,$03,$00,$00,$00	;Fortuna
+	DB $03,$AC,$EB,$1E,$98,$05,$4A,$9F,$1F,$3E,$04,$00,$00,$00						;Sector Z
+	DB $03,$02,$D2,$19,$B0,$2D,$38,$C1,$1E,$89,$0C,$34,$FE,$11,$C5,$01,$00,$00,$00				;Macbeth
+	DB $03,$C1,$CD,$1E,$42,$0C,$83,$A7,$1F,$2D,$08,$00,$00,$00						;Venom 3 Atmosphere
+	DB $03,$44,$F1,$1E,$02,$07,$83,$A7,$1F,$2D,$08,$B0,$AF,$1F,$35,$08,$00,$00,$00				;Venom 3
+	DB $03,$A5,$8F,$1C,$D0,$85,$00,$00,$00									;Ending
+	DB $12,$F3,$A6,$1D,$C7,$6D,$00,$00,$00									;Credits
+	DB $0C,$D0,$F8,$09,$2D,$01,$00,$00,$00									;Game Over
+	DB $03,$02,$D2,$19,$B0,$2D,$46,$F8,$1E,$31,$16,$00,$00,$00						;Out Of This Dimension
+	DB $12,$D0,$F8,$09,$2D,$01,$00,$00,$00									;Boss Tunnel
+LoadAudio:
+	sep #$20
+	sei
+	lda.l AudioPacketData,x
+	sta $14F7
+	inx
+	stx $1F63
+	lda $1F65
+	lda #$FF
+	sta APUI00
+LoadAudio_L1:
+	lda #$01
+	sta $1F65
+	rep #$20
+	ldy #$0000
+	lda #$BBAA
+LoadAudio_L2:
+	cmp APUI00
+	bne LoadAudio_L2
+	sep #$20
+	lda #$CC
+	pha
+	jmp LoadAudio_L17
+LoadAudio_L3:
+	lda [D,$FA],y
+	iny
+	bne LoadAudio_L4
+	inc D,$FC
+	stz D,$FB
+	stz D,$FA
+	ldy #$8000
+LoadAudio_L4:
+	xba
+	lda #$00
+	bra LoadAudio_L8
+LoadAudio_L5:
+	xba
+	lda [D,$FA],y
+	iny
+	bne LoadAudio_L6
+	inc D,$FC
+	stz D,$FB
+	stz D,$FA
+	ldy #$8000
+LoadAudio_L6:
+	xba
+LoadAudio_L7:
+	cmp APUI00
+	bne LoadAudio_L7
+	inc
+LoadAudio_L8:
+	rep #$20
+	sta APUI00
+	sep #$20
+	dex
+	bne LoadAudio_L5
+LoadAudio_L9:
+	cmp APUI00
+	bne LoadAudio_L9
+LoadAudio_L10:
+	adc #$03
+	beq LoadAudio_L10
+	pha
+LoadAudio_L11:
+	rep #$20
+	lda [D,$FA],y
+	beq LoadAudio_L17
+	iny
+	bne LoadAudio_L12
+	jml CODE_1FBDEE
+LoadAudio_L12:
+	iny
+	bne LoadAudio_L13
+	jml CODE_1FBDEE
+LoadAudio_L13:
+	tax
+	lda [D,$FA],y
+	iny
+	bne LoadAudio_L14
+	jml CODE_1FBDEE
+LoadAudio_L14:
+	iny
+	bne LoadAudio_L15
+	jml CODE_1FBDEE
+LoadAudio_L15:
+	sta APUI02
+	sep #$20
+	dpx #$0001
+	lda #$00
+	rol
+	sta APUI01
+	pla
+	sta APUI00
+LoadAudio_L16:
+	cmp APUI00
+	bne LoadAudio_L16
+	jmp LoadAudio_L3
+LoadAudio_L17:
+	rep #$20
+	ldx $1F63
+	lda.l AudioPacketData,x
+	sta $1F3F
+	lda.l AudioPacketData+3,x
+	sta $1F41
+	sep #$20
+	lda.l AudioPacketData+2,x
+	sta D,$FC
+	inx
+	inx
+	inx
+	inx
+	inx
+	stx $1F63
+	rep #$20
+	stz D,$FA
+	lda $1F3F
+	beq LoadAudio_L18
+	tay
+	clc
+	adc $1F41
+	bcc LoadAudio_L26
+	jmp LoadAudio_L11
+LoadAudio_L18:
+	rep #$20
+	lda #$0400
+	sta APUI02
+	sep #$30
+	lda #$00
+	xba
+	pla
+	rep #$20
+	sta APUI00
+	sep #$20
+LoadAudio_L19:
+	cmp APUI00
+	bne LoadAudio_L19
+	stz APUI01
+	stz APUI02
+	stz APUI03
+	stz $1F46
+	lda TIMEUP
+	cli
+	rts
+LoadAudio_L20:
+	lda [D,$FA],y
+	iny
+	xba
+	lda #$00
+	bra LoadAudio_L23
+LoadAudio_L21:
+	xba
+	lda [D,$FA],y
+	iny
+	xba
+LoadAudio_L22:
+	cmp APUI00
+	bne LoadAudio_L22
+	inc
+LoadAudio_L23:
+	rep #$20
+	sta APUI00
+	sep #$20
+	dex
+	bne LoadAudio_L21
+LoadAudio_L24:
+	cmp APUI00
+	bne LoadAudio_L24
+LoadAudio_L25:
+	adc #$03
+	beq LoadAudio_L25
+	pha
+LoadAudio_L26:
+	rep #$20
+	lda [D,$FA],y
+	bne LoadAudio_L27
+	brl LoadAudio_L17
+LoadAudio_L27:
+	iny
+	iny
+	tax
+	lda [D,$FA],y
+	iny
+	iny
+	sta APUI02
+	sep #$20
+	cpx #$0001
+	lda #$00
+	rol
+	sta APUI01
+	pla
+	sta APUI01
+LoadAudio_L28:
+	cmp APUI00
+	bne LoadAudio_L28
+	bra LoadAudio_L20
+CODE_03B269:
+	sep #$20
+	lda $14D1
+	and #$08
+	beq CODE_03B279
+	lda $14D7
+	and #$80
+	bne CODE_03B298
+CODE_03B279:
+	lda $1FD2
+	cmp #$10
+	beq CODE_03B298
+	cmp #$0F
+	beq CODE_03B298
+	cmp #$0B
+	beq CODE_03B298
+	cmp #$0C
+	beq CODE_03B298
+	cmp #$0D
+	beq CODE_03B298
+	jsr CODE_03B3D2
+	jsr CODE_03B350
+	bra CODE_03B29B
+CODE_03B298:
+	stz APUI02
+CODE_03B29B:
+	jsr CODE_03B29F
+	rtl
+CODE_03B29F:
+	sep #$20
+	rep #$10
+	ldx $15A2
+	lda D,$2E,x
+	and #$04
+	beq CODE_03B2B0
+	jml CODE_03B2C7
+CODE_03B2B0:
+	lda $14D0
+	and #$40
+	bne CODE_03B2C7
+	lda $14D8
+	and #$02
+	beq CODE_03B2C7
+	lda $14D7
+	and #$80
+	bne CODE_03B2D0
+	bra CODE_03B2D9
+CODE_03B2C7:
+	lda #$00
+	sta APUI01
+	sta $1FE1
+	rts
+CODE_03B2D0:
+	lda #$4B
+	sta APUI01
+	sta $1FE1
+	rts
+CODE_03B2D9:
+	lda $16C9
+	bne CODE_03B2F1
+	lda $18C2
+	bit #$01
+	bne CODE_03B2ED
+	lda #$C0
+	bra CODE_03B2F7
+CODE_03B2E9:
+	lda #$C0
+	bra CODE_03B2F7
+CODE_03B2ED:
+	lda #$00
+	bra CODE_03B2F7
+CODE_03B2F1:
+	cmp #$02
+	beq CODE_03B2E9
+	lda #$80
+CODE_03B2F7:
+	ora $14F3
+	sta $14C5
+	lda Pad1LoCur
+	bit #$30
+	beq CODE_03B340
+	rep #$30
+	ldx $1238
+	lda D,$0C,x
+	tax
+	sec
+	sbc $1F44
+	stx $1F44
+	bpl CODE_03B319
+	eor #$FFFF
+	inc
+CODE_03B319:
+	cmp #$0002
+	bcc CODE_03B337
+	cmp #$0004
+	bcc CODE_03B332
+	cmp #$0008
+	bcc CODE_03B32D
+	lda #$0003
+	bra CODE_03B33A
+CODE_03B32D:
+	lda #$0002
+	bra CODE_03B33A
+CODE_03B332:
+	lda #$0001
+	bra CODE_03B33A
+CODE_03B337:
+	lda #$0000
+CODE_03B33A:
+	ora $14C5
+	sta $14C5
+CODE_03B340:
+	sep #$20
+	lda $14C5
+	sta APUI01
+	sta $1FE1
+	rts
+CODE_03B34C:
+	sta APUI02
+	rts
+CODE_03B350:
+	rep #$30
+	ldx FirstObject
+CODE_03B355:
+	sep #$20
+	lda D,$2A,x
+	cmp #$FF
+	bne CODE_03B395
+	lda D,$1F,x
+	and #$08
+	bne CODE_03B367
+	jml CODE_03B395
+CODE_03B367:
+	lda D,$20,x
+	and #$02
+	beq CODE_03B371
+	jml CODE_03B395
+CODE_03B371:
+	rep #$20
+	ldy $1238
+	lda $14F6
+	sec
+	sbc D,$0C,x
+	bmi CODE_03B385
+	bra CODE_03B38A
+CODE_03B385:
+	cmp #$FED4
+	bcc CODE_03B395
+CODE_03B38A:
+	lda D,$10,x
+	sec
+	sbc $0010,y
+	cmp #$0064
+	bcc CODE_03B39B
+CODE_03B395:
+	ldy D,$00,x
+	tyx
+	bne CODE_03B355
+	rts
+CODE_03B39B:
+	sep #$20
+	lda D,$20,x
+	ora #$02
+	sta D,$20,x
+	rep #$20
+	lda $14F6
+	sec
+	sbc D,$0C,x
+	bmi CODE_03B3BB
+	cmp #$0050
+	bcc CODE_03B3C9
+	sep #$20
+	lda #$6D
+	jsl CODE_03B7F9
+	rts
+CODE_03B3BB:
+	cmp #$FFB0
+	bcs CODE_03B3C9
+	sep #$20
+	lda #$6F
+	jsl CODE_03B7F9
+	rts
+CODE_03B3C9:
+	sep #$20
+	lda #$6E
+	jsl CODE_03B7F9
+	rts
+CODE_03B3D2:
+	rep #$30
+	ldx FirstObject
+	lda #$7FFF
+	stz $1F3D
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+DATA_03B539:
+	DB $40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40
+	DB $40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40
+	DB $40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40
+	DB $40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40
+	DB $40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40
+	DB $40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40
+	DB $40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40
+	DB $40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$40,$80,$80,$80
+	DB $80,$80,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
+	DB $C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
+	DB $C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
+	DB $C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
+	DB $C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
+	DB $C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
+	DB $C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
+	DB $C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+CopyDebugFont:
+	php
+	sep #$30
+	ldy #$00
+	ldx #$00
+	lda #$80
+	sta D,$60
+CopyDebugFont_L1:
+	lda DebugFont,x
+	sta $701A2C,x
+	inx
+	iny
+	iny
+	dec D,$60
+	bne CopyDebugFont_L1
+	plp
+	rtl
 	
 	
 	
@@ -978,7 +1859,7 @@ CODE_03BD88:
 	bne CODE_03BD88
 	plp
 	rts
-WaitScanline:		;03BD8D
+WaitScanline:
 	php
 	rep #$30
 	phx
@@ -987,10 +1868,10 @@ WaitScanline:		;03BD8D
 	stz $16DC
 WaitScanline_L1:
 	sep #$20
-	lda SLHV	;(2137)
-	lda OPVCT	;(213D)
+	lda SLHV
+	lda OPVCT
 	xba
-	lda OPVCT	;(213D)
+	lda OPVCT
 	xba
 	cmp ScanlineToWaitFor
 	bne WaitScanline_L1
@@ -999,7 +1880,7 @@ WaitScanline_L1:
 	plx
 	plp
 	rtl
-CODE_03BDAF:		;03BDAF
+CODE_03BDAF:
 	php
 	sep #$20
 	lda #$03
@@ -1019,7 +1900,7 @@ CODE_03BDAF:		;03BDAF
 	stz $16DF
 	plp
 	rtl
-Main:			;03BDDF
+Main:
 	sep #$20
 	rep #$10
 	jsr $D11C
@@ -1195,48 +2076,47 @@ Main_L10:
 Main_L11:
 	jsl CODE_03CC22
 Main_L12:
-	jsl CODE_03CBFB
-	lda $1209
-	bit #$2F00
-	beq Main_L17
+	jsl UpdateInput
+	lda Pad1Down		;\Check if Select/Start/D-pad been pressed...
+	bit #$2F00		;|
+	beq Main_L17		;/...if not, skip this
 	lda #$0010
 	sta $70009A
 	jsr CODE_03BD7A
 	jsl CODE_03CC22
-	lda $1209
-	bit #$2A00
-	sep #$20
-	bne Main_L14
-	lda $16D8
-	inc
-	cmp #$03
-	bne Main_L13
-	lda #$00
-Main_L13:
-	sta $16D8
+	lda Pad1Down		;\If Down/Right not pressed...
+	bit #$2A00		;|
+	sep #$20		;|
+	bne Main_MapSelDoDec	;|...skip past this, otherwise...
+	lda LevelID		;|...increment level/route ID...
+	inc			;|
+	cmp #$03		;|...if 3 or more, loop around to 0
+	bne Main_MapSelIncLoop	;|
+	lda #$00		;|
+Main_MapSelIncLoop:		;|
+	sta LevelID		;/
 	bra Main_L16
-Main_L14:
-	lda $16D8
-	dec
-	cmp #$FF
-	bne Main_L15
-	lda #$02
-Main_L15:
-	sta $16D8
+Main_MapSelDoDec:
+	lda LevelID		;\Decrement level/route ID...
+	dec			;|
+	cmp #$FF		;|... if negative, loop around to 2
+	bne Main_MapSelDecLoop	;|
+	lda #$02		;|
+Main_MapSelDecLoop:		;|
+	sta LevelID		;/
 Main_L16:
 	lda #$11
 	jsl CODE_03B7F9
 	jsl CODE_03C67F
 	rep #$20
 Main_L17:
-	lda $1209
+	lda Pad1Down
 	bit #$9080
 	bne Main_L18
 	brl Main_L9
 Main_L18:
-	stz $16D6
+	stz StageID
 	stz $16D9
-Main_L19:
 	jsl CODE_03CC3E
 	sep #$20
 	lda #$F1
@@ -1294,7 +2174,7 @@ Main_L23:
 	lda #$01
 	sta D,$34
 	lda #$53
-Main_L24:			;03C04C
+Main_L24:
 	pha
 	jsr CODE_03BD7A
 	pla
@@ -1741,7 +2621,10 @@ CODE_03C453:
 	rts
 
 
-b03p3Col_PreShadedPalette:	;03D46C
+
+
+
+b03p3Col_PreShadedPalette:
 	;Shaded versions of base colors
 	DW $2906,$51DB,$56BF,$579F,$6FFF,$7E8D,$7F52,$7FFC
 	DW $7FFF,$35CD,$5B16,$77FD,$7FFF,$7FFF,$7BF5,$5FEE
@@ -1824,7 +2707,7 @@ LevelHeaderTable:
 	
 	
 
-RunLevelScript:			;03EDA1
+RunLevelScript:
 	php
 	sep #$20
 	phb
@@ -1852,7 +2735,7 @@ LevelScriptCommandJumpTable:
 	DW LevelCommand0A_RandomGroupBeh16
 	DW LevelCommand0C
 	DW LevelCommand0E_ShowStageNum
-	DW LevelCommand10_SetupLevelBGMusicEtc
+	DW LevelCommand10_SetPreset
 	DW LevelCommand12_SetZTimer16
 	DW LevelCommand14_ChangeMusic
 	DW LevelCommand16
@@ -2906,10 +3789,10 @@ LevelCommand64:
 	phx
 	lda $16DF
 	tax
-	lda.l DATA_03AC42,x
-	sta D,$02
-	lda.l DATA_03AC42+1,x
-	ora D,$02
+	lda.l PresetFunctionTable,x
+	sta D,TempPresetFuncPtr
+	lda.l PresetFunctionTable+1,x
+	ora D,TempPresetFuncPtr
 	beq LevelCommand64_L1
 	plx
 	stx LevelScriptPointer
@@ -2925,61 +3808,61 @@ LevelCommand62:
 	sta $16E1
 	lda $8002,x
 	sta $16DF
-	sta $1741
+	sta Preset
 	inx
 	inx
 	inx
 	inx
 	jmp RunLevelScriptCommands
-LevelCommand10_SetupLevelBGMusicEtc:
+LevelCommand10_SetPreset:
 	tyx
 	phx
 	rep #$20
 	lda $8001,x
-	jsl CODE_03F550
+	jsl DoSetPreset
 	plx
 	inx
 	inx
 	inx
 	jmp RunLevelScriptCommands
-CODE_03F550:
-	sta $1741
+DoSetPreset:
+	sta Preset
 	lda $1F13
 	ora #$0004
 	sta $1F13
 	rtl
-CODE_03F55D:
+LoadPreset:
 	rep #$20
-	ldx $1741
-CODE_03F562:
-	lda.l DATA_03AC42,x
-	sta D,$02
-	lda.l DATA_03AC42+1,x
-	sta D,$04
-	ora D,$02
-	beq CODE_03F590
+	ldx Preset
+LoadPreset_L1:
+	lda.l PresetFunctionTable,x
+	sta D,TempPresetFuncPtr
+	lda.l PresetFunctionTable+1,x
+	sta D,TempPresetFuncPtr+2
+	ora D,TempPresetFuncPtr
+	beq LoadPreset_L3
 	phx
 	sep #$20
-	lda.b #((CODE_03F588-1)>>16)
+	lda.b #BANKOF(STACKIFY(LoadPreset_L2))
 	pha
 	rep #$20
-	lda.w #(CODE_03F588-1)
+	lda.w #STACKIFY(LoadPreset_L2)
 	pha
 	sep #$20
-	lda D,$02
+	lda D,TempPresetFuncPtr
 	pha
-	ldx D,$04
+	ldx D,TempPresetFuncPtr+2
 	dex
 	phx
 	rtl
-CODE_03F588:
+LoadPreset_L2:
 	rep #$20
 	plx
 	inx
 	inx
 	inx
-	bra CODE_03F562
-CODE_03F590:
+	bra LoadPreset_L1
+LoadPreset_L3:
 	rtl
 LevelCommand0E_ShowStageNum:
 	tyx
@@ -2989,29 +3872,29 @@ LevelCommand0E_ShowStageNum:
 	jmp RunLevelScriptCommands
 LevelCommand70_LoadObject8BehNum:
 	tyx
-	lda $8001,x
-	and #$00FF
-	asl
-	asl
-	asl
-	asl
-	sta ZTimer
+	lda $8001,x					;\Get first command param byte...
+	and #$00FF					;|
+	asl						;|...shift left four bits...
+	asl						;|
+	asl						;|
+	asl						;|
+	sta ZTimer					;/...and store in ZTimer
 	phx
-	ldx $121D
+	ldx FirstObject
 	txy
-	ldx $121F
+	ldx LastObject
 	bne LevelCommand70_LoadObject8BehNum_L1
 	tyx
 	jmp LevelCommand70_LoadObject8BehNum_L12
 LevelCommand70_LoadObject8BehNum_L1:
 	lda D,$00,x
-	sta $121F
+	sta LastObject
 	tya
 	bne LevelCommand70_LoadObject8BehNum_L2
-	lda $121D
+	lda FirstObject
 	sta D,$00,x
 	stz D,$02,x
-	stx $121D
+	stx FirstObject
 	bra LevelCommand70_LoadObject8BehNum_L3
 LevelCommand70_LoadObject8BehNum_L2:
 	lda $0000,y
@@ -3150,21 +4033,21 @@ LevelCommand72:
 	asl
 	sta ZTimer
 	phx
-	ldx $121D
+	ldx FirstObject
 	txy
-	ldx $121F
+	ldx LastObject
 	bne LevelCommand72_L1
 	tyx
 	jmp LevelCommand72_L12
 LevelCommand72_L1:
 	lda D,$00,x
-	sta $121F
+	sta LastObject
 	tya
 	bne LevelCommand72_L2
-	lda $121D
+	lda FirstObject
 	sta D,$00,x
 	stz D,$02,x
-	stx $121D
+	stx FirstObject
 	bra LevelCommand72_L3
 LevelCommand72_L2:
 	lda $0000,y
@@ -3255,18 +4138,18 @@ LevelCommand00_LoadObject16BehNum:
 	lda $8001,x
 	sta ZTimer
 	phx
-	ldx $121D
+	ldx FirstObject
 	txy
-	ldx $121F
+	ldx LastObject
 	bne LevelCommand00_LoadObject16BehNum_L1
 	tyx
 	jmp LevelCommand00_LoadObject16BehNum_L6
 LevelCommand00_LoadObject16BehNum_L1:
 	lda D,$00,x
-	sta $121F
+	sta LastObject
 	tya
 	bne LevelCommand00_LoadObject16BehNum_L2
-	lda $121D
+	lda FirstObject
 	sta D,$00,x
 	stz D,$02,x
 	bra LevelCommand00_LoadObject16BehNum_L3
@@ -3343,21 +4226,21 @@ LevelCommand74_LoadMacroObj16:
 	lda $8001,x
 	sta ZTimer
 	phx
-	ldx $121D
+	ldx FirstObject
 	txy
-	ldx $121F
+	ldx LastObject
 	bne LevelCommand74_LoadMacroObj16_L1
 	tyx
 	jmp LevelCommand74_LoadMacroObj16_L6
 LevelCommand74_LoadMacroObj16_L1:
 	lda D,$00,x
-	sta $121F
+	sta LastObject
 	tya
 	bne LevelCommand74_LoadMacroObj16_L2
-	lda $121D
+	lda FirstObject
 	sta D,$00,x
 	stz D,$02,x
-	stx $121D
+	stx FirstObject
 	bra LevelCommand74_LoadMacroObj16_L3
 LevelCommand74_LoadMacroObj16_L2:
 	lda $0000,y
@@ -3483,21 +4366,21 @@ LevelCommand86_LoadObject16BehAddr:
 	lda $8001,x
 	sta ZTimer
 	phx
-	ldx $121D
+	ldx FirstObject
 	txy
-	ldx $121F
+	ldx LastObject
 	bne LevelCommand86_LoadObject16BehAddr_L1
 	tyx
 	jmp LevelCommand86_LoadObject16BehAddr_L7
 LevelCommand86_LoadObject16BehAddr_L1:
 	lda D,$00,x
-	sta $121F
+	sta LastObject
 	tya
 	bne LevelCommand86_LoadObject16BehAddr_L2
-	lda $121D
+	lda FirstObject
 	sta D,$00,x
 	stz D,$02,x
-	stx $121D
+	stx FirstObject
 	bra LevelCommand86_LoadObject16BehAddr_L3
 LevelCommand86_LoadObject16BehAddr_L2:
 	lda $0000,y
@@ -3557,21 +4440,21 @@ LevelCommand0A_RandomGroupBeh16:
 	lda $8001,x
 	sta ZTimer
 	phx
-	ldx $121D
+	ldx FirstObject
 	txy
-	ldx $121F
+	ldx LastObject
 	bne LevelCommand0A_RandomGroupBeh16_L1
 	tyx
 	jmp LevelCommand0A_RandomGroupBeh16_L7
 LevelCommand0A_RandomGroupBeh16_L1:
 	lda D,$00,x
-	sta $121F
+	sta LastObject
 	tya
 	bne LevelCommand0A_RandomGroupBeh16_L2
-	lda $121D
+	lda FirstObject
 	sta D,$00,x
 	stz D,$02,x
-	stx $121D
+	stx FirstObject
 	bra LevelCommand0A_RandomGroupBeh16_L3
 LevelCommand0A_RandomGroupBeh16_L2:
 	lda $0000,y
@@ -3631,7 +4514,7 @@ LevelCommand0A_RandomGroupBeh16_L7:
 	tax
 	bra LevelCommand0A_RandomGroupBeh16_L5
 LevelCommand0C:
-	ldx $121D
+	ldx FirstObject
 	beq LevelCommand0C_L2
 LevelCommand0C_L1:
 	lda D,$00,x
@@ -3703,21 +4586,21 @@ CODE_03FBBA:
 	lda $0010,y
 	sta D,$90
 	phx
-	ldx $121D
+	ldx FirstObject
 	txy
-	ldx $121F
+	ldx LastObject
 	bne CODE_03FBDC
 	tyx
 	jmp CODE_03FC70
 CODE_03FBDC:
 	lda D,$00,x
-	sta $121F
+	sta LastObject
 	tya
 	bne CODE_03FBF0
-	lda $121D
+	lda FirstObject
 	sta D,$00,x
 	stz D,$02,x
-	stx $121D
+	stx FirstObject
 	bra CODE_03FBF9
 CODE_03FBF0:
 	lda $0000,y
@@ -3845,7 +4728,7 @@ CODE_03FCF4:
 	phx
 	stz $1755
 	lda.l $058003,x
-	ldx $121D
+	ldx FirstObject
 CODE_03FD04:
 	cmp D,$04,x
 	bne CODE_03FD0B
@@ -3950,21 +4833,21 @@ CODE_03FDCB:
 	clc
 	adc $0010,y
 	sta D,$90
-	ldx $121D
+	ldx FirstObject
 	txy
-	ldx $121F
+	ldx LastObject
 	bne CODE_03FDDE
 	tyx
 	jmp CODE_03FE63
 CODE_03FDDE:
 	lda D,$00,x
-	sta $121F
+	sta LastObject
 	tya
 	bne CODE_03FDF2
-	lda $121D
+	lda FirstObject
 	sta D,$00,x
 	stz D,$02,x
-	stx $121D
+	stx FirstObject
 	bra CODE_03FDFB
 CODE_03FDF2:
 	lda $0000,y
