@@ -1900,7 +1900,7 @@ CODE_03BDAF:
 	stz $16DF
 	plp
 	rtl
-Main:
+Map:
 	sep #$20
 	rep #$10
 	jsr $D11C
@@ -1941,50 +1941,50 @@ Main:
 	jsr $C891
 	jsr $C71C
 	jsr $C891
-	jsl $03CB35
+	jsl LoadMapGraphics
 	rep #$30
 	lda #$2020
 	sta VMADDL
 	ldx #$0000
-Main_L1:
+Map_L1:
 	lda $A08B,x
 	sta VMDATAL
 	inx
 	inx
 	cpx #$03C0
-	bne Main_L1
+	bne Map_L1
 	lda #$5020
 	sta VMADDL
 	ldx #$0000
-Main_L2:
+Map_L2:
 	lda $A08B,x
 	sta VMDATAL
 	inx
 	inx
 	cpx #$03C0
-	bne Main_L2
+	bne Map_L2
 	rep #$20
 	stz D,$04
 	lda #$0010
 	sta $15C2
-	dec $16D6
-	bmi Main_L3
-	inc $16D6
+	dec StageID
+	bmi Map_L3
+	inc StageID
 	jsl $03CC3E
 	lda $16D9
 	pha
-	dec $16D6
+	dec StageID
 	jsl $03CC3E
 	pla
-Main_L3:
+Map_L3:
 	pha
-	inc $16D6
+	inc StageID
 	sep #$20
 	rep #$10
 	lda $16D9
-	bpl Main_L4
+	bpl Map_L4
 	lda #$00
-Main_L4:
+Map_L4:
 	rep #$20
 	asl a
 	tax
@@ -2009,19 +2009,19 @@ Main_L4:
 	pha
 	lda $004211
 	cli
-	jsl $03AD89
+	jsl LoadAudio_Map
 	pla
 	cmp #$0E
-	beq Main_L5
+	beq Map_L5
 	cmp #$0A
-	bne Main_L6
-Main_L5:
+	bne Map_L6
+Map_L5:
 	lda #$0F
 	sta $1F47
 	stz $1F46
-Main_L6:
+Map_L6:
 	lda #$FF
-Main_L7:
+Map_L7:
 	pha
 	lda #$C8
 	sta ScanlineToWaitFor
@@ -2035,19 +2035,19 @@ Main_L7:
 	sta $7E460A
 	sta $7E460C
 	cmp #$0F
-	bne Main_L7
+	bne Map_L7
 	sep #$20
 	rep #$10
-	lda $16D6
-	beq Main_L8
+	lda StageID
+	beq Map_L8
 	brl Main_L20
-Main_L8:
+Map_L8:
 	lda #$0A
-	sta $16D6
+	sta StageID
 	rep #$20
 	lda #$0010
 	sta $70009A
-Main_L9:
+Map_L9:
 	inc $15BB
 	jsr CODE_03C511
 	jsr CODE_03C58F
@@ -2062,24 +2062,24 @@ Main_L9:
 	sta $70009A
 	jsr CODE_03C78D
 	lda $70009A
-	beq Main_L10
+	beq Map_L10
 	sec
 	sbc #$0004
 	sta $70009A
-Main_L10:
+Map_L10:
 	jsr CODE_03C891
 	lda $15BB
 	bit #$0002
-	beq Main_L11
+	beq Map_L11
 	jsl CODE_03CC3E
-	bra Main_L12
-Main_L11:
+	bra Map_L12
+Map_L11:
 	jsl CODE_03CC22
-Main_L12:
+Map_L12:
 	jsl UpdateInput
 	lda Pad1Down		;\Check if Select/Start/D-pad been pressed...
 	bit #$2F00		;|
-	beq Main_L17		;/...if not, skip this
+	beq Map_L17		;/...if not, skip this
 	lda #$0010
 	sta $70009A
 	jsr CODE_03BD7A
@@ -2087,34 +2087,34 @@ Main_L12:
 	lda Pad1Down		;\If Down/Right not pressed...
 	bit #$2A00		;|
 	sep #$20		;|
-	bne Main_MapSelDoDec	;|...skip past this, otherwise...
+	bne Map_MapSelDoDec	;|...skip past this, otherwise...
 	lda LevelID		;|...increment level/route ID...
 	inc			;|
 	cmp #$03		;|...if 3 or more, loop around to 0
-	bne Main_MapSelIncLoop	;|
+	bne Map_MapSelIncLoop	;|
 	lda #$00		;|
-Main_MapSelIncLoop:		;|
+Map_MapSelIncLoop:		;|
 	sta LevelID		;/
-	bra Main_L16
-Main_MapSelDoDec:
+	bra Map_L16
+Map_MapSelDoDec:
 	lda LevelID		;\Decrement level/route ID...
 	dec			;|
 	cmp #$FF		;|... if negative, loop around to 2
-	bne Main_MapSelDecLoop	;|
+	bne Map_MapSelDecLoop	;|
 	lda #$02		;|
-Main_MapSelDecLoop:		;|
+Map_MapSelDecLoop:		;|
 	sta LevelID		;/
-Main_L16:
+Map_L16:
 	lda #$11
 	jsl CODE_03B7F9
 	jsl CODE_03C67F
 	rep #$20
-Main_L17:
+Map_L17:
 	lda Pad1Down
 	bit #$9080
-	bne Main_L18
-	brl Main_L9
-Main_L18:
+	bne Map_L18
+	brl Map_L9
+Map_L18:
 	stz StageID
 	stz $16D9
 	jsl CODE_03CC3E
@@ -2123,11 +2123,11 @@ Main_L18:
 	sta $1F47
 	stz $1F46
 	rep #$20
-	jmp Main_L23
-Main_L20:
+	jmp Map_L23
+Map_L20:
 	sep #$20
 	jsr CODE_03C67F
-Main_L21:
+Map_L21:
 	ldx D,$02
 	phx
 	lda #$FF
@@ -2140,7 +2140,7 @@ Main_L21:
 	plx
 	stx D,$02
 	jsr CODE_03C484
-	bcc Main_L21
+	bcc Map_L21
 	jsr CODE_03BD7A
 	jsl CODE_03CC3E
 	lda #$08
@@ -2149,21 +2149,21 @@ Main_L21:
 	pha
 	lda #$FE
 	sta $16D9
-Main_L22:
+Map_L22:
 	jsr CODE_03C511
 	jsr CODE_03C58F
 	jsr CODE_03CA7B
 	jsr CODE_03C78D
 	jsr CODE_03C891
-	jsl CODE_03CBFB
+	jsl UpdateInput
 	rep #$20
-	lda $1209
+	lda Pad1Down
 	bit #$D0C0
 	sep #$20
-	beq Main_L22
+	beq Map_L22
 	pla
 	sta $16D9
-Main_L23:
+Map_L23:
 	sep #$20
 	rep #$10
 	lda #$F1
@@ -2174,12 +2174,12 @@ Main_L23:
 	lda #$01
 	sta D,$34
 	lda #$53
-Main_L24:
+Map_L24:
 	pha
 	jsr CODE_03BD7A
 	pla
 	dec
-	bne Main_L24
+	bne Map_L24
 	sei
 	lda #$E0
 	sta ScanlineToWaitFor
@@ -2192,27 +2192,27 @@ Main_L24:
 	sep #$20
 	rep #$10
 	ldx #$0000
-Main_L25:
+Map_L25:
 	phx
 	lda #$01
-Main_L26:
+Map_L26:
 	pha
 	txa
 	jsr CODE_03CB4F
 	pla
 	dec
-	bne Main_L26
+	bne Map_L26
 	plx
 	txa
 	ora #$E0
 	sta COLDATA
 	inx
 	cpx #$0020
-	bne Main_L25
+	bne Map_L25
 	jsr CODE_03C74D
 	sep #$20
 	jsr CODE_03BD7A
-Main_L27:
+Map_L27:
 	sep #$20
 	lda SLHV
 	lda OPHCT
@@ -2222,9 +2222,9 @@ Main_L27:
 	rep #$20
 	and #$01FF
 	cmp #$0000
-	bcc Main_L27
+	bcc Map_L27
 	cmp #$000F
-	bcs Main_L27
+	bcs Map_L27
 	sep #$20
 	lda #$01
 	sta TM
@@ -2245,7 +2245,7 @@ Main_L27:
 	stz D,$1E
 	stz D,$20
 	ldx #$20
-Main_L28:
+Map_L28:
 	phx
 	stx D,$1C
 	jsr CODE_03C8CB
@@ -2270,7 +2270,7 @@ Main_L28:
 	sta BG1VOFS
 	plx
 	dex
-	bne Main_L28
+	bne Map_L28
 	sep #$20
 	rep #$10
 	lda #$02
@@ -2297,7 +2297,7 @@ Main_L28:
 	lda #$1000
 	sta $188C
 	sep #$20
-	jsl CODE_03AB2B
+	jsl DoDecompressTileset
 	lda #$B8
 	sta ScanlineToWaitFor
 	jsl WaitScanline
@@ -2316,7 +2316,7 @@ Main_L28:
 	lda #$0002
 	sta $700090
 	sep #$20
-	jsl CODE_03AB7E
+	jsl DoDecompressTileset2
 	lda #$B8
 	sta ScanlineToWaitFor
 	jsl WaitScanline
@@ -2368,18 +2368,18 @@ Main_L28:
 	sep #$20
 	lda DATA_03D391,x
 	bit #$80
-	bne Main_L29
+	bne Map_L29
 	lda #$0D
 	sta $1F47
 	stz $1F46
-	bra Main_L30
-Main_L29:
+	bra Map_L30
+Map_L29:
 	lda #$0B
 	sta $1F47
 	stz $1F46
-Main_L30:
+Map_L30:
 	ldx #$0028
-Main_L31:
+Map_L31:
 	phx
 	jsr CODE_03C58F
 	jsr CODE_03CA1C
@@ -2390,32 +2390,32 @@ Main_L31:
 	tax
 	lda DATA_03D391,x
 	bit #$80
-	bne Main_L33
+	bne Map_L33
 	lda $7001F2
 	inc
 	cmp #$007E
-	beq Main_L34
+	beq Map_L34
 	sta $7001F2
 	plx
 	cpx #$0014
-	bne Main_L32
+	bne Map_L32
 	sep #$20
 	lda #$FE
 	sta $7EF0C6
-Main_L32:
+Map_L32:
 	rep #$20
 	inx
 	phx
-	bra Main_L34
-Main_L33:
+	bra Map_L34
+Map_L33:
 	rep #$20
 	phx
 	lda $7001F2
 	inc
 	cmp #$003A
-	beq Main_L34
+	beq Map_L34
 	sta $7001F2
-Main_L34:
+Map_L34:
 	lda $700022
 	clc
 	adc #$0400
@@ -2430,18 +2430,18 @@ Main_L34:
 	sta $7001DA
 	phx
 	cpx #$0012
-	bcs Main_L35
+	bcs Map_L35
 	txy
 	sep #$20
 	dex
 	lda DATA_03D68C,x
 	tyx
 	rep #$20
-Main_L35:
+Map_L35:
 	dex
-	beq Main_L36
-	brl Main_L31
-Main_L36:
+	beq Map_L36
+	brl Map_L31
+Map_L36:
 	sep #$20
 	rep #$10
 	ldx #$00DE
@@ -2461,28 +2461,28 @@ Main_L36:
 	stz BG2VOFS
 	stz BG2HOFS
 	stz BG2HOFS
-Main_L37:
+Map_L37:
 	jsr CODE_03C777
 	jsr CODE_03D1BB
 	jsr CODE_03C763
 	rep #$20
 	lda $7000BC
 	sep #$20
-	bne Main_L39
+	bne Map_L39
 	lda $7000BE
 	cmp #$27
-	beq Main_L38
+	beq Map_L38
 	lda #$89
 	jsl CODE_03B7F9
-Main_L38:
+Map_L38:
 	lda $7EF0C7
 	inc
 	sta $7EF0C7
-	bra Main_L37
-Main_L39:
+	bra Map_L37
+Map_L39:
 	lda #$00
 	sta $7EF0C7
-Main_L40:
+Map_L40:
 	jsr CODE_03C777
 	lda $7EF0C7
 	pha
@@ -2496,43 +2496,43 @@ Main_L40:
 	rep #$20
 	lda $7000BC
 	sep #$20
-	bne Main_L41
+	bne Map_L41
 	lda $7000BE
 	cmp #$27
-	beq Main_L41
+	beq Map_L41
 	lda #$89
 	jsl CODE_03B7F9
-Main_L41:
+Map_L41:
 	lda #$32
-Main_L42:
+Map_L42:
 	pha
-	jsl CODE_03CBE8
+	jsl ReadJoypads
 	lda #$78
 	sta ScanlineToWaitFor
 	jsl WaitScanline
 	sep #$20
 	rep #$10
-	lda $120A
+	lda Pad1Down+1
 	bit #$10
-	bne Main_L43
-	lda $120A
+	bne Map_L43
+	lda Pad1Down+1
 	bit #$80
-	bne Main_L43
-	lda $1209
+	bne Map_L43
+	lda Pad1Down
 	bit #$80
-	bne Main_L43
+	bne Map_L43
 	pla
 	dec
-	beq Main_L42
+	beq Map_L42
 	lda $7EF0C7
 	cmp #$FF
-	beq Main_L44
+	beq Map_L44
 	inc
 	sta $7EF0C7
-	bra Main_L40
-Main_L43:
+	bra Map_L40
+Map_L43:
 	pla
-Main_L44:
+Map_L44:
 	lda #$13
 	jsl CODE_03B7F9
 	lda #$E0
@@ -2563,7 +2563,7 @@ Main_L44:
 	lda #$E0
 	sta COLDATA
 	lda #$00
-Main_L45:
+Map_L45:
 	pha
 	lda #$DD
 	sta ScanlineToWaitFor
@@ -2581,7 +2581,7 @@ Main_L45:
 	and #$1F
 	inc
 	cmp #$20
-	bne Main_L45
+	bne Map_L45
 	jsr CODE_03D11C
 	jsr CODE_03BD7A
 	rep #$30
@@ -2591,7 +2591,7 @@ Main_L45:
 	lda $1FF9
 	sta LevelScriptBank
 	rep #$20
-	jml CODE_02E3C5
+	jml GameEnd
 	
 	
 
@@ -4538,44 +4538,53 @@ LevelCommand12_SetZTimer16:
 	inx
 	inx
 	lda $7FFE,x
-	beq LevelCommand12_SetZTimer16_L1
+	beq LevelCommand12_Return
 	sta ZTimer
 	stx LevelScriptPointer
 	rts
-LevelCommand12_SetZTimer16_L1:
+LevelCommand12_Return:
 	jmp RunLevelScriptCommands
-CODE_03FB7C:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;SWARM PROCESSING ROUTINES;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ProcessSwarm:
 	php
 	rep #$20
-CODE_03FB7F:
+ProcessSwarm_Loop:
 	lda D,$26,x
-	bmi CODE_03FB85
-	bne CODE_03FBB2
-CODE_03FB85:
+	bmi ProcessSwarm_RunCmd
+	bne ProcessSwarm_End
+ProcessSwarm_RunCmd:
 	phx
 	lda D,$06,x
 	txy
 	tax
-	pea #STACKIFY(CODE_03FBAF)
+	pea #STACKIFY(ProcessSwarm_Return)
 	lda.l $058001,x
 	sta $0026,y
 	lda.l $058000,x
 	and #$00FF
 	tax
-	jmp (DATA_03FB9F,x)
-DATA_03FB9F:
-	DW CODE_03FBBA,CODE_03FD1B,CODE_03FD4C,CODE_03FD55
-	DW CODE_03FC87,CODE_03FC7C,CODE_03FCF4,CODE_03FC93
-CODE_03FBAF:
+	jmp (SwarmCommandJumpTable,x)
+SwarmCommandJumpTable:
+	DW SwarmCommand00_LoadObject
+	DW SwarmCommand02_IncHP
+	DW SwarmCommand04_Stop
+	DW SwarmCommand06_LoadObject
+	DW SwarmCommand08_Jump
+	DW SwarmCommand0A_NoOp
+	DW SwarmCommand0C_CountObjectsWithID
+	DW SwarmCommand0E_BranchConditional
+ProcessSwarm_Return:
 	plx
-	bra CODE_03FB7F
-CODE_03FBB2:
+	bra ProcessSwarm_Loop
+ProcessSwarm_End:
 	sec
 	sbc $1701
 	sta D,$26,x
 	plp
 	rtl
-CODE_03FBBA:
+SwarmCommand00_LoadObject:
 	lda $0006,y
 	tax
 	phy
@@ -4667,19 +4676,19 @@ CODE_03FC70:
 	adc #$000E
 	sta $0006,y
 	rts
-CODE_03FC7C:
+SwarmCommand0A_NoOp:
 	lda $0006,y
 	clc
 	adc #$0003
 	sta $0006,y
 	rts
-CODE_03FC87:
+SwarmCommand08_Jump:
 	lda $0006,y
 	tax
 	lda.l $058003,x
 	sta $0006,y
 	rts
-CODE_03FC93:
+SwarmCommand0E_BranchConditional:
 	lda $0006,y
 	tax
 	phy
@@ -4721,7 +4730,7 @@ CODE_03FCE1:
 	adc #$008
 	sta $0006,y
 	rts
-CODE_03FCF4:
+SwarmCommand0C_CountObjectsWithID:
 	lda $0006,y
 	tax
 	phy
@@ -4744,7 +4753,7 @@ CODE_03FD0B:
 	adc #$0005
 	sta $0006,y
 	rts
-CODE_03FD1B:
+SwarmCommand02_IncHP:
 	lda $0006,y
 	tax
 	sep #$20
@@ -4768,14 +4777,14 @@ CODE_03FD3F:
 	lda.l $058003,x
 	sta $0006,y
 	rts
-CODE_03FD4C:
+SwarmCommand04_Stop:
 	tyx
 	jsl CODE_1FD501
 	plx
 	plx
 	plp
 	rtl
-CODE_03FD55:
+SwarmCommand06_LoadObject:
 	lda $0006,y
 	tax
 	phy

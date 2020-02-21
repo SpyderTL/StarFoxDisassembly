@@ -22,8 +22,8 @@ macro PRESETFUNCPTR(FuncPtr)
 endmacro
 ;For calls to CODE_09BADE
 macro JUMPTABLE(FuncPtr)
-	DB BANKOF(FuncPtr)
-	DW FuncPtr
+	DB BANKOF(STACKIFY(FuncPtr))
+	DW STACKIFY(FuncPtr)
 	DB $00
 endmacro
 
@@ -58,7 +58,7 @@ struct ObjectList $0336
 	.NextObj: skip 2	;00
 	.PrevObj: skip 2	;02
 	.ID: skip 2		;04
-	.Unk06: skip 1
+	.SwarmPtr: skip 1	;06
 	.Unk07: skip 1
 	.Unk08: skip 1
 	.Unk09: skip 1
@@ -90,7 +90,7 @@ struct ObjectList $0336
 	.Unk28: skip 1
 	.Unk29: skip 1
 	.HP: skip 1		;2A
-	.Unk2B: skip 1
+	.Power: skip 1		;2B
 	.Unk2C: skip 1
 	.Unk2D: skip 1
 	.Unk2E: skip 1

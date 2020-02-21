@@ -27,8 +27,8 @@ DoReset:
 	txs			;/
 	sep #$30
 	jsl CODE_02E266
-	jsl CODE_1FF51C
-	jsl CODE_1FF45D
+	jsl Intro
+	jsl Title
 	sep #$20
 	lda #$00
 	sta $7EA05A
@@ -47,7 +47,7 @@ CODE_1FBDEE:
 	sei			; Disable interrupts
 	jsl ClearRegisters
 	
-	lda $0016D8		;\Save some values on the stack before calling
+	lda LevelID		;\Save some values on the stack before calling
 	pha			;|
 	lda $1FDF		;|
 	pha			;|
@@ -63,16 +63,16 @@ CODE_1FBDEE:
 	pla			;|
 	sta $1FDF		;|
 	pla			;|
-	sta $0016D8		;/
+	sta LevelID		;/
 	
 	lda #$01
 	sta $1F65
 	sta $7EF0B3
 	jsl CODE_02E266
 DoResetPart2:
-	jsl CODE_1FF963
+	jsl Controls
 	jsl CODE_02E266
-	jmp Main
+	jmp Map
 ClearRAM:
 	php			; Save processor status
 	sep #$20
@@ -2024,11 +2024,11 @@ BehF1_TitleHighPolyArwing_Main:
 	rtl
 	;Compressed tilemap
 	INCBIN "graphics/compressed/venom.mapz"		;1FF963
-CODE_1FF963:
+Controls:
 	php
 	sep #$20
 	rep #$10
-	jsl CODE_03AD73
+	jsl LoadAudio_Controls
 	sei
 	lda #$80
 	jsl CODE_02F8DF
@@ -2097,21 +2097,21 @@ CODE_1FF963:
 	sta $1F0D
 	stz $15BB
 	stz $15BC
-	stz Pad1Cur+1
-	stz Pad1Cur
+	stz Pad1HiCur
+	stz Pad1HiPrev
 	lda $1FDF
-	beq CODE_1FFA3E
-	brl CODE_1FFA95
-CODE_1FFA3E:
+	beq Controls_L1
+	brl Controls_L5
+Controls_L1:
 	lda $7EA05A
-	beq CODE_1FFA47
-	brl CODE_1FFA95
-CODE_1FFA47:
+	beq Controls_L2
+	brl Controls_L5
+Controls_L2:
 	sep #$20
 	lda $14D6
 	and #$1F
 	sta $14D6
-CODE_1FFA51:
+Controls_L3:
 	jsl CODE_02FD84
 	rep #$20
 	stz $15AF
@@ -2120,32 +2120,32 @@ CODE_1FFA51:
 	sep #$20
 	lda Pad1Down+1
 	bit #$20
-	beqe CODE_1FFA79
+	beq Controls_L4
 	lda $1F0F
 	inc
 	and #$03
 	sta $1F0F
 	lda #$11
 	jsl CODE_03B7F9
-CODE_1FFA79:
+Controls_L4:
 	jsr CODE_1FFDAC
 	rep #$20
 	lda $15BB
 	cmp #$0010
-	bcc CODE_1FFA51
+	bcc Controls_L3
 	sep #$20
 	lda Pad1Down+1
 	bit #$10
-	beq CODE_1FFA51
+	beq Controls_L3
 	lda #$10
 	jsl CODE_03B7F9
-CODE_1FFA95:
+Controls_L5:
 	sep #$20
 	lda TIMEUP
 	cli
-CODE_1FFA9C:
+Controls_L6:
 	jsl CODE_02FD84
-	jsr CODE_1FFBFF
+	jsr ControlsOAM
 	jsr CODE_1FFD54
 	jsr CODE_1FFDAC
 	sep #$20
@@ -2154,37 +2154,244 @@ CODE_1FFA9C:
 	sta $14D6
 	lda Pad1Down+1
 	bit #$20
-	beq CODE_1FFACA
+	beq Controls_L7
 	lda $7EA05A
 	eor #$01
 	sta $7EA05A
 	lda #$11
 	jsl CODE_03B7F9
-CODE_1FFACA:
+Controls_L7:
 	lda $7EA05A
-	beq CODE_1FFAE3
+	beq Controls_L8
 	lda PadDown+1
 	bit #$08
-	beq CODE_1FFAE3
+	beq Controls_L8
 	lda #$00
 	sta $7EA05A
 	lda #$11
 	jsl CODE_03B7F9
-CODE_1FFAE3:
+Controls_L8:
 	lda $7EA05A
-	bne CODE_1FFAFC
+	bne Controls_L9
 	lda Pad1Down+1
 	bit #$04
-	beq CODE_1FFAFC
+	beq Controls_L9
 	lda #$01
 	sta $7EA05A
 	lda #$11
 	jsl CODE_03B7F9
-CODE_1FFAFC:
-	
-	
-	
-	
+Controls_L9:
+	lda Pad1Down
+	bit #$40
+	beq Controls_L10
+	brl Controls_L2
+Controls_L10:
+	lda Pad1Down+1
+	bit #$40
+	beq Controls_L11
+	brl Controls_L2
+Controls_L11:
+	lda Pad1Down
+	bit #$80
+	bne Controls_L12
+	lda Pad1Down+1
+	bit #$80
+	bne Controls_L12
+	lda Pad1Down+1
+	bit #$10
+	bne Controls_L12
+	brl Controls_L6
+Controls_L12:
+	sep #$20
+	lda #$10
+	jsl CODE_03B7F9
+	lda #$F1
+	sta $1F47
+	stz $1F46
+	lda #$FF
+	sta $18B2
+Controls_L13:
+	jsl CODE_02FD84
+	jsr ControlsOAM
+	jsr CODE_1FFD54
+	sep #$20
+	lda $18B2
+	and #$FF
+	bne Controls_L13
+	stz $1F0D
+	lda $7EA05A
+	beq Controls_L14
+	brl Controls_L20
+Controls_L14:
+	jsl CODE_02E266
+	sep #$20
+	rep #$10
+	lda #$0D
+	ldx #$6DC0
+	sta LevelScriptBank
+	stx LevelScriptPointer
+	jsl CODE_02E2CC
+	sep #$20
+	lda #$01
+	sta $16EC
+	stz $15BB
+	stz $15BC
+Controls_L15:
+	jsl CODE_02FD84
+	jsl $02D956
+	jsl CODE_03EA26
+	rep #$20
+	lda $15BB
+	cmp #$0014
+	bcc Controls_L15
+	sep #$20
+	lda $1FD2
+	cmp #$0A
+	beq Controls_L18
+	lda $14D1
+	and #$08
+	beq Controls_L16
+	lda $14D7
+	bit #$80
+	bne Controls_L15
+Controls_L16:
+	lda Pad1Down+1
+	bit #$10
+	beq Controls_L15
+	sep #$20
+	lda #$F1
+	sta $14F7
+	stz $14F6
+	lda #$FF
+	sta $18B2
+Controls_L17:
+	jsl CODE_02FD84
+	jsl $02D956
+	sep #$20
+	lda $18B2
+	and #$FF
+	bne Controls_L17
+	jsl CODE_02E266
+	sep #$20
+	lda #$01
+	sta $7EA05A
+	sta $1FDF
+	bra Controls_L19
+Controls_L18:
+	jsl CODE_02E266
+	sep #$20
+	lda #$00
+	sta $7EA05A
+	lda #$01
+	sta $1FDF
+Controls_L19:
+	stz $1FD2
+	plp
+	jmp Controls
+Controls_L20:
+	plp
+	rtl
+ControlsOAM:
+	rep #$30
+	ldx #$0000
+	stx $15AF
+	ldx #$0000
+	lda $7EA05A
+	beq ControlsOAM_L1
+	ldx #$0078
+ControlsOAM_L1:
+	ldy $15AF
+	ldx #$97A8
+	sta $14C5
+ControlsOAM_L2:
+	lda $14C5
+	sta OAMMirror,y
+	lda ControlsOAMData,x
+	clc
+	adc #$3080
+	sta OAMMirror+2,y
+	iny
+	iny
+	iny
+	iny
+	inx
+	inx
+	lda $14C5
+	clc
+	adc #$0008
+	sta $14C5
+	and #$00FF
+	cmp #$00F8
+	bne ControlsOAM_L2
+	lda $14C5
+	and #$FF00
+	clc
+	adc #$0800
+	cmp #$C700
+	beq ControlsOAM_L3
+	ora #$00A8
+	sta $14C5
+	bra ControlsOAM_L2
+ControlsOAM_L3:
+	sty $15AF
+	jsl CODE_03DBD0
+	rts
+ControlsOAMData:
+	DW $0000,$0001,$0001,$0001,$0001,$0001,$0001,$0001
+	DW $0001,$4000,$0002,$0020,$0004,$0005,$0006,$0007
+	DW $0008,$0009,$000A,$4020,$0002,$8020,$000B,$000C
+	DW $000D,$000E,$000F,$0010,$0011,$4002,$0002,$0003
+	DW $0012,$0013,$0014,$0015,$0016,$0017,$0018,$4002
+	DW $0002,$0003,$0019,$001A,$001B,$001C,$001D,$001E
+	DW $001F,$4002,$8000,$8001,$8001,$8001,$8001,$8001
+	DW $8001,$8001,$8001,$C000,$0000,$0001,$0001,$0001
+	DW $0001,$0001,$0001,$0001,$0001,$4000,$0002,$0003
+	DW $0004,$0005,$0006,$0007,$0008,$0009,$000A,$4002
+	DW $0002,$0003,$000B,$000C,$000D,$000E,$000F,$0010
+	DW $0011,$4002,$0002,$0020,$0012,$0013,$0014,$0015
+	DW $0016,$0017,$0018,$4002,$0002,$8020,$0019,$001A
+	DW $001B,$001C,$001D,$001E,$001F,$4002,$8000,$8001
+	DW $8001,$8001,$8001,$8001,$8001,$8001,$8001,$C000
+CODE_1FFD54:
+	jsl $02D956
+CODE_1FFD58:
+	lda D,CurNMITask
+	bne CODE_1FFD58
+	sep #$20
+	rep #$10
+	ldx $16AB
+	cpx #$0039
+	bne CODE_1FFD73
+	lda #$28
+	sta $1FDA
+	stz $16AB
+	stz $16AC
+CODE_1FFD73:
+	lda #$03
+	sta NovaBombs
+	ldx $1238
+	lda D,$15,x
+	sta D,$7E
+	lda D,$12,x
+	asl
+	sta $15A6
+	lda D,$13,x
+	sta $15A7
+	jsl CODE_1FC41E
+	rep #$20
+	lda $1FD4
+	clc
+	adc D,TempVecX
+	sta $1FD4
+	lda $1FD6
+	clc
+	adc D,TempVecY
+	sta $1FD6
+	lda $1FD8
+	clc
+	adc D,TempVecZ
+	sta $1FD8
+	rts
 CODE_1FFDAC:
 	sep #$20
 	rep #$20

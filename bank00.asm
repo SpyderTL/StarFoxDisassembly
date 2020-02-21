@@ -1,5 +1,6 @@
 	;Unknown/empty data
 	DB $00,$00,$00,$00,$00,$00
+	;Unused code
 CODE_008006:
 	rep #$30
 	lda #$7FFF
@@ -1685,17 +1686,28 @@ CODE_00E943:
 	sta D,$55
 	jml CODE_09BADE
 DATA_00E954:
-	DB $00,$B8,$E9,$00,$00,$66,$ED,$00
-	DB $00,$B7,$EC,$00,$00,$7C,$EC,$00
-	DB $00,$98,$EB,$00,$00,$8E,$EB,$00
-	DB $00,$77,$EB,$00,$00,$37,$EB,$00
-	DB $00,$1A,$EB,$00,$00,$64,$F0,$00
-	DB $00,$B7,$EC,$00,$00,$BD,$EA,$00
-	DB $00,$7C,$EC,$00,$00,$98,$EB,$00
-	DB $00,$A0,$EA,$00,$00,$18,$EA,$00
-	DB $00,$4D,$EA,$00,$00,$96,$EA,$00
-	DB $00,$32,$EA,$00,$00,$FE,$E9,$00
-	DB $00,$50,$ED,$00,$00,$46,$ED,$00
+	JUMPTABLE(CODE_00E9B9)
+	JUMPTABLE(CODE_00ED67)
+	JUMPTABLE(CODE_00ECB8)
+	JUMPTABLE(CODE_00EC7D)
+	JUMPTABLE(CODE_00EB99)
+	JUMPTABLE(CODE_00EB8F)
+	JUMPTABLE(CODE_00EB78)
+	JUMPTABLE(CODE_00EB38)
+	JUMPTABLE(CODE_00EB1B)
+	JUMPTABLE(CODE_00F065)
+	JUMPTABLE(CODE_00ECB8)
+	JUMPTABLE(CODE_00EABE)
+	JUMPTABLE(CODE_00EC7D)
+	JUMPTABLE(CODE_00EB99)
+	JUMPTABLE(CODE_00EAA1)
+	JUMPTABLE(CODE_00EA19)
+	JUMPTABLE(CODE_00EA4E)
+	JUMPTABLE(CODE_00EA97)
+	JUMPTABLE(CODE_00EA33)
+	JUMPTABLE(CODE_00E9FF)
+	JUMPTABLE(CODE_00ED51)
+	JUMPTABLE(CODE_00ED47)
 CODE_00E9AC:
 	lda #$00
 	sta D,$23,x
@@ -1703,6 +1715,7 @@ CODE_00E9B0:
 	lda #$01
 	jsl CODE_09BACE
 	jmp CODE_00E943
+CODE_00E9B9:
 	stz $1757
 	rep #$20
 	lda #$09C4
@@ -1736,6 +1749,7 @@ CODE_00E9F3:
 	jml CODE_00E9B0
 CODE_00E9FC:
 	jmp CODE_00F0CB
+CODE_00E9FF:
 	lda $1CFC,x
 	cmp #$1E
 	bne CODE_00EA13
@@ -1747,9 +1761,10 @@ CODE_00E9FC:
 CODE_00EA13:
 	inc $1CFC,x
 	jmp CODE_00F0A3
+CODE_00EA19:
 	rep #$20
 	lda D,$0E,x
-	sta D,$3A
+	sta D,TempSelf
 	lda #$FE70
 	jsl CODE_1FD6F0
 	sta D,$0E,x
@@ -1757,6 +1772,7 @@ CODE_00EA13:
 	bcc CODE_00EA30
 	jml CODE_00E9B0
 	jmp CODE_00F0CB
+CODE_00EA33:
 	jsr CODE_00EE33
 	lda #$07
 	jsl CODE_1FDC40
@@ -1768,6 +1784,7 @@ CODE_00EA45:
 	and #$7F
 	sta D,$1E,x
 	jmp CODE_00E9B0
+CODE_00EA4E:
 	rep #$20
 	lda #$BCEC
 	sta $14C5
@@ -1803,10 +1820,12 @@ CODE_00EA81:
 	jsl CODE_09BBAE
 	plx
 	jmp CODE_00E9B0
+CODE_00EA97:
 	jsr CODE_00EE33
 	rep #$20
 	lda #$05DC
 	bra CODE_00EAA6
+CODE_00EAA1:
 	rep #$20
 	lda #$09C4
 CODE_00EAA6:
@@ -1821,6 +1840,7 @@ CODE_00EAAF:
 	sta D,$10,x
 	sep #$20
 	jmp CODE_00F0A3
+CODE_00EABE:
 	lda #$01
 	jsl CODE_1FDC40
 	rep #$20
@@ -1854,9 +1874,10 @@ CODE_00EACC:
 	sep #$20
 	jmp CODE_00E9B0
 	lda #$09
-	sta D,$02
+	sta D,TempVecX
 	jsr CODE_00EE57
 	jmp CODE_00E9B0
+CODE_00EB1B:
 	rep #$20
 	lda #$07D0
 	jsr CODE_00E8B0
@@ -1870,9 +1891,15 @@ CODE_00EB29:
 	sta D,$10,x
 	sep #$20
 	jmp CODE_00F065
+CODE_00EB38:
+	rep #$20
+	lda #$05DC
+	jsr CODE_00E8B0
+	bcc CODE_00EB46
+	jml CODE_00E9B0
 CODE_00EB46:
 	lda D,$24,x
-	sta D,$3A
+	sta D,TempSelf
 	lda #$02
 	jsl CODE_1FD8BD
 	sta D,$24,x
@@ -1890,9 +1917,10 @@ CODE_00EB46:
 	jml CODE_00F065
 CODE_00EB6E:
 	lda #$0B
-	sta D,$02
+	sta D,TempVecX
 	jsr CODE_00EE57
 	jmp CODE_00E9B0
+CODE_00EB78:
 	lda #$0D
 	jsr CODE_00EE34
 	cmp #$05
@@ -1900,13 +1928,15 @@ CODE_00EB6E:
 	jml CODE_00F065
 CODE_00EB85:
 	lda #$0E
-	sta D,$02
+	sta D,TempVecX
 	jsr CODE_00EE57
 	jmp CODE_00E9B0
+CODE_00EB8F:
 	lda #$0C
-	sta D,$02
+	sta D,TempVecX
 	jsr CODE_00EE57
 	jmp CODE_00E9B0
+CODE_00EB99:
 	lda D,$1E,x
 	and #$20
 	beq CODE_00EBA3
@@ -1949,7 +1979,7 @@ CODE_00EBE0:
 CODE_00EBE9:
 	rep #$20
 	lda D,$0E,x
-	sta D,$3A
+	sta D,TempSelf
 	lda D,$28,x
 	jsl CODE_1FD6AB
 	sta D,$0E,x
@@ -2007,7 +2037,7 @@ CODE_00EC52:
 	lda D,$25,x
 	and #$00FF
 	tax
-	lda DATA_0098A5,x
+	lda SineTable8,x
 	bit #$0080
 	beq CODE_00EC69
 	ora #$FF00
@@ -2025,6 +2055,7 @@ CODE_00EC6C:
 	adc #$04
 	sta D,$25,x
 	jmp CODE_00F0CB
+CODE_00EC7D:
 	lda $15BB
 	and #$03
 	beq CODE_00EC88
@@ -2057,8 +2088,9 @@ CODE_00EC9A:
 	jml CODE_00E9B0
 CODE_00ECB5:
 	jmp CODE_00F0CB
+CODE_00ECB8:
 	lda #$07
-	sta D,$02
+	sta D,TempVecX
 	jsr CODE_00EE57
 	jsl ApplyObjectVelocity
 	rep #$20
@@ -2125,10 +2157,12 @@ CODE_00ED2C:
 	jsr CODE_00ED6A
 	jsr CODE_00ED6A
 	jmp CODE_00E9B0
+CODE_00ED47:
 	lda #$04
-	sta D,$02
+	sta D,TempVecX
 	jsr CODE_00EE57
 	jmp CODE_00F0CB
+CODE_00ED51:
 	inc D,$23,x
 	lda D,$23,x
 	cmp #$0F
@@ -2136,9 +2170,10 @@ CODE_00ED2C:
 	jml CODE_00E9B0
 CODE_00ED5D:
 	lda #$03
-	sta D,$02
+	sta D,TempVecX
 	jsr CODE_00EE57
 	jmp CODE_00F0CB
+CODE_00ED67:
 	jmp CODE_00F065
 CODE_00ED6A:
 	rep #$20
@@ -3792,20 +3827,20 @@ BehE9_BigAsteroid:
 	lda D,$1F,x
 	ora #$20
 	sta D,$1F,x
-	lda #$FF
-	sta D,$2A,x
-	lda #$0C
-	sta D,$2B,x
-	lda $18C8
-	eor #$FF
-	inc
-	clc
-	adc #$80
-	clc
-	adc $152B
-	sta D,$13,x
-	lda $18C6
-	sta D,$12,x
+	lda #$FF				;\Set HP (indestructible)
+	sta D,$2A,x				;/
+	lda #$0C				;\Set power (damage to player upon impact)
+	sta D,$2B,x				;/
+	lda $18C8				;\Calculate Y rotation
+	eor #$FF				;|
+	inc					;|
+	clc					;|
+	adc #$80				;|
+	clc					;|
+	adc $152B				;|
+	sta D,$13,x				;/
+	lda $18C6				;\Set X rotation
+	sta D,$12,x				;/
 	jsl CODE_02FC58
 	and #$0F
 	sta D,$22,x
@@ -3821,10 +3856,10 @@ BehEA_ShootableAsteroid:
 	lda #$459F
 	sta D,$28,x
 	sep #$20
-	lda #$02
-	sta D,$2A,x
-	lda #$0C
-	sta D,$2B,x
+	lda #$02				;\Set HP
+	sta D,$2A,x				;/
+	lda #$0C				;\Set power (damage to player upon impact)
+	sta D,$2B,x				;/
 	jml Beh9C
 ;BEHAVIOR FUNCTION ID $ED
 BehED_ShootableAsteroid:
@@ -3832,10 +3867,10 @@ BehED_ShootableAsteroid:
 	lda #$459B
 	sta D,$28,x
 	sep #$20
-	lda #$02
-	sta D,$2A,x
-	lda #$0C
-	sta D,$2B,x
+	lda #$02				;\Set HP
+	sta D,$2A,x				;/
+	lda #$0C				;\Set power (damage to player upon impact)
+	sta D,$2B,x				;/
 	jml Beh9C
 
 CODE_00FACF:
