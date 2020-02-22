@@ -1014,7 +1014,7 @@ CODE_02E69D:
 CODE_02E6A3:
 	php
 	sep #$20
-	PushXIndex
+	phx
 	ldx $1892
 	jmp $CODE_02E6AD, X
 
@@ -1508,3 +1508,1541 @@ CODE_02EC22:
 	plp
 	rts
 
+CODE_02EC26:
+	rep #$30
+	jsr CODE_02EBC1
+	lda $1FD2
+	cmp #$0006
+	bne CODE_02EC36
+	jmp CODE_02EF57
+CODE_02EC36:
+	rep #$30
+	jsr CODE_02E8AC
+	lda $14C5
+	sta D, $22
+	stz $16
+	stz $1A
+	stz $20
+	stz $24
+CODE_02EC48:
+	jsr CODE_02D956
+	rep #$30
+	lda #$0010
+	sta $700062
+	lda #$002C
+	sta $70002C
+	lda #$E79E
+	sta $7000A6
+	sep #$20
+	lda #$01
+	ldx #$B54B
+	jsr CODE_7E4EE9
+	rep #$20
+	rep #$10
+	rep #$20
+	jsr CODE_02E8AC
+	lda $14C5
+	sta $70002E
+	lda #$00B0
+	sta $700062
+	lda #$0027
+	sta $70002C
+	sep #$20
+	lda #$01
+	ldx #$B6C8
+	jsr CODE_7E4EE9
+	rep #$20
+	rep #$10
+	sep #$20
+	lda #$01
+	ldx #$B75A
+	jsr CODE_7E4EE9
+	rep #$20
+	rep #$10
+	lda D, $1A
+	beq CODE_02ECF6
+	dec
+	bne CODE_02ECF6
+	lda #$0010
+	sta $700062
+	lda #$0018
+	sta $70002C
+	lda #$E7C1
+	sta $7000A6
+	sep #$20
+	lda #$01
+	ldx #$B54B
+	jsr CODE_7E4EE9
+	rep #$20
+	rep #$10
+	lda D, $24
+	bne CODE_02ECDC
+	jmp CODE_02ED98
+CODE_02ECDC:
+	dec
+	sta D, $24
+	cmp #$0001
+	beq CODE_02ECE7
+	jmp CODE_02ED98
+CODE_02ECE7:
+	sep #$20
+	inc $1898
+	lda #$01
+	sta $1FCD
+	rep #$20
+	jmp CODE_02ED98
+CODE_02ECF6:
+	sta D, $1A
+	cmp #$0002
+	bne CODE_02ED0C
+	sep #$20
+	lda #$1A
+	jsr CODE_03B7F9
+	rep #$20
+	lda #$000A
+	sta D, $24
+CODE_02ED0C:
+	lda #$0010
+	sta $700062
+	lda #$0018
+	sta $70002C
+	lda #$E7AB
+	sta $7000A6
+	sep #$20
+	lda #$01
+	ldx #$B54B
+	jsr CODE_7E4EE9
+	rep #$20
+	rep #$10
+	lda #$003C
+	sta $700062
+	lda #$0018
+	sta $70002C
+	lda D, $16
+	sta $70006C
+	sep #$20
+	lda #$01
+	ldx #$B674
+	jsr CODE_7E4EE9
+	rep #$20
+	rep #$10
+	lda #$00B0
+	sta $700062
+	lda #$0018
+	sta $70002C
+	lda D, $16
+	sta $70002E
+	sep #$20
+	lda #$01
+	ldx #$B6C8
+	jsr CODE_7E4EE9
+	rep #$20
+	rep #$10
+	lda $700062
+	clc
+	adc #$0004
+	sta $700062
+	lda #$E7D1
+	sta $7000A6
+	sep #$20
+	lda #$01
+	ldx #$B54B
+	jsr CODE_7E4EE9
+	rep #$20
+	rep #$10
+CODE_02ED98:
+	lda D, $20
+	beq CODE_02ED9F
+	jmp CODE_02EDCB
+CODE_02ED9F:
+	sep #$20
+	lda #$12
+	jsr CODE_03B7F9
+	rep #$20
+	lda D, $16
+	clc
+	adc #$0003
+	sta D, $16
+	cmp D, $18
+	bmi CODE_02EDB9
+	bvs CODE_02EDBD
+	jmp CODE_02EDBB
+CODE_02EDB9:
+	bvc CODE_02EDBD
+CODE_02EDBB:
+	jmp CODE_02EDC0
+CODE_02EDBD:
+	jmp CODE_02EDF2
+
+CODE_02EDC0:
+	lda D, $18
+	sta D, $16
+	lda #$0014
+	sta D, $20
+	jmp CODE_02EDF2
+
+CODE_02EDCB:
+	cmp #$0001
+	beq CODE_02EDF2
+	dec
+	sta D, $20
+	cmp #$0002
+	bne CODE_02EDF2
+	sep #$20
+	lda #$11
+	jsr CODE_03B7F9
+	ldx $1FBB
+	lda D, $18
+	sta $001FBD, X
+	inx
+	stx $1FBB
+	rep #$20
+	jsr CODE_02EF65
+CODE_02EDF2:
+	rep #$20
+	lda #$0030
+	sta $700062
+	lda #$0045
+	sta $70002C
+	lda #$E7DF
+	sta $7000A6
+	sep #$20
+	lda #$01
+	ldx #$B54B
+	jsr CODE_7E4EE9
+	rep #$20
+	rep #$10
+	ldx #$0000
+	ldy #$0000
+	lda #$000B
+	sta $700062
+	sta $1F3D
+CODE_02EE28:
+	lda #$0088
+	sta $70002C
+	lda $18A0, Y
+	and #$00FF
+	sta $70002E
+	phx
+	sep #$20
+	lda #$01
+	ldx #$B799
+	jsr CODE_7E4EE9
+	plx
+	phx
+	rep #$20
+	lda $70002E
+	beq CODE_02EE73
+	lda $02EBAF, X
+	sta $700062
+	lda #$0096
+	sta $70002C
+	lda $02EBA9, X
+	sta $7000A6
+	sep #$20
+	lda #$01
+	ldx #$B54B
+	jsr CODE_7E4EE9
+	jmp CODE_02EEBA
+CODE_02EE73:
+	lda $02EBAF, X
+	sta $700062
+	lda #$0089
+	sta $70002C
+	lda $02EBA9, X
+	sta $7000A6
+	sep #$20
+	lda #$01
+	ldx #$B54B
+	jsr CODE_7E4EE9
+	rep #$20
+	plx
+	phx
+	lda $02EBB5, X
+	sta $700062
+	lda #$0097
+	sta $70002C
+	lda #$E80A
+	sta $7000A6
+	sep #$20
+	lda #$01
+	ldx #$B54B
+	jsr CODE_7E4EE9
+CODE_02EEBA:
+	plx
+	phx
+	lda $02EBBB, X
+	sta $700026
+	lda $02EBBC, X
+	sta $700028
+	lda #$00
+	sta $700027
+	sta $700029
+	lda $18A0, Y
+	bne CODE_02EEEE
+	lda $15BB
+	and #$01
+	rep #$20
+	bne CODE_02EEE9
+	lda #$E224
+	jmp CODE_02EF07
+CODE_02EEE9:
+	lda #$C1A4
+	jmp CODE_02EF07
+CODE_02EEEE:
+	rep #$20
+	cpx #$0000
+	beq CODE_02EEFF
+	cpx #$0002
+	beq CODE_02EF04
+	lda #$D324
+	jmp CODE_02EF07
+CODE_02EEFF:
+	lda #$C924
+	jmp CODE_02EF07
+CODE_02EF04:
+	lda #$CE24
+CODE_02EF07:
+	sta $700018
+	sep #$20
+	lda #$01
+	ldx #$D15B
+	jsr CODE_7E4EE9
+	rep #$20
+	rep #$10
+	plx
+	rep #$20
+	inx
+	inx
+	iny
+	lda $001F3D
+	clc
+	adc #$0050
+	sta $1F3D
+	sta $700062
+	cpy #$0003
+	beq CODE_02EF37
+	jmp CODE_02EE28
+CODE_02EF37:
+	sep #$20
+	lda D, $1C
+	cmp #$00
+	bne CODE_02EF42
+	jmp CODE_02EC48
+CODE_02EF42:
+	sep #$20
+	lda D, $1C
+	cmp #$02
+	beq CODE_02EF4D
+	jmp CODE_02EF53
+CODE_02EF4D:
+	jsr CODE_02D956
+	jmp CODE_02EF42
+
+CODE_02EF53:
+	stz $1FCD
+	rts
+
+CODE_02EF57:
+	ldx $1FBB
+	lda D, $18
+	sta $001FBD, X
+	inx
+	stx $1FBB
+	rts
+
+CODE_02EF65:
+	jsr CODE_02E8AC
+	ldx #$0000
+CODE_02EF6B:
+	lda $02EF8D, X
+	cmp $14C5
+	beq CODE_02EF7A
+	bmi CODE_02EF7A
+	inx
+	inx
+	jmp CODE_02EF6B
+CODE_02EF7A:
+	cmp D, $22
+	beq CODE_02EF86
+	bmi CODE_02EF84
+	bvc CODE_02EF87
+	jmp CODE_02EF86
+CODE_02EF84:
+	bvs CODE_02EF87
+CODE_02EF86:
+	rts
+CODE_02EF87:
+	lda #$0014
+	sta D, $1A
+	rts
+
+CODE_02EFA5:
+	php
+	sep #$20
+	rep #$10
+	lda $1FD1
+	bne CODE_02F015
+	lda $1962
+	cmp #$FF
+	bne CODE_02F015
+	lda #$02
+	sta $1F52
+	jsr CODE_02D956
+	jsr CODE_02F017
+	jsr CODE_02D956
+	sep #$20
+CODE_02EFC8:
+	lda #$64
+	sta $16DB
+	jsr CODE_03BD8D
+	sep #$20
+	rep #$10
+	lda $4219
+	bit #$10
+	bne CODE_02EFC8
+CODE_02EFDC:
+	lda #$64
+	sta $16DB
+	jsr CODE_03BD8D
+	sep #$20
+	rep #$10
+	lda $4219
+	bit #$10
+	beq CODE_02EFDC
+CODE_02EFF0:
+	lda #$64
+	sta $16DB
+	jsr CODE_03BD8D
+	sep #$20
+	rep #$10
+	lda $4219
+	bit #$10
+	bne CODE_02EFF0
+	stz $1202
+	stz $1204
+	stz $1201
+	stz $1203
+	lda #$01
+	sta $1F52
+CODE_02F015:
+	plp
+	rts
+
+CODE_02F017:
+	rep #$30
+	lda #$005A
+	sta $700062
+	lda #$005A
+	sta $70002C
+	lda #$E796
+	sta $7000A6
+	sep #$20
+	lda #$01
+	ldx #$B54B
+	jsr CODE_7E4EE9
+	rts
+
+CODE_02F125:
+	sep #$30
+	sei
+	stz $4200
+	stz $00
+	stz $18B3
+	lda $4211
+	rep #$20
+	lda $003030
+	lda #$0021
+	sta $1260
+	jsr CODE_02F907
+	stz $2121
+	stz $2116
+	stz $2117
+	lda #$0080
+	sta $2100
+	sta $2115
+	lda #$0000
+	ldx #$7F
+CODE_02F15A:
+	ldy #$00
+CODE_02F15C:
+	sta $2118
+	sta $2119
+	dey
+	bne CODE_02F15C
+	dex
+	bne CODE_02F15A
+	rep #$30
+	lda #$2C00
+	sta $2116
+	lda #$02A1
+	ldx #$0400
+CODE_02F176:
+	sta $2118
+	dex
+	bne CODE_02F176
+	sep #$20
+	rep #$10
+	jsr CODE_02F307
+	rep #$10
+	ldx #$0000
+	stx D, $4A
+	ldx #$3000
+	stx D, $4C
+	ldx #$2C00
+	stx D, $44
+	ldx #$2C00
+	stx D, $46
+	lda D, $45
+	lsr A
+	lsr A
+	sta $3038
+	lda D, $4B
+	lsr A
+	lsr A
+	lsr A
+	lsr A
+	ora #$50
+	sta $210B
+	lda #$03
+	sta $2101
+	lda #$2C
+	sta $2107
+	lda #$73
+	sta $2108
+	lda #$02
+	sta $2105
+	jsr CODE_02DB56
+	jsr CODE_02DBE2
+	sep #$20
+	rep #$10
+	lda #$01
+	jsr CODE_02F464
+	jsr CODE_03DB17
+	lda #$22
+	sta $4301
+	lda #$80
+	sta $2121
+	ldx #$1360
+	stx $4302
+	lda #$7F
+	sta $4304
+	ldx #$0100
+	stx $4305
+	lda #$00
+	sta $4300
+	lda #$01
+	sta $420B
+	stz $2123
+	stz $2124
+	lda #$20
+	sta $2125
+	stz $212A
+	lda #$0C
+	sta $212B
+	stz $212E
+	stz $212F
+	stz $2126
+	stz $2127
+	lda #$17
+	sta $212C
+	lda #$07
+	sta $212D
+	jsr CODE_02F8F0
+	sep #$20
+	lda #$00
+	sta $4310
+	lda #$00
+	sta $4311
+	ldx #$45F1
+	stx $4312
+	lda #$7E
+	sta $4314
+	stz $4317
+	lda #$02
+	sta $4320
+	lda #$0F
+	sta $4321
+	ldx #$4619
+	stx $4322
+	lda #$7E
+	sta $4324
+	stz $4327
+	lda #$01
+	sta $4330
+	lda #$26
+	sta $4331
+	ldx #$4169
+	stx $4332
+	lda #$7E
+	sta $4334
+	stz $4337
+	lda #$02
+	sta $4340
+	lda #$10
+	sta $4341
+	ldx #$4BF7
+	stx $4342
+	lda #$7E
+	sta $4344
+	stz $4347
+	lda #$1E
+	sta $120E
+	ldx #$4619
+	stx $18B4
+	ldx #$4908
+	stx $18B6
+	ldx #$4169
+	stx $18A5
+	ldx #$43AD
+	stx $18A7
+	stz $18A9
+	jsr CODE_02F42F
+	sep #$20
+	ldx #$00CF
+	stx $4209
+	ldx #$0000
+	stx $4207
+	lda #$80
+	jsr CODE_02F8DF
+	sta $2100
+	stz $18B3
+	lda #$02
+	sta $420C
+	lda #$BE
+	sta $16DB
+	jsr CODE_03BD8D
+	sep #$20
+	rep #$10
+	lda #$64
+	sta $16DB
+	jsr CODE_03BD8D
+	sep #$20
+	rep #$10
+	lda $4210
+	lda #$31
+	sta $4200
+	lda #$FF
+	sta $15AB
+	lda $004211
+	cli
+	rtl
+
+CODE_02F307:
+	sep #$20
+	phb
+	lda #$00
+	pha
+	plb
+	lda #$80
+	sta $2115
+	rep #$30
+	lda #$2C40
+	sta $2116
+	lda #$1C00
+	ldy #$0000
+CODE_02F321:
+	pha
+	lda #$3AA0
+	sta $2118
+	sta $2118
+	pla
+	ldx #$0000
+CODE_02F32F:
+	sta $2118
+	clc
+	adc #$0018
+	inx
+	cpx #$001C
+	bne CODE_02F32F
+	pha
+	lda #$3AA0
+	sta $2118
+	sta $2118
+	pla
+	sec
+	sbc $029F
+	iny
+	cpy #$0018
+	bne CODE_02F321
+	lda $70021C
+	and #$00FF
+	beq CODE_02F3D2
+	lda #$2F03
+	sta $2116
+	lda #$282E
+	sta $2118
+	lda #$2F04
+	sta $2116
+	lda #$2846
+	sta $2118
+	lda #$2F05
+	sta $2116
+	lda #$285E
+	sta $2118
+	lda #$2F06
+	sta $2116
+	lda #$2876
+	sta $2118
+	lda #$2F07
+	sta $2116
+	lda #$288E
+	sta $2118
+	lda #$2F18
+	sta $2116
+	lda #$2A26
+	sta $2118
+	lda #$2F19
+	sta $2116
+	lda #$2A3E
+	sta $2118
+	lda #$2F1A
+	sta $2116
+	lda #$2A56
+	sta $2118
+	lda #$2F1B
+	sta $2116
+	lda #$2A6E
+	sta $2118
+	lda #$2F1C
+	sta $2116
+	lda #$2A86
+	sta $2118
+CODE_02F3D2:
+	ldx #$2A00
+	stx $2116
+	ldx #$FFFF
+	ldy #$0010
+CODE_02F3DE:
+	stx $2118
+	dey
+	bne CODE_02F3DE
+	ldx #$5A00
+	stx $2116
+	ldx #$FFFF
+	ldy #$0010
+CODE_02F3F0:
+	stx $2118
+	dey
+	bne CODE_02F3F0
+	plb
+	sep #$20
+	rtl
+
+CODE_02F3FE:
+	lda #$00
+	sta D, $2A
+	lda #$00
+	sta D, $2B
+	lda #$DF
+	sta D, $2E
+	lda #$00
+	sta D, $2F
+	lda #$00
+	sta D, $2C
+	lda #$00
+	sta D, $2D
+	lda #$BF
+	sta D, $30
+	lda #$00
+	sta D, $31
+	lda #$70
+	sta D, $CA
+	lda #$00
+	sta D, $CB
+	lda #$60
+	sta D, $CC
+	lda #$00
+	sta D, $CD
+	rts
+
+CODE_02F42F:
+	php
+	sep #$20
+	stz $210D
+	stz $210D
+	stz $210E
+	stz $210E
+	stz $210F
+	stz $210F
+	stz $2110
+	stz $2110
+	stz $2111
+	stz $2111
+	stz $2112
+	stz $2112
+	stz $2113
+	stz $2113
+	stz $2114
+	stz $2114
+	plp
+	rtl
+
+CODE_02F464:
+	php
+	rep #$30
+	and #$00FF
+	xba
+	lsr A
+	lsr A
+	lsr A
+	tax
+	sep #$20
+	lda #$70
+	sta $2121
+	ldy #$0000
+CODE_02F479:
+	lda $038AAA, X
+	sta $2122
+	lda $038AAB, X
+	sta $2122
+	inx
+	inx
+	iny
+	iny
+	cpy #$0020
+	bne CODE_02F479
+	plp
+	rtl
+
+CODE_02F4C9:
+	php
+	rep #$30
+	stz $121D
+	lda #$0336
+	sta $121F
+	ldy #$0046
+CODE_02F4D8:
+	tax
+	clc
+	adc #$0036
+	sta D, $00, X
+	dey
+	bne CODE_02F4D8
+	stz D, $00, X
+	plp
+	rtl
+
+CODE_02F4E6:
+	php
+	jsr CODE_02F58F
+	sep #$20
+	rep #$10
+	sep #$20
+	lda #$01
+	ldx #$B17F
+	jsr CODE_7E4EE9
+	sep #$20
+	rep #$10
+	plp
+	rtl
+
+CODE_02F58F:
+	php
+	phb
+	sep #$20
+	lda #$7E
+	pha
+	plb
+	rep #$30
+	stz $1EE5
+	lda $195F
+	sta $700220
+	lda D, $C3
+	sta $7000C8
+	ldx #$0EF2
+	ldy $121D
+CODE_02F5AF:
+	sep #$20
+	sty $123A
+	lda $0008, Y
+	and #$E1
+	ora #$08
+	sta $0008, Y
+	lda $0020, Y
+	and #$08
+	beq CODE_02F5C9
+	jmp $02F6C0
+CODE_02F5C9:
+	lda $0009, Y
+	bit #$01
+	rep #$20
+	beq CODE_02F5D7
+	lda #$3A98
+	jmp CODE_02F5DA
+CODE_02F5D7:
+	lda #$0000
+CODE_02F5DA:
+	sta $700002, X
+	lda $000C, Y
+	sec
+	sbc D, $C1
+	sta $700012, X
+	lda $000E, Y
+	sec
+	sbc D, $C3
+	sta $700010, X
+	lda $0010, Y
+	sec
+	sbc D, $C5
+	sta $700014, X
+	lda $0004, Y
+	sta $700008, X
+	sep #$20
+	lda $0012, Y
+	sta $700004, X
+	lda $0013, Y
+	sta $700005, X
+	lda $0014, Y
+	sta $700006, X
+	sep #$20
+	lda $0008, Y
+	and #$01
+	beq CODE_02F651
+	lda $000A, Y
+	sta $700018, X
+	lda $001D, Y
+	bit #$10
+	beq CODE_02F657
+	rep #$20
+	tya
+	sta $70000A, X
+	sep #$20
+	lda $0022, Y
+	sta $70000C, X
+	lda $0023, Y
+	sta $70000D, X
+	lda $0024, Y
+	sta $70000E, X
+	jmp CODE_02F657
+CODE_02F651:
+	lda #$00
+	sta $700018, X
+CODE_02F657:
+	lda $001D, Y
+	sta $700007, X
+	and #$FD
+	sta $001D, Y
+	lda $1CE7, Y
+	bmi CODE_02F66B
+	lda $15BB
+CODE_02F66B:
+	and #$7F
+	sta $700019, X
+	lda $1CE6, Y
+	bmi CODE_02F679
+	lda $15BB
+CODE_02F679:
+	and #$7F
+	sta $70001A, X
+	lda $1CDF, Y
+	sta $70001B, X
+	lda $1CF4, Y
+	sta $70001C, X
+	lda $1CF5, Y
+	sta $70001D, X
+	rep #$20
+	cpy $1777
+	bne CODE_02F6B0
+	lda $15BB
+	and #$0007
+	cmp #$0004
+	bmi CODE_02F6AB
+	lda #$800C
+	jmp CODE_02F6B3
+CODE_02F6AB:
+	lda #$807C
+	jmp CODE_02F6B3
+CODE_02F6B0:
+	lda $1CEA, Y
+CODE_02F6B3:
+	sta $700016, X
+	inc $1EE5
+	txa
+	clc
+	adc #$001E
+	tax
+	rep #$20
+	lda $0000, Y
+	tay
+	beq CODE_02F6CB
+	jmp CODE_02F5AF
+CODE_02F6CB:
+	lda $1EE5
+	sta $7001B6
+	plb
+	plp
+	rts
+
+CODE_02F6D5:
+	jsr CODE_02F6D9
+	rtl
+
+CODE_02F6D9:
+	rts
+
+CODE_02F6DA:
+	rep #$30
+	ldy $1EED
+	bne CODE_02F6E2
+	rtl
+CODE_02F6E2:
+	ldx $1EE9
+	ldy $1EED
+	lda $02F7FF, X
+	sta $1809, Y
+	dec $1EE9
+	dec $1EE9
+	dec $1EED
+	dec $1EED
+	rtl
+
+CODE_02F6FC:
+	sep #$20
+	lda $14D7
+	and #$80
+	beq CODE_02F706
+	rtl
+CODE_02F706:
+	lda $1EF1
+	bne CODE_02F70C
+	rtl
+CODE_02F70C:
+	dec
+	sta $1EF1
+	rep #$30
+	ldx $1F15
+	ldy $1F17
+	lda $1F11
+CODE_02F71B:
+	pha
+	lda $1789, Y
+	and #$7C00
+	sta $14C5
+	lda $02F83F, X
+	and #$7C00
+	cmp $14C5
+	beq CODE_02F743
+	bcs CODE_02F73C
+	lda $14C5
+	sec
+	sbc $0400
+	jmp CODE_02F743
+CODE_02F73C:
+	lda $14C5
+	clc
+	adc #$0400
+CODE_02F743:
+	sta D, $3A
+	lda $1789, Y
+	and #$03E0
+	sta $14C5
+	lda $02F83F, X
+	and #$03E0
+	cmp $14C5
+	beq CODE_02F76C
+	bcs CODE_02F765
+	lda $14C5
+	sec
+	sbc $0020
+	jmp CODE_02F76C
+CODE_02F765:
+	lda $14C5
+	clc
+	adc #$0020
+CODE_02F76C:
+	sta D, $3C
+	lda $1789, Y
+	and #$001F
+	sta $14C5
+	lda $02F83F, X
+	and #$001F
+	cmp $14C5
+	beq CODE_02F78F
+	bcs CODE_02F78B
+	lda $14C5
+	dec
+	jmp CODE_02F78F
+CODE_02F78B:
+	lda $14C5
+	inc
+CODE_02F78F:
+	ora D, $3A
+	ora D, $3C
+	sta $1789, Y
+	iny
+	iny
+	inx
+	inx
+	pla
+	dec
+	beq CODE_02F7A1
+	jmp CODE_02F71B
+CODE_02F7A1:
+	rtl
+
+CODE_02F8DF:
+	php
+	sep #$20
+	sta $7E45F4
+	sta $7E45F6
+	sta $7E45F8
+	plp
+	rtl
+
+CODE_02F8F0:
+	php
+	sep #$20
+	lda #$5F
+	sta $7E45F3
+	lda #$2D
+	sta $7E45F5
+	lda #$32
+	sta $7E45F7
+	plp
+	rtl
+
+CODE_02F907:
+	php
+	sep #$20
+	rep #$10
+	stz $420C
+	lda #$80
+	sta $2100
+	jsr CODE_02F8DF
+	lda #$96
+	sta $16DB
+	jsr CODE_03BD8D
+	sep #$20
+	rep #$10
+	lda #$8C
+	sta $16DB
+	jsr CODE_03BD8D
+	sep #$20
+	rep #$10
+	plp
+	rtl
+
+CODE_02F934:
+	sep #$20
+	lda $1FC6
+	beq CODE_02F941
+	stz $18C5
+	stz $18C6
+CODE_02F941:
+	lda $15CA
+	and #$02
+	beq CODE_02F94C
+	jmp $02FAB3
+CODE_02F94C:
+	sep #$10
+	rep #$20
+	lda $1595
+	bit #$0080
+	beq CODE_02F95D
+	ora #$FF00
+	jmp CODE_02F960
+CODE_02F95D:
+	and #$00FF
+CODE_02F960:
+	clc
+	adc $14F6
+	clc
+	adc $14E6
+	sta D, $C1
+	lda $1596
+	bit #$0080
+	beq CODE_02F977
+	ora #$FF00
+	jmp CODE_02F97A
+CODE_02F977:
+	and #$00FF
+CODE_02F97A:
+	clc
+	adc $14F8
+	clc
+	adc $14E8
+	sta D, $C3
+	lda $1597
+	bit #$0080
+	beq CODE_02F991
+	ora #$FF00
+	jmp CODE_02F994
+	and #$00FF
+CODE_02F994:
+	clc
+	adc $14FA
+	clc
+	adc $14FE
+	sta D, $C5
+	lda $18C5
+	sta $1633
+	lda $18C7
+	sec
+	sbc $152A
+	sta $1635
+	lda $18C9
+	sec
+	sbc $1234
+	sta $1637
+	sep #$20
+	lda $16F1
+	bne CODE_02F9C5
+	sta $1638
+	sta $1637
+CODE_02F9C5:
+	sep #$20
+	rep #$20
+	lda $1633
+	eor #$FFFF
+	inc
+	sta $162D
+	stz $162F
+	stz $1631
+	sep #$20
+	jsr CODE_03B98A
+	rep #$20
+	lda $15D7
+	sta $161B
+	lda $15D9
+	sta $161D
+	lda $15DB
+	sta $161F
+	lda $15DD
+	sta $1621
+	lda $15DF
+	sta $1623
+	lda $15E1
+	sta $1625
+	lda $15E3
+	sta $1627
+	lda $15E5
+	sta $1629
+	lda $15E7
+	sta $162B
+	stz $02
+	stz $08
+	lda $18CB
+	eor #$FFFF
+	inc
+	sta D, $90
+	sep #$20
+	jsr CODE_03B950
+	rep #$20
+	stz $162D
+	lda $1635
+	eor #$FFFF
+	inc
+	sta $162F
+	stz $1631
+	sep #$20
+	jsr CODE_03B98A
+	rep #$20
+	lda $15D7
+	sta $161B
+	lda $15D9
+	sta $161D
+	lda $15DB
+	sta $161F
+	lda $15DD
+	sta $1621
+	lda $15DF
+	sta $1623
+	lda $15E1
+	sta $1625
+	lda $15E3
+	sta $1627
+	lda $15E5
+	sta $1629
+	lda $15E7
+	sta $162B
+	lda D, $B3
+	sta D, $02
+	lda D, $B5
+	sta D, $08
+	lda D, $B7
+	sta D, $90
+	sep #$20
+	jsr CODE_03B950
+	clc
+	lda D, $B3
+	adc D, $C1
+	sta D, $C1
+	lda D, $B4
+	adc D, $C2
+	sta D, $C2
+	clc
+	lda D, $B5
+	adc D, $C3
+	sta D, $C3
+	lda D, $B6
+	adc D, $C4
+	sta D, $C4
+	clc
+	lda D, $B7
+	adc D, $C5
+	sta D, $C5
+	lda D, $B8
+	adc D, $C6
+	sta D, $C6
+	rep #$30
+	ldx #$0300
+	stx $1236
+	lda D, $C1
+	sta D, $0C, X
+	lda D, $C3
+	sta D, $0E, X
+	lda D, $C5
+	sta D, $10, X
+	sep #$20
+	lda $15CA
+	and #$01
+	bne CODE_02FAD4
+	jmp $02FAF9
+CODE_02FAD4:
+	ldy $159E
+	rep #$20
+	jsr CODE_1FD03E
+	eor #$FFFF
+	inc
+	sta $1633
+	sta $18C5
+	jsr CODE_1FD021
+	sta $1635
+	sta $18C7
+	lda $18C9
+	sta $1637
+	sep #$20
+	rep #$20
+	lda $1633
+	eor #$FFFF
+	inc
+	sta $162D
+	lda $1635
+	eor #$FFFF
+	inc
+	sta $162F
+	lda $1637
+	eor #$FFFF
+	inc
+	sta $1631
+	sep #$20
+	jsr CODE_03B98A
+	rep #$20
+	lda $15D7
+	sta $161B
+	lda $15D9
+	sta $161D
+	lda $15DB
+	sta $161F
+	lda $15DD
+	sta $1621
+	lda $15DF
+	sta $1623
+	lda $15E1
+	sta $1625
+	lda $15E3
+	sta $1627
+	lda $15E5
+	sta $1629
+	lda $15E7
+	sta $162B
+	rep #$20
+	lda $1633
+	sta $162D
+	lda $1635
+	sta $162F
+	lda $1637
+	sta $1631
+	sep #$30
+	jsr CODE_03B98A
+	rep #$20
+	lda $15D7
+	sta $161B
+	lda $15D9
+	sta $161D
+	lda $15DB
+	sta $161F
+	lda $15DD
+	sta $1621
+	lda $15DF
+	sta $1623
+	lda $15E1
+	sta $1625
+	lda $15E3
+	sta $1627
+	lda $15E5
+	sta $1629
+	lda $15E7
+	sta $162B
+	sep #$20
+	php
+	rep #$30
+	ldx $1238
+	stz $08
+	lda #$01F4
+	sta D, $90
+	sep #$20
+	lda D, $12, X
+	jsr CODE_1FCE84
+	rep #$20
+	lda D, $04
+	sta D, $02
+	lda D, $0A
+	sta D, $08
+	lda $15C2
+	sta D, $90
+	sep #$20
+	lda D, $13, X
+	jsr CODE_1FCDF0
+	rep #$20
+	lda D, $04
+	clc
+	adc D, $0C, X
+	sec
+	sbc D, $C1
+	sta $700062
+	lda D, $0A
+	clc
+	adc D, $0E, X
+	sec
+	sbc D, $C3
+	sta $70002C
+	lda $15C2
+	clc
+	adc D, $10, X
+	sec
+	sbc D, $C5
+	sta $70002E
+	sep #$20
+	lda $14DB
+	cmp #$03
+	beq CODE_02FC0B
+	jmp $02FC1B
+CODE_02FC0B:
+	rep #$20
+	lda $70002C
+	clc
+	adc #$0032
+	sta $70002C
+	sep #$20
+	lda #$01
+	ldx #$823E
+	jsr CODE_7E4EE9
+	rep #$20
+	lda $700026
+	sta D, $02
+	lda $700028
+	sta $000008
+	lda $70002A
+	sta D, $90
+	sep #$30
+	jsr CODE_03B9F2
+	plp
+	rep #$20
+	lda D, $72
+	sec
+	sbc $0070
+	sta $16F2
+	lda D, $74
+	sec
+	sbc $0060
+	sta $16F4
+	sep #$20
+	rtl
+
+CODE_02FD1D:
+	jsr CODE_02FD21
+	rtl
+
+CODE_02FD21:
+	php
+	sep #$20
+	rep #$10
+	phx
+	sep #$20
+	rep #$10
+	lda $14C1
+	ora #$04
+	sta $14C1
+	ldx #$1491
+	sep #$20
+	rep #$10
+	stz D, $04, X
+	lda #$02
+	sta D, $05, X
+	lda #$07
+	sta D, $06, X
+	lda #$E0
+	ora D, $07, X
+	sta D, $00, X
+	lda D, $07, X
+	cmp #$1F
+	beq CODE_02FD53
+	inc
+	sta D, $07, X
+CODE_02FD53:
+	plx
+	plp
+	rts
+
+CODE_02FD84:
+	php
+	sep #$20
+	rep #$10
+	lda $1962
+	inc
+	beq CODE_02FDE7
+	sep #$20
+	rep #$10
+	lda $14C1
+	ora #$02
+	sta $14C1
+	ldx #$1489
+	sep #$20
+	rep #$10
+	stz D, $04, X
+	lda #$02
+	sta D, $05, X
+	lda #$A7
+	sta D, $06, X
+	lda D, $07, X
+	ora #$E0
+	sta D, $00, X
+	lda $1962
+	bne CODE_02FDD8
+	lda $7EF0B3
+	beq CODE_02FDC7
+	lda D, $07, X
+	beq CODE_02FDE2
+	dec
+	dec
+	sta D, $07, X
+	jmp CODE_02FDE5
+CODE_02FDC7:
+	inc
+	sta $7EF0B3
+	rep #$20
+	lda #$0118
+	sta $16AB
+	sep #$20
+	lda #$00
+CODE_02FDD8:
+	stz D, $04, X
+	lda #$E7
+	sta D, $06, X
+	lda #$FF
+	sta D, $00, X
+CODE_02FDE2:
+	dec $1962
+CODE_02FDE5:
+	plp
+	rtl
+CODE_02FDE7:
+	sep #$20
+	lda $14C1
+	and #$FD
+	sta $14C1
+	sep #$20
+	rep #$10
+	jmp CODE_02FDE5
