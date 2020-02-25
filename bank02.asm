@@ -1943,6 +1943,32 @@ CODE_02F017:
 	jsr CODE_7E4EE9
 	rts
 
+CODE_02F0B3:
+	php
+	sep #$20
+	rep #$10
+	phx
+	sep #$20
+	rep #$10
+	lda $14C1
+	ora #$10
+	sta $14C1
+	ldx $14A1
+	sep #$20
+	rep #$10
+	stz D, $04, X
+	lda #$02
+	sta D, $05, X
+	lda #$E6
+	sta D, $06, X
+	lda #$FF
+	sta D, $00, X
+	lda #$1F
+	sta D, $07, X
+	plx
+	plp
+	rts
+
 CODE_02F125:
 	sep #$30
 	sei
