@@ -523,52 +523,52 @@ MultiplyPointByMatrix:
 	sms ($002A),r0			;/
 	stop				;\End SuperFX task
 	nop				;/
-CODE_018295:
+CalculateMatrix:
 	iwt r9,#$00D2
 	link #4
-	iwt r15,#CODE_01829F
+	iwt r15,#DoCalculateMatrix
 	nop
 	stop				;\End SuperFX task
 	nop				;/
-CODE_01829F:
+DoCalculateMatrix:
 	sub r0
 	alt2
 	ramb
 	alt3
 	romb
 	alt1
-	lms r1,($0020)
-	iwt r6,#$99E5
-	from r1
-	hib
-	add r0
-	to r14
-	add r6
-	to r2
-	getb
-	inc r14
-	with r2
-	alt1
-	getbh
-	inc r14
-	getb
-	inc r14
-	alt1
-	getbh
-	to r6
-	sub r2
-	from r1
-	lob
-	swap
-	lsr
-	fmult
-	rol
-	to r12
-	add r12
-	iwt r14,#$4000
+	lms r1,($0020)			; r1 = X rotation
+	iwt r6,#SineTable8p8
+	from r1				;\r2 = sin(hib(r1))
+	hib				;|
+	add r0				;|
+	to r14				;|
+	add r6				;|
+	to r2				;|
+	getb				;|
+	inc r14				;|
+	with r2				;|
+	alt1				;|
+	getbh				;/
+	inc r14				;\r0 = sin(hib(r1)+$100)
+	getb				;|
+	inc r14				;|
+	alt1				;|
+	getbh				;/
+	to r6				;\Lerp r0 and r2 using lob(r1)...
+	sub r2				;|
+	from r1				;|
+	lob				;|
+	swap				;|
+	lsr				;|
+	fmult				;|
+	rol				;|
+	to r12				;|...and store in r12 (sin(xrot))
+	add r12				;/
+	iwt r14,#$4000			; Offset for cosine
 	with r1
 	add r14
-	iwt r6,#$99E5
+	iwt r6,#SineTable8p8
 	from r1
 	hib
 	add r0
@@ -593,11 +593,11 @@ CODE_01829F:
 	lsr
 	fmult
 	rol
-	to r8
-	add r2
+	to r8				;|...same for cos(xrot), gets stored in r8
+	add r2				;/
 	alt1
 	lms r1,($0022)
-	iwt r6,#$99E5
+	iwt r6,#SineTable8p8
 	from r1
 	hib
 	add r0
@@ -622,12 +622,12 @@ CODE_01829F:
 	lsr
 	fmult
 	rol
-	to r4
-	add r2
+	to r4				;|...same for sin(yrot), gets stored in r4
+	add r2				;/
 	iwt r14,#$4000
 	with r1
 	add r14
-	iwt r6,#$99E5
+	iwt r6,#SineTable8p8
 	from r1
 	hib
 	add r0
@@ -652,11 +652,11 @@ CODE_01829F:
 	lsr
 	fmult
 	rol
-	to r3
-	add r2
+	to r3				;|...same for cos(yrot), gets stored in r3
+	add r2				;/
 	alt1
 	lms r1,($0024)
-	iwt r6,#$99E5
+	iwt r6,#SineTable8p8
 	from r1
 	hib
 	add r0
@@ -681,12 +681,12 @@ CODE_01829F:
 	lsr
 	fmult
 	rol
-	to r7
-	add r2
+	to r7				;|...same for sin(zrot), gets stored in r7
+	add r2				;/
 	iwt r14,#$4000
 	with r1
 	add r14
-	iwt r6,#$99E5
+	iwt r6,#SineTable8p8
 	from r1
 	hib
 	add r0
@@ -711,92 +711,86 @@ CODE_01829F:
 	lsr
 	fmult
 	rol
-	to r5
-	add r2
-	move r6,r5
-	from r4
-	fmult
-	to r1
-	rol
-	from r3
-	fmult
-	to r2
-	rol
-	move r6,r7
-	from r4
-	fmult
-	to r13
-	rol
-	from r3
-	fmult
-	to r14
-	rol
-	move r6,r12
-	from r13
-	fmult
-	rol
-	add r2
-	stw r9
-	inc r9
-	inc r9
-	from r1
-	fmult
-	rol
-	sub r14
-	stw r9
-	inc r9
-	inc r9
-	move r6,r8
-	from r4
-	fmult
-	rol
-	stw r9
-	inc r9
-	inc r9
-	from r7
-	fmult
-	rol
-	stw r9
-	inc r9
-	inc r9
-	from r7
-	fmult
-	rol
-	stw r9
-	inc r9
-	inc r9
-	from r5
-	fmult
-	rol
-	stw r9
-	inc r9
-	inc r9
-	from r12
-	not
-	inc r0
-	stw r9
-	inc r9
-	inc r9
-	move r6,r12
-	from r14
-	fmult
-	rol
-	sub r1
-	stw r9
-	inc r9
-	inc r9
-	from r2
-	fmult
-	rol
-	add r13
-	stw r9
-	inc r9
-	inc r9
-	move r6,r8
-	from r3
-	fmult
-	rol
-	stw r9
+	to r5				;|...same for cos(zrot), gets stored in r5
+	add r2				;/
+	move r6,r5			;\r1 = sin(yrot)*cos(zrot)
+	from r4				;|
+	fmult				;|
+	to r1				;|
+	rol				;/
+	from r3				;\r2 = cos(yrot)*cos(zrot)
+	fmult				;|
+	to r2				;|
+	rol				;/
+	move r6,r7			;\r13 = sin(yrot)*sin(zrot)
+	from r4				;|
+	fmult				;|
+	to r13				;|
+	rol				;/
+	from r3				;\r14 = cos(yrot)*sin(zrot)
+	fmult				;|
+	to r14				;|
+	rol				;/
+	move r6,r12			;\XX = sin(xrot)*sin(yrot)*sin(zrot)+cos(yrot)*cos(zrot)
+	from r13			;|
+	fmult				;|
+	rol				;|
+	add r2				;|
+	stw r9				;|
+	inc r9				;|
+	inc r9				;/
+	from r1				;\XY = sin(xrot)*sin(yrot)*cos(zrot)
+	fmult				;|
+	rol				;|
+	sub r14				;|
+	stw r9				;|
+	inc r9				;|
+	inc r9				;/
+	move r6,r8			;\XZ = cos(xrot)*sin(yrot)
+	from r4				;|
+	fmult				;|
+	rol				;|
+	stw r9				;|
+	inc r9				;|
+	inc r9				;/
+	from r7				;\YX = cos(xrot)*sin(zrot)
+	fmult				;|
+	rol				;|
+	stw r9				;|
+	inc r9				;|
+	inc r9				;/
+	from r5				;\YY = cos(xrot)*cos(zrot)
+	fmult				;|
+	rol				;|
+	stw r9				;|
+	inc r9				;|
+	inc r9				;/
+	from r12			;\YZ = -sin(xrot)
+	not				;|
+	inc r0				;|
+	stw r9				;|
+	inc r9				;|
+	inc r9				;/
+	move r6,r12			;\ZX = sin(xrot)*cos(yrot)*sin(zrot)
+	from r14			;|
+	fmult				;|
+	rol				;|
+	sub r1				;|
+	stw r9				;|
+	inc r9				;|
+	inc r9				;/
+	from r2				;\ZY = sin(xrot)*cos(yrot)*cos(zrot)+sin(yrot)*sin(zrot)
+	fmult				;|
+	rol				;|
+	add r13				;|
+	stw r9				;|
+	inc r9				;|
+	inc r9				;/
+	move r6,r8			;\ZZ = cos(xrot)*cos(yrot)
+	from r3				;|
+	fmult				;|
+	rol				;|
+	stw r9				;/
 	jmp r11				;\Return from link
 	nop				;/
 CODE_0183C0:

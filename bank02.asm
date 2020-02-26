@@ -943,7 +943,7 @@ CODE_7E39EA:
 	lda #$1C
 	sta D,CurNMITask
 	ldx D,$4A
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	and #$F7
 	sta SCMR
 	lda #$80
@@ -961,7 +961,7 @@ CODE_7E39EA:
 	sta DMAP0
 	lda #$01
 	sta MDMAEN
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	ora #$08
 	sta SCMR
 	jsr CODE_7E3EF7
@@ -980,7 +980,7 @@ CODE_7E3A39:
 	adc #$1500
 	tax
 	sep #$20
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	and #$F7
 	sta SCMR
 	lda #$80
@@ -998,7 +998,7 @@ CODE_7E3A39:
 	sta DMAP0
 	lda #$01
 	sta MDMAEN
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	ora #$08
 	sta SCMR
 	jsr CODE_7E3EF7
@@ -1066,7 +1066,7 @@ CODE_7E3AFD:
 	sta D,CurNMITask
 CODE_7E3B03:
 	ldx D,$4A
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	and #$F7
 	sta SCMR
 	lda #$80
@@ -1084,7 +1084,7 @@ CODE_7E3B03:
 	sta DMAP0
 	lda #$01
 	sta MDMAEN
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	ora #$08
 	sta SCMR
 	lda #$01
@@ -1108,7 +1108,7 @@ CODE_7E3B57:
 	adc #$1500
 	tax
 	sep #$20
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	and #$F7
 	sta SCMR
 	lda #$80
@@ -1126,7 +1126,7 @@ CODE_7E3B57:
 	sta DMAP0
 	lda #$01
 	sta MDMAEN
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	ora #$08
 	sta SCMR
 	lda #$02
@@ -1828,7 +1828,7 @@ RunSuperFXRoutine:
 	lda #$00
 	pha
 	plb
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	ora #$18
 	sta SCMR
 	stx R15
@@ -1836,7 +1836,7 @@ RunSuperFXRoutine_L1:
 	lda SFR
 	and #$20
 	bne RunSuperFXRoutine_L1
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	sta SCMR
 	plb
 	rtl
@@ -1852,7 +1852,7 @@ RenderSuperFXObjects:
 	lda #$01
 	ldx #$AC1D
 	sta PBR
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	ora #$18
 	sta SCMR
 	stx R15
@@ -1862,7 +1862,7 @@ RenderSuperFXObjects_L1:
 	lda SFR
 	and #$20
 	bne RenderSuperFXObjects_L1
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	sta SCMR
 	jsl CODE_02F4FF
 	rtl
