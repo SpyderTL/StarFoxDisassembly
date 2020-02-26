@@ -279,4 +279,173 @@ CODE_04835B:
 	sta D,$28,x
 	sep #$20
 	jmp CODE_04805F
+
+CODE_04836C:
+	lda #$00
+	ldx D, $24, X
+	sep #$20
+	rep #$20
+	lda D, $28, X
+	clc
+	adc #$0007
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_048381:
+	lda #$00
+	ldx D, $24, X
+	sep #$20
+	rep #$20
+	lda D, $28, X
+	clc
+	adc #$0006
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_0483AB:
+	lda #$00
+	ldx D, $24, X
+	sep #$20
+	rep #$20
+	lda D, $28, X
+	clc
+	adc #$0004
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_0483C0:
+	lda #$00
+	ldx D, $24, X
+	sep #$20
+	rep #$20
+	lda D, $28, X
+	clc
+	adc #$0003
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_0483D5:
+	lda #$00
+	ldx D, $24, X
+CODE_0483D9:
+	sep #$20
+	rep #$20
+	lda D, $28, X
+	clc
+	adc #$0002
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_0483EA:
+	lda #$00
+	ldx D, $24, X
+CODE_0483EE:
+	sep #$20
+	rep #$20
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_0483F9:
+	rep #$20
+	jsr CODE_04A35F
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_048405:
+	rep #$20
+	jsr CODE_04A36B
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_048411:
+	rep #$20
+	jsr CODE_04A377
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_04841D:
+	rep #$20
+	jsr CODE_04A383
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_048429:
+	rep #$20
+	jsr CODE_04A38F
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_048435:
+	rep #$20
+	jsr CODE_04A39B
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_048441:
+	rep #$20
+	jsr CODE_04A3A7
+	sta D, $28, X
+	sep #$20
+	jmp CODE_04805F
+
+CODE_04844D:
+	lda D, $1E, X
+	ora #$40
+	sta D, $1E, X
+	jmp 0483EE
+
+CODE_04844D:
+	lda D, $1E, X
+	and #$BF
+	sta D, $1E, X
+	jmp 0483EE
+
+CODE_04844D:
+	lda D, $1E, X
+	and #$7F
+	sta D, $1E, X
+	jmp 0483EE
+
+CODE_04844D:
+	lda D, $1E, X
+	ora #$80
+	sta D, $1E, X
+	jmp 0483EE
+
+CODE_04844D:
+	lda D, $1E, X
+	ora #$10
+	sta D, $1E, X
+	jmp 0483EE
+
+CODE_04844D:
+	lda D, $1E, X
+	and #$EF
+	sta D, $1E, X
+	jmp 0483EE
+
+CODE_048483:
+	jsr CODE_04A35F
+	cmp D, $24, X
+	bnz CODE_04848E
+	jmp CODE_0483D5
+	inc D, $24, X
+	jmp CODE_04A1AF
+
+CODE_048493:
+	rep @#20
+	inc D, $28, X
+	jmp CODE_04A1AF
 	
