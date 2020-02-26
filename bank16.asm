@@ -19,6 +19,6 @@
 	INCBIN "graphics/compressed/continue2.4bpp.chrz"
 	INCBIN "graphics/compressed/circles.mapz"
 	INCBIN "graphics/compressed/macbeth.mapz"
-	INCBIN "graphics/compressed/unk16F344.binz"		;map
+	INCBIN "graphics/compressed/spacearmadatunnel.mapz"
 	INCBIN "graphics/compressed/sectory.mapz"
 	INCBIN "graphics/compressed/unk16FF94.binz"		;map

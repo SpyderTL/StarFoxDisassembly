@@ -300,9 +300,9 @@ CODE_1FC023:
 CODE_1FC030:
 	plx
 CODE_1FC031:
-	lda LastObject
+	lda FirstFreeObject
 	sta D,$00,x
-	stx LastObject
+	stx FirstFreeObject
 	plp
 	ply
 	plx
@@ -1152,10 +1152,10 @@ CODE_1FC5CD:
 	sbc RDMPYH
 CODE_1FC5D3:
 	tax
-	sta D,TempVecY
+	sta D,$08
 	cmp #$00
 	bpl CODE_1FC5DC
-	dec D,TempVecY+1
+	dec D,$08+1
 CODE_1FC5DC:
 	rep #$10
 	ldx D,TempIndX
@@ -1166,8 +1166,8 @@ CODE_1FC5E4:
 	sta D,$7E
 	stx D,$76
 	sty D,$78
-	stz D,TempVecY
-	stz D,TempVecY+1
+	stz D,$08
+	stz D,$08+1
 	sec
 	lda #$40
 	sbc D,$13,x
@@ -1228,12 +1228,12 @@ CODE_1FC649:
 CODE_1FC64F:
 	tax
 	ldx #$00
-	sta D,TempVecX
+	sta D,$02
 	cmp #$00
 	bpl CODE_1FC659
 	dex
 CODE_1FC659:
-	stx D,TempVecX+1
+	stx D,$02+1
 	lda D,$7E
 	bmi CODE_1FC674
 	asl
@@ -1280,12 +1280,12 @@ CODE_1FC69E:
 CODE_1FC6A4:
 	tax
 	lda #$00
-	sta D,TempVecZ
+	sta D,$90
 	cmp #$00
 	bpl CODE_1FC6AE
 	dex
 CODE_1FC6AE:
-	stx D,TempVecZ+1
+	stx D,$90+1
 	rep #$10
 	ldx D,$76
 	ldy D,$78
@@ -1295,8 +1295,8 @@ CODE_1FC6B8:
 	sta D,$7E
 	stx D,TempIndX
 	sty D,TempIndY
-	stz D,TempVecY
-	stz D,TempVecY+1
+	stz D,$08
+	stz D,$08+1
 	lda D,$13,x
 	tax
 	sep #$10
@@ -1306,14 +1306,14 @@ CODE_1FC6B8:
 	plb
 	inx
 	lda.w SineTable8,x
-	sta D,TempSin
+	sta D,$82
 	lda.w SineTable8+$40,x
-	sta D,TempCos
+	sta D,$83
 	lda D,$7E
 	bmi CODE_1FC6F0
 	asl
 	sta WRMPYA
-	lda D,TempSin
+	lda D,$82
 	bmi CODE_1FC712
 	sta WRMPYB
 	nop
@@ -1327,7 +1327,7 @@ CODE_1FC6F0:
 	inc
 	asl
 	sta WRMPYA
-	lda D,TempSin
+	lda D,$82
 	bmi CODE_1FC702
 	sta WRMPYB
 	nop
@@ -1355,17 +1355,17 @@ CODE_1FC71A:
 CODE_1FC720:
 	tax
 	ldx #$00
-	sta D,TempVecX
+	sta D,$02
 	cmp #$00
 	bpl CODE_1FC72A
 	dex
 CODE_1FC72A:
-	stx D,TempVecX+1
+	stx D,$02+1
 	lda D,$7E
 	bmi CODE_1FC745
 	asl
 	sta WRMPYA
-	lda D,TempCos
+	lda D,$83
 	bmi CODE_1FC767
 	sta WRMPYB
 	nop
@@ -1379,7 +1379,7 @@ CODE_1FC745:
 	inc
 	asl
 	sta WRMPYA
-	lda D,TempCos
+	lda D,$83
 	bmi CODE_1FC757
 	sta WRMPYB
 	nop
@@ -1407,12 +1407,12 @@ CODE_1FC76F:
 CODE_1FC775:
 	tax
 	ldx #$00
-	sta D,TempVecZ
+	sta D,$90
 	cmp #$00
 	bpl CODE_1FC77F
 	dex
 CODE_1FC77F:
-	stx D,TempVecZ+1
+	stx D,$90+1
 	rep #$20
 	ldx TempIndX
 	ldy TempIndY
@@ -1421,32 +1421,32 @@ CODE_1FC77F:
 ;Routines to apply object velocity to position
 ApplyTempVelocityShift2:
 	rep #$20
-	asl D,TempVecX
-	asl D,TempVecY
-	asl D,TempVecZ
-	asl D,TempVecX
-	asl D,TempVecY
-	asl D,TempVecZ
+	asl D,$02
+	asl D,$08
+	asl D,$90
+	asl D,$02
+	asl D,$08
+	asl D,$90
 	bra DoApplyTempVelocity
 ApplyTempVelocityShift1:
 	rep #$20
-	asl D,TempVecX
-	asl D,TempVecY
-	asl D,TempVecZ
+	asl D,$02
+	asl D,$08
+	asl D,$90
 ApplyTempVelocity:
 	rep #$20
 DoApplyTempVelocity:
 	lda D,$0C,x
 	clc
-	adc D,TempVecX
+	adc D,$02
 	sta D,$0C,x
 	lda D,$0E,x
 	clc
-	adc D,TempVecY
+	adc D,$08
 	sta D,$0E,x
 	lda D,$10,x
 	clc
-	adc D,TempVecZ
+	adc D,$90
 	sta D,$10,x
 	sep #$20
 	rtl
@@ -1468,7 +1468,7 @@ ApplyObjectVelocity:
 	rtl
 ;Object getter routines
 GetObjectByID:
-	stx D,TempSelf
+	stx D,$3A
 	ldx FirstCandidate		;\Load X with first candidate to check...
 	beq GetObjectByID_NoSelf	;/...if null, return null
 	cmp #$00			;\If desired ID is 0, just get any empty object
@@ -1482,34 +1482,34 @@ GetObjectByID_NextCand:
 	tyx				;|
 	bne GetObjectByID_CheckObj	;/...and try again
 GetObjectByID_Match:
-	cpx D,TempSelf			;\If candidate is self, try again
+	cpx D,$3A			;\If candidate is self, try again
 	beq GetObjectByID_NextCand	;/
 	ldy D,$00,x			;\Set first candidate to next object...
 	sty FirstCandidate		;|
 	txy				;|
-	ldx D,TempSelf			;|
+	ldx D,$3A			;|
 	rtl				;/...and return
 GetObjectByID_NoSelf:
 	ldy #$0000			;\Return null
 	sty FirstCandidate		;|
-	ldx D,TempSelf			;|
+	ldx D,$3A			;|
 	rtl				;/
 GetObjectByID_Any:
 	ldy D,$00,x			;\If next object is null...
 	beq GetObjectByID_NoSelf	;/...return null
 	tyx				;\Get next object...
-	cpx D,TempSelf			;|if self...
+	cpx D,$3A			;|if self...
 	beq GetObjectByID_Any		;/...try again
 	lda D,$1F,x			;\If some flag is set...
 	and #$0008			;|
 	beq GetObjectByID_Any		;/...try again
 	stx FirstCandidate		;\Set first candidate to next object...
-	ldx D,TempSelf			;|
+	ldx D,$3A			;|
 	rtl				;/...and return
 CODE_1FC817:
 	cmp #$0000
 	beq CODE_1FC84C
-	stx D,TempSelf
+	stx D,$3A
 	ldx FirstCandidate
 	beq GetObjectByID_NoSelf
 	txy
@@ -1521,7 +1521,7 @@ CODE_1FC828:
 	tyx
 	bne CODE_1FC824
 CODE_1FC82D:
-	cpx D,TempSelf
+	cpx D,$3A
 	beq CODE_1FC828
 	sta $14C5
 	sep #$20
@@ -1535,16 +1535,16 @@ CODE_1FC843:
 	ldy D,$00,x
 	sty FirstCandidate
 	txy
-	ldx D,TempSelf
+	ldx D,$3A
 	rtl
 CODE_1FC84C:
-	stx D,TempSelf
+	stx D,$3A
 	ldx FirstCandidate
 	beq CODE_1FC7F8
 	txy
 	sep #$20
 CODE_1FC856:
-	cpx D,TempSelf
+	cpx D,$3A
 	beq CODE_1FC860
 	lda D,$1D,x
 	and D,$02
@@ -1557,7 +1557,7 @@ CODE_1FC865:
 	ldy D,$00,x
 	sty FirstCandidate
 	txy
-	ldx D,TempSelf
+	ldx D,$3A
 	rep #$20
 	rtl
 CODE_1FC870:
@@ -1580,11 +1580,11 @@ CODE_1FC883:
 	jsl CODE_1FD0AB
 	rep #$20
 	lda $1250
-	cmp D,TempSelf
+	cmp D,$3A
 	bpl CODE_1FC8A4
 	cmp D,$3E
 	bmi CODE_1FC8A4
-	sta D,TempSelf
+	sta D,$3A
 	stx D,$3C
 CODE_1FC8A4:
 	ldy D,$00,x
@@ -1611,11 +1611,11 @@ CODE_1FC8BB:
 	jsl CODE_1FCD0AB
 	rep #$20
 	lda $1250
-	cmp D,TempSelf
+	cmp D,$3A
 	bpl CODE_1FC8DD
 	cmp D,$3E
 	bmi CODE_1FC8DD
-	sta D,TempSelf
+	sta D,$3A
 	stx D,$3C
 CODE_1FC8DD:
 	ldy D,$00,x
@@ -1644,7 +1644,7 @@ CODE_1FC8FA:
 	rep #$20
 CODE_1FC90C:
 	lda $1250
-	cmp D,TempSelf
+	cmp D,$3A
 	bpl CODE_1FC917
 	cmp D,$3E
 	bpl CODE_1FC91C
@@ -1668,7 +1668,7 @@ CODE_1FC925:
 	jsl CODE_1FD0AB
 	rep #$20
 	lda $1250
-	cmp D,TempSelf
+	cmp D,$3A
 	bpl CODE_1FC943
 	cmp D,$3E
 	bpl CODE_1FC948
@@ -2382,15 +2382,15 @@ CODE_1FFD73:
 	rep #$20
 	lda $1FD4
 	clc
-	adc D,TempVecX
+	adc D,$02
 	sta $1FD4
 	lda $1FD6
 	clc
-	adc D,TempVecY
+	adc D,$08
 	sta $1FD6
 	lda $1FD8
 	clc
-	adc D,TempVecZ
+	adc D,$90
 	sta $1FD8
 	rts
 CODE_1FFDAC:
@@ -2470,7 +2470,7 @@ NMI:
 	lda #$00
 	pha
 	plb
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	ora #$18
 	sta SCMR
 	jsl RunNMITask
@@ -2491,10 +2491,10 @@ NMI_L2:
 	lda #$00
 	pha
 	plb
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	sta SCMR
 	jsl CODE_1FBFDB
-	lda SuperFXScreenMode
+	lda SCMRMirror
 	ora #$18
 	sta SCMR
 	sep #$20

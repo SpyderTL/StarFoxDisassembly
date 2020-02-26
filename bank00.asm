@@ -870,7 +870,7 @@ BehaviorFunctionTable:
 	BEHFUNCPTR(Beh51_AtomicCoreBossTaser,$2B)
 	BEHFUNCPTR(Beh52,$00)
 	BEHFUNCPTR(Beh53,$2E)
-	BEHFUNCPTR(Beh54,$39)
+	BEHFUNCPTR(Beh54_DestructorBoss,$39)
 	BEHFUNCPTR(Beh55,$2C)
 	BEHFUNCPTR(Beh56,$2D)
 	BEHFUNCPTR(Beh57,$2F)
@@ -1764,7 +1764,7 @@ CODE_00EA13:
 CODE_00EA19:
 	rep #$20
 	lda D,$0E,x
-	sta D,TempSelf
+	sta D,$3A
 	lda #$FE70
 	jsl CODE_1FD6F0
 	sta D,$0E,x
@@ -1874,7 +1874,7 @@ CODE_00EACC:
 	sep #$20
 	jmp CODE_00E9B0
 	lda #$09
-	sta D,TempVecX
+	sta D,$02
 	jsr CODE_00EE57
 	jmp CODE_00E9B0
 CODE_00EB1B:
@@ -1899,7 +1899,7 @@ CODE_00EB38:
 	jml CODE_00E9B0
 CODE_00EB46:
 	lda D,$24,x
-	sta D,TempSelf
+	sta D,$3A
 	lda #$02
 	jsl CODE_1FD8BD
 	sta D,$24,x
@@ -1917,7 +1917,7 @@ CODE_00EB46:
 	jml CODE_00F065
 CODE_00EB6E:
 	lda #$0B
-	sta D,TempVecX
+	sta D,$02
 	jsr CODE_00EE57
 	jmp CODE_00E9B0
 CODE_00EB78:
@@ -1928,12 +1928,12 @@ CODE_00EB78:
 	jml CODE_00F065
 CODE_00EB85:
 	lda #$0E
-	sta D,TempVecX
+	sta D,$02
 	jsr CODE_00EE57
 	jmp CODE_00E9B0
 CODE_00EB8F:
 	lda #$0C
-	sta D,TempVecX
+	sta D,$02
 	jsr CODE_00EE57
 	jmp CODE_00E9B0
 CODE_00EB99:
@@ -1979,7 +1979,7 @@ CODE_00EBE0:
 CODE_00EBE9:
 	rep #$20
 	lda D,$0E,x
-	sta D,TempSelf
+	sta D,$3A
 	lda D,$28,x
 	jsl CODE_1FD6AB
 	sta D,$0E,x
@@ -2090,7 +2090,7 @@ CODE_00ECB5:
 	jmp CODE_00F0CB
 CODE_00ECB8:
 	lda #$07
-	sta D,TempVecX
+	sta D,$02
 	jsr CODE_00EE57
 	jsl ApplyObjectVelocity
 	rep #$20
@@ -2159,7 +2159,7 @@ CODE_00ED2C:
 	jmp CODE_00E9B0
 CODE_00ED47:
 	lda #$04
-	sta D,TempVecX
+	sta D,$02
 	jsr CODE_00EE57
 	jmp CODE_00F0CB
 CODE_00ED51:
@@ -2170,7 +2170,7 @@ CODE_00ED51:
 	jml CODE_00E9B0
 CODE_00ED5D:
 	lda #$03
-	sta D,TempVecX
+	sta D,$02
 	jsr CODE_00EE57
 	jmp CODE_00F0CB
 CODE_00ED67:
@@ -3956,7 +3956,7 @@ CODE_00FB65:
 CODE_00FB73:
 	rep #$20
 	lda D,$0C,x
-	sta D,TempSelf
+	sta D,$3A
 	lda #$FF38
 	jsl CODE_1FD6AB
 	sta D,$0C,x
@@ -3975,7 +3975,7 @@ CODE_00FB99:
 CODE_00FB9D:
 	rep #$20
 	lda D,$0C,x
-	sta D,TempSelf
+	sta D,$3A
 	lda #$00C8
 	jsl CODE_1FD6AB
 	sta D,$0C,x
@@ -4017,9 +4017,9 @@ CODE_00FBD7:
 	lda D,$13,x
 	jsl CODE_1FC177
 	rep #$20
-	lda D,TempVecX
+	lda D,$02
 	sta D,$2F,x
-	lda D,TempVecZ
+	lda D,$90
 	sta D,$33,x
 	sep #$20
 	rep #$20

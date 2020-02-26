@@ -1,6 +1,6 @@
 	;Compressed graphics assets
 	INCBIN "graphics/compressed/titleportraits.mapz"
-	INCBIN "graphics/compressed/unk17849C.binz"		;map
+	INCBIN "graphics/compressed/spacearmadatunnel.4bpp.chrz"
 	INCBIN "graphics/compressed/unk178718.binz"		;map
 	INCBIN "graphics/compressed/highwayroad.4bpp.chrz"
 	INCBIN "graphics/compressed/controls.4bpp.chrz"
