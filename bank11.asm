@@ -10,4 +10,4 @@
 
 
 	;Compressed tiles
-	INCBIN "graphics/compressed/unk11FB89.binz"		;char
+	INCBIN "graphics/compressed/generalpepper.4bpp.chrz"

@@ -15,6 +15,6 @@
 	INCBIN "graphics/compressed/unk14E43E.binz"
 	INCBIN "graphics/compressed/continue.4bpp.chrz"
 	INCBIN "graphics/compressed/continue.mapz"
-	INCBIN "graphics/compressed/unk14F5B2.binz"		;char
+	INCBIN "graphics/compressed/titaniaboss.4bpp.chrz"
 	INCBIN "graphics/compressed/corneria.4bpp.chrz"
-	INCBIN "graphics/compressed/unk14FFA6.binz"		;map
+	INCBIN "graphics/compressed/titaniabossbg.mapz"

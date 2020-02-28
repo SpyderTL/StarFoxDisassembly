@@ -43,4 +43,4 @@ Level1Scripts:
 	INCBIN "levels/corneria3_main.lev"
 	INCBIN "levels/asteroid3_main.lev"
 	;Compressed tiles
-	INCBIN "graphics/compressed/unk05FECD.binz"		;char (00FF96)
+	INCBIN "graphics/compressed/gameover.4bpp.chrz"

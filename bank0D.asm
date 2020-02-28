@@ -60,4 +60,4 @@
 	INCBIN "levels/title.lev"
 	INCBIN "levels/controls.lev"
 	;Compressed tiles
-	INCBIN "graphics/compressed/unk0DFBB9.binz"		;char (00FF96)
+	INCBIN "graphics/compressed/venombosstunnel.4bpp.chrz"

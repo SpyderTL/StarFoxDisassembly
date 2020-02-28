@@ -748,13 +748,13 @@ LoadPreset_BlackHole:
 	jsr DecompressTilemap
 	DL $16ED34
 	DB $00,$70,$00,$20
-	jsr CODE_03ABFE
+	jsr LoadPalette
 	DB $60,$03,$7F,$E0,$00
 	lda #$00
 	sta D,CurNMITask
-	lda $120E
+	lda HDMAENMirror
 	ora #$04
-	sta $120E
+	sta HDMAENMirror
 	lda #$16
 	sta $1785
 	ldx #$822A
@@ -792,14 +792,14 @@ LoadPreset_BlackHole:
 	sta $70004E
 	lda #$8B
 	sta $70004F
-	lda $120E
+	lda HDMAENMirror
 	sta HDMAEN
-CODE_039056:
+LoadPreset_BlackHole_Wait:
 	lda D,CurNMITask
-	beq CODE_03905E
+	beq LoadPreset_BlackHole_Exit
 	cmp #$20
-	bne CODE_039056
-CODE_03905E:
+	bne LoadPreset_BlackHole_Wait
+LoadPreset_BlackHole_Exit:
 	rtl
 LoadPreset_Scramble:
 	sep #$20
@@ -810,13 +810,13 @@ LoadPreset_Scramble:
 	jsr DecompressTilemap
 	DL $14DC0E
 	DB $00,$70,$00,$20
-	JSR CODE_03ABFE
+	jsr LoadPalette
 	DB $E0,$00,$7F,$E0,$00
 	lda #$10
 	sta D,CurNMITask
-	lda $120E
+	lda HDMAENMirror
 	ora #$04
-	sta $120E
+	sta HDMAENMirror
 	lda #$02
 	sta $1785
 	ldx #$8004
@@ -845,9 +845,9 @@ LoadPreset_Scramble:
 	sep #$20
 	lda #$01
 	sta $16C9
-	lda $120E
+	lda HDMAENMirror
 	ora #$10
-	sta $120E
+	sta HDMAENMirror
 	stz $194F
 	stz $1950
 	stz $1862
@@ -855,23 +855,41 @@ LoadPreset_Scramble:
 	sta $70004E
 	lda #$8B
 	sta $70004F
-	lda $120E
+	lda HDMAENMirror
 	sta HDMAEN
-CODE_0390FA:
+LoadPreset_Scramble_Wait:
 	lda D,CurNMITask
-	beq CODE_039102
+	beq LoadPreset_Scramble_Exit
 	cmp #$20
-	bne CODE_0390FA
-CODE_039102:
+	bne LoadPreset_Scramble_Wait
+LoadPreset_Scramble_Exit:
 	rtl
-CODE_039103:
+LoadPreset_Unk09:
 	jml CODE_1FBDEE
-CODE_039107:
+LoadPreset_Unk0F:
 	jml CODE_1FBDEE
-CODE_03910B:
+LoadPreset_Corneria12:
 	sep #$20
 	jsr CODE_03AB12
-	
+	jsr DecompressTileset
+	DB $CE,FE,$14,$00,$5C,$00,$18
+	jsr DecompressTilemap
+	DB $E4,$81,$15,$00,$70,$00,$20
+	jsr LoadPalette
+	DB $60,$03,$7F,$E0,$00
+	lda #$03
+	sta $1897
+	jsl CODE_02F492
+	lda #$10
+	sta D,CurNMITask
+	rep #$20
+	lda #$8FB6
+	sta $700050
+	sep #$20
+	rep #$10
+	lda HDMAENMirror
+	ora #$40
+	sta HDMAENMirror
 	
 	
 	
@@ -1023,7 +1041,7 @@ DoDecompressTilemap:
 	sep #$20
 	jsl DoDecompressTilemap
 	rts
-CODE_03ABFE:
+LoadPalette:
 	rep #$20
 	pla
 	tax
@@ -1946,23 +1964,23 @@ Map:
 	lda #$2020
 	sta VMADDL
 	ldx #$0000
-Map_L1:
-	lda $A08B,x
+Map_CpyGfxLoop1:
+	lda MapShipGraphic,x
 	sta VMDATAL
 	inx
 	inx
 	cpx #$03C0
-	bne Map_L1
+	bne Map_CpyGfxLoop1
 	lda #$5020
 	sta VMADDL
 	ldx #$0000
-Map_L2:
-	lda $A08B,x
+Map_CpyGfxLoop2:
+	lda MapShipGraphic,x
 	sta VMDATAL
 	inx
 	inx
 	cpx #$03C0
-	bne Map_L2
+	bne Map_CpyGfxLoop2
 	rep #$20
 	stz D,$04
 	lda #$0010
@@ -1970,11 +1988,11 @@ Map_L2:
 	dec StageID
 	bmi Map_L3
 	inc StageID
-	jsl $03CC3E
+	jsl CODE_03CC3E
 	lda $16D9
 	pha
 	dec StageID
-	jsl $03CC3E
+	jsl CODE_03CC3E
 	pla
 Map_L3:
 	pha
@@ -1988,7 +2006,7 @@ Map_L4:
 	rep #$20
 	asl a
 	tax
-	lda $03D408,x
+	lda DATA_03D408,x
 	sta D,$32
 	sta D,$38
 	jsr $C67F
@@ -2007,7 +2025,7 @@ Map_L4:
 	pla
 	sep #$20
 	pha
-	lda $004211
+	lda.l TIMEUP
 	cli
 	jsl LoadAudio_Map
 	pla
@@ -2072,48 +2090,48 @@ Map_L10:
 	bit #$0002
 	beq Map_L11
 	jsl CODE_03CC3E
-	bra Map_L12
+	bra Map_DoIncDec
 Map_L11:
 	jsl CODE_03CC22
-Map_L12:
+Map_DoIncDec:
 	jsl UpdateInput
-	lda Pad1Down		;\Check if Select/Start/D-pad been pressed...
-	bit #$2F00		;|
-	beq Map_L17		;/...if not, skip this
+	lda Pad1Down					;\Check if Select/Start/D-pad pressed...
+	bit #$2F00					;|
+	beq Map_SkipIncDec				;/...if not, skip all of this
 	lda #$0010
 	sta $70009A
 	jsr CODE_03BD7A
 	jsl CODE_03CC22
-	lda Pad1Down		;\If Down/Right not pressed...
-	bit #$2A00		;|
-	sep #$20		;|
-	bne Map_MapSelDoDec	;|...skip past this, otherwise...
-	lda LevelID		;|...increment level/route ID...
-	inc			;|
-	cmp #$03		;|...if 3 or more, loop around to 0
-	bne Map_MapSelIncLoop	;|
-	lda #$00		;|
-Map_MapSelIncLoop:		;|
-	sta LevelID		;/
-	bra Map_L16
-Map_MapSelDoDec:
-	lda LevelID		;\Decrement level/route ID...
-	dec			;|
-	cmp #$FF		;|... if negative, loop around to 2
-	bne Map_MapSelDecLoop	;|
-	lda #$02		;|
-Map_MapSelDecLoop:		;|
-	sta LevelID		;/
-Map_L16:
+	lda Pad1Down					;\If Down/Right not pressed...
+	bit #$2A00					;|
+	sep #$20					;|
+	bne Map_DoDec					;|...skip past this, otherwise...
+	lda LevelID					;|...increment level/route ID...
+	inc						;|
+	cmp #$03					;|...if 3 or more, loop around to 0
+	bne Map_IncLoop					;|
+	lda #$00					;|
+Map_IncLoop:						;|
+	sta LevelID					;/
+	bra Map_FinishIncDec
+Map_DoDec:
+	lda LevelID					;\Decrement level/route ID...
+	dec						;|
+	cmp #$FF					;|... if negative, loop around to 2
+	bne Map_DecLoop					;|
+	lda #$02					;|
+Map_DecLoop:						;|
+	sta LevelID					;/
+Map_FinishIncDec:
 	lda #$11
 	jsl CODE_03B7F9
 	jsl CODE_03C67F
 	rep #$20
-Map_L17:
-	lda Pad1Down
-	bit #$9080
-	bne Map_L18
-	brl Map_L9
+Map_SkipIncDec:
+	lda Pad1Down					;\Check if Start/A/B pressed...
+	bit #$9080					;|
+	bne Map_L18					;|...if so, branch ahead, otherwise...
+	brl Map_L9					;/...go back
 Map_L18:
 	stz StageID
 	stz $16D9
@@ -2624,7 +2642,7 @@ CODE_03C453:
 
 
 
-b03p3Col_PreShadedPalette:
+PreShadedPalette:
 	;Shaded versions of base colors
 	DW $2906,$51DB,$56BF,$579F,$6FFF,$7E8D,$7F52,$7FFC
 	DW $7FFF,$35CD,$5B16,$77FD,$7FFF,$7FFF,$7BF5,$5FEE
@@ -2668,21 +2686,26 @@ DATA_03D66C:
 	DB $F4,$F2,$F0,$EE,$EC,$EA,$E7,$E4
 	DB $E1
 LevelHeaderOffsetTable:
-	DW $0006,$0080,$00E6
+	DW Level2Headers-LevelHeaderOffsetTable
+	DW Level1Headers-LevelHeaderOffsetTable
+	DW Level3Headers-LevelHeaderOffsetTable
 LevelHeaderTable:
 	;Level 2
+Level2Headers:
 	DB $03,$04,$14,$00,$8C,$5C,$0D,$58,$01,$04,$4E,$00,$F8,$FF,$FF,$02,$04,$00
 	DB $03,$04,$0E,$03,$72,$5E,$0D,$59,$01,$04,$4E,$00,$F8,$04,$4E,$00,$F8,$02,$0E,$08,$F8,$FF,$FF,$01,$32,$00
 	DB $03,$09,$08,$05,$CD,TempScrBWPtr+1,$0D,$6A,$01,$02,$0E,$08,$F8,$02,$0E,$08,$F8,$02,$0E,$08,$F8,$03,$0E,$08,$00,$03,$0E,$08,$00,$FF,$FF,$01,$54,$00
 	DB $03,$12,$05,$09,$50,$5F,$0D,$6B,$01,$03,$0E,$08,$00,$03,$0E,$08,$00,$03,$0E,$08,$00,$03,$0E,$08,$00,$FF,$FF,$01,$72,$00
 	DB $03,$00,$00,$0F,$AB,$5F,$0D,$72,$01,$FF,$FF,$01,$56,$02
 	;Level 1
+Level1Headers:
 	DB $03,$06,$15,$00,$8E,$4F,$0D,$58,$00,$02,$0E,$08,$F8,$FF,$FF,$02,$02,$00
 	DB $03,$0B,$11,$02,$8E,$51,$0D,$59,$00,$02,$0E,$08,$F8,$02,$0E,$08,$F8,$02,$0E,$08,$F8,$03,$0E,$08,$00,$03,$0E,$08,$00,$FF,$FF,$01,$B4,$00
 	DB $03,$14,$0E,$06,$E9,$51,$0D,$5A,$00,$03,$0E,$08,$00,$FF,$FF,$01,$C6,$00
 	DB $03,$18,$0B,$08,$AC,$54,$0D,$5B,$00,$04,$4E,$00,$F8,$FF,$FF,$01,$D8,$00
 	DB $03,$00,$00,$0F,$28,$55,$0D,$5C,$00,$FF,$FF,$01,$62,$02
 	;Level 3
+Level3Headers:
 	DB $03,$06,$17,$00,$F5,$62,$0D,$6C,$02,$03,$0E,$08,$00,$03,$0E,$08,$00,$FF,$FF,$02,$00,$00
 	DB $03,$0C,$15,$01,$1C,$65,$0D,$6D,$02,$02,$0E,$08,$F8,$02,$0E,$08,$F8,$FF,$FF,$01,$12,$01
 	DB $03,$12,$13,$04,$77,$65,$0D,$6E,$02,$03,$0E,$08,$00,$03,$0E,$08,$00,$03,$0E,$08,$00,$03,$0E,$08,$00,$03,$0E,$08,$00,$FF,$FF,$01,$34,$01
@@ -2734,7 +2757,7 @@ RunLevelScriptCommands:
 ;Jump table for level command bytes
 LevelScriptCommandJumpTable:
 	DW LevelCommand00_LoadObject16BehNum
-	DW LevelCommand02
+	DW LevelCommand02_Stop
 	DW LevelCommand04_LoopSection
 	DW LevelCommand06
 	DW LevelCommand08_Nop
@@ -2743,13 +2766,13 @@ LevelScriptCommandJumpTable:
 	DW LevelCommand0E_ShowStageNum
 	DW LevelCommand10_SetPreset
 	DW LevelCommand12_SetZTimer16
-	DW LevelCommand14_ChangeMusic
-	DW LevelCommand16
-	DW LevelCommand18
-	DW LevelCommand1A
+	DW LevelCommand14
+	DW LevelCommand16_DisablePointEffects
+	DW LevelCommand18_EnableGridPointEffect
+	DW LevelCommand1A_EnableColoredStarsPointEffect
 	DW LevelCommand1C
-	DW LevelCommand1E
-	DW LevelCommand20
+	DW LevelCommand1E_UpdateScrollMode2
+	DW LevelCommand20_UpdateScrollMode1
 	DW LevelCommand22
 	DW LevelCommand24
 	DW LevelCommand26
@@ -2757,23 +2780,23 @@ LevelScriptCommandJumpTable:
 	DW LevelCommand2A_Return
 	DW LevelCommand2C_JumpConditionally
 	DW LevelCommand2E_Jump
-	DW LevelCommand30
-	DW LevelCommand32
-	DW LevelCommand34
+	DW LevelCommand30_SetObjXRotation
+	DW LevelCommand32_SetObjYRotation
+	DW LevelCommand34_SetObjZRotation
 	DW LevelCommand36_SetObjPropertyByte
 	DW LevelCommand38_SetObjPropertyWord
 	DW LevelCommand3A_SetObjPropertyLong
-	DW LevelCommand3C
-	DW LevelCommand3E
-	DW LevelCommand40
-	DW LevelCommand42
+	DW LevelCommand3C_SetObj2PropertyByte
+	DW LevelCommand3E_SetObj2PropertyWord
+	DW LevelCommand40_SetObj2PropertyLong
+	DW LevelCommand42_FadeFromBlack
 	DW LevelCommand44_FadeToBlack
 	DW LevelCommand46
 	DW LevelCommand48
 	DW LevelCommand4A
 	DW LevelCommand4C
-	DW LevelCommand4E
-	DW LevelCommand50
+	DW LevelCommand4E_FadeFromBlackFast
+	DW LevelCommand50_FadeToBlackFast
 	DW LevelCommand52
 	DW LevelCommand54
 	DW LevelCommand56
@@ -2801,53 +2824,52 @@ LevelScriptCommandJumpTable:
 	DW LevelCommand82
 	DW LevelCommand84
 	DW LevelCommand86_LoadObject16BehAddr
-	DW LevelCommand14_ChangeMusic
+	DW LevelCommand14
 	DW LevelCommand8A_SetZTimer8
 	DW LevelCommand8C_SetBehEvent
 LevelCommand8C_SetBehEvent:
 	tyx
-	phx
-	ldx CurScriptObject
-	bne LevelCommand8C_SetBehEvent_L2
-LevelCommand8C_SetBehEvent_L1:
-	plx
-	jmp LevelCommand8C_SetBehEvent_L3
-LevelCommand8C_SetBehEvent_L2:
-	plx
-	ldy CurScriptObject
-	lda $8001,x
-	sta $0028,y
-LevelCommand8C_SetBehEvent_L3:
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
+	phx						;\Get current object in X...
+	ldx CurScriptObject				;|
+	bne LevelCommand8C_NotNull			;|if not null, branch to continue...
+	plx						;|
+	jmp LevelCommand8C_Exit				;/...otherwise branch to leave
+LevelCommand8C_NotNull:
+	plx						;\Set CurScriptObject.Event
+	ldy CurScriptObject				;|
+	lda $8001,x					;|
+	sta $0028,y					;/
+LevelCommand8C_Exit:
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
 LevelCommand8A_SetZTimer8:
 	tyx
-	lda $8001,x				;\Get ZTimer
-	and #$00FF				;|
-	asl					;|...shift left four bits
-	asl					;|
-	asl					;|
-	asl					;|
-	sta ZTimer				;/
-	inx					;\Move on to next command
-	inx					;|
-	stx LevelScriptPointer			;/
-	rts					; Leave
-LevelCommand14_ChangeMusic:
+	lda $8001,x					;\Get ZTimer
+	and #$00FF					;|
+	asl						;|...shift left four bits
+	asl						;|
+	asl						;|
+	asl						;|
+	sta ZTimer					;/
+	inx						;\Move on to next command...
+	inx						;|
+	stx LevelScriptPointer				;|...save script pointer and leave
+	rts						;/
+LevelCommand14:
 	tyx
 	sep #$20
 	lda $14D7
 	and #$80
 	bne LevelCommand14_ChangeMusic_L1
-	lda $8001,x				;\Get next byte...
-	sta $1F47				;|...and store in current music ID...
-	stz $1F46				;/...clearing the music loaded flag too
+	lda $8001,x					;\Get next byte...
+	sta $1F47					;|...and store in current music ID...
+	stz $1F46					;/...clearing the music loaded flag too
 LevelCommand14_ChangeMusic_L1:
-	inx					;\Move on to next command
-	inx					;|
-	jmp RunLevelScriptCommands		;/
+	inx						;\Move on to next command
+	inx						;|
+	jmp RunLevelScriptCommands			;/
 LevelCommand82:
 	tyx
 	phx
@@ -2881,9 +2903,9 @@ LevelCommand7A:
 	tyx
 	phx
 	sep #$20
-	lda #$03
+	lda.b #BANKOF(STACKIFY(LevelCommand7A_L1))
 	pha
-	ldy #$EEDA
+	ldy.w #STACKIFY(LevelCommand7A_L1)
 	phy
 	lda $8003,x
 	pha
@@ -2894,7 +2916,7 @@ LevelCommand7A:
 	pha
 	plb
 	rtl
-CODE_03EEDB:
+LevelCommand7A_L1:
 	rep #$30
 	plx
 	inx
@@ -2904,106 +2926,106 @@ CODE_03EEDB:
 	jmp RunLevelScriptCommands
 LevelCommand7C_BranchLessThan:
 	tyx
-	lda $8001,x
-	sta D,TempScrBWPtr
-	lda $8002,x
-	sta D,TempScrBWPtr+1
-	sep #$20
-	lda [D,TempScrBWPtr]
-	cmp $8004,x
-	bpl LevelCommand7C_BranchLessThan_L1
-	rep #$20
-	lda $8005,x
-	tax
-	jmp RunLevelScriptCommands
-LevelCommand7C_BranchLessThan_L1:
-	inx
-	inx
-	inx
-	inx
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
+	lda $8001,x					;\Get address to test
+	sta D,TempScrBWPtr				;|
+	lda $8002,x					;|
+	sta D,TempScrBWPtr+1				;/
+	sep #$20					;\Compare with command parameter...
+	lda [D,TempScrBWPtr]				;|
+	cmp $8004,x					;|
+	bpl LevelCommand7C_Exit				;/...if greater or equal, branch to leave
+	rep #$20					;\Set X to new script pointer
+	lda $8005,x					;|
+	tax						;|
+	jmp RunLevelScriptCommands			;/
+LevelCommand7C_Exit:
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
 LevelCommand7E_BranchGreaterThan:
 	tyx
-	lda $8001,x
-	sta D,TempScrBWPtr
-	lda $8002,x
-	sta D,TempScrBWPtr+1
-	sep #$20
-	lda [D,TempScrBWPtr]
-	cmp $8004,x
-	beq LevelCommand7E_BranchGreaterThan_L1
-	bmi LevelCommand7E_BranchGreaterThan_L1
-	rep #$20
-	lda $8005,x
-	tax
-	jmp RunLevelScriptCommands
-LevelCommand7E_BranchGreaterThan_L1:
-	inx
-	inx
-	inx
-	inx
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
+	lda $8001,x					;\Get address to test
+	sta D,TempScrBWPtr				;|
+	lda $8002,x					;|
+	sta D,TempScrBWPtr+1				;/
+	sep #$20					;\Compare with command parameter...
+	lda [D,TempScrBWPtr]				;|
+	cmp $8004,x					;|
+	beq LevelCommand7E_Exit				;|...if less than, branch to leave
+	bmi LevelCommand7E_Exit				;/
+	rep #$20					;\Set X to new script pointer
+	lda $8005,x					;|
+	tax						;|
+	jmp RunLevelScriptCommands			;/
+LevelCommand7E_Exit:
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
 LevelCommand80_BranchEqual:
 	tyx
-	lda $8001,x
-	sta D,TempScrBWPtr
-	lda $8002,x
-	sta D,TempScrBWPtr+1
-	sep #$20
-	lda [D,TempScrBWPtr]
-	cmp $8004,x
-	bne LevelCommand80_BranchEqual_L1
-	rep #$20
-	lda $8005,x
-	tax
-	jmp RunLevelScriptCommands
-LevelCommand80_BranchEqual_L1:
-	inx
-	inx
-	inx
-	inx
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
+	lda $8001,x					;\Get address to test
+	sta D,TempScrBWPtr				;|
+	lda $8002,x					;|
+	sta D,TempScrBWPtr+1				;/
+	sep #$20					;\Compare with command parameter...
+	lda [D,TempScrBWPtr]				;|
+	cmp $8004,x					;|
+	bne LevelCommand80_Exit				;/...if not equal, branch to leave
+	rep #$20					;\Set X to new script pointer
+	lda $8005,x					;|
+	tax						;|
+	jmp RunLevelScriptCommands			;/
+LevelCommand80_Exit:
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
 LevelCommand6C:
 	tyx
 	inx
 	ldy #$001E
-	sty $1EE9
-	sty $1EEB
+	sty Unknown_1EE9
+	sty Unknown_1EEB
 	ldy #$0002
-	sty $1EEF
+	sty Unknown_1EEF
 	lda #$001E
-	sta $1EED
+	sta Unknown_1EED
 	jmp RunLevelScriptCommands
 LevelCommand6E:
 	tyx
 	inx
 	ldy #$003E
-	sty $1EE9
-	sty $1EEB
+	sty Unknown_1EE9
+	sty Unknown_1EEB
 	ldy #$0002
-	sty $1EEF
+	sty Unknown_1EEF
 	lda #$001E
-	sta $1EED
+	sta Unknown_1EED
 	jmp RunLevelScriptCommands
 CODE_03EF90:
 	php
 	rep #$30
 	lda $1774
 	beq CODE_03EFA7
-	sta $1EE9
+	sta Unknown_1EE9
 	ldy #$0002
 	sty $1EEF
 	lda #$001E
-	sta $1EED
+	sta Unknown_1EED
 CODE_03EFA7:
 	plp
 	rtl
@@ -3075,19 +3097,19 @@ LevelCommand66:
 	inx
 	jmp RunLevelScriptCommands
 CODE_03F018:
-	lda $1F13
+	lda Unknown_1F13
 	ora #$0008
-	sta $1F13
+	sta Unknown_1F13
 	rtl
 CODE_03F022:
 	php
 	rep #$30
-	ldx $1238
+	ldx Unknown_1238
 	beq CODE_03F046
 	lda $1786
 	ora $1787
 	beq CODE_03F04A
-	lda $1F05
+	lda Unknown_1F05
 	and #$00FF
 	bne CODE_03F04A
 	lda $1786
@@ -3099,7 +3121,7 @@ CODE_03F046:
 	jml CODE_1FBDEE
 CODE_03F04A:
 	sep #$20
-	stz $1F05
+	stz Unknown_1F05
 	lda $16C9
 	sta $1FE4
 	lda $1785
@@ -3171,131 +3193,132 @@ CODE_03F0DB:
 	rtl
 LevelCommand60_StoreLong:
 	tyx
-	lda $8001,x
-	sta D,TempScrBWPtr
-	lda $8002,x
-	sta D,TempScrBWPtr+1
-	lda $8004,x
-	sta [D,TempScrBWPtr]
-	inc D,TempScrBWPtr
-	inc D,TempScrBWPtr
-	sep #$20
-	lda $8006,x
-	sta [D,TempScrBWPtr]
-	inx
-	inx
-	inx
-	inx
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
+	lda $8001,x					;\Form address
+	sta D,TempScrBWPtr				;|
+	lda $8002,x					;|
+	sta D,TempScrBWPtr+1				;/
+	lda $8004,x					;\Store long at address
+	sta [D,TempScrBWPtr]				;|
+	inc D,TempScrBWPtr				;|
+	inc D,TempScrBWPtr				;|
+	sep #$20					;|
+	lda $8006,x					;|
+	sta [D,TempScrBWPtr]				;/
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
 LevelCommand5E_StoreWord:
 	tyx
-	lda $8003,x
-	sta D,TempScrBWPtr
-	lda $8004,x
-	sta D,TempScrBWPtr+1
-	lda $8001,x
-	sta [D,TempScrBWPtr]
-	inx
-	inx
-	inx
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
+	lda $8003,x					;\Form address
+	sta D,TempScrBWPtr				;|
+	lda $8004,x					;|
+	sta D,TempScrBWPtr+1				;/
+	lda $8001,x					;\Store word at address
+	sta [D,TempScrBWPtr]				;/
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
 LevelCommand5C_StoreByte:
 	tyx
-	lda $8002,x
-	sta D,TempScrBWPtr
-	lda $8003,x
-	sta D,TempScrBWPtr+1
-	sep #$20
-	lda $8001,x
-	sta [D,TempScrBWPtr]
-	inx
-	inx
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
+	lda $8002,x					;\Form address
+	sta D,TempScrBWPtr				;|
+	lda $8003,x					;|
+	sta D,TempScrBWPtr+1				;/
+	sep #$20					;\Store byte at address
+	lda $8001,x					;|
+	sta [D,TempScrBWPtr]				;/
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
 LevelCommand5A:
 	tyx
 	phx
 	ldx CurScriptObject
-	bne LevelCommand5A_L1
+	bne LevelCommand5A_NotNull
 	plx
-	jmp LevelCommand5A_L2
-LevelCommand5A_L1:
+	jmp LevelCommand5A_Exit
+LevelCommand5A_NotNull:
 	plx
 	ldy CurScriptObject
 	sep #$20
 	lda #$01
 	sta $001D,y
-	inc $173C
-LevelCommand5A_L2:
-	inx
-	jmp RunLevelScriptCommands
+	inc Unknown_173C
+LevelCommand5A_Exit:
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
 LevelCommand84:
 	tyx
 	phx
 	ldx CurScriptObject
-	bne LevelCommand84_L1
+	bne LevelCommand84_NotNull
 	plx
-	jmp LevelCommand84_L2
-LevelCommand84_L1:
+	jmp LevelCommand84_Exit
+LevelCommand84_NotNull:
 	plx
 	ldy CurScriptObject
 	sep #$20
 	lda #$80
 	sta $0020,y
-	inc $173C
-LevelCommand84_L2:
-	inx
-	jmp RunLevelScriptCommands
+	inc Unknown_173C
+LevelCommand84_Exit:
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
 LevelCommand56:
 	tyx
 	sep #$20
-	stz $16F1
-	inx
-	jmp RunLevelScriptCommands
+	stz Unknown_16F1
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
 LevelCommand58:
 	tyx
 	sep #$20
 	lda #$01
-	sta $16F1
-	inx
-	jmp RunLevelScriptCommands
+	sta Unknown_16F1
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
 LevelCommand52_DisableScreen:
 	tyx
-	sep #$20
-	stz $18B2
-	stz $18B3
-	lda #$80
-	jsl CODE_02F8DF
-	sta INIDISP
-	inx
-	jmp RunLevelScriptCommands
+	sep #$20					;\Disable any fading effect
+	stz FadeMode					;|
+	stz FadeTimer					;/
+	lda #$80					;\Disable screen
+	jsl CODE_02F8DF					;|
+	sta INIDISP					;/
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
 LevelCommand54_EnableScreen:
 	tyx
-	sep #$20
-	stz $18B2
-	lda #$0F
-	sta $18B3
-	jsl CODE_02F8DF
-	sta INIDISP
-	inx
-	jmp RunLevelScriptCommands
+	sep #$20					;\Disable any fading effect
+	stz FadeMode					;/
+	lda #$0F					;\Enable screen
+	sta FadeTimer					;|
+	jsl CODE_02F8DF					;|
+	sta INIDISP					;/
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
 LevelCommand4C:
 	tyx
 	sep #$20
-	lda $18B3
+	lda FadeTimer
 	bne LevelCommand4C_L1
+	lda $7E45F4
 	cmp #$80
 	bne LevelCommand4C_L1
-	inx
-	jmp RunLevelScriptCommands
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
 LevelCommand4C_L1:
 	lda #$01
 	sta ZTimer
@@ -3306,10 +3329,10 @@ LevelCommand4A:
 	tyx
 	phx
 	ldx CurScriptObject
-	bne LevelCommand4A_L1
+	bne LevelCommand4A_NotNull
 	plx
-	jmp LevelCommand4A_L2
-LevelCommand4A_L1:
+	jmp LevelCommand4A_Exit
+LevelCommand4A_NotNull:
 	plx
 	lda $8001,x
 	sta D,TempScrBWPtr
@@ -3317,7 +3340,7 @@ LevelCommand4A_L1:
 	sta D,TempScrBWPtr+1
 	lda CurScriptObject
 	sta [D,TempScrBWPtr]
-LevelCommand4A_L2:
+LevelCommand4A_Exit:
 	inx
 	inx
 	inx
@@ -3327,10 +3350,10 @@ LevelCommand46:
 	tyx
 	phx
 	ldx CurScriptObject
-	bne LevelCommand46_L1
+	bne LevelCommand46_NotNull
 	plx
-	jmp LevelCommand46_L2
-LevelCommand46_L1:
+	jmp LevelCommand46_Exit
+LevelCommand46_NotNull:
 	plx
 	lda $8001,x
 	clc
@@ -3343,7 +3366,7 @@ LevelCommand46_L1:
 	sep #$20
 	lda [D,TempScrBWPtr]
 	sta $0000,y
-LevelCommand46_L2:
+LevelCommand46_Exit:
 	inx
 	inx
 	inx
@@ -3355,10 +3378,10 @@ LevelCommand48:
 	tyx
 	phx
 	lda CurScriptObject
-	bne LevelCommand48_L1
+	bne LevelCommand48_NotNull
 	plx
-	jmp LevelCommand48_L2
-LevelCommand48_L1:
+	jmp LevelCommand48_Exit
+LevelCommand48_NotNull:
 	plx
 	lda $8001,x
 	clc
@@ -3371,7 +3394,7 @@ LevelCommand48_L1:
 	rep #$20
 	lda [D,TempScrBWPtr]
 	sta $0000,y
-LevelCommand48_L2:
+LevelCommand48_Exit:
 	inx
 	inx
 	inx
@@ -3379,112 +3402,112 @@ LevelCommand48_L2:
 	inx
 	inx
 	jmp RunLevelScriptCommands
-LevelCommand42:
+LevelCommand42_FadeFromBlack:
 	tyx
-	sep #$20
-	lda #$01
-	sta $18B2
-	inx
-	jmp RunLevelScriptCommands
+	sep #$20					;\Set FadeMode to 1
+	lda #$01					;|
+	sta FadeMode					;/
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
 LevelCommand44_FadeToBlack:
 	tyx
-	sep #$20
-	lda #$FF
-	sta $18B2
-	inx
-	jmp RunLevelScriptCommands
-LevelCommand4E:
+	sep #$20					;\Set FadeMode to -1
+	lda #$FF					;|
+	sta FadeMode					;/
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
+LevelCommand4E_FadeFromBlackFast:
 	tyx
-	sep #$20
-	lda #$02
-	sta $18B2
-	inx
-	jmp RunLevelScriptCommands
-LevelCommand50:
+	sep #$20					;\Set FadeMode to 2
+	lda #$02					;|
+	sta FadeMode					;/
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
+LevelCommand50_FadeToBlackFast:
 	tyx
-	sep #$20
-	lda #$FE
-	sta $18B2
-	inx
-	jmp RunLevelScriptCommands
+	sep #$20					;\Set FadeMode to -2
+	lda #$FE					;|
+	sta FadeMode					;/
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
 LevelCommand36_SetObjPropertyByte:
 	tyx
-	phx
-	ldx CurScriptObject
-	bne LevelCommand36_SetObjPropertyByte_L1
-	plx
-	jmp LevelCommand36_SetObjPropertyByte_L2
-LevelCommand36_SetObjPropertyByte_L1:
-	phx
-	lda $8001,x
-	clc
-	adc CurScriptObject
-	tay
-	sep #$20
-	lda $8003,x
-	sta $0000,y
-LevelCommand36_SetObjPropertyByte_L2:
-	inx
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
+	phx						;\Get current object in X...
+	ldx CurScriptObject				;|
+	bne LevelCommand36_NotNull			;|...if not null, branch to continue...
+	plx						;|
+	jmp LevelCommand36_Exit				;/...otherwise branch to leave
+LevelCommand36_NotNull:
+	plx						;\Store byte in object properties
+	lda $8001,x					;|
+	clc						;|
+	adc CurScriptObject				;|
+	tay						;|
+	sep #$20					;|
+	lda $8003,x					;|
+	sta $0000,y					;/
+LevelCommand36_Exit:
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
 LevelCommand38_SetObjPropertyWord:
 	tyx
-	phx
-	ldx CurScriptObject
-	bne LevelCommand38_SetObjPropertyWord_L1
-	plx
-	jmp LevelCommand38_SetObjPropertyWord_L2
-LevelCommand38_SetObjPropertyWord_L1:
-	plx
-	lda $8001,x
-	clc
-	adc CurScriptObject
-	tay
-	lda $8003,x
-	sta $0000,y
-LevelCommand38_SetObjPropertyWord_L2:
-	inx
-	inx
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
+	phx						;\Get current object in X...
+	ldx CurScriptObject				;|
+	bne LevelCommand38_NotNull			;|...if not null, branch to continue...
+	plx						;|
+	jmp LevelCommand38_Exit				;/...otherwise branch to leave
+LevelCommand38_NotNull:
+	plx						;\Store word in object properties
+	lda $8001,x					;|
+	clc						;|
+	adc CurScriptObject				;|
+	tay						;|
+	lda $8003,x					;|
+	sta $0000,y					;/
+LevelCommand38_Exit:
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
 LevelCommand3A_SetObjPropertyLong:
 	tyx
-	phx
-	ldx CurScriptObject
-	bne LevelCommand3A_SetObjPropertyLong_L1
-	plx
-	jmp LevelCommand3A_SetObjPropertyLong_L2
-LevelCommand3A_SetObjPropertyLong_L1:
-	plx
-	lda $8001,x
-	clc
-	adc CurScriptObject
-	tay
-	lda $8003,x
-	sta $0000,y
-	sep #$20
-	lda $8005,x
-	sta $0002,y
-LevelCommand3A_SetObjPropertyLong_L2:
-	inx
-	inx
-	inx
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
-LevelCommand3C:
+	phx						;\Get current object in X...
+	ldx CurScriptObject				;|
+	bne LevelCommand3A_NotNull			;|...if not null, branch to continue...
+	plx						;|
+	jmp LevelCommand3A_Exit				;/...otherwise branch to leave
+LevelCommand3A_NotNull:
+	plx						;\Store long in object properties
+	lda $8001,x					;|
+	clc						;|
+	adc CurScriptObject				;|
+	tay						;|
+	lda $8003,x					;|
+	sta $0000,y					;|
+	sep #$20					;|
+	lda $8005,x					;|
+	sta $0002,y					;/
+LevelCommand3A_Exit:
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
+LevelCommand3C_SetObj2PropertyByte:
 	tyx
-	phx
-	lda CurScriptObject
-	bne LevelCommand3C_L1
-	plx
-	jmp LevelCommand3C_L2
-LevelCommand3C_L1:
+	phx						;\Get current object in X...
+	ldx CurScriptObject				;|
+	bne LevelCommand3C_NotNull			;|...if not null, branch to continue...
+	plx						;|
+	jmp LevelCommand3C_Exit				;/...otherwise branch to leave
+LevelCommand3C_NotNull:
 	plx
 	lda CurScriptObject
 	clc
@@ -3495,20 +3518,20 @@ LevelCommand3C_L1:
 	lda $8003,x
 	sta $7E2000,x
 	tyx
-LevelCommand3C_L2:
-	inx
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
-LevelCommand3E:
+LevelCommand3C_Exit:
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
+LevelCommand3E_SetObj2PropertyWord:
 	tyx
-	phx
-	ldx CurScriptObject
-	bne LevelCommand3E_L1
-	plx
-	jmp LevelCommand3E_L2
-LevelCommand3E_L1:
+	phx						;\Get current object in X...
+	ldx CurScriptObject				;|
+	bne LevelCommand3E_NotNull			;|...if not null, branch to continue...
+	plx						;|
+	jmp LevelCommand3E_Exit				;/...otherwise branch to leave
+LevelCommand3E_NotNull:
 	plx
 	lda CurScriptObject
 	clc
@@ -3518,21 +3541,21 @@ LevelCommand3E_L1:
 	lda $8003,x
 	sta $7E2000,x
 	tyx
-LevelCommand3E_L2:
-	inx
-	inx
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
-LevelCommand40:
+LevelCommand3E_Exit:
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
+LevelCommand40_SetObj2PropertyLong:
 	tyx
-	phx
-	ldx CurScriptObject
-	bne LevelCommand40_L1
-	plx
-	jmp LevelCommand40_L2
-LevelCommand40_L1:
+	phx						;\Get current object in X...
+	ldx CurScriptObject				;|
+	bne LevelCommand40_NotNull			;|...if not null, branch to continue...
+	plx						;|
+	jmp LevelCommand40_Exit				;/...otherwise branch to leave
+LevelCommand40_NotNull:
 	plx
 	lda CurScriptObject
 	clc
@@ -3545,15 +3568,15 @@ LevelCommand40_L1:
 	lda $8005,x
 	sta $7E2002,x
 	tyx
-LevelCommand40_L2:
-	inx
-	inx
-	inx
-	inx
-	inx
-	inx
-	jmp RunLevelScriptCommands
-CODE_03F369:
+LevelCommand40_Exit:
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	jmp RunLevelScriptCommands			;/
+UnusedCommand_SetZTimer16:
 	tyx
 	lda $8001,x
 	sta ZTimer
@@ -3562,66 +3585,66 @@ CODE_03F369:
 	inx
 	stx LevelScriptPointer
 	rts
-LevelCommand30:
+LevelCommand30_SetObjXRotation:
 	tyx
 	sep #$20
 	phx
 	ldx CurScriptObject
-	bne LevelCommand30_L1
+	bne LevelCommand30_NotNull
 	plx
-	jmp LevelCommand30_L2
-LevelCommand30_L1:
+	jmp LevelCommand30_Exit
+LevelCommand30_NotNull:
 	plx
 	lda $8001,x
 	ldy CurScriptObject
 	sta $0012,y
-LevelCommand30_L2:
+LevelCommand30_Exit:
 	inx
 	inx
 	jmp RunLevelScriptCommands
-LevelCommand32:
+LevelCommand32_SetObjYRotation:
 	tyx
 	phx
 	ldx CurScriptObject
-	bne LevelCommand32_L1
+	bne LevelCommand32_NotNull
 	plx
-	jmp LevelCommand32_L2
-LevelCommand32_L1:
+	jmp LevelCommand32_Exit
+LevelCommand32_NotNull:
 	plx
 	sep #$20
 	lda $8001,x
 	ldy CurScriptObject
 	sta $0012,y
-LevelCommand32_L2:
+LevelCommand32_Exit:
 	inx
 	inx
 	jmp RunLevelScriptCommands
-LevelCommand34:
+LevelCommand34_SetObjZRotation:
 	tyx
 	sep #$20
 	phx
 	ldx CurScriptObject
-	bne LevelCommand34_L1
+	bne LevelCommand34_NotNull
 	plx
-	jmp LevelCommand34_L2
-LevelCommand34_L1:
+	jmp LevelCommand34_Exit
+LevelCommand34_NotNull:
 	plx
 	lda $8001,x
 	ldy CurScriptObject
 	sta $0014,x
-LevelCommand34_L2:
+LevelCommand34_Exit:
 	inx
 	inx
 	jmp RunLevelScriptCommands
 LevelCommand2E_Jump:
 	tyx
-	sep #$20
-	lda $8003,x
-	sta LevelScriptBank
-	rep #$20
-	lda $8001,x
-	tax
-	jmp RunLevelScriptCommands
+	sep #$20					;\Set script pointer...
+	lda $8003,x					;|
+	sta LevelScriptBank				;|
+	rep #$20					;|
+	lda $8001,x					;|
+	tax						;|
+	jmp RunLevelScriptCommands			;/...and leave
 LevelCommand2C_JumpConditionally:
 	tyx
 	phx
@@ -3629,7 +3652,7 @@ LevelCommand2C_JumpConditionally:
 	lda #$03
 	pha
 	rep #$20
-	lda #LevelCommand2C_JumpConditionally_L1
+	lda #LevelCommand2C_Exit
 	pha
 	sep #$20
 	lda $8003,x
@@ -3642,7 +3665,7 @@ LevelCommand2C_JumpConditionally:
 	lda #$00
 	pha
 	plb
-LevelCommand2C_JumpConditionally_L1:
+LevelCommand2C_Exit:
 	rtl
 CODE_03F3FE:
 	bcs CODE_03F41A
@@ -3674,82 +3697,82 @@ CODE_03F41A:
 	jmp RunLevelScriptCommands
 LevelCommand28_CallScript:
 	tyx
-	ldy $1730
-	txa
-	sta $1703,y
-	sep #$20
-	lda LevelScriptBank
-	sta $1705,y
-	rep #$20
-	iny
-	iny
-	iny
-	sty $1730
-	sep #$20
-	lda $8003,x
-	sta LevelScriptBank
-	rep #$20
-	lda $8001,x
-	tax
-	inc $1732
-	jmp RunLevelScriptCommands
+	ldy ScriptCallStackPtr				;\Save level script pointer to call stack
+	txa						;|
+	sta ScriptCallStack,y				;|
+	sep #$20					;|
+	lda LevelScriptBank				;|
+	sta ScriptCallStack+2,y				;/
+	rep #$20					;\Update call stack pointer
+	iny						;|
+	iny						;|
+	iny						;|
+	sty ScriptCallStackPtr				;/
+	sep #$20					;\Update script pointer
+	lda $8003,x					;|
+	sta LevelScriptBank				;|
+	rep #$20					;|
+	lda $8001,x					;|
+	tax						;/
+	inc ScriptCallStackSz				;\Increment stack size and leave
+	jmp RunLevelScriptCommands			;/
 LevelCommand2A_Return:
 	tyx
-	ldy $1730
-	dey
-	sep #$20
-	lda $1703,y
-	sta LevelScriptBank
-	rep #$20
-	dey
-	dey
-	ldx $1703,y
-	sty $1730
-	inx
-	inx
-	inx
-	inx
-	dec $1732
-	jmp RunLevelScriptCommands
-LevelCommand1E:
+	ldy ScriptCallStackPtr				;\Restore level script pointer
+	dey						;|
+	sep #$20					;|
+	lda ScriptCallStack,y				;|
+	sta LevelScriptBank				;|
+	rep #$20					;|
+	dey						;|
+	dey						;|
+	ldx ScriptCallStack,y				;/
+	sty ScriptCallStackPtr				; Update call stack pointer
+	inx						;\Move on to next command
+	inx						;|
+	inx						;|
+	inx						;/
+	dec ScriptCallStackSz				;\Increment stack size and leave
+	jmp RunLevelScriptCommands			;/
+LevelCommand1E_UpdateScrollMode2:
 	tyx
-	jsr CODE_03F484
+	jsr DoCmdUpdateScrollMode2
 	inx
 	jmp RunLevelScriptCommands
-CODE_03F480:
-	jsr CODE_03F484
+CmdUpdateScrollMode2:
+	jsr DoCmdUpdateScrollMode2
 	rtl
-CODE_03F484:
+DoCmdUpdateScrollMode2:
 	php
-	sep #$20
-	lda $194D
-	sta BG2VOFS
-	lda $194E
-	sta BG2VOFS
-	lda #$01
-	sta $1954
-	lda #$02
-	sta BGMODE
+	sep #$20					;\Update vertical scroll
+	lda VerticalScroll				;|
+	sta BG2VOFS					;|
+	lda VerticalScroll+1				;|
+	sta BG2VOFS					;/
+	lda #$01					;\Set Mode2Flag (enables offset per tile calculation)
+	sta Mode2Flag					;/
+	lda #$02					;\Set BGMODE to 2
+	sta BGMODE					;/
 	plp
 	rts
-LevelCommand20:
+LevelCommand20_UpdateScrollMode1:
 	tyx
-	jsr CODE_03F4AB
+	jsr DoCmdUpdateScrollMode1
 	inx
 	jmp RunLevelScriptCommands
-CODE_03F4A7:
-	jsr CODE_03F4AB
+CmdUpdateScrollMode1:
+	jsr DoCmdUpdateScrollMode1
 	rtl
-CODE_03F4AB:
+DoCmdUpdateScrollMode1:
 	php
-	sep #$20
-	stz $1954
-	lda #$01
-	sta BGMODE
-	lda $194D
-	sta BG2VOFS
-	lda $194E
-	sta BG2VOFS
+	sep #$20					;\Clear Mode2Flag (disables offset per tile calculation)
+	stz Mode2Flag					;/
+	lda #$01					;\Set BGMODE to 1
+	sta BGMODE					;/
+	lda VerticalScroll				;\Update vertical scroll
+	sta BG2VOFS					;|
+	lda VerticalScroll+1				;|
+	sta BG2VOFS					;/
 	plp
 	rts
 LevelCommand22:
@@ -3773,23 +3796,23 @@ LevelCommand1C:
 	inx
 	inx
 	jmp RunLevelScriptCommands
-LevelCommand16:
+LevelCommand16_DisablePointEffects:
 	tyx
-	stz $16F9
-	inx
-	jmp RunLevelScriptCommands
-LevelCommand18:
+	stz PointEffect					; Set PointEffect to 0 (none)
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
+LevelCommand18_EnableGridPointEffect:
 	tyx
-	lda #$0001
-	sta $16F9
-	inx
-	jmp RunLevelScriptCommands
-LevelCommand1A:
+	lda #$0001					;\Set PointEffect to 1 (grid of dots)
+	sta PointEffect					;/
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
+LevelCommand1A_EnableColoredStarsPointEffect:
 	tyx
-	lda #$FFFF
-	sta $16F9
-	inx
-	jmp RunLevelScriptCommands
+	lda #$FFFF					;\Set PointEffect to -1 (colored stars)
+	sta PointEffect					;/
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
 LevelCommand64:
 	tyx
 	phx
@@ -3840,35 +3863,35 @@ DoSetPreset:
 LoadPreset:
 	rep #$20
 	ldx Preset
-LoadPreset_L1:
+LoadPreset_Loop:
 	lda.l PresetFunctionTable,x
-	sta D,$02
+	sta D,TempPtr
 	lda.l PresetFunctionTable+1,x
-	sta D,$02+2
-	ora D,$02
-	beq LoadPreset_L3
+	sta D,TempPtr+2
+	ora D,TempPtr
+	beq LoadPreset_Exit
 	phx
 	sep #$20
-	lda.b #BANKOF(STACKIFY(LoadPreset_L2))
+	lda.b #BANKOF(STACKIFY(LoadPreset_Ret))
 	pha
 	rep #$20
-	lda.w #STACKIFY(LoadPreset_L2)
+	lda.w #STACKIFY(LoadPreset_Ret)
 	pha
 	sep #$20
-	lda D,$02
+	lda D,TempPtr
 	pha
-	ldx D,$02+2
+	ldx D,TempPtr+2
 	dex
 	phx
 	rtl
-LoadPreset_L2:
+LoadPreset_Ret:
 	rep #$20
 	plx
 	inx
 	inx
 	inx
-	bra LoadPreset_L1
-LoadPreset_L3:
+	bra LoadPreset_Loop
+LoadPreset_Exit:
 	rtl
 LevelCommand0E_ShowStageNum:
 	tyx
@@ -3919,23 +3942,23 @@ LevelCommand70_LoadObject8BehNum_L4:
 	rep #$20
 	lda $8002,x
 	bit #$0080
-	beq LevelCommand70_LoadObject8BehNum_L5
+	beq LevelCommand70_PosX
 	ora #$FF00
-	bra LevelCommand70_LoadObject8BehNum_L6
-LevelCommand70_LoadObject8BehNum_L5:
+	bra LevelCommand70_SkipX
+LevelCommand70_PosX:
 	and #$00FF
-LevelCommand70_LoadObject8BehNum_L6:
+LevelCommand70_SkipX:
 	asl
 	asl
 	sta $000C,y
 	lda $8003,x
 	bit #$0080
-	beq LevelCommand70_LoadObject8BehNum_L7
+	beq LevelCommand70_PosY
 	ora #$FF00
-	bra LevelCommand70_LoadObject8BehNum_L8
-LevelCommand70_LoadObject8BehNum_L7:
+	bra LevelCommand70_SkipY
+LevelCommand70_PosY:
 	and #$00FF
-LevelCommand70_LoadObject8BehNum_L8:
+LevelCommand70_SkipY:
 	asl
 	asl
 	sta $000E,y
@@ -4016,21 +4039,21 @@ LevelCommand70_LoadObject8BehNum_L12:
 	bne LevelCommand70_LoadObject8BehNum_L11
 	jmp RunLevelScriptCommands
 SkipCommand7076:
-	lda $8000,x			;\Get command byte
-	and #$00FF			;/
-	cmp #$0076			;\If $76, branch ahead
-	beq SkipCommand7076_Is76	;/
-	txa				;\Otherwise, skip 7 bytes to move on to next command
-	clc				;|
-	adc #$0007			;|
-	tax				;|
-	rts				;/
+	lda $8000,x					;\Get command byte
+	and #$00FF					;/
+	cmp #$0076					;\If $76, branch ahead
+	beq SkipCommand7076_Is76			;/
+	txa						;\Otherwise, skip 7 bytes to move on to next command
+	clc						;|
+	adc #$0007					;|
+	tax						;|
+	rts						;/
 SkipCommand7076_Is76:
-	txa				;\Skip 6 bytes to move on to next command
-	clc				;|
-	adc #$0006			;|
-	tax				;|
-	rts				;/
+	txa						;\Skip 6 bytes to move on to next command
+	clc						;|
+	adc #$0006					;|
+	tax						;|
+	rts						;/
 LevelCommand72:
 	tyx
 	lda $8001,x
@@ -4320,8 +4343,8 @@ LevelCommand74_LoadMacroObj16_Exit:
 	jmp RunLevelScriptCommands
 LevelCommand02_Stop:
 	tyx
-	stx LevelScriptPointer
-	rts
+	stx LevelScriptPointer				;\Save script pointer and leave
+	rts						;/
 LevelCommand04_LoopSection:
 	tya
 	ldx #$0000
@@ -4540,14 +4563,14 @@ LevelCommand0C_L2:
 	jmp RunLevelScriptCommands
 LevelCommand12_SetZTimer16:
 	tyx
-	inx
-	inx
-	inx
-	lda $7FFE,x
-	beq LevelCommand12_Return
-	sta ZTimer
-	stx LevelScriptPointer
-	rts
+	inx						;\Get ZTimer...
+	inx						;|
+	inx						;|
+	lda $7FFE,x					;|
+	beq LevelCommand12_Return			;|...if zero, branch to leave
+	sta ZTimer					;/
+	stx LevelScriptPointer				;\Move on to next command
+	rts						;/
 LevelCommand12_Return:
 	jmp RunLevelScriptCommands
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -4572,6 +4595,7 @@ ProcessSwarm_RunCmd:
 	and #$00FF
 	tax
 	jmp (SwarmCommandJumpTable,x)
+;Jump table for swarm command bytes
 SwarmCommandJumpTable:
 	DW SwarmCommand00_LoadObject
 	DW SwarmCommand02
@@ -4586,7 +4610,7 @@ ProcessSwarm_Return:
 	bra ProcessSwarm_Loop
 ProcessSwarm_End:
 	sec
-	sbc $1701
+	sbc ZTimerVel
 	sta D,$26,x
 	plp
 	rtl
@@ -4595,18 +4619,18 @@ SwarmCommand00_LoadObject:
 	tax
 	phy
 	lda $000C,y
-	sta D,$02
+	sta D,TempVecX
 	lda $000E,y
-	sta D,$08
+	sta D,TempVecY
 	lda $0010,y
-	sta D,$90
+	sta D,TempVecZ
 	phx
 	ldx FirstObject
 	txy
 	ldx FirstFreeObject
 	bne CODE_03FBDC
 	tyx
-	jmp CODE_03FC70
+	jmp SwarmCommand00_Exit
 CODE_03FBDC:
 	lda D,$00,x
 	sta FirstFreeObject
@@ -4674,7 +4698,7 @@ CODE_03FBFF:
 	txa
 	sta $0006,y
 	rts
-CODE_03FC70:
+SwarmCommand00_Exit:
 	rep #$20
 	pla
 	ply
@@ -4710,22 +4734,22 @@ SwarmCommand0E_BranchConditional:
 	beq CODE_03FCB5
 	bra CODE_03FCEA
 CODE_03FCB5:
-	lda $1755
+	lda NumObjectsWithID
 	cmp.l $058003,x
 	bcs CODE_03FCE1
 	bra CODE_03FCEA
 CODE_03FCC0:
-	lda $1755
+	lda NumObjectsWithID
 	cmp.l $058003,x
 	bcc CODE_03FCE1
 	bra CODE_03FCEA
 CODE_03FCCB:
-	lda $1755
+	lda NumObjectsWithID
 	cmp.l $058003,x
 	beq CODE_03FCE1
 	bra CODE_03FCEA
 CODE_03FCD6:
-	lda $1755
+	lda NumObjectsWithID
 	cmp.l $058003,x
 	bne CODE_03FCE1
 	bra CODE_03FCEA
@@ -4741,17 +4765,17 @@ SwarmCommand0C_CountObjectsWithID:
 	tax
 	phy
 	phx
-	stz $1755
+	stz NumObjectsWithID
 	lda.l $058003,x
 	ldx FirstObject
-CODE_03FD04:
+SwarmCommand0C_Loop:
 	cmp D,$04,x
-	bne CODE_03FD0B
-	inc $1755
-CODE_03FD0B:
+	bne SwarmCommand0C_SkipInc
+	inc NumObjectsWithID
+SwarmCommand0C_SkipInc:
 	ldy D,$00,x
 	tyx
-	bne CODE_03FD04
+	bne SwarmCommand0C_Loop
 	plx
 	ply
 	txa
@@ -4768,7 +4792,7 @@ SwarmCommand02:
 	lda $0024,y
 	inc
 	cmp D,$02
-	bmi CODE_03FD3F
+	bmi SwarmCommand02_L1
 	lda #$00
 	sta $0024,y
 	rep #$20
@@ -4777,7 +4801,7 @@ SwarmCommand02:
 	adc #$0006
 	sta $0006,y
 	rts
-CODE_03FD3F:
+SwarmCommand02_L1:
 	sta $0024,y
 	rep #$20
 	lda.l $058003,x

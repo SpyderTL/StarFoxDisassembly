@@ -77,7 +77,7 @@ TempSelf		= $3A	;word
 SCBRMirror		= $44	;word
 UnusedSCBRMirror	= $46	;word
 BG12NBAMirror		= $4A	;word
-NMIDMAVMADDMirror	= $4C	;word
+BG12NBAMirror2		= $4C	;word
 TempJptPtr		= $53	;long
 			= $56	;byte
 TempScrBWPtr		= $5D	;long
@@ -153,7 +153,7 @@ struct ObjectList $0336
 	.Unk1B: skip 2
 	.Flags1D: skip 1	;1D
 	.Flags1E: skip 1	;1E
-	.Flags1F: skip 1
+	.Flags1F: skip 1	;1F
 	.Unk20: skip 1
 	.Unk21: skip 1
 	.Unk22: skip 1
@@ -198,7 +198,7 @@ PlayerAngX		= $1230	;word
 PlayerAngY		= $1232	;word
 PlayerAngZ		= $1234	;word
 			= $1236	;word
-			= $1238	;word
+Unknown_1238		= $1238	;word
 CurProcObject		= $123A	;word
 BehFuncTemp		= $1242	;long
 			= $1248	;long
@@ -434,12 +434,12 @@ ScanlineToWaitFor	= $16DB	;word
 			= $16EA	;word
 Lives			= $16EC	;byte
 			= $16ED	;byte
-			= $16F1	;byte
+Unknown_16F1		= $16F1	;byte
 			= $16F2	;word
 			= $16F4	;word
 			= $16F6	;byte
 CurScriptObject		= $16F7	;word
-			= $16F9	;word
+PointEffect		= $16F9	;word
 ZTimer			= $16FB	;word
 LevelScriptPointer	= $16FD	;lo16 word of long
 			= $16FF	;word
@@ -451,7 +451,7 @@ ScriptCallStackPtr	= $1730	;word
 ScriptCallStackSz	= $1732	;word
 			= $1734	;word
 			= $1736	;word
-			= $173C	;byte
+Unknown_173C		= $173C	;byte
 			= $173D	;byte
 			= $173F	;word
 Preset			= $1741	;word
@@ -509,7 +509,7 @@ Continues		= $1898	;byte
 			= $18AC	;byte
 			= $18AD	;byte
 FadeMode		= $18B2	;byte
-			= $18B3	;byte
+FadeTimer		= $18B3	;byte
 			= $18B4	;word
 			= $18B6	;word
 			= $18B8	;byte
@@ -523,11 +523,11 @@ BG3HOFSMirror		= $18B9	;word
 			= $18CD	;byte array of size $40
 
 ;Page $19
-			= $194D	;word
+VerticalScroll		= $194D	;word
 			= $194F	;word
 			= $1951	;word
 			= $1953	;byte
-			= $1954	;byte
+Mode2Flag		= $1954	;byte
 			= $1955	;byte
 			= $1956	;byte
 			= $1957	;word
@@ -536,10 +536,10 @@ BG3HOFSMirror		= $18B9	;word
 
 ;Page $1E
 			= $1EE5	;word
-			= $1EE9	;word
-			= $1EEB	;word
-			= $1EED	;word
-			= $1EEF	;word
+Unknown_1EE9		= $1EE9	;word
+Unknown_1EEB		= $1EEB	;word
+Unknown_1EED		= $1EED	;word
+Unknown_1EEF		= $1EEF	;word
 			= $1EF1	;byte
 			= $1EF2	;word
 			= $1EF4	;word
@@ -553,7 +553,7 @@ BG3HOFSMirror		= $18B9	;word
 
 ;Page $1F
 			= $1F03	;word
-			= $1F05	;byte
+Unknown_1F05		= $1F05	;byte
 			= $1F07	;byte
 			= $1F08	;byte
 			= $1F09	;word
@@ -564,7 +564,7 @@ BG3HOFSMirror		= $18B9	;word
 			= $1F0F	;byte
 			= $1F10	;byte
 			= $1F11	;word
-			= $1F13	;word
+Unknown_1F13		= $1F13	;word
 			= $1F15	;word
 			= $1F17	;word
 			= $1F19	;word
@@ -612,8 +612,8 @@ BG2HOFSMirror		= $1F37	;word
 			= $1F65	;byte
 			= $1F66	;word
 			= $1F68	;byte
-			= $1F69	;word (array?)
-			= $1F6B	;word (array?)
+			= $1F69	;word (array???)
+			= $1F6B	;word (same array as above with offset???)
 			= $1FBB	;word
 			= $1FC6	;byte
 			= $1FC7	;byte
@@ -675,9 +675,8 @@ TotalVtxCnt		= $700132	;word
 
 ;Bank $70 high
 BSPTreeStack		= $700B02	;??? array of size ???
-RenderedTiles		= $702C00	;byte array of size ???
-RenderedTilesPart1	= (RenderedTiles+$0000)
-RenderedTilesPart2	= (RenderedTiles+$2A00)
+RenderedTileset		= $702C00	;byte array of size ???
+RenderedTilemap		= $705600	;byte array of size ???
 
 ;Bank $7E high
 struct Object2List $7E2000
