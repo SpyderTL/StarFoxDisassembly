@@ -447,5 +447,18 @@ CODE_048483:
 CODE_048493:
 	rep @#20
 	inc D, $28, X
+	sep @#20
 	jmp CODE_04A1AF
 	
+CODE_04849C:
+	lda D, $1E, X
+	ora #$20
+	sta #, $1E, X
+	jmp CODE_0483EE
+
+CODE_0484A5:
+	lda D, $1E, X
+	and #$DF
+	sta #, $1E, X
+	jmp CODE_0483EE
+
