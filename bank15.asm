@@ -14,3 +14,9 @@
 	INCBIN "graphics/compressed/highwaybg.mapz"
 	INCBIN "graphics/compressed/highwayroad.mapz"
 	INCBIN "graphics/compressed/sectorz.4bpp.chrz"
+
+	; 158C50	5C00		1800
+	; 15A408	5C00		1800
+	; 15A6B0	5C00		1800
+	; 15AF04	5C00		1800
+	; 15FF1C	5C00		1800

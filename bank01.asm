@@ -4638,94 +4638,94 @@ CODE_01AC97:
 	
 	;B301
 DecompressGraphics:
-	alt1
+	alt1								; r0 = Compressed Data Address
 	lms r0,($0062)
-	alt3
+	alt3								; ROM Bank = r0
 	romb
-	sub r0
+	sub r0							; RAM Bank = 0
 	alt2
-	ramb
-	alt1
+	ramb	
+	alt1								; ROM Address = Compressed Data Address--
 	lms r14,($0062)
 	dec r14
-	to r1
+	to r1								; r1 = [ROM Address]
 	getb
-	dec r14
+	dec r14							; r1 |= [--ROM Address] << 8
 	with r1
 	alt1
 	getbh
+	dec r14							; ROM Address -= 3
 	dec r14
 	dec r14
-	dec r14
-	to r3
+	to r3								; r3 = [ROM Address]
 	getb
-	dec r14
-	with r3
+	dec r14							; r3 |= [--ROM Address] << 8
+	with r3							
 	alt1
 	getbh
-	dec r14
+	dec r14							; r2 = [--ROM Address]
 	to r2
 	getb
-	dec r14
+	dec r14							; r2 |= [--ROM Address] << 8
 	with r2
 	alt1
 	getbh
-	alt1
-	lms r9,($002C)
-	with r1
+	alt1								; r9 = Length
+	lms r9,($002C)				; Length? (i.e. 0x2800, 0x4000)
+	with r1							; fx5A = r1 + lengh
 	add r9
 	alt2
-	sms ($005A),r1
-	ibt r4,#$00
-	ibt r6,#$00
-	ibt r5,#$00
-	iwt r7,#$B4B6
-	cache
-	move r8,r15
-	ibt r12,#$03
-	link #4
-	iwt r14,#CODE_01B4B2
-	with r4
-	ibt r0,#$FF
-	and r4
-	bne CODE_01B348
+	sms ($005A),r1				
+	ibt r4,#$00						; r4 = 0
+	ibt r6,#$00						; r6 = 0
+	ibt r5,#$00						; r5 = 0
+	iwt r7,#$B4B6					; r7 = 0xb4b6
+	cache							; Cache Base Register = r0 ??
+	move r8,r15					; r8 = PC
+	ibt r12,#$03					; counter = 3
+	link #4							; link return address = 4 ??
+	iwt r14,#CODE_01B4B2	; ROM Address = 0x01B4B2
+	with r4							; r0 = r4 & 0xFF
+	ibt r0,#$FF						
+	and r4							
+	bne CODE_01B348			; if r0 != 0
 	nop
-	iwt r15,#CODE_01B3C1
+	iwt r15,#CODE_01B3C1	; else
 	nop
 CODE_01B348:
-	ibt r0,#$07
+	ibt r0,#$07						; if r4 != 7
 	alt3
-	cmp r4
+	cmp r4							
 	bne CODE_01B380
 	nop
-	with r2
-	lsr
-	with r3
+	with r2							; else
+	lsr									; r0 >> 1
+	with r3							; r3 >> 1
 	ror
-	from r2
+	from r2							; if r2 or r3 != 0
 	or r3
 	bne CODE_01B35D
-	nop
-	iwt r15,#CODE_01B49A
+	nop								; else
+	iwt r15,#CODE_01B49A	
 	dec r14
 CODE_01B35D:
 	bcc CODE_01B376
 	bio
-	ibt r12,#$0A
+	ibt r12,#$0A					; counter = 10
 	link #4
 	iwt r15,#CODE_01B4B2
 	with r4
 	moves r4,r4
 	bne CODE_01B380
 	nop
-	ibt r12,#$12
+	ibt r12,#$12					; counter = 12
 	link #4
 	iwt r15,#CODE_01B4B2
 	with r4
 	bra CODE_01B380
 	nop
 CODE_01B376:
-	ibt r12,#$04
+	ibt r12,#$04					; counter = 4
 	link #4
 	iwt r15,#CODE_01B4B2
 	with r4
@@ -4733,16 +4733,16 @@ CODE_01B376:
 	alt2
 	add #$07
 CODE_01B380:
-	ibt r12,#$08
+	ibt r12,#$08					; counter = 8
 	with r15
 	to r13
 	with r2
-	lsr
+	lsr									; r2 << 1
 	with r3
-	ror
+	ror								; r3 >> 1
 	from r2
-	or r3
-	beq CODE_01B39E
+	or r3								; r3 |= r2
+	beq CODE_01B39E			; if(r3 = 0)
 	with r6
 	rol
 	with r5
@@ -4754,25 +4754,26 @@ CODE_01B380:
 	alt1
 	stb r1
 	dec r4
-	bne CODE_01B380
+	bne CODE_01B380			; if r0 != 0
 	nop
-	bra CODE_01B3C1
+	bra CODE_01B3C1			; else
 	nop
-	dec r14
+CODE_01B39E:					; ??
+	dec r14							; r3 = [ROM Address--]
 	to r3
 	getb
-	dec r14
+	dec r14							; r3 |= [ROM Address--] << 8
 	with r3
 	alt1
 	getbh
 	dec r14
-	to r2
+	to r2								; r2 = [ROM Address--]
 	getb
 	dec r14
-	with r2
+	with r2							; r2 |= [ROM Address--] << 8
 	alt1
 	getbh
-	ibt r0,#$01
+	ibt r0,#$01						; 1 >> r2 >> r3 >> r6 >> r5 <<
 	ror
 	with r2
 	ror
@@ -4791,33 +4792,33 @@ CODE_01B380:
 	dec r4
 	bne CODE_01B380
 	nop
-CODE_01B3C1:
+CODE_01B3C1:						; r0 = 0
 	with r9
 	alt3
-	cmp r1
+	cmp r1								; if length != r1
 	bne CODE_01B3E6
-	ibt r12,#$02
+	ibt r12,#$02						; else counter = 2
 	alt2
-	sms ($0062),r14
+	sms ($0062),r14					; fx62 = Rom Address
 	alt1
-	lms r3,($0090)
+	lms r3,($0090)					; if fx90 = 0 then stop
 	moves r3,r3
 	beq CODE_01B3E4
 	nop
 	alt1
-	lms r1,($002C)
+	lms r1,($002C)					; r1 = fx2C
 	alt1
-	lms r2,($005A)
-	to r12
+	lms r2,($005A)					; r2 = fx5A
+	to r12								; counter = r2-r1
 	from r2
 	sub r1
-	move r13,r15
-	ldw r1
-	add r3
-	stw r1
-	inc r1
-	loop
-	inc r1
+	move r13,r15						; start loop here
+	ldw r1								; r0 = [r1]
+	add r3								; r0 += r3
+	stw r1								; [r1] = r0
+	inc r1								; r1++
+	loop									; end loop
+	inc r1								; r1++
 CODE_01B3E4:
 	stop
 	nop
@@ -4962,62 +4963,62 @@ CODE_01B48C:
 	jmp r8
 	nop
 CODE_01B49A:
-	to r3
+	to r3							; r3 = [ROM Address--]
 	getb
-	dec r14
-	with r3
+	dec r14						
+	with r3						; r3 |= [ROM Address--] << 8
 	alt1
 	getbh
 	dec r14
-	to r2
+	to r2							; r2 = [ROM Address--]
 	getb
 	dec r14
-	with r2
+	with r2						; r2 |= [ROM Address--] << 8
 	alt1
 	getbh
-	ibt r0,#$01
+	ibt r0,#$01					; 1 >> r2 >> r3
 	ror
-	with r2
+	with r2						
 	ror
 	with r3
 	ror
-	from r2
+	from r2						; r3 |= r2
 	or r3
 	jmp r11
 	nop
 CODE_01B4B2:
 	sub r4
-	move r13,r7
-	with r2
+	move r13,r7				; start loop here ??
+	with r2						; r2 >> 1
 	lsr
-	with r3
+	with r3						; r3 >> 1
 	ror
-	from r2
+	from r2						; r3 |= r2
 	or r3
-	beq CODE_01B4C4
-	nop
-	with r4
+	beq CODE_01B4C4		; if r3 = 0
+	nop							; else
+	with r4						; r4 << 1
 	rol
 	loop
 	with r2
-	jmp r11
+	jmp r11						; return to link
 	nop
 CODE_01B4C4:
-	dec r14
+	dec r14						; r3 = [ROM Address--]
 	to r3
 	getb
-	dec r14
+	dec r14						; r3 |= [ROM Address--] << 8
 	with r3
 	alt1
 	getbh
-	dec r14
+	dec r14						; r2 = [ROM Address--]
 	to r2
 	getb
-	dec r14
+	dec r14						; r2 |= [ROM Address--] << 8
 	with r2
 	alt1
 	getbh
-	ibt r0,#$01
+	ibt r0,#$01					; 1 >> r2 >> r3 >> r4 <<
 	ror
 	with r2
 	ror
@@ -5027,7 +5028,7 @@ CODE_01B4C4:
 	rol
 	loop
 	with r2
-	jmp r11
+	jmp r11						; return to lilnk
 	nop
 	
 CODE_01B4DF:

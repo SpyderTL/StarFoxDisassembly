@@ -61,3 +61,5 @@
 	INCBIN "levels/controls.lev"
 	;Compressed tiles
 	INCBIN "graphics/compressed/venombosstunnel.4bpp.chrz"
+
+	; 0DFBB9	5C00		1800

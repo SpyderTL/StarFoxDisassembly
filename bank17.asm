@@ -15,3 +15,6 @@
 	INCBIN "graphics/compressed/palettes.palz"
 	;Compressed tileset
 	INCBIN "graphics/compressed/outofthisdimension.4bpp.chrz"
+
+	; 17849C	5C00		1800
+	; 17FDCC	5C00		1800

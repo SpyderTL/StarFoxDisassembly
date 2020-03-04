@@ -22,3 +22,9 @@
 	INCBIN "graphics/compressed/spacearmadatunnel.mapz"
 	INCBIN "graphics/compressed/sectory.mapz"
 	INCBIN "graphics/compressed/venombosstunnel.mapz"
+
+
+	; 169150	5C00		1800
+	; 16A014	5C00		1800
+	; 16A648	5C00		1800
+	; 16D13C	5C00		1800

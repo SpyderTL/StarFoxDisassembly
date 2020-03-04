@@ -801,15 +801,17 @@ LoadPreset_BlackHole_Wait:
 	bne LoadPreset_BlackHole_Wait
 LoadPreset_BlackHole_Exit:
 	rtl
-LoadPreset_Scramble:
+LoadPreset_Scramble:			; 03905F
 	sep #$20
 	jsr CODE_03AB12
 	jsr DecompressTileset
-	DL $14DB6E
-	DB $00,$5C,$00,$18
+	DL $14DB6E					; Tileset Address
+	DW $5C00						; VRAM Address
+	DW $1800						; DMA Data Size
 	jsr DecompressTilemap
-	DL $14DC0E
-	DB $00,$70,$00,$20
+	DL $14DC0E					; Tilemap Address
+	DW $7000						; VRAM Address
+	DW $2000						; DMA Data Size
 	jsr LoadPalette
 	DB $E0,$00,$7F,$E0,$00
 	lda #$10
@@ -872,9 +874,13 @@ LoadPreset_Corneria12:
 	sep #$20
 	jsr CODE_03AB12
 	jsr DecompressTileset
-	DB $CE,FE,$14,$00,$5C,$00,$18
+	DL $14FECE			; Tileset Address (Compressed)
+	DW $5C00				; VRAM Address
+	DW $1800				; DMA Data Size
 	jsr DecompressTilemap
-	DB $E4,$81,$15,$00,$70,$00,$20
+	DL $1581E4			; Tliemap Address (Compressed)
+	DW $7000				; VRAM Address
+	DW $2000				; DMA Data Size
 	jsr LoadPalette
 	DB $60,$03,$7F,$E0,$00
 	lda #$03
@@ -956,7 +962,7 @@ CODE_03AB2A:
 DoDecompressTileset:
 	php
 	rep #$20
-	lda #$2800
+	lda #$2800					; fx2C = 0x2800			(Start address)
 	sta $70002C
 	sep #$20
 	lda.b #BANKOF(DecompressGraphics)
@@ -968,9 +974,9 @@ DoDecompressTilemap:
 	php
 	rep #$20
 	lda #$00C0
-	sta $700090
+	sta $700090					; fx90 = 0x00C0			(Added to each byte)
 	lda #$4000
-	sta $70002C
+	sta $70002C					; fx2c = 0x4000			(Start Address)
 	sep #$20
 	lda.b #BANKOF(DecompressGraphics)
 	ldx.w #DecompressGraphics
@@ -981,9 +987,9 @@ DoDecompressTilemap2:
 	php
 	rep #$20
 	lda #$0000
-	sta $700090
+	sta $700090												; fx90 = 0				(Added to each byte)
 	lda #$4000
-	sta $70002C
+	sta $70002C												; fx2C = 0x4000		(Start Address)
 	sep #$20
 	lda.b #BANKOF(DecompressGraphics)
 	ldx.w #DecompressGraphics
@@ -994,7 +1000,7 @@ DoDecompressTileset2:
 	php
 	rep #$20
 	lda #$2800
-	sta $70002C
+	sta $70002C												; fx2c = 0x2800		(Start Address)
 	sep #$20
 	lda.b #BANKOF(DecompressGraphics)
 	ldx.w #DecompressGraphics
@@ -1003,21 +1009,21 @@ DoDecompressTileset2:
 	rtl
 DecompressTileset:
 	rep #$20
-	pla
-	tax
-	clc
-	adc #$0007
-	pha
-	lda #$0000
-	sta $700090
-	lda $030003,x
-	and #$00FF
-	sta $700064
+	pla								; A = return address
+	tax								; X = return address
+	clc									; C = 0
+	adc #$0007					; A += 7 + C
+	pha								; return address = A
+	lda #$0000					; fx90 = 0				(added to each byte)
+	sta $700090					
+	lda $030003,x				; fx62 = tilesetAddress (3 bytes)
+	and #$00FF					
+	sta $700064					
 	lda $030001,x
-	sta $700062
-	lda $030004,x
+	sta $700062					
+	lda $030004,x				; VRAMAddress = [returnAddress + 3]
 	sta $188A
-	lda $030006,x
+	lda $030006,x				; DMADataSize = [returnAddress + 5]
 	sta $188C
 	sep #$20
 	jsl DoDecompressTileset
