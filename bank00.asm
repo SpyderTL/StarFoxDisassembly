@@ -1,34 +1,34 @@
 	;Unknown/empty data
 	DB $00,$00,$00,$00,$00,$00
 	;Unused code
-CODE_008006:
+SetUnusedBGColorWhite:
 	rep #$30
-	lda #$7FFF
-	sta $1FF2
+	lda #$7FFF					;\Set unused background to white
+	sta UnusedBGColor				;/
 	ldx #$00AA
 	bra CODE_00804E
-CODE_008013:
+SetUnusedBGColorMagenta:
 	rep #$30
-	lda #$7C1F
-	sta $1FF2
+	lda #$7C1F					;\Set unused background to magenta
+	sta UnusedBGColor				;/
 	ldx #$00BA
 	bra CODE_00804E
-CODE_008020:
+SetUnusedBGColorYellow:
 	rep #$30
-	lda #$03FF
-	sta $1FF2
+	lda #$03FF					;\Set unused background to yellow
+	sta UnusedBGColor				;/
 	ldx #$00BA
 	bra CODE_00804E
-CODE_00802D:
+SetUnusedBGColorCyan:
 	rep #$30
-	lda #$7FE0
-	sta $1FF2
+	lda #$7FE0					;\Set unused background to cyan
+	sta UnusedBGColor				;/
 	lda #$00C9
 	bra CODE_00804E
-CODE_00803A:
+SetUnusedBGColorGreen:
 	rep #$30
-	lda #$03E0
-	sta $1FF2
+	lda #$03E0					;\Set unused background to green
+	sta UnusedBGColor				;/
 	ldx #$00E2
 	bra CODE_00804E
 CODE_008047:
@@ -36,7 +36,7 @@ CODE_008047:
 	ldx #$00D9
 	bra CODE_00804E
 CODE_00804E:
-	stx $177E
+	stx Unused_177E
 	sep #$20
 	stz NMITIMEN
 	stz HDMAEN
@@ -96,11 +96,11 @@ CODE_00804E:
 	sta DMAP0
 	lda #$01
 	sta MDMAEN
-	stz CGADD
-	lda $1FF2
-	sta CGDATA
-	lda $1FF3
-	sta CGDATA
+	stz CGADD					;\Set unused background color
+	lda UnusedBGColor				;|
+	sta CGDATA					;|
+	lda UnusedBGColor+1				;|
+	sta CGDATA					;/
 	lda #$40
 	sta BG1SC
 	lda #$00
@@ -126,7 +126,7 @@ CODE_00804E:
 	sta BBAD1
 	lda #$00
 	sta A1B1
-	ldx.w #CODE_00819B
+	ldx.w #DATA_00819B
 	stx A1T1L
 	stz DAS10
 	stz BG1VOFS
@@ -146,11 +146,11 @@ CODE_008164:
 	dey
 	bne CODE_008164
 	rep #$20
-	lda $177E
-	cmp $1780
+	lda Unused_177E
+	cmp Unused_1780
 	beq CODE_008199
 	sec
-	sbc $1780
+	sbc Unused_1780
 	lsr a
 	lsr a
 	lsr a
@@ -158,19 +158,19 @@ CODE_008164:
 	lda #$0001
 CODE_00817D:
 	clc
-	adc $1780
-	sta $1780
+	adc Unused_1780
+	sta Unused_1780
 	sep #$20
-	lda $1780
+	lda Unused_1780
 	sta BG1VOFS
-	lda $1781
+	lda Unused_1780+1
 	sta BG1VOFS
 	lda #$03
 	sta APUIO0
 	bra CODE_008161
 CODE_008199:
 	bra CODE_008199
-CODE_00819B:
+DATA_00819B:
 	DB $54,$00
 DATA_00819D:
 	DB $01,$01,$01,$02,$01,$03,$01,$04
@@ -681,6 +681,7 @@ SineTable16:
         DW $7FA7,$7FAE,$7FB5,$7FBC,$7FC2,$7FC8,$7FCE,$7FD3
         DW $7FD8,$7FDD,$7FE1,$7FE5,$7FE9,$7FED,$7FF0,$7FF3
         DW $7FF6,$7FF8,$7FFA,$7FFC,$7FFD,$7FFE,$7FFF,$7FFF
+DATA_009FE7:
 	DB $48,$50,$20,$20,$20,$5D,$00,$41,$5C,$00
 ;More unused strings
 UnusedStringLoading:
@@ -1665,8 +1666,8 @@ CODE_00E8D4:
 	ora #$20
 	sta D,$1F,x
 	lda #$23
-	sta $F0C9
-	lda $F0C9
+	sta.w Unknown_7EF0C9
+	lda.w Unknown_7EF0C9
 	sta $70019A
 	lda #$00
 	sta $70019C

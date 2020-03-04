@@ -30,19 +30,6 @@ endmacro
 ;;;;;;;;;;;;;;;;;;
 ;VARS AND STRUCTS;
 ;;;;;;;;;;;;;;;;;;
-;Matrix structure
-;struct Matrix
-;	.XX: skip 2
-;	.XY: skip 2
-;	.XZ: skip 2
-;	.YX: skip 2
-;	.YY: skip 2
-;	.YZ: skip 2
-;	.ZX: skip 2
-;	.ZY: skip 2
-;	.ZZ: skip 2
-;endstruct
-
 ;Zero Page ($00)
 CurNMITask		= $00	;byte
 TempPtr			= $02	;long
@@ -88,8 +75,8 @@ TempDbgFontCtr		= $60	;byte
 			= $68	;word
 			= $6C	;word
 			= $6E	;word
-			= $72	;word
-			= $74	;word
+CrosshairX		= $72	;word
+CrosshairY		= $74	;word
 TempRegX		= $76	;word
 TempRegY		= $78	;word
 TempSin			= $7A	;byte
@@ -132,7 +119,7 @@ TempLdAudPtr		= $FA	;long
 ;This is an open doubly linked list,
 ;where each entry points to the previous/next one.
 ;Space is available for 70 objects.
-struct ObjectList $0336
+struct ObjectList	  $0336
 	.NextObj: skip 2	;00
 	.PrevObj: skip 2	;02
 	.ID: skip 2		;04
@@ -207,7 +194,7 @@ BehFuncTemp		= $1242	;long
 			= $125A	;word
 			= $125C	;word
 SCMRMirror		= $1260	;byte
-OAMMirror		= $1261 ;byte array of size $220
+OAMBuffer		= $1261 ;byte array of size $220
 
 ;Page $14
 			= $14C1	;byte
@@ -230,8 +217,8 @@ FirstCandidate		= $14CA	;word
 			= $14D8	;byte
 			= $14D9	;byte
 			= $14DA	;byte
-			= $14DB	;byte
-			= $14DC	;byte
+CurViewMode		= $14DB	;byte
+MaxViewMode		= $14DC	;byte
 			= $14DD	;byte
 			= $14DE	;byte
 			= $14DF	;byte
@@ -248,7 +235,8 @@ FirstCandidate		= $14CA	;word
 			= $14F2	;byte
 			= $14F3	;byte
 			= $14F4	;word
-			= $14F6	;word
+MusicLoaded		= $14F6	;byte
+MusicID			= $14F7	;byte
 			= $14F8	;word
 			= $14FA	;word
 			= $14FC	;word
@@ -356,12 +344,12 @@ FirstCandidate		= $14CA	;word
 			= $15AB	;byte
 			= $15AC	;byte
 NovaBombs		= $15AD	;word
-			= $15AF	;word
+OAMBufferPtr		= $15AF	;word
 			= $15B1	;word
 			= $15B3	;word
 			= $15B5	;word
 			= $15B8	;byte
-			= $15B9	;byte
+StageNumTextTimer	= $15B9	;byte
 			= $15BB	;word
 			= $15BF	;byte
 			= $15C2	;word
@@ -384,8 +372,8 @@ NovaBombs		= $15AD	;word
 			= $1639	;Matrix
 			= $164B	;byte
 			= $164C	;byte
-			= $169C	;word
-			= $169E	;word
+VerticalScrollBase	= $169C	;word
+VerticalScrollBase2	= $169E	;word
 			= $16A0	;word
 			= $16A2	;byte
 			= $16A3	;byte
@@ -426,15 +414,15 @@ StageID			= $16D6	;word
 LevelID			= $16D8	;word
 ScanlineToWaitFor	= $16DB	;word
 			= $16DD	;word
-			= $16DF	;word
-			= $16E1	;word
+Unknown_16DF		= $16DF	;word
+Unknown_16E1		= $16E1	;word
 			= $16E4	;word
 			= $16E6	;word
 			= $16E8	;word
 			= $16EA	;word
 Lives			= $16EC	;byte
 			= $16ED	;byte
-Unknown_16F1		= $16F1	;byte
+FGTiltFlag		= $16F1	;byte
 			= $16F2	;word
 			= $16F4	;word
 			= $16F6	;byte
@@ -475,13 +463,12 @@ NumObjectsWithID	= $1755	;word
 			= $1774	;word
 			= $1777	;word
 			= $177A	;byte
-			= $177E	;word
-			= $1780	;word
+Unused_177E		= $177E	;word
+Unused_1780		= $1780	;word
 			= $1782	;byte
-			= $1785	;byte
-			= $1786	;word
-			= $1788	;byte
-			= $1789	;byte array of size $100
+PresetSettings		= $1785	;byte
+			= $1786	;long
+PaletteBuffer		= $1789	;byte array of size $100
 
 ;Page $18
 			= $188A	;word
@@ -491,7 +478,7 @@ NumObjectsWithID	= $1755	;word
 			= $1892	;word
 			= $1894	;byte
 			= $1895	;word
-			= $1897	;byte
+SuperFXPalette		= $1897	;byte
 Continues		= $1898	;byte
 			= $189A	;byte
 			= $189B	;word
@@ -526,9 +513,9 @@ BG3HOFSMirror		= $18B9	;word
 VerticalScroll		= $194D	;word
 			= $194F	;word
 			= $1951	;word
-			= $1953	;byte
-Mode2Flag		= $1954	;byte
-			= $1955	;byte
+Unknown_1953		= $1953	;byte
+BGTiltFlag		= $1954	;byte
+Unknown_1955		= $1955	;byte
 			= $1956	;byte
 			= $1957	;word
 			= $195F	;word
@@ -559,7 +546,7 @@ Unknown_1F05		= $1F05	;byte
 			= $1F09	;word
 			= $1F0B	;byte
 			= $1F0C	;byte
-			= $1F0D	;byte
+EnableSprites		= $1F0D	;byte
 			= $1F0E	;byte
 			= $1F0F	;byte
 			= $1F10	;byte
@@ -592,24 +579,20 @@ BG2HOFSMirror		= $1F37	;word
 			= $1F39	;word
 			= $1F3B	;word
 			= $1F3D	;word
-			= $1F3F	;word
+TempLdAudioBnkOffs	= $1F3F	;word
 			= $1F41	;word
 			= $1F43	;byte
 			= $1F44	;word
 			= $1F46	;byte
 			= $1F47	;byte
-			= $1F48	;byte
-			= $1F49	;byte
-			= $1F4A	;byte
-			= $1F4B	;byte
-			= $1F4C	;byte
-			= $1F4D	;word
-			= $1F4F	;word
+			= $1F48	;byte array of size $05
+SEQueuePtr		= $1F4D	;byte
+SEQueuePtrOld		= $1F4F	;byte
 			= $1F51	;byte
 			= $1F52	;byte
-			= $1F53	;byte array of size $10
-			= $1F63	;word
-			= $1F65	;byte
+SoundEffectQueue	= $1F53	;byte array of size $10
+TempLdAudioPktOffs	= $1F63	;word
+InitDataSentFlag	= $1F65	;byte
 			= $1F66	;word
 			= $1F68	;byte
 			= $1F69	;word (array???)
@@ -646,7 +629,7 @@ BG2HOFSMirror		= $1F37	;word
 			= $1FEE	;byte
 			= $1FEF	;word
 			= $1FF1	;byte
-			= $1FF2	;word
+UnusedBGColor		= $1FF2	;word
 LevelScriptBank		= $1FF4	;hi8 byte of long
 			= $1FF5	;byte
 			= $1FF6	;byte
@@ -663,20 +646,47 @@ CurVtxPtr		= $70001E	;word
 DesiredXRot		= $700020	;word
 DesiredYRot		= $700022	;word
 DesiredZRot		= $700024	;word
+OutputVecX		= $700026	;word
+OutputVecY		= $700028	;word
+OutputVecZ		= $70002A	;word
 InputVecY		= $70002C	;word
 InputVecZ		= $70002E	;word
 			= $700044
 			= $700046
 BSPTreePtr		= $700056	;word
 InputVecX		= $700062	;word
-			= $7000D2	;Matrix
-			= $700120	;Matrix
+InputPtr		= $700062	;long
+struct CalculatedMatrix	  $7000D2	;Matrix
+	.XX: skip 2
+	.YX: skip 2
+	.ZX: skip 2
+	.XY: skip 2
+	.YY: skip 2
+	.ZY: skip 2
+	.XZ: skip 2
+	.YZ: skip 2
+	.ZZ: skip 2
+endstruct
+struct TransformMatrix	  $700120	;Matrix
+	.XX: skip 2
+	.YX: skip 2
+	.ZX: skip 2
+	.XY: skip 2
+	.YY: skip 2
+	.ZY: skip 2
+	.XZ: skip 2
+	.YZ: skip 2
+	.ZZ: skip 2
+endstruct
 TotalVtxCnt		= $700132	;word
 
 ;Bank $70 high
 BSPTreeStack		= $700B02	;??? array of size ???
-RenderedTileset		= $702C00	;byte array of size ???
-RenderedTilemap		= $705600	;byte array of size ???
+CopiedDebugFont		= $701A2C
+DecompressedTileset	= $702800	;byte array of size ???
+DecompressedTilemap	= $704000	;byte array of size ???
+RenderedTiles		= $702C00	;byte array of size ???
+			= $705600	;byte array of size ???
 
 ;Bank $7E high
 struct Object2List $7E2000
@@ -748,3 +758,4 @@ Object2ListRel		= (Object2List-($7E0000|ObjectList))
 			= $7EA0A4	;word
 			= $7EA0A6	;word
 			= $7EA0A8	;word
+Unknown_7EF0C9		= $7EF0C9	;word

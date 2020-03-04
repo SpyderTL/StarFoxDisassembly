@@ -6,7 +6,7 @@ RunNMITask:
 	ldx D,CurNMITask
 	jmp (NMITaskJumpTable,x)
 NMITaskJumpTable:
-	DW NoNMITask		;00
+	DW NMITask00_NoNMITask
 	DW CODE_7E3AFD		;02
 	DW CODE_7E3B46		;04
 	DW CODE_7E3BAA		;06
@@ -24,9 +24,9 @@ NMITaskJumpTable:
 	DW CODE_7E3A98		;1E
 	DW CODE_7E39DB		;20
 	DW CODE_7E33EA		;22
-	DW InitializeMode1	;24
-	DW InitializeMode2	;26
-InitializeMode1:
+	DW NMITask24_InitializeMode1
+	DW NMITask26_InitializeMode2
+NMITask24_InitializeMode1:
 	rep #$10
 	lda #$0A
 	sta $120E
@@ -68,7 +68,7 @@ InitializeMode1:
 	stz $1FE4
 	stz D,CurNMITask
 	rtl
-InitializeMode2:
+NMITask26_InitializeMode2:
 	rep #$10
 	lda #$0A
 	sta $120E
@@ -1055,7 +1055,7 @@ CODE_7E3A9E:
 	lda #$20
 	sta D,CurNMITask
 	rtl
-NoNMITask:
+NMITask00_NoNMITask:
 	lda #$01
 	sta $18AC
 	jsr CODE_7E4021

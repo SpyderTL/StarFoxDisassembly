@@ -560,15 +560,17 @@ DATA_038A3E:
 	DB $00,$00,$3F,$00,$3F,$3F,$00,$3F
 	DB $7F,$07,$1F,$00,$00,$00,$00,$07
 	DB $1F,$07,$1F,$1F,$1F,$00,$00,$00
-	DB $00,$1F,$1F,$1F,$00,$00,$21,$00
-	DB $00,$00,$A5,$00,$42,$00,$29,$01
-	DB $84,$00,$AD,$01,$C6,$00,$31,$02
-	DB $08,$01,$B5,$02,$4A,$01,$39,$03
-	DB $8C,$01,$FF,$03
-;Base color palette, three varieties.
-;The first one is more blue-tinted, the second one is more red-tinted,
-;and the third one is more green-tinted.
+	DB $00,$1F,$1F,$1F
+;Base color palette, four varieties.
+;The first one is unknown.
+;The second one is more blue-tinted, the third one is more red-tinted,
+;and the fourth one is more green-tinted.
 BaseColorTable:
+	DW $0000,$0021,$0000,$00A5
+	DW $0042,$0129,$0084,$01AD
+	DW $00C6,$0231,$0108,$02B5
+	DW $014A,$0339,$018C,$03FF
+	
 	DW $0000,$0451,$153A,$22BD
 	DW $377F,$5445,$6D2B,$7E8F
 	DW $7FB6,$0CA3,$2588,$424E
@@ -739,6 +741,9 @@ DATA_038F9A:
 	DB $00,$00,$C0,$00,$00,$00,$00,$00
 	DB $F6,$F3,$F1,$00,$FE,$FD,$FC,$00
 	DB $FE,$FD,$FC,$00,$F6,$F3,$C1,$00
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;PRESET LOADING ROUTINES;
+;;;;;;;;;;;;;;;;;;;;;;;;;
 LoadPreset_BlackHole:
 	sep #$20
 	jsr CODE_03AB12
@@ -749,7 +754,8 @@ LoadPreset_BlackHole:
 	DL $16ED34
 	DB $00,$70,$00,$20
 	jsr LoadPalette
-	DB $60,$03,$7F,$E0,$00
+	DL $7F0360
+	DB $E0,$00
 	lda #$00
 	sta D,CurNMITask
 	lda HDMAENMirror
@@ -811,7 +817,8 @@ LoadPreset_Scramble:
 	DL $14DC0E
 	DB $00,$70,$00,$20
 	jsr LoadPalette
-	DB $E0,$00,$7F,$E0,$00
+	DL $7F00E0
+	DB $E0,$00
 	lda #$10
 	sta D,CurNMITask
 	lda HDMAENMirror
@@ -872,11 +879,14 @@ LoadPreset_Corneria12:
 	sep #$20
 	jsr CODE_03AB12
 	jsr DecompressTileset
-	DB $CE,FE,$14,$00,$5C,$00,$18
+	DL $14FECE
+	DB $00,$5C,$00,$18
 	jsr DecompressTilemap
-	DB $E4,$81,$15,$00,$70,$00,$20
+	DL $1581E4
+	DB $00,$70,$00,$20
 	jsr LoadPalette
-	DB $60,$03,$7F,$E0,$00
+	DL $7F0360
+	DB $E0,$00
 	lda #$03
 	sta $1897
 	jsl CODE_02F492
@@ -934,7 +944,24 @@ LoadPreset_Corneria12:
 	
 	
 	
-	
+CODE_03AAF9:
+	sep #$20
+	rep #$10
+CODE_03AAFD:
+	lda D,CurNMITask
+	beq CODE_03AB05
+	cmp #$20
+	bne CODE_03AAFD
+CODE_03AB05:
+	lda #$24
+	sta D,CurNMITask
+CODE_03AB09:
+	lda D,CurNMITask
+	beq CODE_03AB11
+	cmp #$20
+	bne CODE_03AB09
+CODE_03AB11:
+	rts
 CODE_03AB12:
 	sep #$20
 	rep #$10
@@ -953,6 +980,7 @@ CODE_03AB22:
 	bne CODE_03AB22
 CODE_03AB2A:
 	rts
+;Tileset/tilemap/palette loading
 DoDecompressTileset:
 	php
 	rep #$20
@@ -1067,64 +1095,69 @@ LoadPalette:
 	pha
 	plb
 	ldx #$00DF
-CODE_03AC34:
+LoadPalette_Loop:
 	lda $0000,y
-	sta $1789,x
+	sta PaletteBuffer,x
 	dey
 	dex
-	bpl CODE_03AC34
+	bpl LoadPalette_Loop
 	plb
 	ply
 	rts
+;Preset loading function table
 PresetFunctionTable:
-	DB $00,$00,$00,$03,$5F,$90
-	DB $00,$00,$00,$03,$03,$91
-	DB $00,$00,$00,$03,$07,$91
-	DB $00,$00,$00,$03,$A0,$91
-	DB $00,$00,$00,$03,$0B,$91
-	DB $00,$00,$00,$03,$DF,$92
-	DB $00,$00,$00,$03,$10,$94
-	DB $00,$00,$00,$03,$9C,$94
-	DB $00,$00,$00,$03,$2F,$95
-	DB $00,$00,$00,$03,$C7,$95
-	DB $00,$00,$00,$03,$5A,$96
-	DB $00,$00,$00,$03,$DC,$96
-	DB $00,$00,$00,$03,$5E,$97
-	DB $00,$00,$00,$03,$D6,$97
-	DB $00,$00,$00,$03,$A4,$98
-	DB $00,$00,$00,$03,$30,$99
-	DB $00,$00,$00,$03,$D0,$99
-	DB $00,$00,$00,$03,$73,$9A
-	DB $00,$00,$00,$03,$1F,$9B
-	DB $00,$00,$00,$03,$C2,$9B
-	DB $00,$00,$00,$03,$5B,$9C
-	DB $00,$00,$00,$03,$D3,$A7
-	DB $00,$00,$00,$03,$F1,$9C
-	DB $00,$00,$00,$03,$7D,$9D
-	DB $00,$00,$00,$03,$4B,$9E
-	DB $00,$00,$00,$03,$4F,$9F
-	DB $00,$00,$00,$03,$DC,$9F
-	DB $00,$00,$00,$03,$F4,$A0
-	DB $00,$00,$00,$03,$F2,$A1
-	DB $00,$00,$00,$03,$88,$A2
-	DB $00,$00,$00,$03,$45,$A3
-	DB $00,$00,$00,$03,$D1,$A3
-	DB $00,$00,$00,$03,$6E,$A4
-	DB $00,$00,$00,$03,$72,$A4
-	DB $00,$00,$00,$03,$FE,$A4
-	DB $00,$00,$00,$03,$8B,$A5
-	DB $00,$00,$00,$03,$03,$A6
-	DB $00,$00,$00,$03,$A7,$A6
-	DB $00,$00,$00,$03,$33,$A7
-	DB $00,$00,$00,$03,$BA,$8F
-	DB $00,$00,$00,$03,$DB,$A8
-	DB $00,$00,$00,$03,$F5,$A9
-	DB $00,$00,$00,$03,$5B,$A8
-	DB $00,$00,$00,$03,$63,$A9
-	DB $00,$00,$00,$03,$6B,$93
-	DB $00,$00,$00,$03,$35,$92
-	DB $00,$00,$00,$00,$00,$00
+	PRESETFUNCPTR(LoadPreset_Scramble)
+	PRESETFUNCPTR(LoadPreset_Unk09)
+	PRESETFUNCPTR(LoadPreset_Unk0F)
+	PRESETFUNCPTR(LoadPreset_Corneria3)
+	PRESETFUNCPTR(LoadPreset_Corneria12)
+	PRESETFUNCPTR(LoadPreset_Asteroid1)
+	PRESETFUNCPTR(LoadPreset_SpaceArmadaBlastIn)
+	PRESETFUNCPTR(LoadPreset_SpaceArmada)
+	PRESETFUNCPTR(LoadPreset_SpaceArmadaTunnel)
+	PRESETFUNCPTR(LoadPreset_SpaceArmadaPart3)
+	PRESETFUNCPTR(LoadPreset_AtomicCoreBoss)
+	PRESETFUNCPTR(LoadPreset_AtomicCoreWavyTunnel)
+	PRESETFUNCPTR(LoadPreset_SpaceArmadaEnd)
+	PRESETFUNCPTR(LoadPreset_Meteor)
+	PRESETFUNCPTR(LoadPreset_VenomAtmosphere1)
+	PRESETFUNCPTR(LoadPreset_Venom1)
+	PRESETFUNCPTR(LoadPreset_VenomBossTunnel)
+	PRESETFUNCPTR(LoadPreset_VenomBoss)
+	PRESETFUNCPTR(LoadPreset_VenomBossTunnelEnd)
+	PRESETFUNCPTR(LoadPreset_VenomBossEnd)
+	PRESETFUNCPTR(LoadPreset_Ending)
+	PRESETFUNCPTR(LoadPreset_Credits)
+	PRESETFUNCPTR(LoadPreset_SectorX)
+	PRESETFUNCPTR(LoadPreset_Titania)
+	PRESETFUNCPTR(LoadPreset_TitaniaBoss)
+	PRESETFUNCPTR(LoadPreset_TitaniaBossTunnel)
+	PRESETFUNCPTR(LoadPreset_SectorY)
+	PRESETFUNCPTR(LoadPreset_Highway)
+	PRESETFUNCPTR(LoadPreset_Venom2BossTunnel)
+	PRESETFUNCPTR(LoadPreset_Venom2BossTunnel2)
+	PRESETFUNCPTR(LoadPreset_Asteroid3)
+	PRESETFUNCPTR(LoadPreset_Fortuna)
+	PRESETFUNCPTR(LoadPreset_ToMap)
+	PRESETFUNCPTR(LoadPreset_SectorZ)
+	PRESETFUNCPTR(LoadPreset_BossTunnel)
+	PRESETFUNCPTR(LoadPreset_SectorZEnd)
+	PRESETFUNCPTR(LoadPreset_Macbeth)
+	PRESETFUNCPTR(LoadPreset_VenomAtmosphere3)
+	PRESETFUNCPTR(LoadPreset_Venom3)
+	PRESETFUNCPTR(LoadPreset_BlackHole)
+	PRESETFUNCPTR(LoadPreset_Intro)
+	PRESETFUNCPTR(LoadPreset_Title)
+	PRESETFUNCPTR(LoadPreset_Controls)
+	PRESETFUNCPTR(LoadPreset_GameOver)
+	PRESETFUNCPTR(LoadPreset_OutOfThisDimension)
+	PRESETFUNCPTR(LoadPreset_Training)
+	PRESETFUNCPTR(0)
 	DB $00
+;;;;;;;;;;;;;;;;;;;;;;;;
+;AUDIO LOADING ROUTINES;
+;;;;;;;;;;;;;;;;;;;;;;;;
+;Audio packet loading routines
 LoadAudio_InitData:
 	php
 	rep #$10
@@ -1377,6 +1410,8 @@ LoadAudio_BossTunnel:
 	jsr LoadAudio
 	plp
 	rtl
+;Audio packet data
+;	    MM  PP  PP  PP  ZZ  ZZ (PP  PP  PP  ZZ  ZZ...)
 AudioPacketData:
 	DB $00,$00,$80,$18,$C2,$28,$00,$00,$00									;(Initialization Data)
 	DB $12,$C2,$A8,$18,$CC,$73,$8E,$9C,$19,$74,$35,$33,$FA,$0C,$5C,$05,$00,$00,$00				;Intro
@@ -1414,36 +1449,38 @@ AudioPacketData:
 	DB $0C,$D0,$F8,$09,$2D,$01,$00,$00,$00									;Game Over
 	DB $03,$02,$D2,$19,$B0,$2D,$46,$F8,$1E,$31,$16,$00,$00,$00						;Out Of This Dimension
 	DB $12,$D0,$F8,$09,$2D,$01,$00,$00,$00									;Boss Tunnel
+;Main audio loading routine
 LoadAudio:
 	sep #$20
 	sei
-	lda.l AudioPacketData,x
-	sta $14F7
+	lda.l AudioPacketData,x				;\Set MusicID
+	sta MusicID					;/
 	inx
-	stx $1F63
-	lda $1F65
-	lda #$FF
-	sta APUI00
-LoadAudio_L1:
-	lda #$01
-	sta $1F65
+	stx TempLdAudioPktOffs
+	lda InitDataSentFlag				;\If initialization data hasn't been set yet...
+	beq LoadAudio_SkipSetBlockID			;|branch to skip this, otherwise...
+	lda #$FF					;|set the block ID to $FF
+	sta APUI00					;/
+LoadAudio_SkipSetBlockID:
+	lda #$01					;\Set flag
+	sta InitDataSentFlag				;/
 	rep #$20
 	ldy #$0000
-	lda #$BBAA
-LoadAudio_L2:
-	cmp APUI00
-	bne LoadAudio_L2
-	sep #$20
-	lda #$CC
-	pha
-	jmp LoadAudio_L17
+	lda #$BBAA					;\Wait until SPC700 is ready to receive data
+LoadAudio_WaitSPCReady:					;|
+	cmp APUI00					;|
+	bne LoadAudio_WaitSPCReady			;/
+	sep #$20					;\Send transfer signal/block ID to SPC700
+	lda #$CC					;|
+	pha						;|
+	jmp LoadAudio_L17				;/
 LoadAudio_L3:
-	lda [D,$FA],y
+	lda [D,TempLdAudPtr],y
 	iny
 	bne LoadAudio_L4
-	inc D,$FC
-	stz D,$FB
-	stz D,$FA
+	inc D,TempLdAudPtr+2
+	stz D,TempLdAudPtr+1
+	stz D,TempLdAudPtr
 	ldy #$8000
 LoadAudio_L4:
 	xba
@@ -1451,12 +1488,12 @@ LoadAudio_L4:
 	bra LoadAudio_L8
 LoadAudio_L5:
 	xba
-	lda [D,$FA],y
+	lda [D,TempLdAudPtr],y
 	iny
 	bne LoadAudio_L6
-	inc D,$FC
-	stz D,$FB
-	stz D,$FA
+	inc D,TempLdAudPtr+2
+	stz D,TempLdAudPtr+1
+	stz D,TempLdAudPtr
 	ldy #$8000
 LoadAudio_L6:
 	xba
@@ -1479,7 +1516,7 @@ LoadAudio_L10:
 	pha
 LoadAudio_L11:
 	rep #$20
-	lda [D,$FA],y
+	lda [D,TempLdAudPtr],y
 	beq LoadAudio_L17
 	iny
 	bne LoadAudio_L12
@@ -1490,7 +1527,7 @@ LoadAudio_L12:
 	jml CODE_1FBDEE
 LoadAudio_L13:
 	tax
-	lda [D,$FA],y
+	lda [D,TempLdAudPtr],y
 	iny
 	bne LoadAudio_L14
 	jml CODE_1FBDEE
@@ -1513,33 +1550,33 @@ LoadAudio_L16:
 	jmp LoadAudio_L3
 LoadAudio_L17:
 	rep #$20
-	ldx $1F63
-	lda.l AudioPacketData,x
-	sta $1F3F
-	lda.l AudioPacketData+3,x
-	sta $1F41
-	sep #$20
-	lda.l AudioPacketData+2,x
-	sta D,$FC
-	inx
-	inx
-	inx
-	inx
-	inx
-	stx $1F63
-	rep #$20
-	stz D,$FA
-	lda $1F3F
-	beq LoadAudio_L18
-	tay
-	clc
-	adc $1F41
-	bcc LoadAudio_L26
-	jmp LoadAudio_L11
-LoadAudio_L18:
-	rep #$20
-	lda #$0400
-	sta APUI02
+	ldx TempLdAudioPktOffs				; Load X with audio packet header pointer
+	lda.l AudioPacketData,x				;\Set offset of audio packet data
+	sta TempLdAudioBnkOffs				;/
+	lda.l AudioPacketData+3,x			;\Set size of audio packet data
+	sta TempLdAudioSz				;/
+	sep #$20					;\Set bank of audio packet data
+	lda.l AudioPacketData+2,x			;|
+	sta D,TempLdAudPtr+2				;/
+	inx						;\Move current header pointer
+	inx						;|
+	inx						;|
+	inx						;|
+	inx						;|
+	stx TempLdAudioPktOffs				;/
+	rep #$20					;\Clear out low word of temp packet pointer...
+	stz D,TempLdAudPtr				;|
+	lda TempLdAudioBnkOffs				;|...load A with low word of pointer...
+	beq LoadAudio_Finish				;|...if zero, branch to finish up and leave...
+	tay						;/...otherwise, use Y register instead for the low word...
+	clc						;\Add size of audio packet data...
+	adc TempLdAudioSz				;|
+	bcc LoadAudio_L26				;|...if size would cause overflow in ROM pointer, branch...
+	jmp LoadAudio_L11				;/...otherwise, jump here instead
+LoadAudio_Finish:
+	rep #$20					;\Set SPC700 PC register
+	lda #$0400					;|
+	sta APUI02					;/
 	sep #$30
 	lda #$00
 	xba
@@ -1547,25 +1584,25 @@ LoadAudio_L18:
 	rep #$20
 	sta APUI00
 	sep #$20
-LoadAudio_L19:
+LoadAudio_WaitReturn:
 	cmp APUI00
-	bne LoadAudio_L19
+	bne LoadAudio_WaitReturn
 	stz APUI01
 	stz APUI02
 	stz APUI03
-	stz $1F46
+	stz MusicLoaded
 	lda TIMEUP
 	cli
 	rts
 LoadAudio_L20:
-	lda [D,$FA],y
+	lda [D,TempLdAudPtr],y
 	iny
 	xba
 	lda #$00
 	bra LoadAudio_L23
 LoadAudio_L21:
 	xba
-	lda [D,$FA],y
+	lda [D,TempLdAudPtr],y
 	iny
 	xba
 LoadAudio_L22:
@@ -1587,14 +1624,14 @@ LoadAudio_L25:
 	pha
 LoadAudio_L26:
 	rep #$20
-	lda [D,$FA],y
+	lda [D,TempLdAudPtr],y
 	bne LoadAudio_L27
 	brl LoadAudio_L17
 LoadAudio_L27:
 	iny
 	iny
 	tax
-	lda [D,$FA],y
+	lda [D,TempLdAudPtr],y
 	iny
 	iny
 	sta APUI02
@@ -1830,6 +1867,17 @@ DATA_03B539:
 	DB $C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
 	DB $C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
 	DB $C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
+
+CODE_03B639:
+	lda #$1E
+	sta $1F48
+	sta $1F49
+	sta $1F4A
+	lda #$1F
+	sta $1F4B
+	lda #$20
+	sta $1F4C
+	jmp CODE_03B799
 	
 	
 	
@@ -1841,21 +1889,88 @@ DATA_03B539:
 	
 	
 	
-CopyDebugFont:
+	
+	
+	
+	
+	
+	
+	
+CODE_03B799:
+	phx
+	phy
 	php
-	sep #$30
-	ldy #$00
-	ldx #$00
-	lda #$80
-	sta D,$60
-CopyDebugFont_L1:
-	lda DebugFont,x
-	sta $701A2C,x
-	inx
-	iny
-	iny
-	dec D,$60
-	bne CopyDebugFont_L1
+	ldy Unknown_1238
+	jsl CODE_1FD0AB
+	rep #$20
+	lda $1250
+	cmp #$07D0
+	bcc CODE_03B7BB
+	cmp #$047E
+	bcc CODE_03B7E5
+	cmp #$0C4E
+	bcc CODE_03B7ED
+CODE_03B7B7:
+	plp
+	ply
+	plx
+	rtl
+CODE_03B7BB:
+	lda $14F6
+	sec
+	sbc D,$0C,x
+	bmi CODE_03B7D0
+	cmp #$00AA
+	bcc CODE_03B7DD
+	sep #$20
+	lda $1F48
+	jmp CODE_03B7F2
+CODE_03B7D0:
+	cmp #$FF56
+	bcs CODE_03B7DD
+	sep #$20
+	lda $1F4A
+	jmp CODE_03B7F2
+CODE_03B7DD:
+	sep #$20
+	lda $1F49
+	jmp CODE_03B7F2
+CODE_03B7E5:
+	sep #$20
+	lda $1F4B
+	jmp CODE_03B7F2
+CODE_03B7ED:
+	sep #$20
+	lda $1F4C
+CODE_03B7F2:
+	jsl CODE_03B7F9
+	jmp CODE_03B7B7
+CODE_03B7F9:
+	php
+	pha
+	sep #$20
+	lda $1FCF
+	bne CODE_03B824
+	lda $14D1
+	and #$08
+	beq CODE_03B810
+	lda $14D7
+	and #$80
+	bne CODE_03B824
+CODE_03B810:
+	pla
+	phx
+	ldx $1F4D
+	sta $1F53,x
+	lda $1F4D
+	inc
+	and #$0F
+	sta $1F4D
+	plx
+	plp
+	rtl
+CODE_03B824:
+	pla
 	plp
 	rtl
 	
@@ -1863,8 +1978,336 @@ CopyDebugFont_L1:
 	
 	
 	
-
-
+	
+CODE_03B86F:
+	lda #$FF
+	sta $15BF
+	jsl CODE_03BCE5
+	lda D,$CA
+	sta $700034
+	lda D,$CC
+	sta $700036
+	lda D,$2A
+	sta $700038
+	lda D,$2E
+	sta $70003A
+	lda D,$2C
+	sta $70003C
+	lda D,$30
+	sta $70003E
+	rtl
+CopyDebugFont:
+	php
+	sep #$30
+	ldy #$00
+	ldx #$00
+	lda #$80
+	sta D,$60
+CopyDebugFont_Loop:
+	lda DebugFont,x
+	sta CopiedDebugFont,x
+	inx
+	iny
+	iny
+	dec D,$60
+	bne CopyDebugFont_Loop
+	plp
+	rtl
+RunSuperFXCalculateMatrix2:
+	php
+	rep #$20
+	stz $1633
+	stz $1635
+	stz $1637
+	lda $1633
+	sta $162D
+	lda $1635
+	sta $162F
+	lda $1637
+	sta $1631
+	sep #$20
+	jsl RunSuperFXCalculateMatrix
+	rep #$20
+	lda Unknown_15D7.XX
+	sta Unknown_161B.XX
+	
+	
+	
+RunSuperFXMultiplyPointByMatrix:
+	phx
+	phy
+	php
+	rep #$30
+	lda D,TempVecX
+	sta InputVecX
+	lda D,TempVecY
+	sta InputVecY
+	lda D,TempVecZ
+	sta InputVecZ
+	sep #$20
+	lda #BANKOF(MultiplyPointByMatrix)
+	ldx #MultiplyPointByMatrix
+	jsl RunSuperFXRoutine
+	rep #$20
+	lda OutputVecX
+	sta D,$B3
+	lda OutputVecY
+	sta D,$B5
+	lda OutputVecZ
+	sta D,$B7
+	plp
+	ply
+	plx
+	rtl
+RunSuperFXCalculateMatrix:
+	rep #$20
+	lda $162D
+	sta DesiredXRot
+	lda $162F
+	sta DesiredYRot
+	lda $1631
+	sta DesiredZRot
+	sep #$20
+	rep #$10
+	lda.b #BANKOF(CalculateMatrix)
+	ldx.w #CalculateMatrix
+	jsl RunSuperFXRoutine
+	lda CalculatedMatrix.XX
+	sta $15D7
+	lda CalculatedMatrix.YX
+	sta $16D9
+	lda CalculatedMatrix.ZX
+	sta $16DB
+	lda CalculatedMatrix.XY
+	sta $15DD
+	lda CalculatedMatrix.YY
+	sta $16DF
+	lda CalculatedMatrix.ZY
+	sta $16E1
+	lda CalculatedMatrix.XZ
+	sta $15E3
+	lda CalculatedMatrix.YZ
+	sta $16E5
+	lda CalculatedMatrix.ZZ
+	sta $16E7
+	sep #$30
+	rtl
+CODE_03B9F2:
+	lda D,TempVecX
+	sta D,$84
+	lda D,TempVecX+1
+	sta D,$85
+	lda D,TempVecZ
+	sta D,$86
+	lda D,TempVecZ+1
+	sta D,$87
+	jsl CODE_03BA45
+	lda D,$88
+	sta D,$72
+	lda D,$89
+	sta D,$73
+	lda D,TempVecY
+	sta D,$84
+	lda D,TempVecY+1
+	sta D,$85
+	lda D,TempVecZ
+	sta D,$86
+	lda D,TempVecZ+1
+	sta D,$87
+	jsl CODE_03BA45
+	
+	
+	
+	
+CODE_03BA45:
+	ldx #$00
+	lda D,$87
+	beq CODE_03BA57
+	inx
+	lsr
+	beq CODE_03BA55
+CODE_03BA4F:
+	ror D,$86
+	inx
+	lsr
+	bne CODE_03BA4F
+CODE_03BA55:
+	ror D,$86
+CODE_03BA57:
+	stx D,$92
+	ldx #$00
+	lda D,$85
+	sta D,$8B
+	bpl CODE_03BA6E
+	lda #$00
+	sec
+	sbc D,$84
+	sta D,$84
+	lda #$00
+	sbc D,$85
+	sta D,$85
+CODE_03BA6E:
+	beq CODE_03BA7F
+	inx
+	lsr
+	beq CODE_03BA7A
+CODE_03BA74:
+	ror D,$84
+	inx
+	lsr
+	bne CODE_03BA74
+CODE_03BA7A:
+	ror D,$84
+	jmp CODE_03BA96
+CODE_03BA7F:
+	lda D,$84
+	bmi CODE_03BA96
+	bne CODE_03BA90
+	lda D,$CA
+	sta D,$88
+	lda D,$CB
+	sta D,$89
+	jmp CODE_03BAF6
+CODE_03BA90:
+	dex
+	asl
+	bpl CODE_03BA90
+	sta D,$84
+CODE_03BA96:
+	lda D,$86
+	cmp D,$84
+	bcc CODE_03BAA4
+CODE_03BA9C:
+	dex
+	lsr
+	cmp D,$84
+	bcs CODE_03BA9C
+	sta D,$86
+CODE_03BAA4:
+	txa
+	sec
+	sbc D,$92
+	sta D,$8A
+	ldx D,$84
+	lda DATA_0083D5,x
+	ldx D,$86
+	sec
+	sbc DATA_0083D5,x
+	tax
+	lda DATA_0082D5,x
+	sta D,$89
+	lda DATA_0081D5,x
+	lda D,$8A
+	bmi CODE_03BACD
+	beq CODE_03BAD3
+CODE_03BAC4:
+	asl
+	rol D,$89
+	dex
+	bne CODE_03BAC4
+	jmp CODE_03BAD3
+CODE_03BACD:
+	lsr D,$89
+	ror
+	inx
+	bne CODE_03BACD
+CODE_03BAD3:
+	sta D,$88
+	bit D,$8B
+	bpl CODE_03BAE9
+	sec
+	lda D,$CA
+	sbc D,$88
+	sta D,$88
+	lda D,$CB
+	sbc D,$89
+	sta D,$89
+	jmp CODE_03BAF6
+CODE_03BAE9:
+	clc
+	lda D,$88
+	adc D,$CA
+	sta D,$88
+	lda D,$89
+	adc D,$CB
+	sta D,$89
+CODE_03BAF6:
+	rtl
+CODE_03BAF7:
+	bpl CODE_03BAFC
+	brl CODE_03BCF5
+CODE_03BAFC:
+	rep #$30
+	lda D,$C1
+	and #$00FF
+	eor #$00FF
+	sec
+	sbc #$0780
+	sta D,TempVecX
+	lda D,$C5
+	and #$00FF
+	eor #$00FF
+	sec
+	sbc #$0780
+	sta D,TempVecZ
+	lda #$0000
+	sec
+	sbc D,$C3
+	sta D,TempVecY
+	lda D,$C1
+	and #$FF00
+	lsr
+	lsr
+	lsr
+	lsr
+	lsr
+	lsr
+	lsr
+	lsr
+	sep #$20
+	sta $164B
+	rep #$20
+	lda D,$C5
+	and #$FF00
+	lsr
+	lsr
+	lsr
+	lsr
+	lsr
+	lsr
+	lsr
+	lsr
+	sep #$20
+	sta $164C
+	jsl RunSuperFXMultiplyPointByMatrix
+	rep #$20
+	lda D,$B3
+	sta D,TempVecX
+	lda D,$B5
+	sta D,TempVecY
+	lda D,$B7
+	sta D,TempVecZ
+	sep #$20
+	rep #$20
+	lda $161B
+	cmp #$8000
+	ror
+	cmp #$8000
+	ror
+	cmp #$8000
+	ror
+	cmp #$8000
+	ror
+	cmp #$8000
+	ror
+	cmp #$8000
+	ror
+	cmp #$8000
+	ror
+	sta $1639
+	
+	
+	
 CODE_03BD7A:
 	php
 	sep #$20
@@ -1884,7 +2327,7 @@ WaitScanline:
 	pha
 	sep #$20
 	stz $16DC
-WaitScanline_L1:
+WaitScanline_Wait:
 	sep #$20
 	lda SLHV
 	lda OPVCT
@@ -1892,7 +2335,7 @@ WaitScanline_L1:
 	lda OPVCT
 	xba
 	cmp ScanlineToWaitFor
-	bne WaitScanline_L1
+	bne WaitScanline_Wait
 	rep #$30
 	pla
 	plx
@@ -1902,8 +2345,8 @@ CODE_03BDAF:
 	php
 	sep #$20
 	lda #$03
-	sta $16EC
-	stz $1898
+	sta Lives
+	stz Continues
 	rep #$20
 	lda #$00FC
 	sta $16CE
@@ -1913,7 +2356,7 @@ CODE_03BDAF:
 	sta $16D2
 	lda #$019A
 	sta $16D4
-	stz $16D6
+	stz StageID
 	stz $16DD
 	stz $16DF
 	plp
@@ -2065,7 +2508,7 @@ Map_L8:
 	rep #$20
 	lda #$0010
 	sta $70009A
-Map_L9:
+Map_Loop:
 	inc $15BB
 	jsr CODE_03C511
 	jsr CODE_03C58F
@@ -2131,7 +2574,7 @@ Map_SkipIncDec:
 	lda Pad1Down					;\Check if Start/A/B pressed...
 	bit #$9080					;|
 	bne Map_L18					;|...if so, branch ahead, otherwise...
-	brl Map_L9					;/...go back
+	brl Map_Loop					;/...go back
 Map_L18:
 	stz StageID
 	stz $16D9
@@ -2766,13 +3209,13 @@ LevelScriptCommandJumpTable:
 	DW LevelCommand0E_ShowStageNum
 	DW LevelCommand10_SetPreset
 	DW LevelCommand12_SetZTimer16
-	DW LevelCommand14
+	DW LevelCommand14_SetMusic
 	DW LevelCommand16_DisablePointEffects
-	DW LevelCommand18_EnableGridPointEffect
-	DW LevelCommand1A_EnableColoredStarsPointEffect
+	DW LevelCommand18_EnableGridOfDots
+	DW LevelCommand1A_EnableColoredStars
 	DW LevelCommand1C
-	DW LevelCommand1E_UpdateScrollMode2
-	DW LevelCommand20_UpdateScrollMode1
+	DW LevelCommand1E_EnableBGTilt
+	DW LevelCommand20_DisableBGTilt
 	DW LevelCommand22
 	DW LevelCommand24
 	DW LevelCommand26
@@ -2799,15 +3242,15 @@ LevelScriptCommandJumpTable:
 	DW LevelCommand50_FadeToBlackFast
 	DW LevelCommand52
 	DW LevelCommand54
-	DW LevelCommand56
-	DW LevelCommand58
+	DW LevelCommand56_DisableFGTilt
+	DW LevelCommand58_EnableFGTilt
 	DW LevelCommand5A
 	DW LevelCommand5C_StoreByte
 	DW LevelCommand5E_StoreWord
 	DW LevelCommand60_StoreLong
 	DW LevelCommand62
-	DW LevelCommand64
-	DW LevelCommand66
+	DW LevelCommand64_RunLoadPresetFunc
+	DW LevelCommand66_InitPresetSettings
 	DW LevelCommand68
 	DW LevelCommand6A
 	DW LevelCommand6C
@@ -2824,7 +3267,7 @@ LevelScriptCommandJumpTable:
 	DW LevelCommand82
 	DW LevelCommand84
 	DW LevelCommand86_LoadObject16BehAddr
-	DW LevelCommand14
+	DW LevelCommand14_SetMusic
 	DW LevelCommand8A_SetZTimer8
 	DW LevelCommand8C_SetBehEvent
 LevelCommand8C_SetBehEvent:
@@ -2857,16 +3300,16 @@ LevelCommand8A_SetZTimer8:
 	inx						;|
 	stx LevelScriptPointer				;|...save script pointer and leave
 	rts						;/
-LevelCommand14:
+LevelCommand14_SetMusic:
 	tyx
 	sep #$20
 	lda $14D7
 	and #$80
-	bne LevelCommand14_ChangeMusic_L1
+	bne LevelCommand14_Exit
 	lda $8001,x					;\Get next byte...
-	sta $1F47					;|...and store in current music ID...
-	stz $1F46					;/...clearing the music loaded flag too
-LevelCommand14_ChangeMusic_L1:
+	sta MusicID					;|...and store in current music ID...
+	stz MusicLoaded					;/...clearing the music loaded flag too
+LevelCommand14_Exit:
 	inx						;\Move on to next command
 	inx						;|
 	jmp RunLevelScriptCommands			;/
@@ -2884,15 +3327,15 @@ LevelCommand78_RunASMBlock:
 	txa
 	clc
 	adc #$00
-	bra LevelCommand8C_SetBehEvent_L1
+	bra LevelCommand8C_NotNull
 CODE_03EEAA:
 	sep #$20
 	lda #$00
 	pha
 	plb
-	lda #$03
+	lda.b #BANKOF(STACKIFY(RunLevelScriptCommands))
 	pha
-	ldy #$EDAA
+	ldy.w #STACKIFY(RunLevelScriptCommands)
 	phy
 	lda LevelScriptBank
 	pha
@@ -3089,19 +3532,19 @@ LevelCommand6A_L2:
 	inx
 	inx
 	jmp RunLevelScriptCommands
-LevelCommand66:
+LevelCommand66_InitPresetSettings:
 	tyx
 	phx
-	jsl CODE_03F018
+	jsl SetPresetInitFlag
 	plx
 	inx
 	jmp RunLevelScriptCommands
-CODE_03F018:
+SetPresetInitFlag:
 	lda Unknown_1F13
 	ora #$0008
 	sta Unknown_1F13
 	rtl
-CODE_03F022:
+InitPresetSettings:
 	php
 	rep #$30
 	ldx Unknown_1238
@@ -3276,17 +3719,17 @@ LevelCommand84_NotNull:
 LevelCommand84_Exit:
 	inx						;\Move on to next command
 	jmp RunLevelScriptCommands			;/
-LevelCommand56:
+LevelCommand56_DisableFGTilt:
 	tyx
-	sep #$20
-	stz Unknown_16F1
+	sep #$20					;\Disable foreground tilting
+	stz BGTiltFlag					;/
 	inx						;\Move on to next command
 	jmp RunLevelScriptCommands			;/
-LevelCommand58:
+LevelCommand58_EnableFGTilt:
 	tyx
-	sep #$20
-	lda #$01
-	sta Unknown_16F1
+	sep #$20					;\Enable foreground tilting
+	lda #$01					;|
+	sta BGTiltFlag					;/
 	inx						;\Move on to next command
 	jmp RunLevelScriptCommands			;/
 LevelCommand52_DisableScreen:
@@ -3649,10 +4092,10 @@ LevelCommand2C_JumpConditionally:
 	tyx
 	phx
 	sep #$20
-	lda #$03
+	lda.b #BANKOF(STACKIFY(CODE_03F3FE))
 	pha
 	rep #$20
-	lda #LevelCommand2C_Exit
+	lda.w #STACKIFY(CODE_03F3FE)
 	pha
 	sep #$20
 	lda $8003,x
@@ -3665,7 +4108,6 @@ LevelCommand2C_JumpConditionally:
 	lda #$00
 	pha
 	plb
-LevelCommand2C_Exit:
 	rtl
 CODE_03F3FE:
 	bcs CODE_03F41A
@@ -3734,7 +4176,7 @@ LevelCommand2A_Return:
 	inx						;/
 	dec ScriptCallStackSz				;\Increment stack size and leave
 	jmp RunLevelScriptCommands			;/
-LevelCommand1E_UpdateScrollMode2:
+LevelCommand1E_EnableBGTilt:
 	tyx
 	jsr DoCmdUpdateScrollMode2
 	inx
@@ -3749,13 +4191,13 @@ DoCmdUpdateScrollMode2:
 	sta BG2VOFS					;|
 	lda VerticalScroll+1				;|
 	sta BG2VOFS					;/
-	lda #$01					;\Set Mode2Flag (enables offset per tile calculation)
+	lda #$01					;\Enable background tilting/shearing
 	sta Mode2Flag					;/
 	lda #$02					;\Set BGMODE to 2
 	sta BGMODE					;/
 	plp
 	rts
-LevelCommand20_UpdateScrollMode1:
+LevelCommand20_DisableBGTilt:
 	tyx
 	jsr DoCmdUpdateScrollMode1
 	inx
@@ -3765,8 +4207,8 @@ CmdUpdateScrollMode1:
 	rtl
 DoCmdUpdateScrollMode1:
 	php
-	sep #$20					;\Clear Mode2Flag (disables offset per tile calculation)
-	stz Mode2Flag					;/
+	sep #$20					;\Disable background tilting/shearing
+	stz BGTiltFlag					;/
 	lda #$01					;\Set BGMODE to 1
 	sta BGMODE					;/
 	lda VerticalScroll				;\Update vertical scroll
@@ -3779,20 +4221,20 @@ LevelCommand22:
 	tyx
 	sep #$20
 	lda #$01
-	sta $1953
+	sta Unknown_1953
 	inx
 	jmp RunLevelScriptCommands
 LevelCommand24:
 	tyx
 	sep #$20
-	stz $1953
+	stz Unknown_1953
 	inx
 	jmp RunLevelScriptCommands
 LevelCommand1C:
 	tyx
 	sep #$20
 	lda $8001,x
-	sta $1955
+	sta Unknown_1955
 	inx
 	inx
 	jmp RunLevelScriptCommands
@@ -3801,32 +4243,32 @@ LevelCommand16_DisablePointEffects:
 	stz PointEffect					; Set PointEffect to 0 (none)
 	inx						;\Move on to next command
 	jmp RunLevelScriptCommands			;/
-LevelCommand18_EnableGridPointEffect:
+LevelCommand18_EnableGridOfDots:
 	tyx
 	lda #$0001					;\Set PointEffect to 1 (grid of dots)
 	sta PointEffect					;/
 	inx						;\Move on to next command
 	jmp RunLevelScriptCommands			;/
-LevelCommand1A_EnableColoredStarsPointEffect:
+LevelCommand1A_EnableColoredStars:
 	tyx
 	lda #$FFFF					;\Set PointEffect to -1 (colored stars)
 	sta PointEffect					;/
 	inx						;\Move on to next command
 	jmp RunLevelScriptCommands			;/
-LevelCommand64:
+LevelCommand64_RunLoadPresetFunc:
 	tyx
 	phx
-	lda $16DF
+	lda Unknown_16DF
 	tax
 	lda.l PresetFunctionTable,x
-	sta D,$02
+	sta D,TempPtr
 	lda.l PresetFunctionTable+1,x
-	ora D,$02
-	beq LevelCommand64_L1
+	ora D,TempPtr
+	beq LevelCommand64_Exit
 	plx
 	stx LevelScriptPointer
 	rts
-LevelCommand64_L1:
+LevelCommand64_Exit:
 	plx
 	inx
 	jmp RunLevelScriptCommands
@@ -3834,9 +4276,9 @@ LevelCommand62:
 	tyx
 	lda $8001,x
 	and #$00FF
-	sta $16E1
+	sta Unknown_16E1
 	lda $8002,x
-	sta $16DF
+	sta Unknown_16DF
 	sta Preset
 	inx
 	inx
@@ -3856,9 +4298,9 @@ LevelCommand10_SetPreset:
 	jmp RunLevelScriptCommands
 DoSetPreset:
 	sta Preset
-	lda $1F13
+	lda Unknown_1F13
 	ora #$0004
-	sta $1F13
+	sta Unknown_1F13
 	rtl
 LoadPreset:
 	rep #$20
@@ -3895,10 +4337,10 @@ LoadPreset_Exit:
 	rtl
 LevelCommand0E_ShowStageNum:
 	tyx
-	lda #$0032
-	sta $15B9
-	inx
-	jmp RunLevelScriptCommands
+	lda #$0032					;\Set stage number text to appear for 50 frames
+	sta StageNumTextTimer				;/
+	inx						;\Move on to next command
+	jmp RunLevelScriptCommands			;/
 LevelCommand70_LoadObject8BehNum:
 	tyx
 	lda $8001,x					;\Get ZTimer...
@@ -3969,7 +4411,7 @@ LevelCommand70_SkipY:
 	asl
 	asl
 	phy
-	ldy $1238
+	ldy Unknown_1238
 	clc
 	adc $0010,y
 	ply
@@ -4128,7 +4570,7 @@ LevelCommand72_L10:
 	asl
 	asl
 	phy
-	ldy $1238
+	ldy Unknown_1238
 	clc
 	adc $0010,y
 	ply
@@ -4202,7 +4644,7 @@ LevelCommand00_SkipSetNextPrev:
 	lda $8005,x					;\Init object Y position
 	sta $000E,y					;/
 	phy						;\Init object Z position
-	ldy $1238					;|
+	ldy Unknown_1238				;|
 	lda $0010,y					;|
 	ply						;|
 	clc						;|
@@ -4291,7 +4733,7 @@ LevelCommand74_LoadMacroObj16_L4:
 	lda $8005,x
 	sta $000E,y
 	phy
-	ldy $1238
+	ldy Unknown_1238
 	lda $0010,y
 	ply
 	clc
@@ -4432,7 +4874,7 @@ LevelCommand86_LoadObject16BehAddr_L4:
 	lda $8005,x
 	sta $000E,y
 	phy
-	ldy $1238
+	ldy Unknown_1238
 	lda $0010,y
 	ply
 	clc
@@ -4506,7 +4948,7 @@ LevelCommand0A_SwarmBeh16_L4:
 	lda $8005,x
 	sta $000E,y
 	phy
-	ldy $1238
+	ldy Unknown_1238
 	lda $0010,y
 	ply
 	clc
