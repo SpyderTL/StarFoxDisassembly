@@ -12,62 +12,62 @@ DoReset:
 	clc			;\Disable emulation mode
 	xce			;/
 	rep #$30
-	lda #$0000		;\Clear D register
+	lda.w #$0000		;\Clear D register
 	tad			;/
-	ldx #$02FF		;\Set stack pointer to $02FF
+	ldx.w #$02FF		;\Set stack pointer to $02FF
 	txs			;/
 	sep #$30
 	pha			;\Set DBR to 0
 	plb			;/
 	sep #$30
-	jsl ClearRegisters
+	jsl InitRegisters
 	jsr ClearRAM
 	rep #$10
-	ldx #$02FF		;\Set stack pointer to $02FF (again?)
+	ldx.w #$02FF		;\Set stack pointer to $02FF (again?)
 	txs			;/
 	sep #$30
 	jsl CODE_02E266
 	jsl Intro
 	jsl Title
 	sep #$20
-	lda #$00
-	sta $7EA05A
-	lda #$00
-	sta $1FDF
+	lda.b #$00
+	sta.l $7EA05A
+	lda.b #$00
+	sta.w $1FDF
 	bra DoResetPart2
 CODE_1FBDEE:
 	rep #$30
 	clc			;\Disable emulation mode
 	xce			;/
-	lda #$0000		;\Clear D register
+	lda.w #$0000		;\Clear D register
 	tad			;/
-	ldx #$02FF		;\Set stack pointer to $02FF
+	ldx.w #$02FF		;\Set stack pointer to $02FF
 	txs			;/
 	sep #$30
 	sei			; Disable interrupts
-	jsl ClearRegisters
+	jsl InitRegisters
 	
-	lda LevelID		;\Save some values on the stack before calling
+	lda.w LevelID		;\Save some values on the stack before calling
 	pha			;|
-	lda $1FDF		;|
+	lda.w $1FDF		;|
 	pha			;|
-	lda $7EA05A		;|
+	lda.l $7EA05A		;|
 	pha			;|
-	lda $1F0F		;|
+	lda.w $1F0F		;|
 	pha			;/
 	jsr ClearRAM
 	pla			;\Restore our saved values
-	sta $1F0F		;|
+	sta.w $1F0F		;|
 	pla			;|
-	sta $7EA05A		;|
+	sta.l $7EA05A		;|
 	pla			;|
-	sta $1FDF		;|
+	sta.w $1FDF		;|
 	pla			;|
-	sta LevelID		;/
+	sta.w LevelID		;/
 	
-	lda #$01
-	sta $1F65
-	sta $7EF0B3
+	lda.b #$01
+	sta.w $1F65
+	sta.l $7EF0B3
 	jsl CODE_02E266
 DoResetPart2:
 	jsl Controls
@@ -76,172 +76,172 @@ DoResetPart2:
 ClearRAM:
 	php			; Save processor status
 	sep #$20
-	lda #$7E		;\Set DBR to $7E
+	lda.b #$7E		;\Set DBR to $7E
 	pha			;|
 	plb			;/
 	rep #$30
-	ldx #$2000
+	ldx.w #$2000
 ClearRAM_Bank7EHi:		;\Clear bank $7E from $2000-$FFFF
-	stz $0000,x		;|
-	stz $0002,x		;|
-	stz $0004,x		;|
-	stz $0006,x		;|
+	stz.w $0000,x		;|
+	stz.w $0002,x		;|
+	stz.w $0004,x		;|
+	stz.w $0006,x		;|
 	txa			;|
 	clc			;|
-	adc #$0008		;|
+	adc.w #$0008		;|
 	tax			;|
 	bne ClearRAM_Bank7EHi	;/
 	sep #$20
-	lda #$7F		;\Set DBR to $7F
+	lda.b #$7F		;\Set DBR to $7F
 	pha			;|
 	plb			;/
 	rep #$20
 ClearRAM_Bank7F:		;\Clear all of bank $7F
-	stz $0000,x		;|
-	stz $0002,x		;|
-	stz $0004,x		;|
-	stz $0006,x		;|
+	stz.w $0000,x		;|
+	stz.w $0002,x		;|
+	stz.w $0004,x		;|
+	stz.w $0006,x		;|
 	txa			;|
 	clc			;|
-	adc #$0008		;|
+	adc.w #$0008		;|
 	tax			;|
 	bne ClearRAM_Bank7F	;/
 	sep #$20
-	lda #$70		;\Set DBR to $70
+	lda.b #$70		;\Set DBR to $70
 	pha			;|
 	plb			;/
 	rep #$30
 ClearRAM_Bank70:		;\Clear bank $70 from $0000-$7FFF
-	stz $0000,x		;|
-	stz $0002,x		;|
-	stz $0004,x		;|
-	stz $0006,x		;|
+	stz.w $0000,x		;|
+	stz.w $0002,x		;|
+	stz.w $0004,x		;|
+	stz.w $0006,x		;|
 	txa			;|
 	clc			;|
-	adc #$0008		;|
+	adc.w #$0008		;|
 	tax			;|
 	bpl ClearRAM_Bank70	;/
 	sep #$20
-	lda #$00		;\Set DBR to $00
+	lda.b #$00		;\Set DBR to $00
 	pha			;|
 	plb			;/
 	rep #$20
-	ldx #$1CF8
+	ldx.w #$1CF8
 ClearRAM_Bank00Misc:		;\Clear bank $00 from $1FF8-$82FF
-	stz $0300,x		;|
-	stz $0302,x		;|
-	stz $0304,x		;|
-	stz $0306,x		;|
+	stz.w $0300,x		;|
+	stz.w $0302,x		;|
+	stz.w $0304,x		;|
+	stz.w $0306,x		;|
 	txa			;|
 	clc			;|
-	adc #$0008		;|
+	adc.w #$0008		;|
 	tax			;|
 	bpl ClearRAM_Bank00Misc	;/
-	ldx #$00FE
+	ldx.w #$00FE
 ClearRAM_ZeroPage:		;\Clear zero page
-	stz $00,x		;|
+	stz.b $00,x		;|
 	dex			;|
 	dex			;|
 	bpl ClearRAM_ZeroPage	;/
-	jsl $1FFDFB
+	jsl CopyCodeToRam
 	sep #$20
 	lda STAT78
-	and #$10
-	sta $16F6
+	and.b #$10
+	sta.w $16F6
 	plp			;\Restore processor status and return
 	rts			;/
-ClearRegisters:
+InitRegisters:
 	sei
-	lda #$01
-	sta $16DB
-	jsl $03BD8D
+	lda.b #$01
+	sta ScanlineToWaitFor
+	jsl WaitScanline
 	sep #$30
-	lda #$00
-	sta $16DB
-	jsl $03BD8D
+	lda.b #$00
+	sta ScanlineToWaitFor
+	jsl WaitScanline
 	sep #$30
-	lda #$8F
+	lda.b #$8F
 	sta INIDISP
-	lda #$00		; Why not just use stz here?
-	sta OBSEL
-	sta OAMADDL
-	sta OAMADDH
-	sta BGMODE
-	sta MOSAIC
-	sta BG1SC
-	sta BG2SC
-	sta BG3SC
-	sta BG4SC
-	sta BG12NBA
-	sta BG34NBA
-	sta BG1HOFS
-	sta BG1HOFS
-	sta BG1VOFS
-	sta BG1VOFS
-	sta BG2HOFS
-	sta BG2HOFS
-	sta BG2VOFS
-	sta BG2VOFS
-	sta BG3HOFS
-	sta BG3VOFS
-	sta BG3VOFS
-	sta BG4HOFS
-	sta BG4HOFS
-	sta BG4VOFS
-	sta BG4VOFS
-	ldx #$80
-	stx VMAIN
-	sta VMADDL
-	sta VMADDH
-	sta M7SEL
-	ldx #$01
-	sta M7A
-	stx M7A
-	sta M7B
-	sta M7B
-	sta M7C
-	sta M7C
-	sta M7D
-	stx M7D
-	sta M7X
-	sta M7X
-	sta M7Y
-	sta M7Y
-	sta CGADD
-	sta CGDATA
-	sta W12SEL
-	sta W34SEL
-	sta WOBJSEL
-	sta WH0
-	sta WH1
-	sta WH2
-	sta WH3
-	sta WBGLOG
-	sta WOBJLOG
-	sta TM
-	sta TS
-	sta TMW
-	ldy #$30
-	sty CGWSEL
-	sta CGADSUB
-	ldx #$E0
-	stx COLDATA
-	sta SETINI
-	sta NMITIMEN
-	ldx #$FF
-	stx WRIO
-	sta WRMPYA
-	sta WRMPYB
-	sta WRDIVL
-	sta WRDIVH
-	sta WRDIVB
-	sta HTIMEL
-	sta HTIMEH
-	sta VTIMEL
-	sta VTIMEH
-	sta MDMAEN
-	sta HDMAEN
-	sta MEMSEL
+	lda.b #$00		;\Clear a bunch of registers (why not just use stz here?)
+	sta.w OBSEL		;|
+	sta.w OAMADDL		;|
+	sta.w OAMADDH		;|
+	sta.w BGMODE		;|
+	sta.w MOSAIC		;|
+	sta.w BG1SC		;|
+	sta.w BG2SC		;|
+	sta.w BG3SC		;|
+	sta.w BG4SC		;|
+	sta.w BG12NBA		;|
+	sta.w BG34NBA		;|
+	sta.w BG1HOFS		;|
+	sta.w BG1HOFS		;|
+	sta.w BG1VOFS		;|
+	sta.w BG1VOFS		;|
+	sta.w BG2HOFS		;|
+	sta.w BG2HOFS		;|
+	sta.w BG2VOFS		;|
+	sta.w BG2VOFS		;|
+	sta.w BG3HOFS		;|
+	sta.w BG3VOFS		;|
+	sta.w BG3VOFS		;|
+	sta.w BG4HOFS		;|
+	sta.w BG4HOFS		;|
+	sta.w BG4VOFS		;|
+	sta.w BG4VOFS		;/
+	ldx.b #$80		;\Init VRAM write registers
+	stx.w VMAIN		;|
+	sta.w VMADDL		;|
+	sta.w VMADDH		;/
+	sta.w M7SEL		;\Init Mode 7 registers
+	ldx.b #$01		;|
+	sta.w M7A		;|
+	stx.w M7A		;|
+	sta.w M7B		;|
+	sta.w M7B		;|
+	sta.w M7C		;|
+	sta.w M7C		;|
+	sta.w M7D		;|
+	stx.w M7D		;|
+	sta.w M7X		;|
+	sta.w M7X		;|
+	sta.w M7Y		;|
+	sta.w M7Y		;/
+	sta.w CGADD
+	sta.w CGDATA
+	sta.w W12SEL
+	sta.w W34SEL
+	sta.w WOBJSEL
+	sta.w WH0
+	sta.w WH1
+	sta.w WH2
+	sta.w WH3
+	sta.w WBGLOG
+	sta.w WOBJLOG
+	sta.w TM
+	sta.w TS
+	sta.w TMW
+	ldy.b #$30
+	sty.w CGWSEL
+	sta.w CGADSUB
+	ldx.b #$E0
+	stx.w COLDATA
+	sta.w SETINI
+	sta.w NMITIMEN
+	ldx.b #$FF
+	stx.w WRIO
+	sta.w WRMPYA
+	sta.w WRMPYB
+	sta.w WRDIVL
+	sta.w WRDIVH
+	sta.w WRDIVB
+	sta.w HTIMEL
+	sta.w HTIMEH
+	sta.w VTIMEL
+	sta.w VTIMEH
+	sta.w MDMAEN
+	sta.w HDMAEN
+	sta.w MEMSEL
 	rtl
 CODE_1FBFDB:
 	rtl
@@ -255,1164 +255,1164 @@ CODE_1FBFE0:
 	phx
 	phy
 	php
-	jsl $1FDBA4
+	jsl CODE_1FDBA4
 	rep #$20
 	phx
 	txa
-	ldx FirstObject
+	ldx.w FirstObject
 CODE_1FBFEE:
-	cmp D,$19,x
+	cmp.b $19,x
 	bne CODE_1FBFF4
-	stz D,$19,x
+	stz.b $19,x
 CODE_1FBFF4:
-	cmp D,$06,x
+	cmp.b $06,x
 	bne CODE_1FBFFA
-	stz D,$06,x
+	stz.b $06,x
 CODE_1FBFFA:
-	cmp $1CDD,x
+	cmp.w $1CDD,x
 	bne CODE_1FC002
-	stz $1CDD,x
+	stz.w $1CDD,x
 CODE_1FC002:
-	cmp D,$1B,x
+	cmp.b $1B,x
 	bne CODE_1FC008
-	stz D,$1B,x
+	stz.b $1B,x
 CODE_1FC002:
-	ldy D,$00,x
+	ldy.b $00,x
 	tyx
 	bne CODE_1FBFEE
 	plx
-	jsl $0AFB8E
-	ldy D,$02,x
+	jsl CODE_0AFB8E
+	ldy.b $02,x
 	bne CODE_1FC023
-	ldy D,$00,x
-	sty FirstObject
-	lda #$0000
-	sta $0002,y
+	ldy.b $00,x
+	sty.w FirstObject
+	lda.w #$0000
+	sta.w $0002,y
 	bra CODE_1FC031
 CODE_1FC023:
 	phx
-	lda D,$00,x
+	lda.b $00,x
 	tax
-	stx D,$00,y
-	cmp #$0000
+	stx.b $00,y
+	cmp.w #$0000
 	beq CODE_1FC030
-	sty D,$02,x
+	sty.b $02,x
 CODE_1FC030:
 	plx
 CODE_1FC031:
-	lda FirstFreeObject
-	sta D,$00,x
-	stx FirstFreeObject
+	lda.w FirstFreeObject
+	sta.b $00,x
+	stx.w FirstFreeObject
 	plp
 	ply
 	plx
 	rts
 CODE_1FC03D:
 	php
-	rep #$30
-	stz $1EFB
-	ldx FirstObject
+	rep.b #$30
+	stz.w $1EFB
+	ldx.w FirstObject
 	beq CODE_1FC09D
-	ldy #$0000
+	ldy.w #$0000
 CODE_1FC04B:
 	phx
-	lda D,$2E,x
-	and #$0004
+	lda.b $2E,x
+	and.w #$0004
 	bne CODE_1FC097
-	lda D,$1E,x
-	and #$0001
+	lda.b $1E,x
+	and.w #$0001
 	bne CODE_1FC097
-	lda D,$2A,x
-	and #$00FF
+	lda.b $2A,x
+	and.w #$00FF
 	beq CODE_1FC097
-	lda D,$08,x
-	bit #$0001
+	lda.b $08,x
+	bit.w #$0001
 	bne CODE_1FC097
 	phx
-	lda D,$04,x
+	lda.b $04,x
 	tyx
 	tay
 	pla
-	sta $7E2EC4,x
-	lda $0008,y
-	sta $7E2EC6,x
-	lda $000A,x
-	sta $7E2EC8,x
-	lda $000C,x
-	sta $7E2ECA,x
-	lda $000E,x
-	sta $7E2ECC,x
+	sta.l $7E2EC4,x
+	lda.w $0008,y
+	sta.l $7E2EC6,x
+	lda.w $000A,x
+	sta.l $7E2EC8,x
+	lda.w $000C,x
+	sta.l $7E2ECA,x
+	lda.w $000E,x
+	sta.l $7E2ECC,x
 	inc
 	xce
-	asl $188A,x
-	adc #$000A
+	asl.l $188A,x
+	adc.l #$000A
 	tay
 CODE_1FC097:
 	plx
-	lda D,$00,x
+	lda.b $00,x
 	tax
 	bne CODE_1FC04B
 	plp
 	rtl
 
 CODE_1FC09F:
-	lda D,$14,x
-	sta D,$7E
+	lda.b $14,x
+	sta.b $7E
 	phb
-	stx D,$76
-	sty D,$78
-	stz D,$08
-	stz D,$09
-	lda D,$13,x
+	stx.b $76
+	sty.b $78
+	stz.b $08
+	stz.b $09
+	lda.b $13,x
 	tax
 	sep
-	lda #$00
+	lda.b #$00
 	pha
 	plb
 	lda.w SineTable8,x
-	sta D,$7A
+	sta.b $7A
 	lda.w SineTable8+$40,x
-	sta D,$7B
-	lda D,$7E
+	sta.b $7B
+	lda.b $7E
 	bmi CODE_1FC0D8
 	asl
-	sta WRMPYA
-	lda D,$7A
+	sta.w WRMPYA
+	lda.b $7A
 	bmi CODE_1FC0FA
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC108
 CODE_1FC0D8:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$7A
+	sta.w WRMPYA
+	lda.b $7A
 	bmi CODE_1FC0EA
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC102
 CODE_1FC0EA:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC108
 CODE_1FC0F8:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC108:
 	tax
-	ldx #$00
-	sta D,$02
-	cmp #$00
+	ldx.b #$00
+	sta.b $02
+	cmp.b #$00
 	bpl CODE_1FC112
 	dex
 CODE_1FC112:
-	stx D,$03
-	lda D,$7E
+	stx.b $03
+	lda.b $7E
 	bmi CODE_1FC12D
 	asl
-	sta WRMPYA
-	lda D,$7B
+	sta.w WRMPYA
+	lda.b $7B
 	bmi CODE_1FC14F
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC15D
 CODE_1FC12D:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$7B
+	sta.w WRMPYA
+	lda.b $7B
 	bmi CODE_1FC13F
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC157
 CODE_1FC13F:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC15D
 CODE_1FC14F:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC157:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC15D:
 	tax
-	ldx #$00
-	sta D,$90
-	cmp #$00
+	ldx.b #$00
+	sta.b $90
+	cmp.b #$00
 	bpl CODE_1FC167
 	dex
 CODE_1FC167:
-	stx D,$91
+	stx.b $91
 	rep #$10
-	ldx D,$78
-	ldy D,$78
+	ldx.b $78
+	ldy.b $78
 	plb
 	rtl
 CODE_1FC171:
-	lda D,$15,x
-	sta D,$7E
-	lda D,$13,x
+	lda.b $15,x
+	sta.b $7E
+	lda.b $13,x
 CODE_1FC177:
-	stx D,$76
-	sty D,$78
-	stz D,$08
-	stz D,$09
-	eor #$FF
+	stx.b $76
+	sty.b $78
+	stz.b $08
+	stz.b $09
+	eor.b #$FF
 	inc
 	tax
 	sep #$10
 	phb
-	lda #$00
+	lda.b #$00
 	pha
 	plb
 	inx
 	iny
 	lda.w SineTable8,x
-	sta D,$7A
+	sta.b $7A
 	lda.w SineTable8+$40,x
-	sta D,$7B
+	sta.b $7B
 CODE_1FC196:
-	lda D,$7E
+	lda.b $7E
 	bmi CODE_1FC1AF
 	asl
-	sta WRMPYA
-	lda D,$7A
+	sta.w WRMPYA
+	lda.b $7A
 	bmi CODE_1FC1D1
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC1DF
 CODE_1FC1AF:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$7A
+	sta.w WRMPYA
+	lda.b $7A
 	bmi CODE_1FC1C1
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC1D9
 CODE_1FC1C1:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC1DF
 CODE_1FC1D1:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC1D9:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC1DF:
 	tax
-	ldx #$00
-	sta D,$02
-	cmp #$00
+	ldx.b #$00
+	sta.b $02
+	cmp.b #$00
 	bpl CODE_1FC1E9
 	dex
 CODE_1FC1E9:
-	stx D,$03
-	lda D,$7E
+	stx.b $03
+	lda.b $7E
 	bmi CODE_1FC204
 	asl
-	sta WRMPYA
-	lda D,$7B
+	sta.w WRMPYA
+	lda.b $7B
 	bmi CODE_1FC226
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC234
 CODE_1FC204:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$7B
+	sta.w WRMPYA
+	lda.b $7B
 	bmi CODE_1FC216
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC22E
 CODE_1FC216:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC234
 CODE_1FC226:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC22E:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC234:
 	tax
-	ldx #$00
-	sta D,$90
-	cmp #$00
+	ldx.b #$00
+	sta.b $90
+	cmp.b #$00
 	bpl CODE_1FC23E
 	dex
 CODE_1FC23E:
-	stx D,$91
+	stx.b $91
 	rep #$10
-	ldx D,$76
-	ldy D,$78
+	ldx.b $76
+	ldy.b $78
 	plb
 	rtl
 CODE_1FC248:
-	lda D,$15,x
-	sta D,$7E
-	stz D,$03
-	stz D,$09
-	stz D,$91
-	stx D,$76
-	sty D,$78
-	lda D,$13,x
+	lda.b $15,x
+	sta.b $7E
+	stz.b $03
+	stz.b $09
+	stz.b $91
+	stx.b $76
+	sty.b $78
+	lda.b $13,x
 	tay
-	lda D,$12,x
-	eor #$FF
+	lda.b $12,x
+	eor.b #$FF
 	inc
 	tax
 	sep #$10
 	phb
-	lda #$00
+	lda.b #$00
 	pha
 	plb
 	lda.w SineTable8,y
-	sta D,$7A
+	sta.b $7A
 	lda.w SineTable8+$40,y
-	sta D,$7B
+	sta.b $7B
 	lda.w SineTable8,x
-	sta D,$82
+	sta.b $82
 	lda.w SineTable8+$40,x
-	sta D,$83
-	lda D,$7E
+	sta.b $83
+	lda.b $7E
 	bmi CODE_1FC293
 	asl
-	sta WRMPYA
-	lda D,$7A
+	sta.w WRMPYA
+	lda.b $7A
 	bmi CODE_1FC2B5
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC2C3
 CODE_1FC293:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$7A
+	sta.w WRMPYA
+	lda.b $7A
 	bmi CODE_1FC2A5
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC2BD
 CODE_1FC2A5:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC2C3
 CODE_1FC2B5:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC2BD:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC2C3:
 	tax
-	sta D,$02
-	lda D,$02
+	sta.b $02
+	lda.b $02
 	bmi CODE_1FC2DF
 	asl
-	sta WRMPYA
-	lda D,$83
+	sta.w WRMPYA
+	lda.b $83
 	bmi CODE_1FC301
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC30F
 CODE_1FC2DF:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$83
+	sta.w WRMPYA
+	lda.b $83
 	bmi CODE_1FC2F1
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC309
 CODE_1FC2F1:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	sta.w RDMPYH
 	jmp CODE_1FC30F
 CODE_1FC301:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC309:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC30F:
 	tax
-	sta D,$02
-	cmp #$00
+	sta.b $02
+	cmp.b #$00
 	bpl CODE_1FC318
-	dec D,$03
+	dec.b $03
 CODE_1FC318:
-	lda D,$7E
+	lda.b $7E
 	bmi CODE_1FC331
 	asl
-	sta WRMPYA
-	lda D,$7B
+	sta.w WRMPYA
+	lda.b $7B
 	bmi CODE_1FC353
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC361
 CODE_1FC331:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$7B
+	sta.w WRMPYA
+	lda.b $7B
 	bmi CODE_1FC343
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC35B
 CODE_1FC343:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC361
 CODE_1FC353:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC35B:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC361:
 	tax
-	sta D,$90
-	lda D,$90
+	sta.b $90
+	lda.b $90
 	bmi CODE_1FC37D
 	asl
-	sta WRMPYA
-	lda D,$83
+	sta.w WRMPYA
+	lda.b $83
 	bmi CODE_1FC39F
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC3AD
 CODE_1FC37D:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$83
+	sta.w WRMPYA
+	lda.b $83
 	bmi CODE_1FC38F
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC3A7
 CODE_1FC38F:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC3AD
 CODE_1FC39F:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC3A7:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC3AD:
 	tax
-	sta D,$90
-	cmp #$00
+	sta.b $90
+	cmp.b #$00
 	bpl CODE_1FC3B6
-	dec D,$91
+	dec.b $91
 CODE_1FC3B6:
-	lda D,$7E
+	lda.b $7E
 	bmi CODE_1FC3CF
 	asl
-	sta WRMPYA
-	lda D,$82
+	sta.w WRMPYA
+	lda.b $82
 	bmi CODE_1FC3F1
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC3FF
 CODE_1FC3CF:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$82
+	sta.w WRMPYA
+	lda.b $82
 	bmi CODE_1FC3E1
-	sta WRMPYA
+	sta.w WRMPYA
 	nop
 	jmp CODE_1FC3F9
 CODE_1FC3E1:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC3FF
 CODE_1FC3F1:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC3F9:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC3FF:
 	tax
-	sta D,$08
-	cmp #$00
+	sta.b $08
+	cmp.b #$00
 	bpl CODE_1FC408
-	dec D,$09
+	dec.b $09
 CODE_1FC408:
 	rep #$10
-	ldx D,$76
-	ldy D,$78
+	ldx.b $76
+	ldy.b $78
 	plb
 	rtl
 CODE_1FC410:
-	lda D,$15,x
-	sta D,$7E
-	lda D,$13,x
-	sta $15A7
-	lda D,$12,x
-	sta $16A6
+	lda.b $15,x
+	sta.b $7E
+	lda.b $13,x
+	sta.w $15A7
+	lda.b $12,x
+	sta.w $16A6
 CODE_1FC41E:
-	stz D,$03
-	stz D,$09
-	stz D,$91
-	stx D,$76
-	sty D,$78
+	stz.b $03
+	stz.b $09
+	stz.b $91
+	stx.b $76
+	sty.b $78
 	phb
-	lda #$00
+	lda.b #$00
 	pha
 	plb
-	lda $15A7
-	eor #$FF
+	lda.w $15A7
+	eor.b #$FF
 	inc
 	tay
-	lda $15A6
+	lda.w $15A6
 	tax
 	sep #$10
 	lda.w SineTable8,y
-	sta D,$7A
+	sta.b $7A
 	lda.w SineTable8+$40,y
-	sta D,$7B
+	sta.b $7B
 	lda.w SineTable8,x
-	sta D,$82
+	sta.b $82
 	lda.w SineTable8+$40,x
-	sta D,$83
-	lda D,$7E
+	sta.b $83
+	lda.b $7E
 	bmi CODE_1FC467
 	asl
-	sta WRMPYA
-	lda D,$7A
+	sta.w WRMPYA
+	lda.b $7A
 	bmi CODE_1FC489
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC497
 CODE_1FC467:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$7A
+	sta.w WRMPYA
+	lda.b $7A
 	bmi CODE_1FC479
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC491
 CODE_1FC479:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC497
 CODE_1FC489:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC491:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC497:
 	tax
-	sta D,$02
-	lda D,$02
+	sta.b $02
+	lda.b $02
 	bmi CODE_1FC4B3
 	asl
-	sta WRMPYA
-	lda D,$83
+	sta.w WRMPYA
+	lda.b $83
 	bmi CODE_1FC4D5
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC4E3
 CODE_1FC4B3:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$83
+	sta.w WRMPYA
+	lda.b $83
 	bmi CODE_1FC4C5
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC4DD
 CODE_1FC4C5:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC4E3
 CODE_1FC4D5:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC4DD:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC4E3:
 	tax
-	sta D,$02
-	cmp #$00
+	sta.b $02
+	cmp.b #$00
 	bpl CODE_1FC4EC
-	dec D,$03
+	dec.b $03
 CODE_1FC4EC:
-	lda D,$7E
+	lda.b $7E
 	bmi CODE_1FC505
 	asl
-	sta WRMPYA
-	lda D,$7B
+	sta.w WRMPYA
+	lda.b $7B
 	bmi CODE_1FC527
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC535
 CODE_1FC505:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$7B
+	sta.w WRMPYA
+	lda.b $7B
 	bmi CODE_1FC517
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC52F:
 CODE_1FC517:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC535
 CODE_1FC527:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC52F:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC535:
 	tax
-	sta D,$90
-	lda D,$90
+	sta.b $90
+	lda.b $90
 	bmi CODE_1FC551
 	asl
-	sta WRMPYA
-	lda D,$83
+	sta.w WRMPYA
+	lda.b $83
 	bmi CODE_1FC573
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC581
 CODE_1FC551:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$83
+	sta.w WRMPYA
+	lda.b $83
 	bmi CODE_1FC563
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC57B
 CODE_1FC563:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC581
 CODE_1FC573:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC57B:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC581:
 	tax
-	sta D,$90
-	cmp #$00
+	sta.b $90
+	cmp.b #$00
 	bpl CODE_1FC58A
-	dec D,$91
+	dec.b $91
 CODE_1FC58A:
-	lda D,$7E
+	lda.b $7E
 	bmi CODE_1FC5A3
 	asl
-	sta WRMPYA
-	lda D,$82
+	sta.w WRMPYA
+	lda.b $82
 	bmi CODE_1FC5C5
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC5D3
 CODE_1FC5A3:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$82
+	sta.w WRMPYA
+	lda.b $82
 	bmi CODE_1FC5B5
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC5CD
 CODE_1FC5B5:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC5D3
 CODE_1FC5C5:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC5CD:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC5D3:
 	tax
-	sta D,$08
-	cmp #$00
+	sta.b $08
+	cmp.b #$00
 	bpl CODE_1FC5DC
-	dec D,$08+1
+	dec.b $08+1
 CODE_1FC5DC:
 	rep #$10
-	ldx D,TempIndX
-	ldy D,TempIndY
+	ldx.b TempIndX
+	ldy.b TempIndY
 	plb
 	rtl
 CODE_1FC5E4:
-	sta D,$7E
-	stx D,$76
-	sty D,$78
-	stz D,$08
-	stz D,$08+1
+	sta.b $7E
+	stx.b $76
+	sty.b $78
+	stz.b $08
+	stz.b $08+1
 	sec
 	lda #$40
-	sbc D,$13,x
+	sbc.b $13,x
 	tax
 	sep #$10
 	phb
-	lda #$00
+	lda.b #$00
 	pha
 	plb
 	inx
 	lda.w SineTable8,x
-	sta D,$7A
+	sta.b $7A
 	lda.w SineTable8+$40,x
-	sta D,$7B
-	lda D,$7E
+	sta.b $7B
+	lda.b $7E
 	bmi CODE_1FC61F
 	asl
-	sta WRMPYA
-	lda D,$7A
+	sta.w WRMPYA
+	lda.b $7A
 	bmi CODE_1FC641
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC64F
 CODE_1FC61F:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$7A
+	sta.w WRMPYA
+	lda.b $7A
 	bmi CODE_1FC631
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC649
 CODE_1FC631:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC64F
 CODE_1FC641:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC649:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC64F:
 	tax
 	ldx #$00
-	sta D,$02
-	cmp #$00
+	sta.b $02
+	cmp.b #$00
 	bpl CODE_1FC659
 	dex
 CODE_1FC659:
-	stx D,$02+1
-	lda D,$7E
+	stx.b $02+1
+	lda.b $7E
 	bmi CODE_1FC674
 	asl
-	sta WRMPYA
-	lda D,$7B
+	sta.w WRMPYA
+	lda.b $7B
 	bmi CODE_1FC696
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC6A4
 CODE_1FC674:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$7B
+	sta.w WRMPYA
+	lda.b $7B
 	bmi CODE_1FC686
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC69E
 CODE_1FC686:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC6A4
 CODE_1FC696:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC69E:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC6A4:
 	tax
-	lda #$00
-	sta D,$90
-	cmp #$00
+	lda.b #$00
+	sta.b $90
+	cmp.b #$00
 	bpl CODE_1FC6AE
 	dex
 CODE_1FC6AE:
-	stx D,$90+1
+	stx.b $90+1
 	rep #$10
-	ldx D,$76
-	ldy D,$78
+	ldx.b $76
+	ldy.b $78
 	plb
 	rtl
 CODE_1FC6B8:
-	sta D,$7E
-	stx D,TempIndX
-	sty D,TempIndY
-	stz D,$08
-	stz D,$08+1
-	lda D,$13,x
+	sta.b $7E
+	stx.b TempIndX
+	sty.b TempIndY
+	stz.b $08
+	stz.b $08+1
+	lda.b $13,x
 	tax
 	sep #$10
 	phb
-	lda #$00
+	lda.b #$00
 	pha
 	plb
 	inx
 	lda.w SineTable8,x
-	sta D,$82
+	sta.b $82
 	lda.w SineTable8+$40,x
-	sta D,$83
-	lda D,$7E
+	sta.b $83
+	lda.b $7E
 	bmi CODE_1FC6F0
 	asl
-	sta WRMPYA
-	lda D,$82
+	sta.w WRMPYA
+	lda.b $82
 	bmi CODE_1FC712
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC720
 CODE_1FC6F0:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$82
+	sta.w WRMPYA
+	lda.b $82
 	bmi CODE_1FC702
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC71A
 CODE_1FC702:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC720
 CODE_1FC712:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC71A:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC720:
 	tax
 	ldx #$00
-	sta D,$02
-	cmp #$00
+	sta.b $02
+	cmp.b #$00
 	bpl CODE_1FC72A
 	dex
 CODE_1FC72A:
-	stx D,$02+1
-	lda D,$7E
+	stx.b $02+1
+	lda.b $7E
 	bmi CODE_1FC745
 	asl
-	sta WRMPYA
-	lda D,$83
+	sta.w WRMPYA
+	lda.b $83
 	bmi CODE_1FC767
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC775
 CODE_1FC745:
-	eor #$FF
+	eor.b #$FF
 	inc
 	asl
-	sta WRMPYA
-	lda D,$83
+	sta.w WRMPYA
+	lda.b $83
 	bmi CODE_1FC757
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	jmp CODE_1FC76F
 CODE_1FC757:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
-	lda RDMPYH
+	lda.w RDMPYH
 	jmp CODE_1FC775
 CODE_1FC767:
-	eor #$FF
+	eor.b #$FF
 	inc
-	sta WRMPYB
+	sta.w WRMPYB
 	nop
 	nop
 CODE_1FC76F:
-	lda #$00
+	lda.b #$00
 	sec
-	sbc RDMPYH
+	sbc.w RDMPYH
 CODE_1FC775:
 	tax
 	ldx #$00
-	sta D,$90
-	cmp #$00
+	sta.b $90
+	cmp.b #$00
 	bpl CODE_1FC77F
 	dex
 CODE_1FC77F:
-	stx D,$90+1
+	stx.b $90+1
 	rep #$20
 	ldx TempIndX
 	ldy TempIndY
@@ -1421,275 +1421,275 @@ CODE_1FC77F:
 ;Routines to apply object velocity to position
 ApplyTempVelocityShift2:
 	rep #$20
-	asl D,$02
-	asl D,$08
-	asl D,$90
-	asl D,$02
-	asl D,$08
-	asl D,$90
+	asl.b $02
+	asl.b $08
+	asl.b $90
+	asl.b $02
+	asl.b $08
+	asl.b $90
 	bra DoApplyTempVelocity
 ApplyTempVelocityShift1:
 	rep #$20
-	asl D,$02
-	asl D,$08
-	asl D,$90
+	asl.b $02
+	asl.b $08
+	asl.b $90
 ApplyTempVelocity:
 	rep #$20
 DoApplyTempVelocity:
-	lda D,$0C,x
+	lda.b $0C,x
 	clc
-	adc D,$02
-	sta D,$0C,x
-	lda D,$0E,x
+	adc.b $02
+	sta.b $0C,x
+	lda.b $0E,x
 	clc
-	adc D,$08
-	sta D,$0E,x
-	lda D,$10,x
+	adc.b $08
+	sta.b $0E,x
+	lda.b $10,x
 	clc
-	adc D,$90
-	sta D,$10,x
+	adc.b $90
+	sta.b $10,x
 	sep #$20
 	rtl
 ApplyObjectVelocity:
 	rep #$20
-	lda D,$0C,x
+	lda.b $0C,x
 	clc
-	adc D,$2F,x
-	sta D,$0C,x
-	lda D,$0E,x
+	adc.b $2F,x
+	sta.b $0C,x
+	lda.b $0E,x
 	clc
-	adc D,$31,x
-	sta D,$0E,x
-	lda D,$10,x
+	adc.b $31,x
+	sta.b $0E,x
+	lda.b $10,x
 	clc
-	adc D,$33,x
-	sta D,$10,x
+	adc.b $33,x
+	sta.b $10,x
 	sep #$20
 	rtl
 ;Object getter routines
 GetObjectByID:
-	stx D,$3A
+	stx.b $3A
 	ldx FirstCandidate		;\Load X with first candidate to check...
 	beq GetObjectByID_NoSelf	;/...if null, return null
 	cmp #$00			;\If desired ID is 0, just get any empty object
 	beq GetObjectByID_Any		;/
 	txy
 GetObjectByID_CheckObj:
-	cmp D,$04,x			;\Check this object for a match
+	cmp.b $04,x			;\Check this object for a match
 	beq GetObjectByID_Match		;/
 GetObjectByID_NextCand:
-	ldy D,$00,x			;\Get next object...
+	ldy.b $00,x			;\Get next object...
 	tyx				;|
 	bne GetObjectByID_CheckObj	;/...and try again
 GetObjectByID_Match:
-	cpx D,$3A			;\If candidate is self, try again
+	cpx.b $3A			;\If candidate is self, try again
 	beq GetObjectByID_NextCand	;/
-	ldy D,$00,x			;\Set first candidate to next object...
+	ldy.b $00,x			;\Set first candidate to next object...
 	sty FirstCandidate		;|
 	txy				;|
-	ldx D,$3A			;|
+	ldx.b $3A			;|
 	rtl				;/...and return
 GetObjectByID_NoSelf:
 	ldy #$0000			;\Return null
 	sty FirstCandidate		;|
-	ldx D,$3A			;|
+	ldx.b $3A			;|
 	rtl				;/
 GetObjectByID_Any:
-	ldy D,$00,x			;\If next object is null...
+	ldy.b $00,x			;\If next object is null...
 	beq GetObjectByID_NoSelf	;/...return null
 	tyx				;\Get next object...
-	cpx D,$3A			;|if self...
+	cpx.b $3A			;|if self...
 	beq GetObjectByID_Any		;/...try again
-	lda D,$1F,x			;\If some flag is set...
+	lda.b $1F,x			;\If some flag is set...
 	and #$0008			;|
 	beq GetObjectByID_Any		;/...try again
 	stx FirstCandidate		;\Set first candidate to next object...
-	ldx D,$3A			;|
+	ldx.b $3A			;|
 	rtl				;/...and return
 CODE_1FC817:
 	cmp #$0000
 	beq CODE_1FC84C
-	stx D,$3A
+	stx.b $3A
 	ldx FirstCandidate
 	beq GetObjectByID_NoSelf
 	txy
 CODE_1FC824:
-	cmp D,$04,x
+	cmp.b $04,x
 	beq CODE_1FC82D
 CODE_1FC828:
-	ldy D,$00,x
+	ldy.b $00,x
 	tyx
 	bne CODE_1FC824
 CODE_1FC82D:
-	cpx D,$3A
+	cpx.b $3A
 	beq CODE_1FC828
-	sta $14C5
+	sta TempNewChildObjUse
 	sep #$20
-	lda D,$1D,x
-	and D,$02
+	lda.b $1D,x
+	and.b $02
 	rep #$20
 	bne CODE_1FC843
-	lda $14C5
+	lda TempNewChildObjUse
 	bra CODE_1FC828
 CODE_1FC843:
-	ldy D,$00,x
+	ldy.b $00,x
 	sty FirstCandidate
 	txy
-	ldx D,$3A
+	ldx.b $3A
 	rtl
 CODE_1FC84C:
-	stx D,$3A
+	stx.b $3A
 	ldx FirstCandidate
 	beq CODE_1FC7F8
 	txy
 	sep #$20
 CODE_1FC856:
-	cpx D,$3A
+	cpx.b $3A
 	beq CODE_1FC860
-	lda D,$1D,x
-	and D,$02
+	lda.b $1D,x
+	and.b $02
 	bne CODE_1FC865
 CODE_1FC860:
-	ldy D,$00,x
+	ldy.b $00,x
 	tyx
 	bne CODE_1FC856
 CODE_1FC865:
-	ldy D,$00,x
+	ldy.b $00,x
 	sty FirstCandidate
 	txy
-	ldx D,$3A
+	ldx.b $3A
 	rep #$20
 	rtl
 CODE_1FC870:
-	stx D,$04
+	stx.b $04
 	ldx FirstCandidate
 	bne CODE_1FC87A
 	brl CODE_1FC8B3
 CODE_1FC87A:
-	cmp #$00
+	cmp.b #$00
 	beq CODE_1FC8B9
-	sta D,$0A
-	stz D,$3C
+	sta.b $0A
+	stz.b $3C
 CODE_1FC883:
-	cpx D,$04
+	cpx.b $04
 	beq CODE_1FC8A4
-	lda D,$04,x
-	cmp D,$0A
+	lda.b $04,x
+	cmp.b $0A
 	bne CODE_1FC8A4
-	ldy D,$04
+	ldy.b $04
 	jsl CODE_1FD0AB
 	rep #$20
 	lda $1250
-	cmp D,$3A
+	cmp.b $3A
 	bpl CODE_1FC8A4
-	cmp D,$3E
+	cmp.b $3E
 	bmi CODE_1FC8A4
-	sta D,$3A
-	stx D,$3C
+	sta.b $3A
+	stx.b $3C
 CODE_1FC8A4:
-	ldy D,$00,x
+	ldy.b $00,x
 	tyx
 	bne CODE_1FC883
-	ldy D,$00,x
+	ldy.b $00,x
 	sty FirstCandidate
-	ldy D,$3C
-	ldx D,$04
+	ldy.b $3C
+	ldx.b $04
 	rtl
 CODE_1FC8B3:
 	ldy #$0000
-	ldx D,$04
+	ldx.b $04
 	rtl
 CODE_1FC8B9:
-	stz D,$3C
+	stz.b $3C
 CODE_1FC8BB:
-	cpx D,$04
+	cpx.b $04
 	beq CODE_1FC8DD
-	lda D,$1F,x
+	lda.b $1F,x
 	and #$0008
 	beq CODE_1FC8DD
-	ldy D,$04
-	jsl CODE_1FCD0AB
+	ldy.b $04
+	jsl CODE_1FD0AB
 	rep #$20
 	lda $1250
-	cmp D,$3A
+	cmp.b $3A
 	bpl CODE_1FC8DD
-	cmp D,$3E
+	cmp.b $3E
 	bmi CODE_1FC8DD
-	sta D,$3A
-	stx D,$3C
+	sta.b $3A
+	stx.b $3C
 CODE_1FC8DD:
-	ldy D,$00,x
+	ldy.b $00,x
 	tyx
 	bne CODE_1FC8BB
 	sty FirstCandidate
-	ldy D,$3C
-	ldx D,$04
+	ldy.b $3C
+	ldx.b $04
 	rtl
 CODE_1FC8EA:
-	stx D,$04
+	stx.b $04
 	ldx FirstCandidate
 	beq CODE_1FC8B3
 	cmp #$0000
 	beq CODE_1FC925
-	sta D,$0A
-	stz D,$3C
+	sta.b $0A
+	stz.b $3C
 CODE_1FC8FA:
-	cpx D,$04
+	cpx.b $04
 	beq CODE_1FC917
-	lda D,$04,x
-	cmp D,$0A
+	lda.b $04,x
+	cmp.b $0A
 	bne CODE_1FC917
-	ldy D,$04
+	ldy.b $04
 	jsl CODE_1FD0AB
 	rep #$20
 CODE_1FC90C:
 	lda $1250
-	cmp D,$3A
+	cmp.b $3A
 	bpl CODE_1FC917
-	cmp D,$3E
+	cmp.b $3E
 	bpl CODE_1FC91C
 CODE_1FC917:
-	ldy D,$00,x
+	ldy.b $00,x
 	tyx
 	bne CODE_1FC8FA
 CODE_1FC91C:
-	ldy D,$00,x
+	ldy.b $00,x
 	sty FirstCandidate
 	txy
-	ldx D,$04
+	ldx.b $04
 	rtl
 CODE_1FC925:
-	cpx D,$04
+	cpx.b $04
 	beq CODE_1FC943
-	lda D,$1F,x
+	lda.b $1F,x
 	and #$0008
 	beq CODE_1FC943
-	ldy D,$04
+	ldy.b $04
 	jsl CODE_1FD0AB
 	rep #$20
 	lda $1250
-	cmp D,$3A
+	cmp.b $3A
 	bpl CODE_1FC943
-	cmp D,$3E
+	cmp.b $3E
 	bpl CODE_1FC948
 CODE_1FC943:
-	ldy D,$00,x
+	ldy.b $00,x
 	tyx
 	bne CODE_1FC925
 CODE_1FC948:
-	ldy D,$00,x
+	ldy.b $00,x
 	sty FirstCandidate
 	txy
-	ldx D,$04
+	ldx.b $04
 	rtl
 CODE_1FC951:
 	php
 	ldy FirstObject
 CODE_1FC955:
 	tyx
-	cmp D,$04,x
+	cmp.b $04,x
 	beq CODE_1FC961
-	ldy D,$00,x
+	ldy.b $00,x
 	bne CODE_1FC955
 	ldx #$0000
 CODE_1FC961:
@@ -1698,16 +1698,16 @@ CODE_1FC961:
 CODE_1FC963:
 	php
 	ldy FirstObject
-	stz $14C5
+	stz TempNewChildObjUse
 CODE_1FC96A:
 	tyx
-	cmp D,$04,x
+	cmp.b $04,x
 	bne CODE_1FC972
-	inc $14C5
+	inc TempNewChildObjUse
 CODE_1FC972:
-	ldy D,$00,x
+	ldy.b $00,x
 	bne CODE_1FC96A
-	lda $14C5
+	lda TempNewChildObjUse
 	plp
 	rtl
 
@@ -1724,20 +1724,20 @@ ProcObject:
 	bne ProcObject_L1
 	brl ProcObject_Return
 ProcObject_L1:
-	lda D,$2E,x
+	lda.b $2E,x
 	and #$FFFB
-	sta D,$2E,x
-	lda D,$0C,x
+	sta.b $2E,x
+	lda.b $0C,x
 	sta $1513
-	lda D,$0E,x
+	lda.b $0E,x
 	sta $1515
-	lda D,$10,x
+	lda.b $10,x
 	sta $1517
 	sep #$20
 	stx $123A
-	lda D,$2A,x
+	lda.b $2A,x
 	bne ProcObject_L4
-	lda D,$09,x
+	lda.b $09,x
 	and #$10
 	beq ProcObject_L2
 	jmp ProcObject_L4
@@ -1746,7 +1746,7 @@ ProcObject_L2:
 	lda $7E1CD6,x
 	beq ProcObject_L3
 	sep #$20
-	lda D,$1E,x
+	lda.b $1E,x
 	and #$02
 	bne ProcObject_L6
 ProcObject_L3:
@@ -1758,10 +1758,10 @@ ProcObject_L3:
 	bne ProcObject_L8
 	sep #$20
 ProcObject_L4:
-	lda D,$09,x
+	lda.b $09,x
 	and #$EF
-	sta D,$09,x
-	lda D,$1D,x
+	sta.b $09,x
+	lda.b $1D,x
 	and #$80
 	beq ProcObject_L5
 	lda $7E1CD5,x
@@ -1770,18 +1770,18 @@ ProcObject_L4:
 	lda $7E1CD3,x
 	bne ProcObject_L8
 	sep #$20
-	lda D,$1D,x
+	lda.b $1D,x
 	and #$7F
-	sta D,$1D,x
+	sta.b $1D,x
 	bra ProcObject_L7
 ProcObject_L5:
-	lda D,$1E,x
+	lda.b $1E,x
 	and #$02
 	beq ProcObject_L7
 ProcObject_L6:
-	lda D,$1E,x
+	lda.b $1E,x
 	and #$FD
-	sta D,$1E,x
+	sta.b $1E,x
 	lda $7E1CD8,x
 	sta $1244
 	rep #$20
@@ -1789,10 +1789,10 @@ ProcObject_L6:
 	bne $1FD30F
 	sep #$20
 ProcObject_L7:
-	lda D,$18,x
+	lda.b $18,x
 	sta $1244
 	rep #$20
-	lda D,$16,x
+	lda.b $16,x
 	beq ProcObject_Exit
 ProcObject_L8:
 	sta $1242
@@ -1850,12 +1850,12 @@ ClearObject:
 	phx
 	tyx
 	ply
-	lda #$00
+	lda.b #$00
 	phy
 	phx
 	ldy #$0032
 ClearObject_L1:
-	sta D,$04,x
+	sta.b $04,x
 	inx
 	dey
 	bne ClearObject_L1
@@ -1869,18 +1869,18 @@ ClearObject_L2:
 	bne ClearObject_L2
 	plx
 	ply
-	lda D,$08,x
+	lda.b $08,x
 	ora #$10
-	sta D,$08,x
-	lda D,$09,x
+	sta.b $08,x
+	lda.b $09,x
 	ora #$08
-	sta D,$09,x
-	lda D,$2E,x
+	sta.b $09,x
+	lda.b $2E,x
 	ora #$04
-	sta D,$2E,x
-	lda D,$1F,x
+	sta.b $2E,x
+	lda.b $1F,x
 	ora #$08
-	sta D,$1F,x
+	sta.b $1F,x
 	phx
 	tyx
 	ply
@@ -1898,39 +1898,39 @@ ClearObject_L2:
 	
 CopyPositionIndXToIndY:
 	rep #$20
-	lda D,$0C,x
+	lda.b $0C,x
 	sta $000C,y
-	lda D,$0E,x
+	lda.b $0E,x
 	sta $000E,y
-	lda D,$10,x
+	lda.b $10,x
 	sta $0010,y
 	sep #$20
 	rtl
 CopyPositionIndYToIndX:
 	rep #$20
 	lda $000C,y
-	sta D,$0C,x
+	sta.b $0C,x
 	lda $000E,y
-	sta D,$0E,x
+	sta.b $0E,x
 	lda $0010,y
-	sta D,$10,x
+	sta.b $10,x
 	sep #$20
 	rtl
 CopyRotationIndXToIndY:
-	lda D,$12,x
+	lda.b $12,x
 	sta $0012,y
-	lda D,$13,x
+	lda.b $13,x
 	sta $0013,y
-	lda D,$14,x
+	lda.b $14,x
 	sta $0015,y
 	rtl
 CopyRotationIndYToIndX:
 	lda $0012,y
-	sta D,$12,x
+	sta.b $12,x
 	lda $0013,y
-	sta D,$13,x
+	sta.b $13,x
 	lda $0014,y
-	sta D,$14,x
+	sta.b $14,x
 	rtl
 MoveObjectAgainstRails:
 	rep #$20
@@ -1938,8 +1938,8 @@ MoveObjectAgainstRails:
 	sec
 	sbc RailOffset
 	clc
-	adc D,$10,x
-	sta D,$10,x
+	adc.b $10,x
+	sta.b $10,x
 	sep #$20
 	rtl
 MoveObjectAgainstRailsIndY:
@@ -1954,11 +1954,11 @@ MoveObjectAgainstRailsIndY:
 	rtl
 ClearVelocity:
 	rep #$20		;\
-	stz D,$2F,x		;|Store zero in velocity X element...
-	stz D,$31,x		;|...same for Y...
-	stz D,$33,x		;|...same for Z...
+	stz.b $2F,x		;|Store zero in velocity X element...
+	stz.b $31,x		;|...same for Y...
+	stz.b $33,x		;|...same for Z...
 	sep #$20		;|
-	stz D,$15,x		;|...and store zero in unknown object property $15
+	stz.b $15,x		;|...and store zero in unknown object property $15
 	rtl			;/
 ClearVelocityIndY:
 	rep #$20		;\
@@ -1976,18 +1976,18 @@ ClearVelocityIndY:
 	
 MoveObjectAlongRails:
 	rep #$20		;\
-	lda D,$10,x		;|Add rail offset to Z position
+	lda.b $10,x		;|Add rail offset to Z position
 	clc			;|
 	adc RailOffset		;|
-	sta D,$10,x		;|
+	sta.b $10,x		;|
 	sep #$20		;|
 	rtl			;/
 MoveObjectAlongRailsIndY:
 	rep #$20		;\
-	lda D,$0010,y		;|Add rail offset to Z position
+	lda.b $0010,y		;|Add rail offset to Z position
 	clc			;|
 	adc RailOffset		;|
-	sta D,$0010,y		;|
+	sta.b $0010,y		;|
 	sep #$20		;|
 	rtl			;/
 CODE_1FDC85:
@@ -2003,23 +2003,23 @@ CODE_1FDC88:
 	
 BehF1_TitleHighPolyArwing:
 	lda #$EF		;\Init X Rotation
-	sta D,$12,x		;/
+	sta.b $12,x		;/
 	lda #$60		;\Init Y Rotation
-	sta D,$13,x		;/
+	sta.b $13,x		;/
 	lda #$00		;\Init Z Rotation
-	sta D,$14,x		;/
+	sta.b $14,x		;/
 	;Set object behavior function pointer to skip this initialization
 	rep #$20
 	lda.w #BehF1_TitleHighPolyArwing_Main
-	sta D,$16,x
+	sta.b $16,x
 	sep #$20
 	lda.b #BANKOF(BehF1_TitleHighPolyArwing_Main)
-	sta D,$18,x
+	sta.b $18,x
 BehF1_TitleHighPolyArwing_Main:
-	lda D,$14,x		;\Rotate about local Z
+	lda.b $14,x		;\Rotate about local Z
 	clc			;|
 	adc #$02		;|
-	sta D,$14,x		;/
+	sta.b $14,x		;/
 	jsl MoveObjectAlongRails
 	rtl
 	;Compressed tilemap
@@ -2075,7 +2075,7 @@ Controls:
 	sta A1B0
 	ldx #$0100
 	stx DAS0L
-	lda #$00
+	lda.b #$00
 	sta DMAP0
 	lda #$01
 	sta MDMAEN
@@ -2087,7 +2087,7 @@ Controls:
 	sta $7E45F7
 	rep #$20
 	lda #$0000
-	sta $70021C
+	sta RenderHUDFlag
 	lda #$0040
 	sta $700034
 	lda #$0030
@@ -2126,7 +2126,7 @@ Controls_L3:
 	and #$03
 	sta $1F0F
 	lda #$11
-	jsl CODE_03B7F9
+	jsl PushSoundEffectToQueue
 Controls_L4:
 	jsr CODE_1FFDAC
 	rep #$20
@@ -2138,7 +2138,7 @@ Controls_L4:
 	bit #$10
 	beq Controls_L3
 	lda #$10
-	jsl CODE_03B7F9
+	jsl PushSoundEffectToQueue
 Controls_L5:
 	sep #$20
 	lda TIMEUP
@@ -2159,17 +2159,17 @@ Controls_L6:
 	eor #$01
 	sta $7EA05A
 	lda #$11
-	jsl CODE_03B7F9
+	jsl PushSoundEffectToQueue
 Controls_L7:
 	lda $7EA05A
 	beq Controls_L8
 	lda PadDown+1
 	bit #$08
 	beq Controls_L8
-	lda #$00
+	lda.b #$00
 	sta $7EA05A
 	lda #$11
-	jsl CODE_03B7F9
+	jsl PushSoundEffectToQueue
 Controls_L8:
 	lda $7EA05A
 	bne Controls_L9
@@ -2179,7 +2179,7 @@ Controls_L8:
 	lda #$01
 	sta $7EA05A
 	lda #$11
-	jsl CODE_03B7F9
+	jsl PushSoundEffectToQueue
 Controls_L9:
 	lda Pad1Down
 	bit #$40
@@ -2204,18 +2204,18 @@ Controls_L11:
 Controls_L12:
 	sep #$20
 	lda #$10
-	jsl CODE_03B7F9
+	jsl PushSoundEffectToQueue
 	lda #$F1
-	sta $1F47
-	stz $1F46
+	sta MusicID
+	stz MusicLoaded
 	lda #$FF
-	sta $18B2
+	sta FadeMode
 Controls_L13:
 	jsl CODE_02FD84
 	jsr ControlsOAM
 	jsr CODE_1FFD54
 	sep #$20
-	lda $18B2
+	lda FadeMode
 	and #$FF
 	bne Controls_L13
 	stz $1F0D
@@ -2233,7 +2233,7 @@ Controls_L14:
 	jsl CODE_02E2CC
 	sep #$20
 	lda #$01
-	sta $16EC
+	sta Lives
 	stz $15BB
 	stz $15BC
 Controls_L15:
@@ -2260,15 +2260,15 @@ Controls_L16:
 	beq Controls_L15
 	sep #$20
 	lda #$F1
-	sta $14F7
-	stz $14F6
+	sta MusicID
+	stz MusicLoaded
 	lda #$FF
-	sta $18B2
+	sta FadeMode
 Controls_L17:
 	jsl CODE_02FD84
 	jsl $02D956
 	sep #$20
-	lda $18B2
+	lda FadeMode
 	and #$FF
 	bne Controls_L17
 	jsl CODE_02E266
@@ -2280,7 +2280,7 @@ Controls_L17:
 Controls_L18:
 	jsl CODE_02E266
 	sep #$20
-	lda #$00
+	lda.b #$00
 	sta $7EA05A
 	lda #$01
 	sta $1FDF
@@ -2293,47 +2293,47 @@ Controls_L20:
 	rtl
 ControlsOAM:
 	rep #$30
-	ldx #$0000
-	stx $15AF
-	ldx #$0000
-	lda $7EA05A
+	ldx.w #$0000
+	stx.w OAMBufferPtr
+	ldx.w #$0000
+	lda.l $7EA05A
 	beq ControlsOAM_L1
-	ldx #$0078
+	ldx.w #$0078
 ControlsOAM_L1:
-	ldy $15AF
-	ldx #$97A8
-	sta $14C5
+	ldy.w OAMBufferPtr
+	ldx.w #$97A8
+	sta TempNewChildObjUse
 ControlsOAM_L2:
-	lda $14C5
-	sta OAMMirror,y
-	lda ControlsOAMData,x
+	lda.w TempNewChildObjUse
+	sta.w OAMBuffer,y
+	lda.w ControlsOAMData,x
 	clc
-	adc #$3080
-	sta OAMMirror+2,y
+	adc.w #$3080
+	sta.w OAMBuffer+2,y
 	iny
 	iny
 	iny
 	iny
 	inx
 	inx
-	lda $14C5
+	lda.w TempNewChildObjUse
 	clc
-	adc #$0008
-	sta $14C5
-	and #$00FF
-	cmp #$00F8
+	adc.w #$0008
+	sta.w TempNewChildObjUse
+	and.w #$00FF
+	cmp.w #$00F8
 	bne ControlsOAM_L2
-	lda $14C5
-	and #$FF00
+	lda.w TempNewChildObjUse
+	and.w #$FF00
 	clc
-	adc #$0800
-	cmp #$C700
-	beq ControlsOAM_L3
-	ora #$00A8
-	sta $14C5
+	adc.w #$0800
+	cmp.w #$C700
+	beq.w ControlsOAM_L3
+	ora.w #$00A8
+	sta.w TempNewChildObjUse
 	bra ControlsOAM_L2
 ControlsOAM_L3:
-	sty $15AF
+	sty.w OAMBufferPtr
 	jsl CODE_03DBD0
 	rts
 ControlsOAMData:
@@ -2355,42 +2355,42 @@ ControlsOAMData:
 CODE_1FFD54:
 	jsl $02D956
 CODE_1FFD58:
-	lda D,CurNMITask
+	lda.b CurNMITask
 	bne CODE_1FFD58
 	sep #$20
 	rep #$10
-	ldx $16AB
-	cpx #$0039
+	ldx.w $16AB
+	cpx.w #$0039
 	bne CODE_1FFD73
-	lda #$28
-	sta $1FDA
-	stz $16AB
-	stz $16AC
+	lda.b #$28
+	sta.w $1FDA
+	stz.w $16AB
+	stz.w $16AC
 CODE_1FFD73:
-	lda #$03
-	sta NovaBombs
-	ldx $1238
-	lda D,$15,x
-	sta D,$7E
-	lda D,$12,x
+	lda.b #$03
+	sta.w NovaBombs
+	ldx.w PlayerObject
+	lda.b $15,x
+	sta.b TempRotZ
+	lda.b $12,x
 	asl
-	sta $15A6
-	lda D,$13,x
-	sta $15A7
+	sta.w TempRotX
+	lda.b $13,x
+	sta.w TempRotY
 	jsl CODE_1FC41E
 	rep #$20
-	lda $1FD4
+	lda.w $1FD4
 	clc
-	adc D,$02
-	sta $1FD4
-	lda $1FD6
+	adc.b TempVecX
+	sta.w $1FD4
+	lda.w $1FD6
 	clc
-	adc D,$08
-	sta $1FD6
-	lda $1FD8
+	adc.b TempVecY
+	sta.w $1FD6
+	lda.w $1FD8
 	clc
-	adc D,$90
-	sta $1FD8
+	adc.b TempVecZ
+	sta.w $1FD8
 	rts
 CODE_1FFDAC:
 	sep #$20
@@ -2439,7 +2439,7 @@ CopyCodeToRam_L1:					;|
 	sta.l CopiedCodeABase,x				;|
 	dex						;|
 	bpl CopyCodeToRam_L1				;/
-	ldx.w #(CopiedCodeBEnd-CopiedCodeB-1)		;\Copy second code section to RAM
+	ldx.w #(CopiedCodeBEnd-CopiedCodeB-1+$6C)	;\Copy second code section to RAM
 CopyCodeToRam_L2:					;|
 	lda.l CopiedCodeB,x				;|
 	sta.l CopiedCodeBBase,x				;|
@@ -2466,16 +2466,16 @@ NMI:
 	phx
 	phy
 	sep #$30
-	lda #$00
+	lda.b #$00
 	pha
 	plb
-	lda SCMRMirror
-	ora #$18
-	sta SCMR
+	lda.w SCMRMirror
+	ora.b #$18
+	sta.w SCMR
 	jsl RunNMITask
 	sep #$20
-	inc $1200
-	lda TIMEUP
+	inc.w $1200
+	lda.w TIMEUP
 	bra NMI_L3
 NMI_L1:
 	pla
@@ -2487,17 +2487,17 @@ NMI_L2:
 	phx
 	phy
 	sep #$20
-	lda #$00
+	lda.b #$00
 	pha
 	plb
-	lda SCMRMirror
-	sta SCMR
+	lda.w SCMRMirror
+	sta.w SCMR
 	jsl CODE_1FBFDB
-	lda SCMRMirror
-	ora #$18
-	sta SCMR
+	lda.w SCMRMirror
+	ora.b #$18
+	sta.w SCMR
 	sep #$20
-	lda RDNMI
+	lda.w RDNMI
 NMI_L3:
 	rep #$30
 	ply

@@ -1185,11 +1185,11 @@ CODE_018581:
 	and r1
 	beq CODE_0185DA
 	sub r0
-	alt2				;\Overwrite XY matrix element
+	alt2				;\Zero XY matrix element
 	sms ($0126),r0			;/
-	alt2				;\Overwrite YY matrix element
+	alt2				;\Zero YY matrix element
 	sms ($0128),r0			;/
-	alt2				;\Overwrite ZY matrix element
+	alt2				;\Zero ZY matrix element
 	sms ($012A),r0			;/
 CODE_0185DA:
 	iwt r15,#CODE_018615
@@ -5671,6 +5671,7 @@ DialogStingrayPeppy:
 	DB $01,$02,$0E,"beware of the big stingray!",$00
 DialogStingraySlippy:
 	DB $03,$02,$0E,"beware of the big stingray!",$00
+DialogPtrs:
 	;Check in lines
 	DW DialogCheckInFox,DialogWeDidIt,DialogSlippySlippy,DialogGoBackToTheBase
 	;Falco lines
@@ -5729,5 +5730,5 @@ DialogStingraySlippy:
 	DW DialogUnknownASlippy
 	;Stingray lines
 	DW DialogStingrayFalco,DialogStingrayPeppy,DialogStingraySlippy
-	
+UnusedDMADataPtr:
 	ARCH 65816

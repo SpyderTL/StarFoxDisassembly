@@ -746,7 +746,7 @@ DATA_038F9A:
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 LoadPreset_BlackHole:
 	sep #$20
-	jsr CODE_03AB12
+	jsr SetNMITaskInitMode2
 	jsr DecompressTileset
 	DL $16A648
 	DB $00,$5C,$00,$18
@@ -756,10 +756,10 @@ LoadPreset_BlackHole:
 	jsr LoadPalette
 	DL $7F0360
 	DB $E0,$00
-	lda #$00
-	sta D,CurNMITask
+	lda.b #$00
+	sta.b CurNMITask
 	lda HDMAENMirror
-	ora #$04
+	ora.b #$04
 	sta HDMAENMirror
 	lda #$16
 	sta $1785
@@ -801,7 +801,7 @@ LoadPreset_BlackHole:
 	lda HDMAENMirror
 	sta HDMAEN
 LoadPreset_BlackHole_Wait:
-	lda D,CurNMITask
+	lda.b CurNMITask
 	beq LoadPreset_BlackHole_Exit
 	cmp #$20
 	bne LoadPreset_BlackHole_Wait
@@ -809,7 +809,7 @@ LoadPreset_BlackHole_Exit:
 	rtl
 LoadPreset_Scramble:
 	sep #$20
-	jsr CODE_03AB12
+	jsr SetNMITaskInitMode2
 	jsr DecompressTileset
 	DL $14DB6E
 	DB $00,$5C,$00,$18
@@ -820,7 +820,7 @@ LoadPreset_Scramble:
 	DL $7F00E0
 	DB $E0,$00
 	lda #$10
-	sta D,CurNMITask
+	sta.b CurNMITask
 	lda HDMAENMirror
 	ora #$04
 	sta HDMAENMirror
@@ -865,7 +865,7 @@ LoadPreset_Scramble:
 	lda HDMAENMirror
 	sta HDMAEN
 LoadPreset_Scramble_Wait:
-	lda D,CurNMITask
+	lda.b CurNMITask
 	beq LoadPreset_Scramble_Exit
 	cmp #$20
 	bne LoadPreset_Scramble_Wait
@@ -877,7 +877,7 @@ LoadPreset_Unk0F:
 	jml CODE_1FBDEE
 LoadPreset_Corneria12:
 	sep #$20
-	jsr CODE_03AB12
+	jsr SetNMITaskInitMode2
 	jsr DecompressTileset
 	DL $14FECE
 	DB $00,$5C,$00,$18
@@ -891,7 +891,7 @@ LoadPreset_Corneria12:
 	sta $1897
 	jsl CODE_02F492
 	lda #$10
-	sta D,CurNMITask
+	sta.b CurNMITask
 	rep #$20
 	lda #$8FB6
 	sta $700050
@@ -944,48 +944,48 @@ LoadPreset_Corneria12:
 	
 	
 	
-CODE_03AAF9:
+SetNMITaskInitMode1:
 	sep #$20
 	rep #$10
-CODE_03AAFD:
-	lda D,CurNMITask
-	beq CODE_03AB05
-	cmp #$20
-	bne CODE_03AAFD
-CODE_03AB05:
-	lda #$24
-	sta D,CurNMITask
-CODE_03AB09:
-	lda D,CurNMITask
-	beq CODE_03AB11
-	cmp #$20
-	bne CODE_03AB09
-CODE_03AB11:
+SetNMITaskInitMode1_WaitReady:
+	lda.b CurNMITask
+	beq SetNMITaskInitMode1_SetTask
+	cmp.b #$20
+	bne SetNMITaskInitMode1_WaitReady
+SetNMITaskInitMode1_SetTask:
+	lda.b #$24
+	sta.b CurNMITask
+SetNMITaskInitMode1_Wait:
+	lda.b CurNMITask
+	beq SetNMITaskInitMode1_Exit
+	cmp.b #$20
+	bne SetNMITaskInitMode1_Wait
+SetNMITaskInitMode1_Exit:
 	rts
-CODE_03AB12:
+SetNMITaskInitMode2:
 	sep #$20
 	rep #$10
-CODE_03AB16:
-	lda D,CurNMITask
-	beq CODE_03AB1E
-	cmp #$20
-	bne CODE_03AB16
-CODE_03AB1E:
-	lda #$26
-	sta D,CurNMITask
-CODE_03AB22:
-	lda D,CurNMITask
-	beq CODE_03AB2A
-	cmp #$20
-	bne CODE_03AB22
-CODE_03AB2A:
+SetNMITaskInitMode2_WaitReady:
+	lda.b CurNMITask
+	beq SetNMITaskInitMode2_SetTask
+	cmp.b #$20
+	bne SetNMITaskInitMode2_WaitReady
+SetNMITaskInitMode2_SetTask:
+	lda.b #$26
+	sta.b CurNMITask
+SetNMITaskInitMode2_Wait:
+	lda.b CurNMITask
+	beq SetNMITaskInitMode2_Exit
+	cmp.b #$20
+	bne SetNMITaskInitMode2_Wait
+SetNMITaskInitMode2_Exit:
 	rts
 ;Tileset/tilemap/palette loading
 DoDecompressTileset:
 	php
 	rep #$20
-	lda #$2800
-	sta $70002C
+	lda.w #$2800
+	sta.l $70002C
 	sep #$20
 	lda.b #BANKOF(DecompressGraphics)
 	ldx.w #DecompressGraphics
@@ -995,10 +995,10 @@ DoDecompressTileset:
 DoDecompressTilemap:
 	php
 	rep #$20
-	lda #$00C0
-	sta $700090
-	lda #$4000
-	sta $70002C
+	lda.w #$00C0
+	sta.l $700090
+	lda.w #$4000
+	sta.l $70002C
 	sep #$20
 	lda.b #BANKOF(DecompressGraphics)
 	ldx.w #DecompressGraphics
@@ -1074,19 +1074,19 @@ LoadPalette:
 	pla
 	tax
 	clc
-	adc #$0005
+	adc.w #$0005
 	pha
-	lda $030001,x
-	sta $1892
+	lda.l $030001,x
+	sta.w $1892
 	sep #$20
-	lda $030003,x
-	sta $1894
+	lda.l $030003,x
+	sta.w $1894
 	rep #$20
-	lda $030004
-	sta $1895
-	lda $1892
+	lda.l $030004
+	sta.w $1895
+	lda.w $1892
 	clc
-	adc #$00DF
+	adc.w #$00DF
 	tay
 	phy
 	sep #$20
@@ -1094,10 +1094,10 @@ LoadPalette:
 	lda
 	pha
 	plb
-	ldx #$00DF
+	ldx.w #$00DF
 LoadPalette_Loop:
-	lda $0000,y
-	sta PaletteBuffer,x
+	lda.w $0000,y
+	sta.w PaletteBuffer,x
 	dey
 	dex
 	bpl LoadPalette_Loop
@@ -1478,9 +1478,9 @@ LoadAudio_L3:
 	lda [D,TempLdAudPtr],y
 	iny
 	bne LoadAudio_L4
-	inc D,TempLdAudPtr+2
-	stz D,TempLdAudPtr+1
-	stz D,TempLdAudPtr
+	inc.b TempLdAudPtr+2
+	stz.b TempLdAudPtr+1
+	stz.b TempLdAudPtr
 	ldy #$8000
 LoadAudio_L4:
 	xba
@@ -1491,9 +1491,9 @@ LoadAudio_L5:
 	lda [D,TempLdAudPtr],y
 	iny
 	bne LoadAudio_L6
-	inc D,TempLdAudPtr+2
-	stz D,TempLdAudPtr+1
-	stz D,TempLdAudPtr
+	inc.b TempLdAudPtr+2
+	stz.b TempLdAudPtr+1
+	stz.b TempLdAudPtr
 	ldy #$8000
 LoadAudio_L6:
 	xba
@@ -1550,35 +1550,35 @@ LoadAudio_L16:
 	jmp LoadAudio_L3
 LoadAudio_L17:
 	rep #$20
-	ldx TempLdAudioPktOffs				; Load X with audio packet header pointer
+	ldx.w TempLdAudioPktOffs			; Load X with audio packet header pointer
 	lda.l AudioPacketData,x				;\Set offset of audio packet data
-	sta TempLdAudioBnkOffs				;/
+	sta.w TempLdAudioBnkOffs			;/
 	lda.l AudioPacketData+3,x			;\Set size of audio packet data
-	sta TempLdAudioSz				;/
+	sta.w TempLdAudioSz				;/
 	sep #$20					;\Set bank of audio packet data
 	lda.l AudioPacketData+2,x			;|
-	sta D,TempLdAudPtr+2				;/
-	inx						;\Move current header pointer
+	sta.b TempLdAudPtr+2				;/
+	inx						;\Increment current header pointer
 	inx						;|
 	inx						;|
 	inx						;|
 	inx						;|
-	stx TempLdAudioPktOffs				;/
+	stx.w TempLdAudioPktOffs			;/
 	rep #$20					;\Clear out low word of temp packet pointer...
-	stz D,TempLdAudPtr				;|
-	lda TempLdAudioBnkOffs				;|...load A with low word of pointer...
+	stz.b TempLdAudPtr				;|
+	lda.w TempLdAudioBnkOffs			;|...load A with low word of pointer...
 	beq LoadAudio_Finish				;|...if zero, branch to finish up and leave...
 	tay						;/...otherwise, use Y register instead for the low word...
 	clc						;\Add size of audio packet data...
-	adc TempLdAudioSz				;|
+	adc.w TempLdAudioSz				;|
 	bcc LoadAudio_L26				;|...if size would cause overflow in ROM pointer, branch...
 	jmp LoadAudio_L11				;/...otherwise, jump here instead
 LoadAudio_Finish:
 	rep #$20					;\Set SPC700 PC register
-	lda #$0400					;|
+	lda.w #$0400					;|
 	sta APUI02					;/
 	sep #$30
-	lda #$00
+	lda.b #$00
 	xba
 	pla
 	rep #$20
@@ -1678,7 +1678,7 @@ CODE_03B29F:
 	sep #$20
 	rep #$10
 	ldx $15A2
-	lda D,$2E,x
+	lda.b $2E,x
 	and #$04
 	beq CODE_03B2B0
 	jml CODE_03B2C7
@@ -1729,7 +1729,7 @@ CODE_03B2F7:
 	beq CODE_03B340
 	rep #$30
 	ldx $1238
-	lda D,$0C,x
+	lda.b $0C,x
 	tax
 	sec
 	sbc $1F44
@@ -1771,15 +1771,15 @@ CODE_03B350:
 	ldx FirstObject
 CODE_03B355:
 	sep #$20
-	lda D,$2A,x
+	lda.b $2A,x
 	cmp #$FF
 	bne CODE_03B395
-	lda D,$1F,x
+	lda.b $1F,x
 	and #$08
 	bne CODE_03B367
 	jml CODE_03B395
 CODE_03B367:
-	lda D,$20,x
+	lda.b $20,x
 	and #$02
 	beq CODE_03B371
 	jml CODE_03B395
@@ -1788,32 +1788,32 @@ CODE_03B371:
 	ldy $1238
 	lda $14F6
 	sec
-	sbc D,$0C,x
+	sbc.b $0C,x
 	bmi CODE_03B385
 	bra CODE_03B38A
 CODE_03B385:
 	cmp #$FED4
 	bcc CODE_03B395
 CODE_03B38A:
-	lda D,$10,x
+	lda.b $10,x
 	sec
 	sbc $0010,y
 	cmp #$0064
 	bcc CODE_03B39B
 CODE_03B395:
-	ldy D,$00,x
+	ldy.b $00,x
 	tyx
 	bne CODE_03B355
 	rts
 CODE_03B39B:
 	sep #$20
-	lda D,$20,x
+	lda.b $20,x
 	ora #$02
-	sta D,$20,x
+	sta.b $20,x
 	rep #$20
 	lda $14F6
 	sec
-	sbc D,$0C,x
+	sbc.b $0C,x
 	bmi CODE_03B3BB
 	cmp #$0050
 	bcc CODE_03B3C9
@@ -1918,7 +1918,7 @@ CODE_03B7B7:
 CODE_03B7BB:
 	lda $14F6
 	sec
-	sbc D,$0C,x
+	sbc.b $0C,x
 	bmi CODE_03B7D0
 	cmp #$00AA
 	bcc CODE_03B7DD
@@ -1983,17 +1983,17 @@ CODE_03B86F:
 	lda #$FF
 	sta $15BF
 	jsl CODE_03BCE5
-	lda D,$CA
+	lda.b $CA
 	sta $700034
-	lda D,$CC
+	lda.b $CC
 	sta $700036
-	lda D,$2A
+	lda.b $2A
 	sta $700038
-	lda D,$2E
+	lda.b $2E
 	sta $70003A
-	lda D,$2C
+	lda.b $2C
 	sta $70003C
-	lda D,$30
+	lda.b $30
 	sta $70003E
 	rtl
 CopyDebugFont:
@@ -2002,14 +2002,14 @@ CopyDebugFont:
 	ldy #$00
 	ldx #$00
 	lda #$80
-	sta D,$60
+	sta.b $60
 CopyDebugFont_Loop:
 	lda DebugFont,x
 	sta CopiedDebugFont,x
 	inx
 	iny
 	iny
-	dec D,$60
+	dec.b $60
 	bne CopyDebugFont_Loop
 	plp
 	rtl
@@ -2038,11 +2038,11 @@ RunSuperFXMultiplyPointByMatrix:
 	phy
 	php
 	rep #$30
-	lda D,TempVecX
+	lda.b TempVecX
 	sta InputVecX
-	lda D,TempVecY
+	lda.b TempVecY
 	sta InputVecY
-	lda D,TempVecZ
+	lda.b TempVecZ
 	sta InputVecZ
 	sep #$20
 	lda #BANKOF(MultiplyPointByMatrix)
@@ -2050,11 +2050,11 @@ RunSuperFXMultiplyPointByMatrix:
 	jsl RunSuperFXRoutine
 	rep #$20
 	lda OutputVecX
-	sta D,$B3
+	sta.b $B3
 	lda OutputVecY
-	sta D,$B5
+	sta.b $B5
 	lda OutputVecZ
-	sta D,$B7
+	sta.b $B7
 	plp
 	ply
 	plx
@@ -2093,27 +2093,27 @@ RunSuperFXCalculateMatrix:
 	sep #$30
 	rtl
 CODE_03B9F2:
-	lda D,TempVecX
-	sta D,$84
-	lda D,TempVecX+1
-	sta D,$85
-	lda D,TempVecZ
-	sta D,$86
-	lda D,TempVecZ+1
-	sta D,$87
+	lda.b TempVecX
+	sta.b $84
+	lda.b TempVecX+1
+	sta.b $85
+	lda.b TempVecZ
+	sta.b $86
+	lda.b TempVecZ+1
+	sta.b $87
 	jsl CODE_03BA45
-	lda D,$88
-	sta D,$72
-	lda D,$89
-	sta D,$73
-	lda D,TempVecY
-	sta D,$84
-	lda D,TempVecY+1
-	sta D,$85
-	lda D,TempVecZ
-	sta D,$86
-	lda D,TempVecZ+1
-	sta D,$87
+	lda.b $88
+	sta.b $72
+	lda.b $89
+	sta.b $73
+	lda.b TempVecY
+	sta.b $84
+	lda.b TempVecY+1
+	sta.b $85
+	lda.b TempVecZ
+	sta.b $86
+	lda.b TempVecZ+1
+	sta.b $87
 	jsl CODE_03BA45
 	
 	
@@ -2121,116 +2121,116 @@ CODE_03B9F2:
 	
 CODE_03BA45:
 	ldx #$00
-	lda D,$87
+	lda.b $87
 	beq CODE_03BA57
 	inx
 	lsr
 	beq CODE_03BA55
 CODE_03BA4F:
-	ror D,$86
+	ror.b $86
 	inx
 	lsr
 	bne CODE_03BA4F
 CODE_03BA55:
-	ror D,$86
+	ror.b $86
 CODE_03BA57:
-	stx D,$92
+	stx.b $92
 	ldx #$00
-	lda D,$85
-	sta D,$8B
+	lda.b $85
+	sta.b $8B
 	bpl CODE_03BA6E
 	lda #$00
 	sec
-	sbc D,$84
-	sta D,$84
+	sbc.b $84
+	sta.b $84
 	lda #$00
-	sbc D,$85
-	sta D,$85
+	sbc.b $85
+	sta.b $85
 CODE_03BA6E:
 	beq CODE_03BA7F
 	inx
 	lsr
 	beq CODE_03BA7A
 CODE_03BA74:
-	ror D,$84
+	ror.b $84
 	inx
 	lsr
 	bne CODE_03BA74
 CODE_03BA7A:
-	ror D,$84
+	ror.b $84
 	jmp CODE_03BA96
 CODE_03BA7F:
-	lda D,$84
+	lda.b $84
 	bmi CODE_03BA96
 	bne CODE_03BA90
-	lda D,$CA
-	sta D,$88
-	lda D,$CB
-	sta D,$89
+	lda.b $CA
+	sta.b $88
+	lda.b $CB
+	sta.b $89
 	jmp CODE_03BAF6
 CODE_03BA90:
 	dex
 	asl
 	bpl CODE_03BA90
-	sta D,$84
+	sta.b $84
 CODE_03BA96:
-	lda D,$86
-	cmp D,$84
+	lda.b $86
+	cmp.b $84
 	bcc CODE_03BAA4
 CODE_03BA9C:
 	dex
 	lsr
-	cmp D,$84
+	cmp.b $84
 	bcs CODE_03BA9C
-	sta D,$86
+	sta.b $86
 CODE_03BAA4:
 	txa
 	sec
-	sbc D,$92
-	sta D,$8A
-	ldx D,$84
+	sbc.b $92
+	sta.b $8A
+	ldx.b $84
 	lda DATA_0083D5,x
-	ldx D,$86
+	ldx.b $86
 	sec
 	sbc DATA_0083D5,x
 	tax
 	lda DATA_0082D5,x
-	sta D,$89
+	sta.b $89
 	lda DATA_0081D5,x
-	lda D,$8A
+	lda.b $8A
 	bmi CODE_03BACD
 	beq CODE_03BAD3
 CODE_03BAC4:
 	asl
-	rol D,$89
+	rol.b $89
 	dex
 	bne CODE_03BAC4
 	jmp CODE_03BAD3
 CODE_03BACD:
-	lsr D,$89
+	lsr.b $89
 	ror
 	inx
 	bne CODE_03BACD
 CODE_03BAD3:
-	sta D,$88
-	bit D,$8B
+	sta.b $88
+	bit.b $8B
 	bpl CODE_03BAE9
 	sec
-	lda D,$CA
-	sbc D,$88
-	sta D,$88
-	lda D,$CB
-	sbc D,$89
-	sta D,$89
+	lda.b $CA
+	sbc.b $88
+	sta.b $88
+	lda.b $CB
+	sbc.b $89
+	sta.b $89
 	jmp CODE_03BAF6
 CODE_03BAE9:
 	clc
-	lda D,$88
-	adc D,$CA
-	sta D,$88
-	lda D,$89
-	adc D,$CB
-	sta D,$89
+	lda.b $88
+	adc.b $CA
+	sta.b $88
+	lda.b $89
+	adc.b $CB
+	sta.b $89
 CODE_03BAF6:
 	rtl
 CODE_03BAF7:
@@ -2238,23 +2238,23 @@ CODE_03BAF7:
 	brl CODE_03BCF5
 CODE_03BAFC:
 	rep #$30
-	lda D,$C1
+	lda.b $C1
 	and #$00FF
 	eor #$00FF
 	sec
 	sbc #$0780
-	sta D,TempVecX
-	lda D,$C5
+	sta.b TempVecX
+	lda.b $C5
 	and #$00FF
 	eor #$00FF
 	sec
 	sbc #$0780
-	sta D,TempVecZ
+	sta.b TempVecZ
 	lda #$0000
 	sec
-	sbc D,$C3
-	sta D,TempVecY
-	lda D,$C1
+	sbc.b $C3
+	sta.b TempVecY
+	lda.b $C1
 	and #$FF00
 	lsr
 	lsr
@@ -2267,7 +2267,7 @@ CODE_03BAFC:
 	sep #$20
 	sta $164B
 	rep #$20
-	lda D,$C5
+	lda.b $C5
 	and #$FF00
 	lsr
 	lsr
@@ -2281,12 +2281,12 @@ CODE_03BAFC:
 	sta $164C
 	jsl RunSuperFXMultiplyPointByMatrix
 	rep #$20
-	lda D,$B3
-	sta D,TempVecX
-	lda D,$B5
-	sta D,TempVecY
-	lda D,$B7
-	sta D,TempVecZ
+	lda.b $B3
+	sta.b TempVecX
+	lda.b $B5
+	sta.b TempVecY
+	lda.b $B7
+	sta.b TempVecZ
 	sep #$20
 	rep #$20
 	lda $161B
@@ -2382,14 +2382,14 @@ Map:
 	sta $16E8
 	sta $7001DA
 	ldx #$1281
-	stx D,$30
-	stz D,$34
+	stx.b $30
+	stz.b $34
 	lda #$0001
-	sta D,$36
+	sta.b $36
 	jsl $03CD09
 	jsr $C511
 	sep #$20
-	lda D,$45
+	lda.b $45
 	lsr
 	lsr
 	sta SCBR
@@ -2425,7 +2425,7 @@ Map_CpyGfxLoop2:
 	cpx #$03C0
 	bne Map_CpyGfxLoop2
 	rep #$20
-	stz D,$04
+	stz.b $04
 	lda #$0010
 	sta $15C2
 	dec StageID
@@ -2450,8 +2450,8 @@ Map_L4:
 	asl a
 	tax
 	lda DATA_03D408,x
-	sta D,$32
-	sta D,$38
+	sta.b $32
+	sta.b $38
 	jsr $C67F
 	sep #$30
 	lda #$08
@@ -2538,40 +2538,40 @@ Map_L11:
 	jsl CODE_03CC22
 Map_DoIncDec:
 	jsl UpdateInput
-	lda Pad1Down					;\Check if Select/Start/D-pad pressed...
+	lda.w Pad1Down					;\Check if Select/Start/D-pad pressed...
 	bit #$2F00					;|
 	beq Map_SkipIncDec				;/...if not, skip all of this
 	lda #$0010
 	sta $70009A
 	jsr CODE_03BD7A
 	jsl CODE_03CC22
-	lda Pad1Down					;\If Down/Right not pressed...
+	lda.w Pad1Down					;\If Down/Right not pressed...
 	bit #$2A00					;|
 	sep #$20					;|
 	bne Map_DoDec					;|...skip past this, otherwise...
-	lda LevelID					;|...increment level/route ID...
+	lda TempLevelID					;|...increment level/route ID...
 	inc						;|
 	cmp #$03					;|...if 3 or more, loop around to 0
 	bne Map_IncLoop					;|
 	lda #$00					;|
 Map_IncLoop:						;|
-	sta LevelID					;/
+	sta TempLevelID					;/
 	bra Map_FinishIncDec
 Map_DoDec:
-	lda LevelID					;\Decrement level/route ID...
+	lda TempLevelID					;\Decrement level/route ID...
 	dec						;|
 	cmp #$FF					;|... if negative, loop around to 2
 	bne Map_DecLoop					;|
 	lda #$02					;|
 Map_DecLoop:						;|
-	sta LevelID					;/
+	sta TempLevelID					;/
 Map_FinishIncDec:
 	lda #$11
 	jsl CODE_03B7F9
 	jsl CODE_03C67F
 	rep #$20
 Map_SkipIncDec:
-	lda Pad1Down					;\Check if Start/A/B pressed...
+	lda.w Pad1Down					;\Check if Start/A/B pressed...
 	bit #$9080					;|
 	bne Map_L18					;|...if so, branch ahead, otherwise...
 	brl Map_Loop					;/...go back
@@ -2589,7 +2589,7 @@ Map_L20:
 	sep #$20
 	jsr CODE_03C67F
 Map_L21:
-	ldx D,$02
+	ldx.b $02
 	phx
 	lda #$FF
 	sta $16D9
@@ -2599,13 +2599,13 @@ Map_L21:
 	jsr CODE_03C78D
 	jsr CODE_03C891
 	plx
-	stx D,$02
+	stx.b $02
 	jsr CODE_03C484
 	bcc Map_L21
 	jsr CODE_03BD7A
 	jsl CODE_03CC3E
 	lda #$08
-	sta D,CurNMITask
+	sta.b CurNMITask
 	lda $16D9
 	pha
 	lda #$FE
@@ -2618,7 +2618,7 @@ Map_L22:
 	jsr CODE_03C891
 	jsl UpdateInput
 	rep #$20
-	lda Pad1Down
+	lda.w Pad1Down
 	bit #$D0C0
 	sep #$20
 	beq Map_L22
@@ -2633,7 +2633,7 @@ Map_L23:
 	lda #$10
 	jsl CODE_03B7F9
 	lda #$01
-	sta D,$34
+	sta.b $34
 	lda #$53
 Map_L24:
 	pha
@@ -2699,35 +2699,35 @@ Map_L27:
 	sei
 	jsr CODE_03C896
 	jsr CODE_03C5C0
-	stz D,$10
-	stz D,$11
-	stz D,$14
-	stz D,$16
-	stz D,$1E
-	stz D,$20
+	stz.b $10
+	stz.b $11
+	stz.b $14
+	stz.b $16
+	stz.b $1E
+	stz.b $20
 	ldx #$20
 Map_L28:
 	phx
-	stx D,$1C
+	stx.b $1C
 	jsr CODE_03C8CB
 	rep #$20
-	lda D,$18
+	lda.b $18
 	clc
-	adc D,$10
-	sta D,$10
-	lda D,$1A
+	adc.b $10
+	sta.b $10
+	lda.b $1A
 	clc
-	adc D,$12
-	sta D,$12
+	adc.b $12
+	sta.b $12
 	jsr CODE_03BD7A
 	sep #$20
-	lda D,$10
+	lda.b $10
 	sta BG1HOFS
-	lda D,$11
+	lda.b $11
 	sta BG1HOFS
-	lda D,$12
+	lda.b $12
 	sta BG1VOFS
-	lda D,$13
+	lda.b $13
 	sta BG1VOFS
 	plx
 	dex
@@ -2801,7 +2801,7 @@ Map_L28:
 	ldx #$00BA
 	stx VTIMEL
 	lda #$22
-	sta D,CurNMITask
+	sta.b CurNMITask
 	lda TIMEUP
 	cli
 	jsr CODE_03C777
@@ -2973,13 +2973,13 @@ Map_L42:
 	jsl WaitScanline
 	sep #$20
 	rep #$10
-	lda Pad1Down+1
+	lda.w Pad1Down+1
 	bit #$10
 	bne Map_L43
-	lda Pad1Down+1
+	lda.w Pad1Down+1
 	bit #$80
 	bne Map_L43
-	lda Pad1Down
+	lda.w Pad1Down
 	bit #$80
 	bne Map_L43
 	pla
@@ -3137,7 +3137,7 @@ LevelHeaderTable:
 Level2Headers:
 	DB $03,$04,$14,$00,$8C,$5C,$0D,$58,$01,$04,$4E,$00,$F8,$FF,$FF,$02,$04,$00
 	DB $03,$04,$0E,$03,$72,$5E,$0D,$59,$01,$04,$4E,$00,$F8,$04,$4E,$00,$F8,$02,$0E,$08,$F8,$FF,$FF,$01,$32,$00
-	DB $03,$09,$08,$05,$CD,TempScrBWPtr+1,$0D,$6A,$01,$02,$0E,$08,$F8,$02,$0E,$08,$F8,$02,$0E,$08,$F8,$03,$0E,$08,$00,$03,$0E,$08,$00,$FF,$FF,$01,$54,$00
+	DB $03,$09,$08,$05,$CD,$5E,$0D,$6A,$01,$02,$0E,$08,$F8,$02,$0E,$08,$F8,$02,$0E,$08,$F8,$03,$0E,$08,$00,$03,$0E,$08,$00,$FF,$FF,$01,$54,$00
 	DB $03,$12,$05,$09,$50,$5F,$0D,$6B,$01,$03,$0E,$08,$00,$03,$0E,$08,$00,$03,$0E,$08,$00,$03,$0E,$08,$00,$FF,$FF,$01,$72,$00
 	DB $03,$00,$00,$0F,$AB,$5F,$0D,$72,$01,$FF,$FF,$01,$56,$02
 	;Level 1
@@ -3370,9 +3370,9 @@ LevelCommand7A_L1:
 LevelCommand7C_BranchLessThan:
 	tyx
 	lda $8001,x					;\Get address to test
-	sta D,TempScrBWPtr				;|
+	sta.b TempScrBWPtr				;|
 	lda $8002,x					;|
-	sta D,TempScrBWPtr+1				;/
+	sta.b TempScrBWPtr+1				;/
 	sep #$20					;\Compare with command parameter...
 	lda [D,TempScrBWPtr]				;|
 	cmp $8004,x					;|
@@ -3393,9 +3393,9 @@ LevelCommand7C_Exit:
 LevelCommand7E_BranchGreaterThan:
 	tyx
 	lda $8001,x					;\Get address to test
-	sta D,TempScrBWPtr				;|
+	sta.b TempScrBWPtr				;|
 	lda $8002,x					;|
-	sta D,TempScrBWPtr+1				;/
+	sta.b TempScrBWPtr+1				;/
 	sep #$20					;\Compare with command parameter...
 	lda [D,TempScrBWPtr]				;|
 	cmp $8004,x					;|
@@ -3417,9 +3417,9 @@ LevelCommand7E_Exit:
 LevelCommand80_BranchEqual:
 	tyx
 	lda $8001,x					;\Get address to test
-	sta D,TempScrBWPtr				;|
+	sta.b TempScrBWPtr				;|
 	lda $8002,x					;|
-	sta D,TempScrBWPtr+1				;/
+	sta.b TempScrBWPtr+1				;/
 	sep #$20					;\Compare with command parameter...
 	lda [D,TempScrBWPtr]				;|
 	cmp $8004,x					;|
@@ -3486,9 +3486,9 @@ LevelCommand68_L1:
 	adc CurScriptObject
 	tay
 	lda $8003,x
-	sta D,TempScrBWPtr
+	sta.b TempScrBWPtr
 	lda $8004,x
-	sta D,TempScrBWPtr+1
+	sta.b TempScrBWPtr+1
 	sep #$20
 	lda [D,TempScrBWPtr]
 	clc
@@ -3516,9 +3516,9 @@ LevelCommand6A_L1:
 	adc CurScriptObject
 	tay
 	lda $8003,x
-	sta D,TempScrBWPtr
+	sta.b TempScrBWPtr
 	lda $8004,x
-	sta D,TempScrBWPtr+1
+	sta.b TempScrBWPtr+1
 	rep #$20
 	lda [D,TempScrBWPtr]
 	clc
@@ -3556,9 +3556,9 @@ InitPresetSettings:
 	and #$00FF
 	bne CODE_03F04A
 	lda $1786
-	sta D,$16,x
+	sta.b $16,x
 	lda $1787
-	sta D,$17,x
+	sta.b $17,x
 	bra CODE_03F04A
 CODE_03F046:
 	jml CODE_1FBDEE
@@ -3637,13 +3637,13 @@ CODE_03F0DB:
 LevelCommand60_StoreLong:
 	tyx
 	lda $8001,x					;\Form address
-	sta D,TempScrBWPtr				;|
+	sta.b TempScrBWPtr				;|
 	lda $8002,x					;|
-	sta D,TempScrBWPtr+1				;/
+	sta.b TempScrBWPtr+1				;/
 	lda $8004,x					;\Store long at address
 	sta [D,TempScrBWPtr]				;|
-	inc D,TempScrBWPtr				;|
-	inc D,TempScrBWPtr				;|
+	inc.b TempScrBWPtr				;|
+	inc.b TempScrBWPtr				;|
 	sep #$20					;|
 	lda $8006,x					;|
 	sta [D,TempScrBWPtr]				;/
@@ -3658,9 +3658,9 @@ LevelCommand60_StoreLong:
 LevelCommand5E_StoreWord:
 	tyx
 	lda $8003,x					;\Form address
-	sta D,TempScrBWPtr				;|
+	sta.b TempScrBWPtr				;|
 	lda $8004,x					;|
-	sta D,TempScrBWPtr+1				;/
+	sta.b TempScrBWPtr+1				;/
 	lda $8001,x					;\Store word at address
 	sta [D,TempScrBWPtr]				;/
 	inx						;\Move on to next command
@@ -3673,9 +3673,9 @@ LevelCommand5E_StoreWord:
 LevelCommand5C_StoreByte:
 	tyx
 	lda $8002,x					;\Form address
-	sta D,TempScrBWPtr				;|
+	sta.b TempScrBWPtr				;|
 	lda $8003,x					;|
-	sta D,TempScrBWPtr+1				;/
+	sta.b TempScrBWPtr+1				;/
 	sep #$20					;\Store byte at address
 	lda $8001,x					;|
 	sta [D,TempScrBWPtr]				;/
@@ -3778,9 +3778,9 @@ LevelCommand4A:
 LevelCommand4A_NotNull:
 	plx
 	lda $8001,x
-	sta D,TempScrBWPtr
+	sta.b TempScrBWPtr
 	lda $8002,x
-	sta D,TempScrBWPtr+1
+	sta.b TempScrBWPtr+1
 	lda CurScriptObject
 	sta [D,TempScrBWPtr]
 LevelCommand4A_Exit:
@@ -3803,9 +3803,9 @@ LevelCommand46_NotNull:
 	adc CurScriptObject
 	tay
 	lda $8003,x
-	sta D,TempScrBWPtr
+	sta.b TempScrBWPtr
 	lda $8004,x
-	sta D,TempScrBWPtr+1
+	sta.b TempScrBWPtr+1
 	sep #$20
 	lda [D,TempScrBWPtr]
 	sta $0000,y
@@ -3831,9 +3831,9 @@ LevelCommand48_NotNull:
 	adc CurScriptObject
 	tay
 	lda $8003,x
-	sta D,TempScrBWPtr
+	sta.b TempScrBWPtr
 	lda $8004,x
-	sta D,TempScrBWPtr+1
+	sta.b TempScrBWPtr+1
 	rep #$20
 	lda [D,TempScrBWPtr]
 	sta $0000,y
@@ -4261,9 +4261,9 @@ LevelCommand64_RunLoadPresetFunc:
 	lda Unknown_16DF
 	tax
 	lda.l PresetFunctionTable,x
-	sta D,TempPtr
+	sta.b TempPtr
 	lda.l PresetFunctionTable+1,x
-	ora D,TempPtr
+	ora.b TempPtr
 	beq LevelCommand64_Exit
 	plx
 	stx LevelScriptPointer
@@ -4307,10 +4307,10 @@ LoadPreset:
 	ldx Preset
 LoadPreset_Loop:
 	lda.l PresetFunctionTable,x
-	sta D,TempPtr
+	sta.b TempPtr
 	lda.l PresetFunctionTable+1,x
-	sta D,TempPtr+2
-	ora D,TempPtr
+	sta.b TempPtr+2
+	ora.b TempPtr
 	beq LoadPreset_Exit
 	phx
 	sep #$20
@@ -4320,9 +4320,9 @@ LoadPreset_Loop:
 	lda.w #STACKIFY(LoadPreset_Ret)
 	pha
 	sep #$20
-	lda D,TempPtr
+	lda.b TempPtr
 	pha
-	ldx D,TempPtr+2
+	ldx.b TempPtr+2
 	dex
 	phx
 	rtl
@@ -4358,24 +4358,24 @@ LevelCommand70_LoadObject8BehNum:
 	tyx
 	jmp LevelCommand70_LoadObject8BehNum_L12
 LevelCommand70_LoadObject8BehNum_L1:
-	lda D,$00,x
+	lda.b $00,x
 	sta FirstFreeObject
 	tya
 	bne LevelCommand70_LoadObject8BehNum_L2
 	lda FirstObject
-	sta D,$00,x
-	stz D,$02,x
+	sta.b $00,x
+	stz.b $02,x
 	stx FirstObject
 	bra LevelCommand70_LoadObject8BehNum_L3
 LevelCommand70_LoadObject8BehNum_L2:
 	lda $0000,y
-	sta D,$00,x
-	stx D,$00,y
-	sty D,$02,x
+	sta.b $00,x
+	stx.b $00,y
+	sty.b $02,x
 LevelCommand70_LoadObject8BehNum_L3:
-	ldy D,$00,x
+	ldy.b $00,x
 	beq LevelCommand70_LoadObject8BehNum_L4
-	stx D,$0002,y
+	stx.b $0002,y
 LevelCommand70_LoadObject8BehNum_L4:
 	txy
 	plx
@@ -4511,24 +4511,24 @@ LevelCommand72:
 	tyx
 	jmp LevelCommand72_L12
 LevelCommand72_L1:
-	lda D,$00,x
+	lda.b $00,x
 	sta FirstFreeObject
 	tya
 	bne LevelCommand72_L2
 	lda FirstObject
-	sta D,$00,x
-	stz D,$02,x
+	sta.b $00,x
+	stz.b $02,x
 	stx FirstObject
 	bra LevelCommand72_L3
 LevelCommand72_L2:
 	lda $0000,y
-	sta D,$00,x
-	stx D,$00,y
-	sty D,$02,x
+	sta.b $00,x
+	stx.b $00,y
+	sty.b $02,x
 LevelCommand72_L3:
-	ldy D,$00,x
+	ldy.b $00,x
 	beq LevelCommand72_L4
-	stx D,$02,y
+	stx.b $02,y
 LevelCommand72_L4:
 	txy
 	plx
@@ -4616,23 +4616,23 @@ LevelCommand00_LoadObject16BehNum:
 	tyx						;|
 	jmp LevelCommand00_Exit				;/...otherwise exit
 LevelCommand00_Do:
-	lda D,$00,x					;\Update FirstFreeObject with FirstFreeObject.NextObj
+	lda.b $00,x					;\Update FirstFreeObject with FirstFreeObject.NextObj
 	sta FirstFreeObject				;/
 	tya						;\If FirstObject is not null, branch
 	bne LevelCommand00_FirstObjNotNull		;/
 	lda FirstObject					;\Otherwise, make FirstFreeObject FirstObject...
-	sta D,$00,x					;|...by setting FirstFreeObject.NextObj...
-	stz D,$02,x					;|...and FirstFreeObject.PrevObj to 0...
+	sta.b $00,x					;|...by setting FirstFreeObject.NextObj...
+	stz.b $02,x					;|...and FirstFreeObject.PrevObj to 0...
 	bra LevelCommand00_SkipInit			;/...skip alternate initialization
 LevelCommand00_FirstObjNotNull:
 	lda $0000,y					;\Set FirstFreeObject.NextObj to FirstObject.NextObj
-	sta D,$00,x					;/
-	stx D,$00,y					; Set FirstObject.NextObj to FirstFreeObject
-	sty D,$02,x					; Set FirstFreeObject.PrevObj to FirstObject
+	sta.b $00,x					;/
+	stx.b $00,y					; Set FirstObject.NextObj to FirstFreeObject
+	sty.b $02,x					; Set FirstFreeObject.PrevObj to FirstObject
 LevelCommand00_SkipInit:
-	ldy D,$00,x					;\Get FirstFreeObject.NextObj in Y...
+	ldy.b $00,x					;\Get FirstFreeObject.NextObj in Y...
 	beq LevelCommand00_SkipSetNextPrev		;|...if null, skip this, otherwise...
-	stx D,$02,y					;/...set FirstFreeObject.NextObj.PrevObj to FirstFreeObject
+	stx.b $02,y					;/...set FirstFreeObject.NextObj.PrevObj to FirstFreeObject
 LevelCommand00_SkipSetNextPrev:
 	txy
 	plx
@@ -4704,24 +4704,24 @@ LevelCommand74_LoadMacroObj16:
 	tyx
 	jmp LevelCommand74_LoadMacroObj16_Exit
 LevelCommand74_LoadMacroObj16_Do:
-	lda D,$00,x
+	lda.b $00,x
 	sta FirstFreeObject
 	tya
 	bne LevelCommand74_LoadMacroObj16_L2
 	lda FirstObject
-	sta D,$00,x
-	stz D,$02,x
+	sta.b $00,x
+	stz.b $02,x
 	stx FirstObject
 	bra LevelCommand74_LoadMacroObj16_L3
 LevelCommand74_LoadMacroObj16_L2:
 	lda $0000,y
-	sta D,$00,x
-	stx D,$00,y
-	sty D,$02,x
+	sta.b $00,x
+	stx.b $00,y
+	sty.b $02,x
 LevelCommand74_LoadMacroObj16_L3:
-	ldy D,$00,x
+	ldy.b $00,x
 	beq LevelCommand74_LoadMacroObj16_L4
-	stx D,$02,y
+	stx.b $02,y
 LevelCommand74_LoadMacroObj16_L4:
 	txy
 	plx
@@ -4844,24 +4844,24 @@ LevelCommand86_LoadObject16BehAddr:
 	tyx
 	jmp LevelCommand86_LoadObject16BehAddr_L7
 LevelCommand86_LoadObject16BehAddr_L1:
-	lda D,$00,x
+	lda.b $00,x
 	sta FirstFreeObject
 	tya
 	bne LevelCommand86_LoadObject16BehAddr_L2
 	lda FirstObject
-	sta D,$00,x
-	stz D,$02,x
+	sta.b $00,x
+	stz.b $02,x
 	stx FirstObject
 	bra LevelCommand86_LoadObject16BehAddr_L3
 LevelCommand86_LoadObject16BehAddr_L2:
 	lda $0000,y
-	sta D,$00,x
-	stx D,$00,y
-	sty D,$02,x
+	sta.b $00,x
+	stx.b $00,y
+	sty.b $02,x
 LevelCommand86_LoadObject16BehAddr_L3:
-	ldy D,$00,x
+	ldy.b $00,x
 	beq LevelCommand86_LoadObject16BehAddr_L4
-	stx D,$02,y
+	stx.b $02,y
 LevelCommand86_LoadObject16BehAddr_L4:
 	txy
 	sty
@@ -4918,24 +4918,24 @@ LevelCommand0A_SwarmBeh16:
 	tyx
 	jmp LevelCommand0A_SwarmBeh16_L7
 LevelCommand0A_SwarmBeh16_L1:
-	lda D,$00,x
+	lda.b $00,x
 	sta FirstFreeObject
 	tya
 	bne LevelCommand0A_SwarmBeh16_L2
 	lda FirstObject
-	sta D,$00,x
-	stz D,$02,x
+	sta.b $00,x
+	stz.b $02,x
 	stx FirstObject
 	bra LevelCommand0A_SwarmBeh16_L3
 LevelCommand0A_SwarmBeh16_L2:
 	lda $0000,y
-	sta D,$00,x
-	stx D,$00,y
-	sty D,$02,x
+	sta.b $00,x
+	stx.b $00,y
+	sty.b $02,x
 LevelCommand0A_SwarmBeh16_L3:
-	ldy D,$00,x
+	ldy.b $00,x
 	beq LevelCommand0A_SwarmBeh16_L4
-	stx D,$0002,y
+	stx.b $0002,y
 LevelCommand0A_SwarmBeh16_L4:
 	txy
 	sty CurScriptObject
@@ -4988,11 +4988,11 @@ LevelCommand0C:
 	ldx FirstObject
 	beq LevelCommand0C_L2
 LevelCommand0C_L1:
-	lda D,$00,x
+	lda.b $00,x
 	tax
 	beq LevelCommand0C_L2
 	lda $8003,y
-	cmp D,$04,x
+	cmp.b $04,x
 	bne LevelCommand0C_L1
 	phy
 	jsl CODE_1FBFDC
@@ -5022,12 +5022,12 @@ ProcessSwarm:
 	php
 	rep #$20
 ProcessSwarm_Loop:
-	lda D,$26,x
+	lda.b $26,x
 	bmi ProcessSwarm_RunCmd
 	bne ProcessSwarm_End
 ProcessSwarm_RunCmd:
 	phx
-	lda D,$06,x
+	lda.b $06,x
 	txy
 	tax
 	pea #STACKIFY(ProcessSwarm_Return)
@@ -5053,7 +5053,7 @@ ProcessSwarm_Return:
 ProcessSwarm_End:
 	sec
 	sbc ZTimerVel
-	sta D,$26,x
+	sta.b $26,x
 	plp
 	rtl
 SwarmCommand00_LoadObject:
@@ -5061,11 +5061,11 @@ SwarmCommand00_LoadObject:
 	tax
 	phy
 	lda $000C,y
-	sta D,TempVecX
+	sta.b TempVecX
 	lda $000E,y
-	sta D,TempVecY
+	sta.b TempVecY
 	lda $0010,y
-	sta D,TempVecZ
+	sta.b TempVecZ
 	phx
 	ldx FirstObject
 	txy
@@ -5074,39 +5074,39 @@ SwarmCommand00_LoadObject:
 	tyx
 	jmp SwarmCommand00_Exit
 CODE_03FBDC:
-	lda D,$00,x
+	lda.b $00,x
 	sta FirstFreeObject
 	tya
 	bne CODE_03FBF0
 	lda FirstObject
-	sta D,$00,x
-	stz D,$02,x
+	sta.b $00,x
+	stz.b $02,x
 	stx FirstObject
 	bra CODE_03FBF9
 CODE_03FBF0:
 	lda $0000,y
-	sta D,$00,x
-	stx D,$00,y
-	sty D,$02,x
+	sta.b $00,x
+	stx.b $00,y
+	sty.b $02,x
 CODE_03FBF9:
-	ldy D,$00,x
+	ldy.b $00,x
 	beq CODE_03FBFF
-	stx D,$02,y
+	stx.b $02,y
 CODE_03FBFF:
 	txy
 	plx
 	sep #$20
 	jsl ClearObject
 	rep #$20
-	lda D,$02
+	lda.b $02
 	clc
 	adc.l $058003,x
 	sta $000C,y
-	lda D,$08
+	lda.b $08
 	clc
 	adc.l $058005,x
 	sta $000E,y
-	lda D,$90
+	lda.b $90
 	clc
 	adc.l $058007,x
 	sta $0010,y
@@ -5211,11 +5211,11 @@ SwarmCommand0C_CountObjectsWithID:
 	lda.l $058003,x
 	ldx FirstObject
 SwarmCommand0C_Loop:
-	cmp D,$04,x
+	cmp.b $04,x
 	bne SwarmCommand0C_SkipInc
 	inc NumObjectsWithID
 SwarmCommand0C_SkipInc:
-	ldy D,$00,x
+	ldy.b $00,x
 	tyx
 	bne SwarmCommand0C_Loop
 	plx
@@ -5230,10 +5230,10 @@ SwarmCommand02:
 	tax
 	sep #$20
 	lda.l $058005,x
-	sta D,$02
+	sta.b $02
 	lda $0024,y
 	inc
-	cmp D,$02
+	cmp.b $02
 	bmi SwarmCommand02_L1
 	lda #$00
 	sta $0024,y
@@ -5263,13 +5263,13 @@ SwarmCommand06_LoadObject:
 	phx
 	sep #$20
 	jsl CODE_02FC58
-	sta D,$04
+	sta.b $04
 	jsl CODE_02FC58
-	sta D,$05
+	sta.b $05
 	jsl CODE_02FC58
-	sta D,$0A
+	sta.b $0A
 	jsl CODE_02FC58
-	sta D,$0B
+	sta.b $0B
 	jsl CODE_02FC58
 	sta $15C2
 	jsl CODE_02FC58
@@ -5278,42 +5278,42 @@ SwarmCommand06_LoadObject:
 	lda.l $058003,x
 	beq CODE_03FD98
 	lsr
-	sta D,$02
+	sta.b $02
 	lda.l $058003,x
 	dec
-	and D,$04
+	and.b $04
 	sec
-	sbc D,$02
+	sbc.b $02
 CODE_03FD98:
 	clc
 	adc $000C,y
-	sta D,$02
+	sta.b $02
 	lda.l $058005,x
 	beq CODE_03FDB1
 	lsr
-	sta D,$08
+	sta.b $08
 	lda.l $058005,x
 	dec
-	and D,$0A
+	and.b $0A
 	sec
-	sbc D,$08
+	sbc.b $08
 CODE_03FDB1:
 	clc
 	adc $000E,y
-	sta D,$08
+	sta.b $08
 	lda.l $058007,x
 	beq CODE_03FDCB
 	lsr
-	sta D,$90
+	sta.b $90
 	lda.l $058007,x
 	dec
 	and $15C2
 	sec
-	sbc D,$90
+	sbc.b $90
 CODE_03FDCB:
 	clc
 	adc $0010,y
-	sta D,$90
+	sta.b $90
 	ldx FirstObject
 	txy
 	ldx FirstFreeObject
@@ -5321,35 +5321,35 @@ CODE_03FDCB:
 	tyx
 	jmp CODE_03FE63
 CODE_03FDDE:
-	lda D,$00,x
+	lda.b $00,x
 	sta FirstFreeObject
 	tya
 	bne CODE_03FDF2
 	lda FirstObject
-	sta D,$00,x
-	stz D,$02,x
+	sta.b $00,x
+	stz.b $02,x
 	stx FirstObject
 	bra CODE_03FDFB
 CODE_03FDF2:
 	lda $0000,y
-	sta D,$00,x
-	stx D,$00,y
-	sty D,$02,x
+	sta.b $00,x
+	stx.b $00,y
+	sty.b $02,x
 CODE_03FDFB:
-	ldy D,$00,x
+	ldy.b $00,x
 	beq CODE_03FE01
-	stx D,$02,y
+	stx.b $02,y
 CODE_03FE01:
 	txy
 	plx
 	sep #$20
 	jsl ClearObject
 	rep #$20
-	lda D,$02
+	lda.b $02
 	sta $000C,y
-	lda D,$08
+	lda.b $08
 	sta $000E,y
-	lda D,$90
+	lda.b $90
 	sta $0010,y
 	lda.l $058009,x
 	sta $0004,y

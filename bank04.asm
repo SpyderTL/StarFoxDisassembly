@@ -1,74 +1,74 @@
-CODE_048000:
-	lda #$7E
-	pha
-	plb
+UnusedBank04SetBRegWRAM:
+	lda.b #$7E					;\Set data bank to $7E
+	pha						;|(not called, probably was for Nintendo's assembler)
+	plb						;/
 
 ;BEHAVIOR FUNCTION ID $F2
 BehF2:
-	lda #$0A
-	sta D,$2A,x
-	lda #$0A
-	sta D,$2B,x
+	lda.b #$0A
+	sta.b $2A,x
+	lda.b #$0A
+	sta.b $2B,x
 	bra Beh9C
 ;BEHAVIOR FUNCTION ID $E4
 BehE4:
-	lda D,$1E,x
-	ora #$01
-	sta D,$1E,x
-	lda D,$1D,x
-	ora #$40
-	sta D,$1D,x
-	lda #$0A
-	sta D,$2A,x
-	lda #$08
-	sta D,$2B,x
+	lda.b $1E,x
+	ora.b #$01
+	sta.b $1E,x
+	lda.b $1D,x
+	ora.b #$40
+	sta.b $1D,x
+	lda.b #$0A
+	sta.b $2A,x
+	lda.b #$08
+	sta.b $2B,x
 ;BEHAVIOR FUNCTION ID $9C
 Beh9C:
 	rep #$20
 	lda.w #Beh9C_E4_F2_Loop
-	sta D,$16,x
+	sta.b $16,x
 	sep #$20
 	lda.b #(Beh9C_E4_F2_Loop>>16)
-	sta D,$18,x
-	lda #$04
-	sta $1CD5,x
-	lda #$06
-	sta $1CD2,x
-	rep #420
-	lda #$A2DE,x
-	sta $1CD3,x
-	lda #$F45F,x
-	sta $1CD0,x
+	sta.b $18,x
+	lda.b #$04
+	sta.w Object2ListRel+$0B,x
+	lda.b #$06
+	sta.w Object2ListRel+$08,x
+	rep #$20
+	lda.w #$A2DE
+	sta.w Object2ListRel+$09,x
+	lda.w #$F45F
+	sta.w Object2ListRel+$06,x
 	sep #$20
-	lda D,$2E,x
-	ora #$10
-	sta D,$2E,x
-	lda D,$1D,x
-	ora #$08
-	sta D,$1D,x
-	lda #$00
-	sta D,$25,x
-	stz $F0B0
-	stz $F0B1
+	lda.b $2E,x
+	ora.b #$10
+	sta.b $2E,x
+	lda.b $1D,x					;\Enable shadow for this object
+	ora.b #FLAGS1D_HASSHADOW			;|
+	sta.b $1D,x					;/
+	lda.b #$00
+	sta.b $25,x
+	stz.w $F0B0
+	stz.w $F0B1
 Beh9C_E4_F2_Loop:
-	ldy D,$28,x
+	ldy.b $28,x
 	phx
 	tyx
 	lda.l DATA_04A413,x
 	plx
-	sta $1CDC,x
+	sta.w Object2ListRel+$12,x
 	rep #$20
 	lda.w #Beh9C_E4_F2_LoopJumpTable
-	sta D,$53
+	sta.b $53
 	sep #$20
 	lda.b #(Beh9C_E4_F2_LoopJumpTable>>16)
-	sta D,$55
-	jml CODE_09BADE
+	sta.b $55
+	jml DoJumpTable
 Beh9C_E4_F2_LoopJumpTable:
-	DB $04,$70,$84,$00
-	DB $04,$79,$84,$00
-	DB $04,$82,$84,$00
-	DB $04,$9B,$84,$00
+	JUMPTABLE(CODE_048471)
+	JUMPTABLE(CODE_04847A)
+	JUMPTABLE(CODE_048483)
+	JUMPTABLE(CODE_04849C)
 	DB $04,$A4,$84,$00
 	DB $04,$AD,$84,$00
 	DB $04,$F6,$84,$00
@@ -234,49 +234,49 @@ Beh9C_E4_F2_LoopJumpTable:
 	DB $04,$86,$A0,$00
 
 CODE_048318:
-	lda #$00
-	sta D,$24,x
+	lda.b #$00
+	sta.b $24,x
 	sep #$20
 	rep #$20
-	lda D,$28,x
+	lda.b $28,x
 	clc
-	adc #$000E
-	sta D,$28,x
+	adc.w #$000E
+	sta.b $28,x
 	sep #$20
 	jmp CODE_04805F
 CODE_04832D:
-	lda #$00
-	sta D,$24,x
+	lda.b #$00
+	sta.b $24,x
 CODE_048331:
 	sep #$20
 	rep #$20
-	lda D,$28,x
+	lda.b $28,x
 	clc
-	adc #$000D
-	sta D,$28,x
+	adc.w #$000D
+	sta.b $28,x
 	sep #$20
 	jmp CODE_04805F
 CODE_048342:
-	lda #$00
-	sta D,$24,x
+	lda.b #$00
+	sta.b $24,x
 	sep #$20
 	rep #$20
-	lda D,$28,x
+	lda.b $28,x
 	clc
-	adc #$0009
-	sta D,$28,x
+	adc.w #$0009
+	sta.b $28,x
 	sep #$20
 	jmp CODE_04805F
 CODE_048357:
-	lda #$00
-	sta D,$24,x
+	lda.b #$00
+	sta.b $24,x
 CODE_04835B:
 	sep #$20
 	rep #$20
-	lda D,$28,x
+	lda.b $28,x
 	clc
-	adc #$0008
-	sta D,$28,x
+	adc.w #$0008
+	sta.b $28,x
 	sep #$20
 	jmp CODE_04805F
 	

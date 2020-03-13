@@ -3,399 +3,399 @@ CopiedCodeB:
 	BASE $7E3193
 CopiedCodeBBase:
 RunNMITask:
-	ldx D,CurNMITask
+	ldx.b CurNMITask
 	jmp (NMITaskJumpTable,x)
 NMITaskJumpTable:
 	DW NMITask00_NoNMITask
 	DW CODE_7E3AFD		;02
 	DW CODE_7E3B46		;04
 	DW CODE_7E3BAA		;06
-	DW CODE_7E3510		;08
-	DW CODE_7E3831		;0A
+	DW NMITask08
+	DW NMITask0A
 	DW CODE_7E383A		;0C
 	DW CODE_7E3843		;0E
-	DW CODE_7E32B2		;10
-	DW CODE_7E3308		;12
-	DW CODE_7E33BA		;14
-	DW CODE_7E335F		;16
+	DW NMITask10
+	DW NMITask12
+	DW NMITask14
+	DW NMITask16
 	DW CODE_7E38DF		;18
 	DW CODE_7E39EA		;1A
 	DW CODE_7E3A39		;1C
 	DW CODE_7E3A98		;1E
 	DW CODE_7E39DB		;20
-	DW CODE_7E33EA		;22
+	DW NMITask22
 	DW NMITask24_InitializeMode1
 	DW NMITask26_InitializeMode2
 NMITask24_InitializeMode1:
 	rep #$10
-	lda #$0A
-	sta $120E
-	sta HDMAEN
-	lda #$01
-	sta BGMODE
-	stz $18C2
-	lda #$13
-	sta TM
-	lda #$74
-	sta BG3SC
-	lda #$07
-	sta BG34NBA
-	stz BG2VOFS
-	stz BG2VOFS
-	stz $18B8
-	stz $1F0E
-	stz $1F0B
-	stz $16A2
-	lda #$01
-	sta $1897
-	jsl CODE_02F492
+	lda.b #$0A
+	sta.w HDMAENMirror
+	sta.w HDMAEN
+	lda.b #$01
+	sta.w BGMODE
+	stz.w $18C2
+	lda.b #$13
+	sta.w TM
+	lda.b #$74
+	sta.w BG3SC
+	lda.b #$07
+	sta.w BG34NBA
+	stz.w BG2VOFS
+	stz.w BG2VOFS
+	stz.w $18B8
+	stz.w $1F0E
+	stz.w $1F0B
+	stz.w $16A2
+	lda.b #$01
+	sta.w SuperFXPalette
+	jsl LoadSuperFX4BPPPalette
 	rep #$20
-	lda #$8FAA
-	sta $004F
+	lda.w #$8FAA
+	sta.w $004F
 	sep #$20
 	rep #$10
 	rep #$20
-	lda #$0080
-	stz $01B0
-	stz $1EEB
-	stz $1F09
-	stz $169E
-	lda #$0000
-	sta $A05C
+	lda.w #$0080
+	stz.w $01B0
+	stz.w $1EEB
+	stz.w $1F09
+	stz.w VerticalScrollBase2
+	lda.w #$0000
+	sta.w $A05C
 	sep #$20
-	stz $1FC6
-	stz $1EF1
-	stz $1FE4
-	stz D,CurNMITask
+	stz.w $1FC6
+	stz.w $1EF1
+	stz.w $1FE4
+	stz.b CurNMITask
 	rtl
 NMITask26_InitializeMode2:
 	rep #$10
-	lda #$0A
-	sta $120E
-	sta HDMAEN
-	lda #$02
-	sta BGMODE
-	stz $18C2
-	lda #$13
-	sta TM
-	stz BG3SC
-	stz BG3HOFS
-	stz BG3HOFS
-	stz BG3VOFS
-	stz BG3VOFS
-	lda #$2F
-	sta BG3SC
-	lda #$E0
-	sta BG3HOFS
-	stz BG3VOFS
-	stz BG2VOFS
-	stz BG2VOFS
-	stz $18B8
-	stz $1F0E
-	stz $1F0B
-	stz $16A2
-	lda #$01
-	sta $1897
-	jsl CODE_02F492
+	lda.b #$0A
+	sta.w HDMAENMirror
+	sta.w HDMAEN
+	lda.b #$02
+	sta.w BGMODE
+	stz.w $18C2
+	lda.b #$13
+	sta.w TM
+	stz.w BG3SC
+	stz.w BG3HOFS
+	stz.w BG3HOFS
+	stz.w BG3VOFS
+	stz.w BG3VOFS
+	lda.b #$2F
+	sta.w BG3SC
+	lda.b #$E0
+	sta.w BG3HOFS
+	stz.w BG3VOFS
+	stz.w BG2VOFS
+	stz.w BG2VOFS
+	stz.w $18B8
+	stz.w $1F0E
+	stz.w $1F0B
+	stz.w $16A2
+	lda.b #$01
+	sta.w SuperFXPalette
+	jsl LoadSuperFX4BPPPalette
 	rep #$20
-	lda #$8FAA
-	sta $700050
+	lda.w #$8FAA
+	sta.l $700050
 	sep #$20
 	rep #$10
 	rep #$20
-	lda #$0080
-	sta $7001B0
-	stz $1EEB
-	stz $1F09
-	stz $169E
-	lda #$0000
-	sta $7EA05C
+	lda.w #$0080
+	sta.l $7001B0
+	stz.w $1EEB
+	stz.w $1F09
+	stz.w VerticalScrollBase2
+	lda.w #$0000
+	sta.l $7EA05C
 	sep #$20
-	stz $7FE4
-	stz $1FC6
-	stz $1EF1
-	stz D,CurNMITask
+	stz.w $7FE4
+	stz.w $1FC6
+	stz.w $1EF1
+	stz.b CurNMITask
 	rtl
-CODE_7E32B2:
+NMITask10:
 	rep #$10
-	lda #$22		;\Transfer to CGRAM
-	sta BBAD0		;/
-	lda #$00
-	sta CGADD
-	ldx $1892		;\Set source address (A-Bus)
-	stx A1T0L		;|
-	lda $1894		;|
-	sta A1B0		;/
-	ldx $1895		;\Set DMA data size
-	stx DAS0L		;/
-	stz DMAP0		; Set DMA configuration
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD0		;/
-	ldx $188A
-	stx VMADDL
-	ldx #$2800		;\Set source address (A-Bus)
-	stx A1T0L		;|
-	lda #$70		;|
-	sta A1B0		;/
-	ldx $188C		;\Set DMA data size
-	stx DAS0L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP0		;/
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
-	inc D,CurNMITask
-	inc D,CurNMITask
+	lda.b #$22		;\DMA to CGRAM
+	sta.w BBAD0		;|
+	lda.b #$00		;|
+	sta.w CGADD		;|
+	ldx.w $1892		;|
+	stx.w A1T0L		;|
+	lda.w $1894		;|
+	sta.w A1B0		;|
+	ldx.w $1895		;|
+	stx.w DAS0L		;|
+	stz.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD0		;|
+	ldx.w $188A		;|
+	stx.w VMADDL		;|
+	ldx.b #$2800		;|
+	stx.w A1T0L		;|
+	lda.b #$70		;|
+	sta.w A1B0		;|
+	ldx.w $188C		;|
+	stx.w DAS0L		;|
+	lda.b #$01		;|
+	sta.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
+	inc.b CurNMITask
+	inc.b CurNMITask
 	rtl
-CODE_7E3308:
+NMITask12:
 	rep #$10
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD0		;/
-	ldx $188E
-	stx VMADDL
-	ldx #$4000		;\Set source address (A-Bus)
-	stx A1T0L		;|
-	lda #$70		;|
-	sta A1B0		;/
-	ldx $1890		;\Set DMA data size
-	stx DAS0L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP0		;/
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
-	lda #$22		;\Transfer to CGRAM
-	sta BBAD0		;/
-	lda #$70
-	sta CGADD
-	rep #$20
-	lda #$857E		;\Set source address (A-Bus)
-	sta A1T0L		;|
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD0		;|
+	ldx.w $188E		;|
+	stx.w VMADDL		;|
+	ldx.w #$4000		;|
+	stx.w A1T0L		;|
+	lda.b #$70		;|
+	sta.w A1B0		;|
+	ldx.w $1890		;|
+	stx.w DAS0L		;|
+	lda.b #$01		;|
+	sta.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
+	lda.b #$22		;\DMA to CGRAM
+	sta.w BBAD0		;|
+	lda.b #$70		;|
+	sta.w CGADD		;|
+	rep #$20		;|
+	lda.w #$857E		;|
+	sta.w A1T0L		;|
 	sep #$20		;|
-	lda #$7E		;|
-	sta A1B0		;/
-	ldx #$0020		;\Set DMA data size
-	stx DAS0L		;/
-	stz DMAP0		; Set DMA configuration
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
-	stz D,CurNMITask
+	lda.b #$7E		;|
+	sta.w A1B0		;|
+	ldx.w #$0020		;|
+	stx.w DAS0L		;|
+	stz.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
+	stz.b CurNMITask
 	rtl
-CODE_7E335F:
+NMITask16:
 	rep #$10
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD0		;/
-	ldx $188A
-	stx VMADDL
-	ldx #$2800		;\Set source address (A-Bus)
-	stx A1T0L		;|
-	lda #$70		;|
-	sta A1B0		;/
-	ldx $188C		;\Set DMA data size
-	stx DAS0L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP0		;/
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD0		;/
-	ldx $188E
-	stx VMADDL
-	ldx #$4000		;\Set source address (A-Bus)
-	stx A1T0L		;|
-	lda #$70		;|
-	sta A1B0		;/
-	ldx $1890		;\Set DMA data size
-	stx DAS0L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP0		;/
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
-	stz D,CurNMITask
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD0		;|
+	ldx.w $188A		;|
+	stx.w VMADDL		;|
+	ldx.w #$2800		;|
+	stx.w A1T0L		;|
+	lda.b #$70		;|
+	sta.w A1B0		;|
+	ldx.w $188C		;|
+	stx.w DAS0L		;|
+	lda.b #$01		;|
+	sta.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD0		;|
+	ldx.w $188E		;|
+	stx.w VMADDL		;|
+	ldx.w #$4000		;|
+	stx.w A1T0L		;|
+	lda.b #$70		;|
+	sta.w A1B0		;|
+	ldx.w $1890		;|
+	stx.w DAS0L		;|
+	lda.b #$01		;|
+	sta.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
+	stz.b CurNMITask
 	rtl
-CODE_7E33BA:
+NMITask14:
 	rep #$10
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD0		;/
-	ldx $188A
-	stx VMADDL
-	ldx #$2800		;\Set source address (A-Bus)
-	stx A1T0L		;|
-	lda #$70		;|
-	sta A1B0		;/
-	ldx $188C		;\Set DMA data size
-	stx DAS0L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP0		;/
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
-	stz D,CurNMITask
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD0		;|
+	ldx.w $188A		;|
+	stx.w VMADDL		;|
+	ldx.w #$2800		;|
+	stx.w A1T0L		;|
+	lda.b #$70		;|
+	sta.w A1B0		;|
+	ldx.w $188C		;|
+	stx.w DAS0L		;|
+	lda.b #$01		;|
+	sta.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
+	stz.b CurNMITask
 	rtl
-CODE_7E33EA:
-	lda $1FE5
-	bne CODE_7E33F2
+NMITask22:
+	lda.w $1FE5
+	bne NMITask22_Not0
 	brl CODE_7E34F6
-CODE_7E33F2:
+NMITask22_Not0:
 	dec
-	bne CODE_7E33F8
+	bne NMITask22_Not1
 	brl CODE_7E34BA
-CODE_7E33F8:
+NMITask22_Not1:
 	dec
-	bne CODE_7E33FE
+	bne NMITask22_Not2
 	brl CODE_7E348B
-CODE_7E33FE:
+NMITask22_Not2:
 	dec
-	bne CODE_7E3404
+	bne NMITask22_Not3
 	brl CODE_7E345C
-CODE_7E3404:
+NMITask22_Not3:
 	rep #$10
-	ldx D,$4C
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD0		;/
-	stx VMADDL
-	ldx #$2C00		;\Set source address (A-Bus)
-	stx A1T0L		;|
-	lda #$70		;|
-	sta A1B0		;/
-	ldx #$4000		;\Set DMA data size
-	stx DAS0L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP0		;/
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
+	ldx.b $4C
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD0		;|
+	stx.w VMADDL		;|
+	ldx.w #$2C00		;|
+	stx.w A1T0L		;|
+	lda.b #$70		;|
+	sta.w A1B0		;|
+	ldx.w #$4000		;|
+	stx.w DAS0L		;|
+	lda.b #$01		;|
+	sta.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
 	rep #$20
-	lda #$0000
-	cmp D,$4A
+	lda.w #$0000
+	cmp.b $4A
 	beq CODE_7E3442
-	sta D,$4A
-	lda #$3000
-	sta D,$4C
+	sta.b $4A
+	lda.w #$3000
+	sta.b $4C
 	bra CODE_7E3449
 CODE_7E3442:
-	sta D,$4C
-	lda #$3000
-	sta D,$4A
+	sta.b $4C
+	lda.w #$3000
+	sta.b $4A
 CODE_7E3449:
 	sep #$20
-	lda D,$4B
+	lda.b $4B
 	lsr
 	lsr
 	lsr
 	lsr
-	ora #$50
-	sta BG12NBA
-	stz $1FE5
+	ora.b #$50
+	sta.w BG12NBA
+	stz.w $1FE5
 	brl CODE_7E34F6
 CODE_7E345C:
 	rep #$10
-	ldx #$6020
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD7		;/
-	stx VMADDL
-	ldx #$4C00		;\Set source address (A-Bus)
-	stx A1T7L		;|
-	lda #$70		;|
-	sta A1B7		;/
-	ldx #$1000		;\Set DMA data size
-	sta DAS7L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP7		;/
-	lda #$80		;\Do DMA
-	sta MDMAEN		;/
+	ldx.w #$6020
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD7		;|
+	stx.w VMADDL		;|
+	ldx.w #$4C00		;|
+	stx.w A1T7L		;|
+	lda.b #$70		;|
+	sta.w A1B7		;|
+	ldx.w #$1000		;|
+	stx.w DAS7L		;|
+	lda.b #$01		;|
+	sta.w DMAP7		;|
+	lda.b #$80		;|
+	sta.w MDMAEN		;/
 	bra CODE_7E34E9
 CODE_7E348B:
 	rep #$10
-	ldx #$5820
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD7		;/
-	stx VMADDL
-	ldx #$3C00		;\Set source address (A-Bus)
-	stx A1T7L		;|
-	lda #$70		;|
-	sta A1B7		;/
-	ldx #$1000		;\Set DMA data size
-	sta DAS7L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP7		;/
-	lda #$80		;\Do DMA
-	sta MDMAEN		;/
+	ldx.w #$5820
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD7		;|
+	stx.w VMADDL		;|
+	ldx.w #$3C00		;|
+	stx.w A1T7L		;|
+	lda.b #$70		;|
+	sta.w A1B7		;|
+	ldx.w #$1000		;|
+	stx.w DAS7L		;|
+	lda.b #$01		;|
+	sta.w DMAP7		;|
+	lda.b #$80		;|
+	sta.w MDMAEN		;/
 	bra CODE_7E34E9
 CODE_7E34BA:
 	rep #$10
-	ldx #$5020
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD7		;/
-	stx VMADDL
-	ldx #$2C00		;\Set source address (A-Bus)
-	stx A1T7L		;|
-	lda #$70		;|
-	sta A1B7		;/
-	ldx #$1000		;\Set DMA data size
-	sta DAS7L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP7		;/
-	lda #$80		;\Do DMA
-	sta MDMAEN		;/
+	ldx.w #$5020
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD7		;|
+	stx.w VMADDL		;|
+	ldx.w #$2C00		;|
+	stx.w A1T7L		;|
+	lda.b #$70		;|
+	sta.w A1B7		;|
+	ldx.w #$1000		;|
+	stx.w DAS7L		;|
+	lda.b #$01		;|
+	sta.w DMAP7		;|
+	lda.b #$80		;|
+	sta.w MDMAEN		;/
 	bra CODE_7E34E9
 CODE_7E34E9:
-	lda $1FE5
+	lda.w $1FE5
 	inc
-	cmp #$04
+	cmp.b #$04
 	bne CODE_7E34F3
-	lda #$00
+	lda.b #$00
 CODE_7E34F3:
-	sta $1FE5
+	sta.w $1FE5
 CODE_7E34F6:
-	lda $7EF0C6
-	cmp #$FF
+	lda.l $7EF0C6
+	cmp.b #$FF
 	beq CODE_7E350C
-	and #$1F
+	and.b #$1F
 	beq CODE_7E350C
 	dec
-	ora #$E0
+	ora.b #$E0
 	sta COLDATA
-	sta $7EF0C6
+	sta.l $7EF0C6
 CODE_7E350C:
 	jsr CODE_7E4021
 	rtl
-CODE_7E3510:
+NMITask08:
 	sep #$20
-	lda #$01
-	sta D,$FD
+	lda.b #$01
+	sta.b $FD
 	rep #$10
-	lda #$04		;\Transfer to OAM
-	sta BBAD0		;/
-	ldx #$0000
-	stx OAMADDL
-	ldx #$1261		;\Set source address (A-Bus)
-	stx A1T0L		;|
-	lda #$00		;|
-	sta A1B0		;/
-	ldx #$0070		;\Set DMA data size
-	stx DAS0L		;/
-	lda #$00		;\Set DMA configuration
-	sta DMAP0		;/
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
-	lda $1FE5
+	lda.b #$04		;\DMA to OAM
+	sta.w BBAD0		;|
+	ldx.w #$0000		;|
+	stx.w OAMADDL		;|
+	ldx.w #OAMBuffer	;|
+	stx.w A1T0L		;|
+	lda.b #BANKOF(OAMBuffer);|
+	sta.w A1B0		;|
+	ldx.w #$0070		;|
+	stx.w DAS0L		;|
+	lda.b #$00		;|
+	sta.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
+	lda.w $1FE5
 	bne CODE_7E3546
 	brl CODE_7E3631
 CODE_7E3546:
@@ -410,413 +410,413 @@ CODE_7E354C:
 	brl CODE_7E35F0
 CODE_7E3555:
 	rep #$20
-	lda D,$4C
+	lda.b $4C
 	clc
-	adc #$1800
+	adc.w #$1800
 	tax
 	sep #$20
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD0		;/
-	stx VMADDL
-	ldx #$5C00		;\Set source address (A-Bus)
-	stx A1T0L		;|
-	lda #$70		;|
-	sta A1B0		;/
-	ldx #$1000		;\Set DMA data size
-	stx DAS0L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP0		;/
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD0		;|
+	stx.w VMADDL		;|
+	ldx.w #$5C00		;|
+	stx.w A1T0L		;|
+	lda.b #$70		;|
+	sta.w A1B0		;|
+	ldx.w #$1000		;|
+	stx.w DAS0L		;|
+	lda.b #$01		;|
+	sta.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
 	brl CODE_7E3623
 CODE_7E358B:
 	sep #$20
 	rep #$10
-	ldx D,$4C
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD0		;/
-	stx VMADDL
-	ldx #$2C00		;\Set source address (A-Bus)
-	stx A1T0L		;|
-	lda #$70		;|
-	sta A1B0		;/
-	ldx #$1000		;\Set DMA data size
-	stx DAS0L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP0		;/
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
+	ldx.b $4C
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD0		;|
+	stx.w VMADDL		;|
+	ldx.w #$2C00		;|
+	stx.w A1T0L		;|
+	lda.b #$70		;|
+	sta.w A1B0		;|
+	ldx.w #$1000		;|
+	stx.w DAS0L		;|
+	lda.b #$01		;|
+	sta.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
 	bra CODE_7E3623
 CODE_7E35BB:
 	rep #$20
-	lda D,$4C
+	lda.b $4C
 	clc
-	adc #$0800
+	adc.w #$0800
 	tax
 	sep #$20
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD0		;/
-	stx VMADDL
-	ldx #$3C00		;\Set source address (A-Bus)
-	stx A1T0L		;|
-	lda #$70		;|
-	sta A1B0		;/
-	ldx #$1000		;\Set DMA data size
-	stx DAS0L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP0		;/
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD0		;|
+	stx.w VMADDL		;|
+	ldx.w #$3C00		;|
+	stx.w A1T0L		;|
+	lda.b #$70		;|
+	sta.w A1B0		;|
+	ldx.w #$1000		;|
+	stx.w DAS0L		;|
+	lda.b #$01		;|
+	sta.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
 	bra CODE_7E3623
 CODE_7E35F0:
 	rep #$20
-	lda D,$4C
+	lda.b $4C
 	clc
-	adc #$1000
+	adc.w #$1000
 	tax
 	sep #$20
-	lda #$80
-	sta VMAIN
-	lda #$18		;\Transfer to VRAM
-	sta BBAD0		;/
-	ldx #$4C00		;\Set source address (A-Bus)
-	stx A1T0L		;|
-	lda #$70		;|
-	sta A1B0		;/
-	ldx #$1000		;\Set DMA data size
-	stx DAS0L		;/
-	lda #$01		;\Set DMA configuration
-	sta DMAP0		;/
-	lda #$01		;\Do DMA
-	sta MDMAEN		;/
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18		;\DMA to VRAM
+	sta.w BBAD0		;|
+	ldx.w #$4C00		;|
+	stx.w A1T0L		;|
+	lda.b #$70		;|
+	sta.w A1B0		;|
+	ldx.w #$1000		;|
+	stx.w DAS0L		;|
+	lda.b #$01		;|
+	sta.w DMAP0		;|
+	lda.b #$01		;|
+	sta.w MDMAEN		;/
 CODE_7E3623:
-	lda $1FE5
+	lda.w $1FE5
 	inc
-	sta $1FE5
-	cmp #$05
+	sta.w $1FE5
+	cmp.b #$05
 	bne CODE_7E3631
-	stz $1FE5
+	stz.w $1FE5
 CODE_7E3631:
-	lda $15C2
+	lda.w $15C2
 	pha
-	ldx #$0010
-	lda $0034
-	bit #$01
+	ldx.w #$0010
+	lda.w $0034
+	bit.b #$01
 	beq CODE_7E3667
 	clc
-	adc #$40
-	sta $0034
+	adc.b #$40
+	sta.w $0034
 	rol
-	bcc $3667
+	bcc.w $3667
 	rep #$20
-	stz $1261,x
-	stz $1265,x
-	stz $1269,x
-	stz $126D,x
-	stz $1263,x
-	stz $1267,x
-	stz $126B,x
-	stz $126F,x
+	stz.w OAMBuffer+$00,x
+	stz.w OAMBuffer+$04,x
+	stz.w OAMBuffer+$08,x
+	stz.w OAMBuffer+$0C,x
+	stz.w OAMBuffer+$02,x
+	stz.w OAMBuffer+$06,x
+	stz.w OAMBuffer+$0A,x
+	stz.w OAMBuffer+$0E,x
 	sep #$20
 	brl CODE_7E371A
-	lda $0033
-	cmp $0039
+	lda.w $0033
+	cmp.w $0039
 	bmi CODE_7E36AE
-	lda $0032
+	lda.w $0032
 	sec
-	sbc $0038
+	sbc.w $0038
 	beq CODE_7E36A4
 	bcc CODE_7E3690
-	sta $15C2
-	lda $0033
+	sta.w $15C2
+	lda.w $0033
 	sec
-	sbc $0039
+	sbc.w $0039
 	beq CODE_7E368B
-	cmp $15C2
+	cmp.w $15C2
 	bne CODE_7E36A4
 CODE_7E368B:
-	dec $0032
+	dec.w $0032
 	bra CODE_7E36A4
 CODE_7E3690:
-	sta $15C2
-	lda $003A
+	sta.w $15C2
+	lda.w $003A
 	sec
-	sbc $0033
+	sbc.w $0033
 	beq CODE_7E36A1
-	cmp $15C2
+	cmp.w $15C2
 	bne CODE_7E36A4
 CODE_7E36A1:
-	inc $0032
+	inc.w $0032
 CODE_7E36A4:
-	lda $0033
-	cmp $0039
+	lda.w $0033
+	cmp.w $0039
 	beq CODE_7E36C1
 	bpl CODE_7E36BE
 CODE_7E36AE:
-	inc $0033
-	lda $0032
-	cmp $0038
+	inc.w $0033
+	lda.w $0032
+	cmp.w $0038
 	beq CODE_7E36C1
-	inc $0033
+	inc.w $0033
 	bra CODE_7E36C1
 CODE_7E36BE:
-	dec $0033
+	dec.w $0033
 CODE_7E36C1:
-	lda $0032
+	lda.w $0032
 	clc
-	adc #$08
-	sta $1261,x
-	sta $1269,x
+	adc.b #$08
+	sta.w OAMBuffer+$00,x
+	sta.w OAMBuffer+$08,x
 	clc
-	adc #$08
-	sta $1265,x
-	sta $126D,x
-	lda $0033
+	adc.b #$08
+	sta.w OAMBuffer+$04,x
+	sta.w OAMBuffer+$0C,x
+	lda.w $0033
 	clc
-	adc #$08
-	sta $1262,x
-	sta $1266,x
+	adc.b #$08
+	sta.w OAMBuffer+$02,x
+	sta.w OAMBuffer+$06,x
 	clc
-	adc #$08
-	sta $126A,x
-	sta $126E,x
-	lda $0036
+	adc.b #$08
+	sta.w OAMBuffer+$0A,x
+	sta.w OAMBuffer+$0E,x
+	lda.w $0036
 	beq CODE_7E36F7
 	dec
 	beq CODE_7E36FB
-	lda #$0D
+	lda.b #$0D
 	bra CODE_7E36FD
 CODE_7E36C7:
-	lda #$09
+	lda.b #$09
 	bra CODE_7E36FD
 CODE_7E36FB:
-	lda #$05
+	lda.b #$05
 CODE_7E36FD:
-	sta $1263,x
+	sta.w OAMBuffer+$02,x
 	inc
-	sta $1267,x
+	sta.w OAMBuffer+$06,x
 	inc
-	sta $126B,x
+	sta.w OAMBuffer+$0A,x
 	inc
-	sta $126F,x
-	lda #$3E
-	sta $1264,x
-	sta $1268,x
-	sta $126C,x
-	sta $1270,x
+	sta.w OAMBuffer+$0E,x
+	lda.b #$3E
+	sta.w OAMBuffer+$03,x
+	sta.w OAMBuffer+$07,x
+	sta.w OAMBuffer+$0B,x
+	sta.w OAMBuffer+$0F,x
 CODE_7E371A:
-	lda $16ED
+	lda.w $16ED
 	bne CODE_7E3722
 	brl CODE_7E379E
 CODE_7E3722:
-	ldx #$0000
-	lda $16E4
+	ldx.w #$0000
+	lda.w $16E4
 	sec
-	sbc #$0F
-	sta $1261,x
-	sta $1265,x
+	sbc.b #$0F
+	sta.w OAMBuffer+$00,x
+	sta.w OAMBuffer+$04,x
 	clc
-	adc #$08
-	sta $1269,x
-	sta $126D,x
-	lda $16E6
-	sta $1262,x
-	sta $126A,x
+	adc.b #$08
+	sta.w OAMBuffer+$08,x
+	sta.w OAMBuffer+$0C,x
+	lda.w $16E6
+	sta.w OAMBuffer+$01,x
+	sta.w OAMBuffer+$09,x
 	clc
-	adc #$08
-	sta $1266,x
-	sta $126E,x
-	lda $1263,x
-	cmp #$11
+	adc.b #$08
+	sta.w OAMBuffer+$05,x
+	sta.w OAMBuffer+$0D,x
+	lda.w OAMBuffer+$02,x
+	cmp.b #$11
 	bne CODE_7E3757
-	lda #$15
+	lda.b #$15
 	bra CODE_7E3759
 CODE_7E3757:
-	lda #$11
+	lda.b #$11
 CODE_7E3759:
-	sta $1263,x
+	sta.w OAMBuffer+$02,x
 	inc
-	sta $126B,x
+	sta.w OAMBuffer+$0A,x
 	inc
-	sta $1267,x
+	sta.w OAMBuffer+$06,x
 	inc
-	sta $126F,x
-	lda #$1E
-	sta $1264,x
-	sta $1268,x
-	sta $126C,x
-	sta $1270,x
-	dec $16E4
-	dec $16E4
-	inc $16E6
-	inc $16E6
-	lda $16E4
-	cmp #$12
+	sta.w OAMBuffer+$0E,x
+	lda.b #$1E
+	sta.w OAMBuffer+$03,x
+	sta.w OAMBuffer+$07,x
+	sta.w OAMBuffer+$0B,x
+	sta.w OAMBuffer+$0F,x
+	dec.w $16E4
+	dec.w $16E4
+	inc.w $16E6
+	inc.w $16E6
+	lda.w $16E4
+	cmp.b #$12
 	bcc CODE_7E3793
-	lda $16E6
-	cmp #$E0
+	lda.w $16E6
+	cmp.b #$E0
 	bcs CODE_7E3793
 	brl CODE_7E3829
 CODE_7E3793:
-	stz $16ED
-	lda #$1E
-	sta $16EB
+	stz.w $16ED
+	lda.b #$1E
+	sta.w $16EB
 	brl CODE_7E3829
 CODE_7E379E:
 	rep #$20
-	lda D,$02
+	lda.b $02
 	pha
-	lda D,$90
+	lda.b $90
 	pha
-	lda D,$04
+	lda.b $04
 	pha
-	lda $15C2
+	lda.w $15C2
 	pha
 	sep #$20
-	stz D,$02
-	lda #$7D
-	sta D,$90
-	lda $16EB
+	stz.b $02
+	lda.b #$7D
+	sta.b $90
+	lda.w $16EB
 	jsr CODE_7E579D
 	rep #$20
-	lda D,$04
-	bit #$0080
+	lda.b $04
+	bit.w #$0080
 	beq CODE_7E37C9
-	ora #$FF00
+	ora.w #$FF00
 	bra CODE_7E37CC
 CODE_7E37C9:
-	and #$00FF
+	and.w #$00FF
 CODE_7E37CC:
 	clc
-	adc #$0080
-	sta $16E4
-	lda $15C2
-	bit #$0080
+	adc.w #$0080
+	sta.w $16E4
+	lda.w $15C2
+	bit.w #$0080
 	beq CODE_7E37E0
-	ora #$FF00
+	ora.w #$FF00
 	bra CODE_7E37E3
 CODE_7E37E0:
-	and #$00FF
+	and.w #$00FF
 CODE_7E37E3:
 	clc
-	adc #$0064
-	sta $16E6
-	lda #$00C8
-	sta $16E8
-	lda $16EA
+	adc.w #$0064
+	sta.w $16E6
+	lda.w #$00C8
+	sta.w $16E8
+	lda.w $16EA
 	clc
-	adc #$0010
-	sta $16EA
+	adc.w #$0010
+	sta.w $16EA
 	sep #$20
-	lda $16EB
-	cmp #$A0
+	lda.w $16EB
+	cmp.b #$A0
 	bne CODE_7E3818
-	lda #$01
-	sta $16ED
-	lda #$FF
-	sta $16E4
-	lda #$00
-	sta $16E6
-	stz $16E5
-	stz $16E7
+	lda.b #$01
+	sta.w $16ED
+	lda.b #$FF
+	sta.w $16E4
+	lda.b #$00
+	sta.w $16E6
+	stz.w $16E5
+	stz.w $16E7
 CODE_7E3818:
 	rep #$20
 	pla
-	sta $15C2
+	sta.w $15C2
 	pla
-	sta D,$04
+	sta.b $04
 	pla
-	sta D,$90
+	sta.b $90
 	pla
-	sta D,$02
+	sta.b $02
 	sep #$20
 CODE_7E3829:
 	pla
-	sta $15C2
+	sta.w $15C2
 	jsr CODE_7E4021
 	rtl
-CODE_7E3831:
+NMITask0A:
 	rep #$10
-	lda #$0C
-	sta D,CurNMITask
+	lda.b #$0C
+	sta.b CurNMITask
 	brl CODE_7E3B03
 CODE_7E383A:
 	rep #$10
-	lda #$0E
-	sta D,CurNMITask
+	lda.b #$0E
+	sta.b CurNMITask
 	brl CODE_7E3B57
 CODE_7E3843:
 	rep #$10
 CODE_7E3845:
 	sep #$20
-	lda SLHV
-	lda OPHCT
+	lda.w SLHV
+	lda.w OPHCT
 	xba
-	lda OPHCT
+	lda.w OPHCT
 	xba
 	rep #$20
-	and #$01FF
-	cmp #$0032
+	and.w #$01FF
+	cmp.w #$0032
 	bcc CODE_7E3845
-	cmp #$0046
+	cmp.w #$0046
 	bcs CODE_7E3845
 	sep #$20
-	lda #$04
-	sta BBAD0
-	ldx #$0000
-	stx OAMADDL
-	ldx #$1261
-	stx A1T0L
-	lda #$00
-	sta A1B0
-	ldx #$012C
-	stx DAS0L
-	lda #$00
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
-	stz D,CurNMITask
-	lda D,$4B
+	lda.b #$04
+	sta.w BBAD0
+	ldx.w #$0000
+	stx.w OAMADDL
+	ldx.w #OAMBuffer
+	stx.w A1T0L
+	lda.b #BANKOF(OAMBuffer)
+	sta.w A1B0
+	ldx.w #$012C
+	stx.w DAS0L
+	lda.b #$00
+	sta.w DMAP0
+	lda.b #$01
+	sta.w MDMAEN
+	stz.b CurNMITask
+	lda.b $4B
 	lsr
 	lsr
 	lsr
 	lsr
-	ora #$50
-	sta BG12NBA
-	ldx D,$4A
-	ldy D,$4C
-	stx D,$4C
-	sty D,$4A
-	lda #$80
-	sta VMAIN
+	ora.b #$50
+	sta.w BG12NBA
+	ldx.b $4A
+	ldy.b $4C
+	stx.b $4C
+	sty.b $4A
+	lda.b #$80
+	sta.w VMAIN
 	rep #$20
-	lda #$731D
-	sta VMADDL
-	lda $1898
+	lda.w #$731D
+	sta.w VMADDL
+	lda.w $1898
 	clc
-	adc #$3528
-	sta VMDATA
+	adc.w #$3528
+	sta.w VMDATA
 	rep #$20
-	lda JOY1L
+	lda.w JOY1L
 	pha
-	eor Pad1HiPrev
-	and JOY1L
-	sta Pad1Down
-	lda JOY2L
+	eor.w Pad1HiPrev
+	and.w JOY1L
+	sta.w Pad1Down
+	lda.w JOY2L
 	pha
-	eor Pad2HiPrev
-	and JOY2L
-	sta Pad2Down
+	eor.w Pad2HiPrev
+	and.w JOY2L
+	sta.w Pad2Down
 	pla
-	sta Pad2HiPrev
+	sta.w Pad2HiPrev
 	pla
-	sta Pad1HiPrev
+	sta.w Pad1HiPrev
 	sep #$20
 	jsr CODE_7E4021
 	rtl
@@ -824,109 +824,109 @@ CODE_7E38DF:
 	rep #$10
 CODE_7E38E1:
 	sep #$20
-	lda SLHV
-	lda OPHCT
+	lda.w SLHV
+	lda.w OPHCT
 	xba
-	lda OPHCT
+	lda.w OPHCT
 	xba
 	rep #$20
-	and #$01FF
-	cmp #$0032
+	and.w #$01FF
+	cmp.w #$0032
 	bcc CODE_7E38E1
-	cmp #$0046
+	cmp.w #$0046
 	bcs CODE_7E38E1
 	sep #$20
-	lda #$04
-	sta BBAD0
-	ldx #$0000
-	stx OAMADDL
-	ldx #$1261
-	stx A1T0L
-	lda #$00
-	sta A1B0
-	ldx #$148
-	stx DAS0L
-	lda #$00
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
-	lda #$13
-	sta TM
-	stz D,CurNMITask
-	lda D,$4B
+	lda.b #$04
+	sta.w BBAD0
+	ldx.w #$0000
+	stx.w OAMADDL
+	ldx.w #OAMBuffer
+	stx.w A1T0L
+	lda.b #BANKOF(OAMBuffer)
+	sta.w A1B0
+	ldx.w #$0148
+	stx.w DAS0L
+	lda.b #$00
+	sta.w DMAP0
+	lda.b #$01
+	sta.w MDMAEN
+	lda.b #$13
+	sta.w TM
+	stz.b CurNMITask
+	lda.b $4B
 	lsr
 	lsr
 	lsr
 	lsr
-	ora #$50
-	sta BG12NBA
-	ldx D,$4A
-	ldy D,$4C
-	stx D,$4C
-	sty D,$4A
+	ora.b #$50
+	sta.w BG12NBA
+	ldx.b $4A
+	ldy.b $4C
+	stx.b $4C
+	sty.b $4A
 	sep #$20
-	lda $1F35
-	sta BG2VOFS
-	lda $1F36
-	sta BG2VOFS
-	lda $1F37
-	sta BG2HOFS
-	lda $1F38
-	sta BG2HOFS
-	stz CGADSUB
-	stz COLDATA
-	stz WH0
-	stz WH1
+	lda.w $1F35
+	sta.w BG2VOFS
+	lda.w $1F36
+	sta.w BG2VOFS
+	lda.w $1F37
+	sta.w BG2HOFS
+	lda.w $1F38
+	sta.w BG2HOFS
+	stz.w CGADSUB
+	stz.w COLDATA
+	stz.w WH0
+	stz.w WH1
 	jsr CODE_7E3E35
 	rep #$20
-	lda $1FDA
-	and #$00FF
+	lda.w $1FDA
+	and.w #$00FF
 	beq CODE_7E39BE
-	lda $15BB
-	and #$0001
+	lda.w $15BB
+	and.w #$0001
 	bne CODE_7E397F
-	stz $16C7
+	stz.w $16C7
 	bra CODE_7E39A8
 CODE_7E397F:
-	lda $1FDA
-	and #$00FF
-	cmp #$001F
+	lda.w $1FDA
+	and.w #$00FF
+	cmp.w #$001F
 	beq CODE_7E398F
 	bcc CODE_7E398F
-	lda #$001F
+	lda.w #$001F
 CODE_7E398F:
-	sta $16C7
+	sta.w $16C7
 	asl
 	asl
 	asl
 	asl
 	asl
-	sta $1FDB
+	sta.w $1FDB
 	asl
 	asl
 	asl
 	asl
 	asl
-	ora $1FDB
-	ora $16C7
-	sta $16C7
+	ora.w $1FDB
+	ora.w $16C7
+	sta.w $16C7
 CODE_7E39A8:
 	sep #$20
-	lda #$03
-	sta CGADD
-	lda $16C7
-	sta CGDATA
-	lda $16C8
-	sta CGDATA
-	dec $1FDA
+	lda.b #$03
+	sta.w CGADD
+	lda.b $16C7
+	sta.w CGDATA
+	lda.b $16C8
+	sta.w CGDATA
+	dec.b $1FDA
 CODE_7E39BE:
 	rep #$20
-	lda JOY1L
-	eor $1FFE
-	and JOY1L
-	sta Pad1Down
-	lda JOY1L
-	sta $1FFE
+	lda.w JOY1L
+	eor.w $1FFE
+	and.w JOY1L
+	sta.w Pad1Down
+	lda.w JOY1L
+	sta.w $1FFE
 	sep #$20
 	jsr CODE_7E3DAB
 	jsr CODE_7E4021
@@ -934,100 +934,100 @@ CODE_7E39BE:
 CODE_7E39DB:
 	jsr CODE_7E3EF7
 	jsr CODE_7E3DAB
-	lda #$01
-	sta $18AC
+	lda.b #$01
+	sta.w $18AC
 	jsr CODE_7E4021
 	rtl
 CODE_7E39EA:
 	rep #$10
-	lda #$1C
-	sta D,CurNMITask
-	ldx D,$4A
-	lda SCMRMirror
-	and #$F7
-	sta SCMR
-	lda #$80
-	sta VMAIN
-	lda #$18
-	sta BBAD0
-	stx VMADDL
-	ldx #$2C00
-	sta A1T0L
-	lda #$70
-	sta A1B0
-	ldx #$2A00
-	stx DAS0L
-	lda #$01
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
-	lda SCMRMirror
-	ora #$08
-	sta SCMR
+	lda.b #$1C
+	sta.b CurNMITask
+	ldx.b $4A
+	lda.w SCMRMirror
+	and.b #$F7
+	sta.w SCMR
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18
+	sta.w BBAD0
+	stx.w VMADDL
+	ldx.w #$2C00
+	sta.w A1T0L
+	lda.b #$70
+	sta.w A1B0
+	ldx.w #$2A00
+	stx.w DAS0L
+	lda.b #$01
+	sta.w DMAP0
+	lda.b #$01
+	sta.w MDMAEN
+	lda.w SCMRMirror
+	ora.b #$08
+	sta.w SCMR
 	jsr CODE_7E3EF7
 	jsr CODE_7E3DAB
-	lda #$01
-	sta $18AC
+	lda.b #$01
+	sta.w $18AC
 	jsr CODE_7E4021
 	rtl
 CODE_7E3A39:
 	rep #$10
-	lda #$1E
-	sta D,CurNMITask
+	lda.b #$1E
+	sta.b CurNMITask
 	rep #$20
-	lda D,$4A
+	lda.b $4A
 	clc
-	adc #$1500
+	adc.w #$1500
 	tax
 	sep #$20
-	lda SCMRMirror
-	and #$F7
-	sta SCMR
-	lda #$80
-	sta VMAIN
-	lda #$18
-	sta BBAD0
-	stx VMADDL
-	ldx #$5600
-	stx A1T0L
-	lda #$70
-	sta A1B0
-	ldx #$2A00
-	stx DAS0:
-	lda #$01
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
-	lda SCMRMirror
-	ora #$08
-	sta SCMR
+	lda.w SCMRMirror
+	and.b #$F7
+	sta.w SCMR
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18
+	sta.w BBAD0
+	stx.w VMADDL
+	ldx.w #$5600
+	stx.w A1T0L
+	lda.b #$70
+	sta.w A1B0
+	ldx.w #$2A00
+	stx.w DAS0:
+	lda.b #$01
+	sta.w DMAP0
+	lda.b #$01
+	sta.w MDMAEN
+	lda.w SCMRMirror
+	ora.b #$08
+	sta.w SCMR
 	jsr CODE_7E3EF7
 	jsr CODE_7E3DAB
-	lda #$02
-	sta $18BB
-	lda D,$45
+	lda.b #$02
+	sta.w $18BB
+	lda.b $45
 	lsr
 	lsr
-	sta SCBR
+	sta.w SCBR
 	jsr CODE_7E4021
 	rtl
 CODE_7E3A98:
-	lda $1F10
+	lda.w $1F10
 	bne CODE_7E3A9E
 	rtl
 CODE_7E3A9E:
 	rep #$10
-	lda D,$4B
+	lda.b $4B
 	lsr
 	lsr
 	lsr
 	lsr
-	ora #$50
-	sta BG12NBA
-	ldx D,$4A
-	ldy D,$4C
-	stx D,$4C
-	sty D,$4A
+	ora.b #$50
+	sta.w BG12NBA
+	ldx.b $4A
+	ldy.b $4C
+	stx.b $4C
+	sty.b $4A
 	jsr CODE_7E3FA3
 	jsr CODE_7E414B
 	sep #$20
@@ -1036,383 +1036,383 @@ CODE_7E3A9E:
 	jsr CODE_7E3EF7
 	jsr CODE_7E3DAB
 	rep #$20
-	lda JOY1L
+	lda.w JOY1L
 	pha
-	eor Pad1HiPrev
-	and JOY1L
-	sta Pad1Down
-	lda JOY2L
+	eor.w Pad1HiPrev
+	and.w JOY1L
+	sta.w Pad1Down
+	lda.w JOY2L
 	pha
-	eor Pad2HiPrev
-	and JOY2L
-	sta Pad2Down
+	eor.w Pad2HiPrev
+	and.w JOY2L
+	sta.w Pad2Down
 	pla
-	sta Pad2HiPrev
+	sta.w Pad2HiPrev
 	pla
-	sta Pad1HiPrev
+	sta.w Pad1HiPrev
 	sep #$20
 	jsr CODE_7E4021
-	lda #$20
-	sta D,CurNMITask
+	lda.b #$20
+	sta.b CurNMITask
 	rtl
 NMITask00_NoNMITask:
-	lda #$01
-	sta $18AC
+	lda.b #$01
+	sta.w $18AC
 	jsr CODE_7E4021
 	rtl
 CODE_7E3AFD:
 	rep #$10
-	lda #$04
-	sta D,CurNMITask
+	lda.b #$04
+	sta.b CurNMITask
 CODE_7E3B03:
-	ldx D,$4A
-	lda SCMRMirror
-	and #$F7
-	sta SCMR
-	lda #$80
-	sta VMAIN
-	lda #$18
-	sta BBAD0
-	stx VMADDL
-	ldx #$2C00
-	sta A1T0L
-	lda #$70
-	sta A1B0
-	ldx #$2A00
-	stx DAS0L
-	lda #$01
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
-	lda SCMRMirror
-	ora #$08
-	sta SCMR
-	lda #$01
-	sta $18BB
+	ldx.b $4A
+	lda.w SCMRMirror
+	and.b #$F7
+	sta.w SCMR
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18
+	sta.w BBAD0
+	stx.w VMADDL
+	ldx.w #$2C00
+	sta.w A1T0L
+	lda.b #$70
+	sta.w A1B0
+	ldx.w #$2A00
+	stx.w DAS0L
+	lda.b #$01
+	sta.w DMAP0
+	lda.b #$01
+	sta.w MDMAEN
+	lda.w SCMRMirror
+	ora.b #$08
+	sta.w SCMR
+	lda.b #$01
+	sta.w $18BB
 	jsr CODE_7E4021
 	rtl
 CODE_7E3B46:
 	rep #$10
-	lda $1F0D
+	lda.w $1F0D
 	beq CODE_7E3B53
-	lda #$18
-	sta D,CurNMITask
+	lda.b #$18
+	sta.b CurNMITask
 	bra CODE_7E3B57
 CODE_7E3B53:
-	lda #$06
-	sta D,CurNMITask
+	lda.b #$06
+	sta.b CurNMITask
 CODE_7E3B57:
 	rep #$20
-	lda D,$4A
+	lda.b $4A
 	clc
-	adc #$1500
+	adc.w #$1500
 	tax
 	sep #$20
-	lda SCMRMirror
-	and #$F7
-	sta SCMR
-	lda #$80
-	sta VMAIN
-	lda #$18
-	sta BBAD0
-	stx VMADDL
-	ldx #$5600
-	stx A1T0L
-	lda #$70
-	sta A1B0
-	ldx #$2A00
-	stx DAS0L
-	lda #$01
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
-	lda SCMRMirror
-	ora #$08
-	sta SCMR
-	lda #$02
-	sta $18BB
-	lda D,$45
+	lda.w SCMRMirror
+	and.b #$F7
+	sta.w SCMR
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18
+	sta.w BBAD0
+	stx.w VMADDL
+	ldx.w #$5600
+	stx.w A1T0L
+	lda.b #$70
+	sta.w A1B0
+	ldx.w #$2A00
+	stx.w DAS0L
+	lda.b #$01
+	sta.w DMAP0
+	lda.b #$01
+	sta.w MDMAEN
+	lda.w SCMRMirror
+	ora.b #$08
+	sta.w SCMR
+	lda.b #$02
+	sta.w $18BB
+	lda.b $45
 	lsr
 	lsr
-	sta SCBR
+	sta.w SCBR
 	jsr CODE_7E4021
 	rtl
 CODE_7E3BAA:
-	lda $1F10
+	lda.w $1F10
 	bne CODE_7E3BB0
 	rtl
 CODE_7E3BB0:
 	rep #$10
 CODE_7E3BB2:
 	sep #$20
-	lda SLHV
-	lda OPHCT
+	lda.w SLHV
+	lda.w OPHCT
 	xba
-	lda OPHCT
+	lda.w OPHCT
 	xba
 	rep #$20
-	and #$01FF
-	cmp #$0032
+	and.w #$01FF
+	cmp.w #$0032
 	bcc CODE_7E3BB2
-	cmp #$0046
+	cmp.w #$0046
 	bcs CODE_7E3BB2
 	sep #$20
-	lda #$04
-	sta BBAD0
-	ldx #$0000
-	stx OAMADDL
-	ldx #$1261
-	stx A1T0L
-	lda #$01
-	sta A1B0
-	ldx #$0148
-	stx DAS0L
-	lda #$00
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
-	lda #$80
-	sta VMAIN
-	lda #$18
-	sta BBAD0
-	ldx #$2FA0
-	sta VMADDL
-	ldx #$18CD
-	stx A1T0L
-	lda #$00
-	sta A1B0
-	ldx #$0040
-	stx DAS0L
-	lda #$01
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
-	lda #$22
-	sta BBAD0
-	lda #$00
-	sta CGADD
-	ldx #$1789
-	stx A1T0L
-	lda #$00
-	sta A1B0
-	ldx #$0100
-	stx DAS0L
-	lda #$00
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
-	lda $1F0E
+	lda.b #$04
+	sta.w BBAD0
+	ldx.w #$0000
+	stx.w OAMADDL
+	ldx.w #$1261
+	stx.w A1T0L
+	lda.b #$01
+	sta.w A1B0
+	ldx.w #$0148
+	stx.w DAS0L
+	lda.b #$00
+	sta.w DMAP0
+	lda.b #$01
+	sta.w MDMAEN
+	lda.b #$80
+	sta.w VMAIN
+	lda.b #$18
+	sta.w BBAD0
+	ldx.w #$2FA0
+	sta.w VMADDL
+	ldx.w #$18CD
+	stx.w A1T0L
+	lda.b #$00
+	sta.w A1B0
+	ldx.w #$0040
+	stx.w DAS0L
+	lda.b #$01
+	sta.w DMAP0
+	lda.b #$01
+	sta.w MDMAEN
+	lda.b #$22
+	sta.w BBAD0
+	lda.b #$00
+	sta.w CGADD
+	ldx.w #$1789
+	stx.w A1T0L
+	lda.b #$00
+	sta.w A1B0
+	ldx.w #$0100
+	stx.w DAS0L
+	lda.b #$00
+	sta.w DMAP0
+	lda.b #$01
+	sta.w MDMAEN
+	lda.w $1F0E
 	beq CODE_7E3C77
 	jsr CODE_7E408B
-	cmp #$33
+	cmp.b #$33
 	bcs CODE_7E3C77
-	lda #$22
-	sta BBAD0
-	lda #$00
-	sta CGADD
-	ldx #$8A4D
-	stx A1T0L
-	lda #$7E
-	sta A1B0
-	ldx #$0040
-	sta DAS0L
-	lda #$00
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
+	lda.b #$22
+	sta.w BBAD0
+	lda.b #$00
+	sta.w CGADD
+	ldx.w #$8A4D
+	stx.w A1T0L
+	lda.b #$7E
+	sta.w A1B0
+	ldx.w #$0040
+	sta.w DAS0L
+	lda.b #$00
+	sta.w DMAP0
+	lda.b #$01
+	sta.w MDMAEN
 CODE_7E3C77:
-	lda $1F0B
+	lda.w $1F0B
 	beq CODE_7E3CA8
 	jsr CODE_7E408B
-	cmp #$05
+	cmp.b #$05
 	bcs CODE_7E3CA8
-	lda #$22
-	sta BBAD0
-	lda #$50
-	sta CGADD
-	ldx #$8AC9
-	stx A1T0L
-	lda #$7E
-	sta A1B0
-	ldx #$0020
-	stx DAS0L
-	lda #$00
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
+	lda.b #$22
+	sta.w BBAD0
+	lda.b #$50
+	sta.w CGADD
+	ldx.w #$8AC9
+	stx.w A1T0L
+	lda.b #$7E
+	sta.w A1B0
+	ldx.w #$0020
+	stx.w DAS0L
+	lda.b #$00
+	sta.w DMAP0
+	lda.b #$01
+	sta.w MDMAEN
 CODE_7E3CA8:
-	lda #$24
-	sta CGADD
-	lda $16CD
+	lda.b #$24
+	sta.w CGADD
+	lda.w $16CD
 	beq CODE_7E3CBE
-	lda #$E0
-	sta CGDATA
-	lda #$7E
-	sta CGDATA
+	lda.b #$E0
+	sta.w CGDATA
+	lda.b #$7E
+	sta.w CGDATA
 	bra CODE_7E3CC6:
 CODE_7E3CBE:
-	lda #$1F
-	sta CGDATA
-	stz CGDATA
+	lda.b #$1F
+	sta.w CGDATA
+	stz.w CGDATA
 CODE_7E3CC6:
-	lda $18B8
+	lda.w $18B8
 	beq CODE_7E3CD7
-	lda $18B9
+	lda.w $18B9
 	sta BG3HOFS
-	lda $18BA
+	lda.w $18BA
 	sta BG3HOFS
 CODE_7E3CD7:
-	ldx $18B4
-	ldy $18B6
-	stx $18B6
-	sty $18B4
-	sty A1T2L
+	ldx.w $18B4
+	ldy.w $18B6
+	stx.w $18B6
+	sty.w $18B4
+	sty.w A1T2L
 	jsr CODE_7E414B
 	jsr CODE_7E3D36
-	lda D,$4B
+	lda.b $4B
 	lsr
 	lsr
 	lsr
 	lsr
-	ora #$50
-	sta BG12NBA
+	ora.b #$50
+	sta.w BG12NBA
 	jsr CODE_7E409F
 	jsr CODE_7E4021
 	rep #$20
-	lda JOY1L
-	eor Pad1HiPrev
-	and JOY1L
-	sta Pad1Down
+	lda.w JOY1L
+	eor.w Pad1HiPrev
+	and.w JOY1L
+	sta.w Pad1Down
 	jsr CODE_7E3E35
 	sep #$20
-	lda Pad2HiCur
-	sta Pad2HiPrev
-	lda Pad2LoCur
-	sta Pad2LoPrev
-	lda JOY2L
-	sta Pad2LoCur
-	lda JOY2H
-	sta Pad2HiCur
+	lda.w Pad2HiCur
+	sta.w Pad2HiPrev
+	lda.w Pad2LoCur
+	sta.w Pad2LoPrev
+	lda.w JOY2L
+	sta.w Pad2LoCur
+	lda.w JOY2H
+	sta.w Pad2HiCur
 	jsr CODE_7E3DAB
-	ldx D,$4A
-	ldy D,$4C
-	stx D,$4C
-	sty D,$4A
-	stz D,CurNMITask
+	ldx.b $4A
+	ldy.b $4C
+	stx.b $4C
+	sty.b $4A
+	stz.b CurNMITask
 	rts
 CODE_7E3D36:
 	sep #$20
-	lda $1FDD
+	lda.w $1FDD
 	beq CODE_7E3D56
-	lda $1F35
-	sta BG2VOFS
-	lda $1F36
-	sta BG2VOFS
-	lda $1F37
-	sta BG2HOFS
-	lda $1F38
-	sta BG2HOFS
+	lda.w $1F35
+	sta.w BG2VOFS
+	lda.w $1F36
+	sta.w BG2VOFS
+	lda.w $1F37
+	sta.w BG2HOFS
+	lda.w $1F38
+	sta.w BG2HOFS
 	rts
 CODE_7E3D56:
-	lda $16C9
-	bqe CODE_7E3DAA
+	lda.w $16C9
+	beq CODE_7E3DAA
 	rep #$20
-	lda $16C5
+	lda.w $16C5
 	lsr
 	lsr
-	and #$003E
+	and.w #$003E
 	tax
-	lda $7E8A0D,x
+	lda.l $7E8A0D,x
 	tay
 	sep #$20
-	phb
-	lda #$7E
-	pha
-	plb
-	ldx #$0000
+	phb						; Save data bank
+	lda.b #$7E					;\Set data bank to $7E
+	pha						;|
+	plb						;/
+	ldx.w #$0000
 CODE_7E3D75:
-	lda $0000,y
+	lda.w $0000,y
 	bpl CODE_7E3D90
-	and #$7F
-	sta $7E4BFA,x
+	and.b #$7F
+	sta.l $7E4BFA,x
 	inx
-	lda #$18
-	sta $7E4BFA,x
+	lda.b #$18
+	sta.l $7E4BFA,x
 	inx
-	lda #$01
-	sta $7E4BFA,x
+	lda.b #$01
+	sta.l $7E4BFA,x
 	bra CODE_7E3DA2
 CODE_7E3D90:
-	sta $7E4BFA,x
+	sta.l $7E4BFA,x
 	inx
-	lda #$18
-	sta $7E4BFA,x
+	lda.b #$18
+	sta.l $7E4BFA,x
 	inx
-	lda #$00
-	sta $7E4BFA,x
+	lda.b #$00
+	sta.l $7E4BFA,x
 CODE_7E3DA2:
 	inx
 	iny
-	cpx #$02A0
+	cpx.w #$02A0
 	bne CODE_7E3D75
-	plb
+	plb						; Restore data bank
 	rts
 CODE_7E3DAB:
-	lda $18B2
+	lda.w $18B2
 	bne CODE_7E3DB3
 	brl CODE_7E3E34
 CODE_7E3DB3:
 	bpl CODE_7E3DFE
-	cmp #$FE
+	cmp.b #$FE
 	beq CODE_7E3DF4
-	cmp #$FD
+	cmp.b #$FD
 	beq CODE_7E3DEC
-	lda $18B3
+	lda.w $18B3
 	beq CODE_7E3DD6
 	dec
 	beq CODE_7E3DD6
-	sta $7E45F4
-	sta $7E45F6
-	sta $7E45F8
-	sta $18B3
+	sta.l $7E45F4
+	sta.l $7E45F6
+	sta.l $7E45F8
+	sta.w $18B3
 	bra CODE_7E3E34
 CODE_7E3DD6:
-	lda #$80
-	sta $7E45F4
-	sta $7E45F6
-	sta $7E45F8
-	stz $18B2
-	stz $18B3
+	lda.b #$80
+	sta.l $7E45F4
+	sta.l $7E45F6
+	sta.l $7E45F8
+	stz.w $18B2
+	stz.w $18B3
 	bra CODE_7E3E34
 CODE_7E3DEC:
-	lda $15BB
-	and #$01
+	lda.w $15BB
+	and.b #$01
 	beq CODE_7E3DBD
 	rts
 CODE_7E3DFE:
-	cmp #$02
+	cmp.b #$02
 	beq CODE_7E3E25
-	lda $18B3
+	lda.w $18B3
 CODE_7E3E05:
-	cmp #$0F
+	cmp.b #$0F
 	beq CODE_7E3E1B
 	inc
-	sta $7E45F4
-	sta $7E45F6
-	sta $7E45F8
-	sta $18B3
+	sta.l $7E45F4
+	sta.l $7E45F6
+	sta.l $7E45F8
+	sta.w $18B3
 	bra CODE_7E3E34
 CODE_7E3E1B:
-	stz $18B2
-	lda #$0F
-	sta $18B3
+	stz.w $18B2
+	lda.b #$0F
+	sta.w $18B3
 	bra CODE_7E3E34
 CODE_7E3E25:
-	lda $18B3
-	cmp #$0F
+	lda.w $18B3
+	cmp.b #$0F
 	beq CODE_7E3E1B
 	inc
-	cmp #$0F
+	cmp.b #$0F
 	beq CODE_7E3E1B
 	inc
 	bra CODE_7E3E05
@@ -1420,15 +1420,15 @@ CODE_7E3E34:
 	rts
 CODE_7E3E35:
 	sep #$20
-	lda Pad1HiCur
-	sta Pad1HiPrev
-	lda Pad1LoCur
-	sta Pad1LoPrev
-	lda $1F0F
-	and #$03
+	lda.w Pad1HiCur
+	sta.w Pad1HiPrev
+	lda.w Pad1LoCur
+	sta.w Pad1LoPrev
+	lda.w $1F0F
+	and.b #$03
 	asl
 	xba
-	lda #$00
+	lda.b #$00
 	xba
 	tax
 	jmp (DATA_7E3E51,x)
@@ -1438,16 +1438,16 @@ DATA_7E3E51:
 	DW DATA_7E3E89
 	DW DATA_7E3EAE
 DATA_7E3E59:
-	lda JOY1L
-	sta Pad1LoCur
-	lda JOY1H
-	sta Pad1HiCur
+	lda.w JOY1L
+	sta.w Pad1LoCur
+	lda.w JOY1H
+	sta.w Pad1HiCur
 	rts
 DATA_7E3E66:
-	lda JOY1L
-	sta Pad1LoCur
-	lda JOY1H
-	and #$C0
+	lda.w JOY1L
+	sta.w Pad1LoCur
+	lda.w JOY1H
+	and.b #$C0
 	lsr
 	lsr
 	lsr
@@ -1455,51 +1455,51 @@ DATA_7E3E66:
 	lsr
 	lsr
 	xba
-	lda #$00
+	lda.b #$00
 	xba
 	tax
-	lda JOY1H
-	and #$3F
-	ora DATA_7E3EEF,x
-	sta Pad1HiCur
+	lda.w JOY1H
+	and.b #$3F
+	ora.l DATA_7E3EEF,x
+	sta.w Pad1HiCur
 	rts
 DATA_7E3E89:
-	lda JOY1L
-	sta Pad1LoCur
-	lda JOY1H
-	and #$0C
+	lda.w JOY1L
+	sta.w Pad1LoCur
+	lda.w JOY1H
+	and.b #$0C
 	lsr
 	lsr
 	xba
-	lda #$00
+	lda.b #$00
 	xba
 	tax
-	lda DATA_7E3EF3,x
-	sta $16C7
-	lda JOY1H
-	and #$F3
-	ora $16C7
-	sta Pad1HiCur
+	lda.l DATA_7E3EF3,x
+	sta.w $16C7
+	lda.w JOY1H
+	and.b #$F3
+	ora.w $16C7
+	sta.w Pad1HiCur
 	rts
 DATA_7E3EAE:
-	lda JOY1L
-	sta Pad1LoCur
-	lda JOY1H
-	and #$0C
+	lda.w JOY1L
+	sta.w Pad1LoCur
+	lda.w JOY1H
+	and.b #$0C
 	lsr
 	lsr
 	xba
-	lda #$00
+	lda.b #$00
 	xba
 	tax
-	lda DATA_7E3EF3,x
-	sta $16C7
-	lda JOY1H
-	and #$33
-	ora $16C7
+	lda.l DATA_7E3EF3,x
+	sta.w $16C7
+	lda.w JOY1H
+	and.b #$33
+	ora.w $16C7
 	pha
-	lda JOY1H
-	and #$C0
+	lda.w JOY1H
+	and.b #$C0
 	lsr
 	lsr
 	lsr
@@ -1507,14 +1507,14 @@ DATA_7E3EAE:
 	lsr
 	lsr
 	xba
-	lda #$00
+	lda.b #$00
 	xba
 	tax
-	lda DATA_7E3EEF,x
-	sta $16C7
+	lda.l DATA_7E3EEF,x
+	sta.w $16C7
 	pla
-	ora $16C7
-	sta Pad1HiCur
+	ora.w $16C7
+	sta.w Pad1HiCur
 	rts
 DATA_7E3EEF:
 	DB $00,$80,$40,$C0
@@ -1704,45 +1704,45 @@ CODE_7E407A:
 	plp
 	rts
 CODE_7E408B:
-	lda D,$EF
+	lda.b $EF
 	clc
-	sbc D,$F0
-	sta D,$F0
-	sbc D,$F1
-	sta D,$F1
-	sbc D,$F2
-	sta D,$F2
-	sbc D,$EF
-	sta D,$EF
+	sbc.b $F0
+	sta.b $F0
+	sbc.b $F1
+	sta.b $F1
+	sbc.b $F2
+	sta.b $F2
+	sbc.b $EF
+	sta.b $EF
 	rts
 CODE_7E409F:
 	ldx $16A7
 	beq CODE_7E40FD
 	cpx #$1481
 	beq CODE_7E4123
-	lda D,$06,x
+	lda.b $06,x
 	sta CGADSUB
-	lda D,$00,x
+	lda.b $00,x
 	beq CODE_7E40B7
 	sta COLDATA
 	bra CODE_7E40D2
 CODE_7E40B7:
-	lda D,$01,x
+	lda.b $01,x
 	and #$1F
 	ora #$20
 	sta COLDATA
-	lda D,$02,x
+	lda.b $02,x
 	and #$1F
 	ora #$40
 	sta COLDATA
-	lda D,$03,x
+	lda.b $03,x
 	and #$1F
 	ora #$80
 	sta COLDATA
 CODE_7E40D2:
-	lda D,$04,x
+	lda.b $04,x
 	sta TS
-	lda D,$05,x
+	lda.b $05,x
 	bit #$30
 	bne CODE_7E40F3
 	ora #$10
@@ -1783,7 +1783,7 @@ CODE_7E4123:
 	sta W34SEL
 	lda #$0B
 	sta WOBJSEL
-	lda D,$06,x
+	lda.b $06,x
 	sta WBGLOG
 	and #$03
 	sta WOBJLOG
@@ -1879,27 +1879,27 @@ CODE_7E4F55:
 	rep #$10
 	ldx $121D
 CODE_7E4F5E:
-	lda D,$1D,x
+	lda.b $1D,x
 	and #$80
 	beq CODE_7E4F68
 	jml CODE_7E4F6E
 CODE_7E4F68:
 	lda #$01
-	sta D,$2D,x
+	sta.b $2D,x
 	bra CODE_7E4F74
 CODE_7E4F6E:
-	lda D,$1E,x
+	lda.b $1E,x
 	ora #$02
-	sta D,$1E,x
-	lda D,$1D,x
+	sta.b $1E,x
+	lda.b $1D,x
 	and #$7F
-	sta D,$1D,x
+	sta.b $1D,x
 	rep #$20
 	lda #$00
-	sta D,$1B,x
+	sta.b $1B,x
 	sep #$20
 	txy
-	ldx D,$00,y
+	ldx.b $00,y
 	bne CODE_7E4F5E
 	sep #$20
 	lda #$7E
@@ -1922,20 +1922,20 @@ CODE_7E4FAA:
 	plb
 	rtl
 CODE_7E4FAD:
-	stx D,$78
+	stx.b $78
 	ldy $2EC4,x
 	tyx
-	stx D,$76
-	lda D,$1D,x
+	stx.b $76
+	lda.b $1D,x
 	and #$80
 	beq CODE_7E4FBE
 	brl CODE_7E452A3
 CODE_7E4FBE:
-	ldy D,$04,x
+	ldy.b $04,x
 	sty $1F03
-	ldy D,$78
+	ldy.b $78
 	stz $1EF9
-	stz D,$F7
+	stz.b $F7
 	rep #$20
 	lda $2EC6,y
 	bne CODE_7E4FD4
@@ -1947,22 +1947,22 @@ CODE_7E4FD4:
 	lda $0002,y
 	beq CODE_7E5009
 	dec
-	sta D,$02
+	sta.b $02
 	lda $1CE7,x
 	bpl CODE_7E4FEE
-	and D,$02
+	and.b $02
 	beq CODE_7E5009
 	bra CODE_7E4FF5
 CODE_7E4FEE:
-	lda D,$02
+	lda.b $02
 	and $15BB
 	beq CODE_7E5009
 CODE_7E4FF5:
 	rep #$20
 	and #$007F
-	sta D,$02
+	sta.b $02
 	tya
-	ldy D,$02
+	ldy.b $02
 	clc
 CODE_7E5000:
 	adc #$0012
@@ -1972,7 +1972,7 @@ CODE_7E5000:
 	sep #$20
 CODE_7E5009:
 	lda $0009,y
-	sta D,$F6
+	sta.b $F6
 	bit #$70
 	bne CODE_7E5015
 	brl CODE_7E525C
@@ -1990,34 +1990,34 @@ CODE_7E5023:
 	brl CODE_7E50EB
 CODE_7E502A:
 	lda $0003,y
-	sta D,$02
-	sta D,$04
+	sta.b $02
+	sta.b $04
 	lda $0005,y
-	sta D,$08
-	sta D,$0A
-	lda D,$14,x
+	sta.b $08
+	sta.b $0A
+	lda.b $14,x
 	beq CODE_7E503F
 	jsr CODE_7E5ADA
 CODE_7E503F:
-	lda D,$0A
-	sta D,$08
+	lda.b $0A
+	sta.b $08
 	lda $0007,y
-	sta D,$90
+	sta.b $90
 	sta $15C2
-	lda D,$12,x
+	lda.b $12,x
 	beq CODE_7E5052
 	jsr CODE_7E593D
 CODE_7E5052:
-	lda D,$04
-	sta D,$02
-	lda D,$0A
-	sta D,$08
-	lda D,$13,x
+	lda.b $04
+	sta.b $02
+	lda.b $0A
+	sta.b $08
+	lda.b $13,x
 	beq CODE_7E5061
 	jsr CODE_7E579D
 	rep #$20
 CODE_7E5063:
-	lda D,$04
+	lda.b $04
 	bit #$0080
 	beq CODE_7E506F
 	ora #$FF00
@@ -2025,25 +2025,25 @@ CODE_7E5063:
 CODE_7E506F:
 	and #$00FF
 CODE_7E5072:
-	sta D,$02
-	lda D,$F6
+	sta.b $02
+	lda.b $F6
 	and #$000F
 	beq CODE_7E5088
-	sty D,$F8
+	sty.b $F8
 	tay
-	lda D,$02
+	lda.b $02
 CODE_7E5080:
 	asl
 	dey
 	bne CODE_7E5080
-	ldy D,$F8
+	ldy.b $F8
 	bra CODE_7E508A
 CODE_7E5088:
-	lda D,$02
+	lda.b $02
 CODE_7E508A:
 	clc
-	adc D,$0D,x
-	sta D,$6C
+	adc.b $0D,x
+	sta.b $6C
 	lda $15C2
 	bit #$0080
 	beq CODE_7E509C
@@ -2052,26 +2052,26 @@ CODE_7E508A:
 CODE_7E509C:
 	and #$00FF
 CODE_7E509F:
-	sta D,$02
-	lda D,$F6
+	sta.b $02
+	lda.b $F6
 	and #$00FF
 	beq CODE_7E50B5
-	sty D,$F8
+	sty.b $F8
 	tay
-	lda D,$02
+	lda.b $02
 CODE_7E50AD:
 	asl
 	dey
 	bne CODE_7E50AD
-	ldy D,$F8
+	ldy.b $F8
 	bra CODE_7E50B7
 CODE_7E50B5:
-	lda D,$02
+	lda.b $02
 CODE_7E50B7:
 	clc
-	adc D,$10,x
-	sta D,$6E
-	lda D,$0A
+	adc.b $10,x
+	sta.b $6E
+	lda.b $0A
 	bit #$0080
 	beq CODE_7E50C8
 	ora #$FF00
@@ -2079,39 +2079,39 @@ CODE_7E50B7:
 CODE_7E50C8:
 	and #$00FF
 CODE_7E50CB:
-	sta D,$02
-	lda D,$F6
+	sta.b $02
+	lda.b $F6
 	and #$000F
 	beq CODE_7E50E1
-	sty D,$F8
+	sty.b $F8
 	tay
-	lda D,$02
+	lda.b $02
 CODE_7E50D9:
 	asl
 	dey
 	bne CODE_7E50D9
-	ldy D,$F8
+	ldy.b $F8
 	bra CODE_7E50E3
 CODE_7E50E1:
-	lda D,$02
+	lda.b $02
 CODE_7E50E3:
 	clc
-	adc D,$0E,x
-	sta D,$74
+	adc.b $0E,x
+	sta.b $74
 	jmp CODE_7E5276
 CODE_7E50EB:
 	lda $0005,y
-	sta D,$08
-	sta D,$0A
+	sta.b $08
+	sta.b $0A
 	lda $0007,y
-	sta D,$90
+	sta.b $90
 	sta $15C2
-	lda D,$12,x
+	lda.b $12,x
 	beq CODE_7E5101
 	jsr CODE_7E593D
 CODE_7E5101:
 	rep #$20
-	lda D,$0A
+	lda.b $0A
 	bit #$0080
 	beq CODE_7E510F
 	ora #$FF00
@@ -2119,25 +2119,25 @@ CODE_7E5101:
 CODE_7E510F:
 	and #$00FF
 CODE_7E5112:
-	sta D,$02
-	lda D,$F6
+	sta.b $02
+	lda.b $F6
 	and #$000F
 	beq CODE_7E5128
-	sty D,$F8
+	sty.b $F8
 	tay
-	lda D,$02
+	lda.b $02
 CODE_7E5120:
 	asl
 	dey
 	bne CODE_7E5120
-	ldy D,$F8
+	ldy.b $F8
 	bra CODE_7E512A
 CODE_7E5128:
-	lda D,$02
+	lda.b $02
 CODE_7E512A:
 	clc
-	adc D,$0E,x
-	sta D,$74
+	adc.b $0E,x
+	sta.b $74
 	lda $15C2
 	bit #$0080
 	beq CODE_7E513C
@@ -2146,29 +2146,29 @@ CODE_7E512A:
 CODE_7E513C:
 	and #$00FF
 CODE_7E513F:
-	sta D,$02
-	lda D,$F6
+	sta.b $02
+	lda.b $F6
 	and #$0F
 	beq CODE_7E5155
-	sty D,$F8
+	sty.b $F8
 	tay
-	lda D,$02
+	lda.b $02
 CODE_7E514D:
 	asl
 	dey
 	bne CODE_7E514D
-	ldy D,$F8
+	ldy.b $F8
 	bra CODE_7E5157
 CODE_7E5155:
-	lda D,$02
+	lda.b $02
 CODE_7E5157:
 	clc
-	adc D,$10,x
-	sta D,$6E
+	adc.b $10,x
+	sta.b $6E
 	lda $0003,y
 	clc
-	adc D,$0C,x
-	sta D,$6C
+	adc.b $0C,x
+	sta.b $6C
 	jmp CODE_7E5276
 CODE_7E5167:
 	
@@ -2184,30 +2184,30 @@ CODE_7E5167:
 	
 	
 CODE_7E524B:
-	lda D,$02
+	lda.b $02
 CODE_7E524D:
 	clc
-	adc D,$0E,x
-	sta D,$74
+	adc.b $0E,x
+	sta.b $74
 	lda $0007,y
 	clc
-	adc D,$10,x
-	sta D,$6E
+	adc.b $10,x
+	sta.b $6E
 	bra CODE_7E5276
 CODE_7E525C:
 	rep #$20
 	lda $0003,y
 	clc
-	adc D,$0C,x
-	sta D,$6C
+	adc.b $0C,x
+	sta.b $6C
 	lda $0005,y
 	clc
-	adc D,$0E,x
-	sta D,$74
+	adc.b $0E,x
+	sta.b $74
 	lda $0007,y
 	clc
-	adc D,$10,x
-	sta D,$6E
+	adc.b $10,x
+	sta.b $6E
 CODE_7E5276:
 	lda $000A,y
 	sta $1258
@@ -2238,15 +2238,15 @@ CODE_7E52A6:
 	sta $125A
 	lda $2ECC,y
 	sta $125C
-	lda D,$0C,x
-	sta D,$6C
-	lda D,$10,x
-	sta D,$6E
-	lda D,$0E,x
-	sta D,$74
+	lda.b $0C,x
+	sta.b $6C
+	lda.b $10,x
+	sta.b $6E
+	lda.b $0E,x
+	sta.b $74
 	lda $1EFB
 	sta $1EFD
-	ldy D,$78
+	ldy.b $78
 	sty $1EFF
 	jmp CODE_7E5788
 CODE_7E52D2:
@@ -2255,48 +2255,48 @@ CODE_7E52D2:
 	ldy $2EC4,y
 	stz $1EF8
 	rep #$20
-	ldy D,$76
+	ldy.b $76
 	lda $001D,y
 	and #$0080
 	beq CODE_7E52EC
 	brl CODE_7E5788
 CODE_7E52EC:
 	lda $002E,y
-	and D,$2E,x
+	and.b $2E,x
 	and #$00F8
 	beq CODE_7E52F9
 	brl CODE_7E5788
 CODE_7E52F9:
 	tya
-	cmp D,$19,x
+	cmp.b $19,x
 	bne CODE_7E5301
 	brl CODE_7E5788
 CODE_7E5301:
 	txa
 	tyxx
-	cmp D,$19,x
+	cmp.b $19,x
 	bne CODE_7E530A
 	brl CODE_7E5788
 CODE_7E530A:
 	txy
 	tax
-	lda D,$0C,x
-	sta D,$3A
-	lda D,$0E,x
-	sta D,$3C
-	lda D,$10,x
-	sta D,$3E
-	lda D,$1F,x
+	lda.b $0C,x
+	sta.b $3A
+	lda.b $0E,x
+	sta.b $3C
+	lda.b $10,x
+	sta.b $3E
+	lda.b $1F,x
 	and #$0080
 	beq CODE_7E532C
 	lda $001F,y
 	and #$0080
 	beq CODE_7E532C
-	lda D,$04,x
+	lda.b $04,x
 	txy
 	bra CODE_7E5337
 CODE_7E532C:
-	lda D,$04,x
+	lda.b $04,x
 	txy
 	cmp $1F03
 	bne CODE_7E5337
@@ -2320,7 +2320,7 @@ CODE_7E5342:
 	
 	
 CODE_7E5C6C:
-	stz D,$0B
+	stz.b $0B
 CODE_7E5C6E:
 	plp
 	plx
@@ -2928,165 +2928,214 @@ DATA_7E5DB2:
 	
 	END BASE
 CopiedCodeBEnd:
-CODE_02D9C2:
-	lda #$0000
-	bra CODE_02D9E2
-	lda $16A0
+CODE_02D956:
+	sep #$20
+	rep #$10
+	lda.w FrameTimer
+	sta.w $16A3
+	stz.w FrameTimer
+CODE_02D963:
+	lda.b CurNMITask
+	bne CODE_02D963
+	stz.w $1F10
+	lda.b #02
+	sta.b CurNMITask
+	jsr CODE_02DD4F
+	jsl CODE_06BB5C
+	jsr CODE_02DB5A
+	rep #$30
+	lda.w $14FC
+	sta.w $16C5
+	lda.w $18B8
+	beq CODE_02D99D
+	ldx.w PlayerTempObject
+	lda.b $0C,x
+	cmp.w #$8000
+	ror
+	cmp.w #$8000
+	ror
+	cmp.w #$8000
+	ror
+	dec
+	dec
+	dec
+	dec
+	sta BG3HOFSMirror
+CODE_02D99D:
+	lda.w $16A2
+	and.w #$00FF
+	beq CODE_02D9E5
+	cmp.w #$0001
+	beq CODE_02D9C7
+	lda.w $16A0
 	clc
-	adc $1701
-	cmp #$07D0
+	adc ZTimerVel
+	cmp.w #$01F4
 	bcc CODE_02D9E2
-	lda $169C
-	cmp #$00D4
+	lda.wVerticalScrollBase
+	cmp.w #$FEDA
+	beq CODE_02D9E5
+	dec
+	sta.w VerticalScrollBase
+	lda.w #$0000
+	bra CODE_02D9E2
+CODE_02D9C7:
+	lda.w $16A0
+	clc
+	adc.w $1701
+	cmp.w #$07D0
+	bcc CODE_02D9E2
+	lda.w VerticalScrollBase
+	cmp.w #$00D4
 	beq CODE_02D9E5
 	inc
-	sta $169C
-	lda #$0000
+	sta.w VerticalScrollBase
+	lda.w #$0000
 CODE_02D9E2:
-	sta $16A0
+	sta.w $16A0
 CODE_02D9E5:
 	jsr CODE_02DC3A
 	jsr CODE_02DCC3
 	jsl CODE_02DB27
 	sep #$20
 	rep #$10
-	lda $1FD1
+	lda.w $1FD1
 	bne CODE_02D9FB
-	inc $1F10
+	inc.w $1F10
 CODE_02D9FB:
-	lda $177A
-	bit #$01
+	lda.w $177A
+	bit.b #$01
 	beq CODE_02DA05
 	brl CODE_02DA08
 CODE_02DA05:
 	jsr UpdateObjects
 CODE_02DA08:
 	sep #$20
-	lda Pad1HiCur
-	sta $15A4
-	lda Pad1LoCur
-	sta $15A5
+	lda.w Pad1HiCur
+	sta.w $15A4
+	lda.w Pad1LoCur
+	sta.w $15A5
 	jsl CODE_02F934
 	jsl CODE_03B269
 	jsl CODE_02F6FC
 	jsl CODE_02F6DA
 	jsl CODE_02F4E6
 	jsl CODE_02F6D5
-	jsl CODE_02DB86
+	jsl UpdateOAMBuffer
 	jsr CODE_02DD0A
 	jsl CODE_1FC03D
 	sep #$20
 CODE_02DA3B:
-	lda $18BB
+	lda.w $18BB
 	beq CODE_02DA3B
-	lda $1F13
+	lda.w $1F13
 	beq CODE_02DA48
 	jsr CODE_02DAA9
 CODE_02DA48:
 	jsl CODE_02DC16
 CODE_02DA4C:
-	lda $18BB
-	cmp #$02
+	lda.w $18BB
+	cmp.b #$02
 	bne CODE_02DA4C
-	stz $18BB
+	stz.w $18BB
 	rep #$20
-	lda $16F9
-	sta $70019E
+	lda.w PointEffect
+	sta.l $70019E
 	beq CODE_02DA65
 	jsl CODE_03BAF7
 CODE_02DA65:
 	jsl RenderSuperFXObjects
 	jsr CODE_02E20D
 	sep #$20
-	lda $1FD1
+	lda.w $1FD1
 	beq CODE_02DA76
-	inc $1F10
+	inc.w $1F10
 CODE_02DA76:
 	sep #$20
-	lda $1200
-	sta $14E3
-	lda $16A4
+	lda.w FrameTimer
+	sta.w $14E3
+	lda.w $16A4
 	clc
-	adc $16A3
-	sta $16A4
-	inc $16A5
-	lda $16A4
-	cmp #$3C
+	adc.w $16A3
+	sta.w $16A4
+	inc.w $16A5
+	lda.w $16A4
+	cmp.b #$3C
 	bcc CODE_02DAA4
-	lda $16A5
-	sta $16A6
-	stz $16A5
-	lda $16A4
+	lda.w $16A5
+	sta.w $16A6
+	stz.w $16A5
+	lda.w $16A4
 	sec
-	sbc #$3C
-	sta $16A4
+	sbc.b #$3C
+	sta.w $16A4
 CODE_02DAA4:
 	rtl
 CODE_02DAA5:
 	jsr CODE_02DAA9
 	rtl
 CODE_02DAA9:
-	lda $18BB
-	cmp #$02
+	lda.w $18BB
+	cmp.b #$02
 	bne CODE_02DAA9
 	sei
-	lda D,CurNMITask
-	stz D,CurNMITask
+	lda.b CurNMITask
+	stz.b CurNMITask
 	pha
-	lda TIMEUP
+	lda.w TIMEUP
 	cli
 	sep #$20
-	lda $1F13
-	bit #$01
+	lda.w $1F13
+	bit.b #$01
 	beq CODE_02DAC8
-	jsl CODE_0993C8
+	jsl ReloadCheckpoint
 CODE_02DAC8:
 	rep #$30
-	lda $1F13
-	bit #$0004
+	lda.w $1F13
+	bit.w #$0004
 	beq CODE_02DAD6
 	jsl LoadPreset
 CODE_02DAD6:
 	rep #$30
-	lda $1F13
-	bit #$0008
+	lda.w $1F13
+	bit.w #$0008
 	beq CODE_02DAE4
-	jsl CODE_03F022
+	jsl InitPresetSettings
 CODE_02DAE4:
 	sep #$20
-	lda $1F13
-	and #$F2
-	sta $1F13
+	lda.w $1F13
+	and.b #$F2
+	sta.w $1F13
 	pla
-	sta D,CurNMITask
+	sta.b CurNMITask
 	rts
 UpdateObjects:
-	inc $15BB
-	bne CODE_02DAFA
-	inc $15BC
-CODE_02DAFA:
+	inc.w $15BB
+	bne UpdateObjects_L1
+	inc.w $15BC
+UpdateObjects_L1:
 	phb
-	lda #$7E
+	lda.b #$7E
 	pha
 	plb
 	jsl CODE_0681D5
 	jsl CODE_03ED7E
 	ldx FirstObject
-CODE_02DB0A:
-	stz $1248
+UpdateObjects_L2:
+	stz.w $1248
 	jsl ProcObject
-	lda $1248
-	bne CODE_02DB1D
-	ldy D,$00,x
-CODE_02DB18:
+	lda.w $1248
+	bne UpdateObjects_L4
+	ldy.b $00,x
+UpdateObjects_L3:
 	tyx
-	bne CODE_02DB0A
-	bra CODE_02DB25
-CODE_02DB1D:
-	ldy D,$00,x
+	bne UpdateObjects_L2
+	bra UpdateObjects_L5
+UpdateObjects_L4:
+	ldy.b $00,x
 	jsl CODE_1FBFDC
-	bra CODE_02DB18
-CODE_02DB25:
+	bra UpdateObjects_L3
+UpdateObjects_L5:
 	plb
 	rts
 CODE_02DB27:
@@ -3097,32 +3146,32 @@ CODE_02DB27:
 	plp
 	rtl
 CODE_02DB31:
-	stz $14C6
-	lda $14C1
-	sta $14C5
+	stz.w $14C6
+	lda.w $14C1
+	sta.w $14C5
 	rep #$20
 	beq CODE_02DB4F
-	ldx #$0008
-	lda #$1481
+	ldx.w #$0008
+	lda.w #$1481
 CODE_02DB44:
-	ror $14C5
+	ror.w $14C5
 	bcs CODE_02DB52
-	adc #$0008
+	adc.w #$0008
 	dex
 	bne CODE_02DB44
 CODE_02DB4F:
-	lda #$0000
+	lda.w #$0000
 CODE_02DB52:
-	sta $16A7
+	sta.w $16A7
 	rts
 CODE_02DB56:
 	jsr CODE_02DB5A
 	rtl
 CODE_02DB5A:
 	rep #$30
-	stz $1951
-	lda $1954
-	and #$00FF
+	stz.w $1951
+	lda.w $1954
+	and.w #$00FF
 	
 	
 	
