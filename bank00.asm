@@ -1,178 +1,177 @@
 	;Unknown/empty data
 	DB $00,$00,$00,$00,$00,$00
 	;Unused code
-CODE_008006:
+SetUnusedBGColorWhite:
 	rep #$30
-	lda #$7FFF
-	sta $1FF2
-	ldx #$00AA
-	bra CODE_00804E
-CODE_008013:
+	lda.w #$7FFF					;\Set unused background to white
+	sta.w UnusedBGColor				;/
+	ldx.w #$00AA
+	bra UnusedCodeMain
+SetUnusedBGColorMagenta:
 	rep #$30
-	lda #$7C1F
-	sta $1FF2
-	ldx #$00BA
-	bra CODE_00804E
-CODE_008020:
+	lda.w #$7C1F					;\Set unused background to magenta
+	sta.w UnusedBGColor				;/
+	ldx.w #$00BA
+	bra UnusedCodeMain
+SetUnusedBGColorYellow:
 	rep #$30
-	lda #$03FF
-	sta $1FF2
-	ldx #$00BA
-	bra CODE_00804E
-CODE_00802D:
+	lda.w #$03FF					;\Set unused background to yellow
+	sta.w UnusedBGColor				;/
+	ldx.w #$00BA
+	bra UnusedCodeMain
+SetUnusedBGColorCyan:
 	rep #$30
-	lda #$7FE0
-	sta $1FF2
-	lda #$00C9
-	bra CODE_00804E
-CODE_00803A:
+	lda.w #$7FE0					;\Set unused background to cyan
+	sta.w UnusedBGColor				;/
+	lda.w #$00C9
+	bra UnusedCodeMain
+SetUnusedBGColorGreen:
 	rep #$30
-	lda #$03E0
-	sta $1FF2
-	ldx #$00E2
-	bra CODE_00804E
-CODE_008047:
+	lda.w #$03E0					;\Set unused background to green
+	sta.w UnusedBGColor				;/
+	ldx.w #$00E2
+	bra UnusedCodeMain
+ContinueUnusedBGColor:
 	rep #$10
-	ldx #$00D9
-	bra CODE_00804E
-CODE_00804E:
-	stx $177E
+	ldx.w #$00D9
+	bra UnusedCodeMain
+UnusedCodeMain:
+	stx.w Unused_177E
 	sep #$20
-	stz NMITIMEN
-	stz HDMAEN
-	sei
-	stz TM
-	stz TS
-	lda #$00
-	pha
-	plb
+	stz.w NMITIMEN					;\Disable NMIs...
+	stz.w HDMAEN					;|...HDMAs...
+	sei						;/...and IRQs
+	stz.w TM					;\Disable backgrounds and sprites for main/sub screen
+	stz.w TS					;/
+	lda.b #$00					;\Set data bank to $00
+	pha						;|
+	plb						;/
 	sep #$20
 	rep #$10
-	lda #$80
-	sta INIDISP
-	lda #$22
-	sta BBAD0
-	lda #$00
-	sta CGADD
-	ldx #$FCF5
-	stx A1T0L
-	lda #$01
-	sta A1B0
-	ldx #$0200
-	stx DAS0L
-	lda #$00
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
-	lda #$80
-	sta VMAIN
-	lda #$18
-	sta BBAD0
-	ldx #$4000
-	stx VMADDL
-	ldx #$FCF5
-	stx A1T0L
-	lda #$01
-	sta A1B0
-	ldx #$4000
-	stx DAS0L
-	lda #$01
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
-	lda #$80
-	sta VMAIN
-	lda #$18
-	sta BBAD0
-	ldx #$4000
-	stx VMADDL
-	ldx #$FCF5
-	stx A1T0L
-	lda #$01
-	sta A1B0
-	ldx #$0800
-	stx DAS0L
-	lda #$01
-	sta DMAP0
-	lda #$01
-	sta MDMAEN
-	stz CGADD
-	lda $1FF2
-	sta CGDATA
-	lda $1FF3
-	sta CGDATA
-	lda #$40
-	sta BG1SC
-	lda #$00
-	sta BG12NBA
-	stz W12SEL
-	stz W34SEL
-	stz WOBJSEL
-	stz WBGLOG
-	stz WOBJLOG
-	stz TMW
-	stz TSW
-	stz WH0
-	stz WH1
-	lda #$01
-	sta BGMODE
-	lda #$01
-	sta TM
-	stz TS
-	stz CGADSUB
-	stz COLDATA
-	stz DMAP1
-	lda #$00
-	sta BBAD1
-	lda #$00
-	sta A1B1
-	ldx.w #CODE_00819B
-	stx A1T1L
-	stz DAS10
-	stz BG1VOFS
-	stz BG1VOFS
-	lda #$F9
-	sta BG1HOFS
-	lda #$FF
-	sta BG1HOFS
-	lda #$0F
-	sta INIDISP
-	lda #$02
-	sta HDMAEN
+	lda.b #$80					;\Disable background rendering
+	sta.w INIDISP					;/
+	lda.b #$22					;\DMA to CGRAM
+	sta.w BBAD0					;|
+	lda.b #$00					;|
+	sta.w CGADD					;|
+	ldx.w #UnusedDMADataPtr				;|
+	stx.w A1T0L					;|
+	lda.b #BANKOF(UnusedDMADataPtr)			;|
+	sta.w A1B0					;|
+	ldx.w #$0200					;|
+	stx.w DAS0L					;|
+	lda.b #$00					;|
+	sta.w DMAP0					;|
+	lda.b #$01					;|
+	sta.w MDMAEN					;/
+	lda.b #$80					;\DMA to VRAM
+	sta.w VMAIN					;|
+	lda.b #$18					;|
+	sta.w BBAD0					;|
+	ldx.w #$4000					;|
+	stx.w VMADDL					;|
+	ldx.w #UnusedDMADataPtr				;|
+	stx.w A1T0L					;|
+	lda.b #BANKOF(UnusedDMADataPtr)			;|
+	sta.w A1B0					;|
+	ldx.w #$4000					;|
+	stx.w DAS0L					;|
+	lda.b #$01					;|
+	sta.w DMAP0					;|
+	lda.b #$01					;|
+	sta.w MDMAEN					;/
+	lda.b #$80					;\DMA to VRAM (again?)
+	sta.w VMAIN					;|
+	lda.b #$18					;|
+	sta.w BBAD0					;|
+	ldx.w #$4000					;|
+	stx.w VMADDL					;|
+	ldx.w #UnusedDMADataPtr				;|
+	stx.w A1T0L					;|
+	lda.b #BANKOF(UnusedDMADataPtr)			;|
+	sta.w A1B0					;|
+	ldx.w #$0800					;|
+	stx.w DAS0L					;|
+	lda.b #$01					;|
+	sta.w DMAP0					;|
+	lda.b #$01					;|
+	sta.w MDMAEN					;/
+	stz.w CGADD					;\Set unused background color
+	lda.w UnusedBGColor				;|
+	sta.w CGDATA					;|
+	lda.w UnusedBGColor+1				;|
+	sta.w CGDATA					;/
+	lda.b #$40
+	sta.w BG1SC
+	lda.b #$00
+	sta.w BG12NBA
+	stz.w W12SEL
+	stz.w W34SEL
+	stz.w WOBJSEL
+	stz.w WBGLOG
+	stz.w WOBJLOG
+	stz.w TMW
+	stz.w TSW
+	stz.w WH0
+	stz.w WH1
+	lda.b #$01					;\Use BG mode 1
+	sta.w BGMODE					;/
+	lda.b #$01					;\Enable Layer 1 for main screen
+	sta.w TM					;|
+	stz.w TS					;/
+	stz.w CGADSUB					;\Set background color to black
+	stz.w COLDATA					;/
+	stz.w DMAP1					;\Init HDMA to INIDISP register
+	lda.b #$00					;|
+	sta.w BBAD1					;|
+	lda.b #BANKOF(UnusedHDMADataPtrINIDISP)		;|
+	sta.w A1B1					;|
+	ldx.w #UnusedHDMADataPtrINIDISP			;|
+	stx.w A1T1L					;|
+	stz.w DAS10					;/
+	stz.w BG1VOFS					;\Set Layer 1 scroll position
+	stz.w BG1VOFS					;|
+	lda.b #$F9					;|
+	sta.w BG1HOFS					;|
+	lda.b #$FF					;|
+	sta.w BG1HOFS					;/
+	lda.b #$0F					;\Set default INIDISP register value
+	sta.w INIDISP					;/
+	lda.b #$02					;\Enable HDMA to INIDISP register
+	sta.w HDMAEN					;/
 	rep #$10
-CODE_008161:
-	ldy #$4E20
-CODE_008164:
+UnusedCodeMain_Loop:
+	ldy.w #$4E20
+UnusedCodeMain_Loop2:
 	dey
-	bne CODE_008164
+	bne UnusedCodeMain_Loop2
 	rep #$20
-	lda $177E
-	cmp $1780
-	beq CODE_008199
+	lda.w Unused_177E
+	cmp.w Unused_1780
+	beq UnusedCodeMain_InfinLoop
 	sec
-	sbc $1780
+	sbc.w Unused_1780
 	lsr a
 	lsr a
 	lsr a
-	bne CODE_00817D
-	lda #$0001
-CODE_00817D:
+	bne UnusedCodeMain_Continue
+	lda.w #$0001
+UnusedCodeMain_Continue:
 	clc
-	adc $1780
-	sta $1780
+	adc.w Unused_1780
+	sta.w Unused_1780
 	sep #$20
-	lda $1780
-	sta BG1VOFS
-	lda $1781
-	sta BG1VOFS
-	lda #$03
-	sta APUIO0
-	bra CODE_008161
-CODE_008199:
-	bra CODE_008199
-CODE_00819B:
+	lda.w Unused_1780
+	sta.w BG1VOFS
+	lda.w Unused_1780+1
+	sta.w BG1VOFS
+	lda.b #$03
+	sta.w APUIO0
+	bra UnusedCodeMain_Loop
+UnusedCodeMain_InfinLoop:
+	bra UnusedCodeMain_InfinLoop
+UnusedHDMADataPtrINIDISP:
 	DB $54,$00
-DATA_00819D:
 	DB $01,$01,$01,$02,$01,$03,$01,$04
 	DB $01,$05,$01,$06,$01,$07,$01,$08
 	DB $01,$09,$01,$0A,$01,$0B,$01,$0C
@@ -681,6 +680,7 @@ SineTable16:
         DW $7FA7,$7FAE,$7FB5,$7FBC,$7FC2,$7FC8,$7FCE,$7FD3
         DW $7FD8,$7FDD,$7FE1,$7FE5,$7FE9,$7FED,$7FF0,$7FF3
         DW $7FF6,$7FF8,$7FFA,$7FFC,$7FFD,$7FFE,$7FFF,$7FFF
+DATA_009FE7:
 	DB $48,$50,$20,$20,$20,$5D,$00,$41,$5C,$00
 ;More unused strings
 UnusedStringLoading:
@@ -708,9 +708,9 @@ UnusedStringMachGun:
 UnusedStringLaser:
 	DB "LASER",$00,$00,$00,$00
 UnusedStringTriLaser:
-	DB "TRILASER",$00
+	DB "TRILASER",$00,$00
 UnusedStringShotGun:
-	.db "SHOT GUN",$00
+	DB "SHOT GUN",$00,$00
 DATA_00A07B:
 	DB $00,$00,$00,$00,$00,$00,$00,$00
 	DB $70,$70,$70,$70,$70,$70,$00,$00
@@ -851,37 +851,37 @@ BehaviorFunctionTable:
 	BEHFUNCPTR(Beh3E_CloakingEnemy,$0F)
 	BEHFUNCPTR(Beh3F_CloakingEnemy,$0F)
 	BEHFUNCPTR(Beh40_Bee,$10)
-	BEHFUNCPTR(Beh41,$35)
+	BEHFUNCPTR(Beh41_ButterflyIntro,$35)
 	BEHFUNCPTR(Beh42_FourArmedEnemy,$11)
-	BEHFUNCPTR(Beh43_HexMissileHead,$12)
-	BEHFUNCPTR(Beh44_RockCrusher,$13)
-	BEHFUNCPTR(Beh45_ArmadaBattleshipEntry,$14)
+	BEHFUNCPTR(Beh43_Missile,$12)
+	BEHFUNCPTR(Beh44_RockCrusherBoss,$13)
+	BEHFUNCPTR(Beh45_ArmadaCruiser,$14)
 	BEHFUNCPTR(Beh46_ArmadaBattleshipEntry,$15)
-	BEHFUNCPTR(Beh47,$16)
-	BEHFUNCPTR(Beh48,$17)
+	BEHFUNCPTR(Beh47_AtomicBaseEntry,$16)
+	BEHFUNCPTR(Beh48_AtomicBaseEntry,$17)
 	BEHFUNCPTR(Beh49,$1B)
 	BEHFUNCPTR(Beh4A,$18)
 	BEHFUNCPTR(Beh4B,$19)
 	BEHFUNCPTR(Beh4C,$19)
-	BEHFUNCPTR(Beh4D,$1A)
+	BEHFUNCPTR(Beh4D_Cyclops,$1A)
 	BEHFUNCPTR(Beh4E,$1B)
 	BEHFUNCPTR(Beh4F_FlyingFish,$00)
 	BEHFUNCPTR(Beh50,$1F)
 	BEHFUNCPTR(Beh51_AtomicCoreBossTaser,$2B)
 	BEHFUNCPTR(Beh52,$00)
-	BEHFUNCPTR(Beh53,$2E)
+	BEHFUNCPTR(Beh53_AtomicCoreBossBlaster,$2E)
 	BEHFUNCPTR(Beh54_DestructorBoss,$39)
-	BEHFUNCPTR(Beh55,$2C)
-	BEHFUNCPTR(Beh56,$2D)
-	BEHFUNCPTR(Beh57,$2F)
+	BEHFUNCPTR(Beh55_AtomicCoreBossLaser,$2C)
+	BEHFUNCPTR(Beh56_AtomicCoreBossWallPiece,$2D)
+	BEHFUNCPTR(Beh57_ShieldEnemy,$2F)
 	BEHFUNCPTR(Beh58,$30)
 	BEHFUNCPTR(Beh59_ExtraCredit,$00)
-	BEHFUNCPTR(Beh5A,$31)
+	BEHFUNCPTR(Beh5A_TwinBlasterEnemy,$31)
 	BEHFUNCPTR(Beh5B_AntennaDish,$32)
 	BEHFUNCPTR(Beh5C_AntennaBase,$33)
 	BEHFUNCPTR(Beh5D,$34)
-	BEHFUNCPTR(Beh5E,$35)
-	BEHFUNCPTR(Beh5F,$35)
+	BEHFUNCPTR(Beh5E_Butterfly,$35)
+	BEHFUNCPTR(Beh5F_Butterfly,$35)
 	BEHFUNCPTR(Beh60,$36)
 	BEHFUNCPTR(Beh61,$36)
 	BEHFUNCPTR(Beh62,$37)
@@ -900,13 +900,13 @@ BehaviorFunctionTable:
 	BEHFUNCPTR(Beh6F,$46)
 	BEHFUNCPTR(Beh70,$00)
 	BEHFUNCPTR(Beh71,$02)
-	BEHFUNCPTR(Beh72,$4C)
+	BEHFUNCPTR(Beh72_PhantronBoss,$4C)
 	BEHFUNCPTR(Beh73,$51)
-	BEHFUNCPTR(Beh74,$4D)
-	BEHFUNCPTR(Beh75,$4C)
+	BEHFUNCPTR(Beh74_MonarchDodoraBoss,$4D)
+	BEHFUNCPTR(Beh75_Phantron2Boss,$4C)
 	BEHFUNCPTR(Beh76_Motorist,$4F)
 	BEHFUNCPTR(Beh77_GalacticRiderBoss,$4E)
-	BEHFUNCPTR(Beh78,$50)
+	BEHFUNCPTR(Beh78_WhiteArrow,$50)
 	BEHFUNCPTR(Beh79,$52)
 	BEHFUNCPTR(Beh7A,$54)
 	BEHFUNCPTR(Beh7B,$00)
@@ -914,16 +914,16 @@ BehaviorFunctionTable:
 	BEHFUNCPTR(Beh7D,$5E)
 	BEHFUNCPTR(Beh7E,$00)
 	BEHFUNCPTR(Beh7F,$00)
-	BEHFUNCPTR(Beh80,$68)
-	BEHFUNCPTR(Beh81,$69)
+	BEHFUNCPTR(Beh80_FlyingEnemy,$68)
+	BEHFUNCPTR(Beh81_EnemyShip,$69)
 	BEHFUNCPTR(Beh82_BigCargoShip,$6A)
 	BEHFUNCPTR(Beh83_BigCargoShip,$6A)
-	BEHFUNCPTR(Beh84,$6E)
-	BEHFUNCPTR(Beh85,$6F)
-	BEHFUNCPTR(Beh86,$70)
-	BEHFUNCPTR(Beh87,$71)
+	BEHFUNCPTR(Beh84_FlatFarAwayShip,$6E)
+	BEHFUNCPTR(Beh85_InterlockingPicketDoors,$6F)
+	BEHFUNCPTR(Beh86_InterlockingTrapezoidDoors,$70)
+	BEHFUNCPTR(Beh87_Hurdle,$71)
 	BEHFUNCPTR(Beh88,$00)
-	BEHFUNCPTR(Beh89,$73)
+	BEHFUNCPTR(Beh89_BonusDoors,$73)
 	BEHFUNCPTR(Beh8A_UFO,$72)
 	BEHFUNCPTR(Beh8B,$75)
 	BEHFUNCPTR(Beh8C,$76)
@@ -951,8 +951,8 @@ BehaviorFunctionTable:
 	BEHFUNCPTR(BehA2,$80)
 	BEHFUNCPTR(BehA3,$56)
 	BEHFUNCPTR(BehA4,$87)
-	BEHFUNCPTR(BehA5_BeamStatic,$91)
-	BEHFUNCPTR(BehA6_BeamRotating,$91)
+	BEHFUNCPTR(BehA5,$91)
+	BEHFUNCPTR(BehA6,$91)
 	BEHFUNCPTR(BehA7,$91)
 	BEHFUNCPTR(BehA8,$91)
 	BEHFUNCPTR(BehA9,$98)
@@ -1013,12 +1013,12 @@ BehaviorFunctionTable:
 	BEHFUNCPTR(BehE0,$E2)
 	BEHFUNCPTR(BehE1_BonusArchway,$00)
 	BEHFUNCPTR(BehE2_UFO,$72)
-	BEHFUNCPTR(BehE3,$E3)
+	BEHFUNCPTR(BehE3_WigglingTailEnemy,$E3)
 	BEHFUNCPTR(BehE4,$00)
 	BEHFUNCPTR(BehE5_BigBlueArchway,$E8)
 	BEHFUNCPTR(BehE6,$00)
-	BEHFUNCPTR(BehE7,$EB)
-	BEHFUNCPTR(BehE8,$EC)
+	BEHFUNCPTR(BehE7_HorizontalSlidingDoor,$EB)
+	BEHFUNCPTR(BehE8_VerticalSlidingDoor,$EC)
 	BEHFUNCPTR(BehE9_BigAsteroid,$ED)
 	BEHFUNCPTR(BehEA_ShootableAsteroid,$C2)
 	BEHFUNCPTR(BehEB,$00)
@@ -1605,22 +1605,22 @@ ObjectHeaderTable:	;00AC15
 	DB $E7,$F7,$0C,$28,$F8,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$ED,$82,$58,$E8,$58,$E8,$58,$E8,$58,$E8	;Letter N
 	DB $FD,$F8,$0C,$44,$F9,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$13,$82,$74,$E8,$74,$E8,$74,$E8,$74,$E8	;Letter H
 	DB $FD,$F8,$0C,$44,$F9,$00,$00,$00,$00,$00,$08,$00,$1E,$00,$3C,$00,$22,$00,$C1,$83,$90,$E8,$90,$E8,$90,$E8,$90,$E8	;Letter H
-CODE_00E8AC:
-	lda #$7E
-	pha
-	plb
+UnusedBank00SetBRegWRAM:
+	lda.b #$7E					;\Set data bank to $7E
+	pha						;|(not called, probably was for Nintendo's assembler)
+	plb						;/
 CODE_00E8B0:
-	sta D,$02
-	ldy $1238
+	sta.b $02
+	ldy.w $1238
 	rep #$20
-	lda $0010,y
+	lda.w $0010,y
 	sec
-	sbc D,$10,x
+	sbc.b $10,x
 	bpl CODE_00E8C3
-	eor #$FFFF
+	eor.w #$FFFF
 	inc a
 CODE_00E8C3:
-	cmp D,$02
+	cmp.b $02
 	sep #$20
 	bpl CODE_00E8CD
 	jml CODE_00E8D1
@@ -1633,57 +1633,57 @@ CODE_00E8D1:
 CODE_00E8D4:
 	rep #$20
 	lda.w #CODE_00E943
-	sta D,$16,x
+	sta.b $16,x
 	sep #$20
 	lda.b #BANKOF(CODE_00E943)
-	sta D,$18,x
-	lda #$06
-	sta $1CD5,x
-	lda #$00
-	sta $1CD2,x
+	sta.b $18,x
+	lda.b #$06
+	sta.w Object2ListRel+$0B,x
+	lda.b #$00
+	sta.w Object2ListRel+$08,x
 	rep #$20
-	lda #$89A3
-	sta $1CD3,x
-	lda #$EE08
-	sta $1CD0,x
+	lda.w #$89A3
+	sta.w Object2ListRel+$09,x
+	lda.w #$EE08
+	sta.w Object2ListRel+$06,x
 	sep #$20
-	lda #$40
-	sta D,$2A,x
-	lda #$04
-	sta D,$2B,x
-	lda D,$1D,x
-	ora #$08
-	sta D,$1D,x
-	lda D,$2E,x
-	ora #$10
-	sta D,$2E,x
-	lda #$01
-	sta $1CDF,x
-	lda #$01
-	sta D,$24,x
-	lda D,$1F,x
-	ora #$20
-	sta D,$1F,x
-	lda #$23
-	sta $F0C9
-	lda $F0C9
-	sta $70019A
-	lda #$00
-	sta $70019C
-	lda $70019A
+	lda.b #$40
+	sta.b $2A,x
+	lda.b #$04
+	sta.b $2B,x
+	lda.b $1D,x
+	ora.b #$08
+	sta.b $1D,x
+	lda.b $2E,x
+	ora.b #$10
+	sta.b $2E,x
+	lda.b #$01
+	sta.w Object2ListRel+$15,x
+	lda.b #$01
+	sta.b $24,x
+	lda.b $1F,x
+	ora.b #$20
+	sta.b $1F,x
+	lda.b #$23
+	sta.w Unknown_7EF0C9
+	lda.w Unknown_7EF0C9
+	sta.l $70019A
+	lda.b #$00
+	sta.l $70019C
+	lda.l $70019A
 	clc
-	adc #$40
-	sta $70019A
+	adc.b #$40
+	sta.l $70019A
 	jsr CODE_00EEB5
-	lda #$00
-	sta $1CDC,x
+	lda.b #$00
+	sta.w Object2ListRel+$12,x
 CODE_00E943:
 	rep #$20
-	lda #$E954
-	sta D,$53
+	lda.w #$E954
+	sta.b $53
 	sep #$20
-	lda #$00
-	sta D,$55
+	lda.b #$00
+	sta.b $55
 	jml CODE_09BADE
 DATA_00E954:
 	JUMPTABLE(CODE_00E9B9)
@@ -1709,111 +1709,111 @@ DATA_00E954:
 	JUMPTABLE(CODE_00ED51)
 	JUMPTABLE(CODE_00ED47)
 CODE_00E9AC:
-	lda #$00
-	sta D,$23,x
+	lda.b #$00
+	sta.b $23,x
 CODE_00E9B0:
-	lda #$01
+	lda.b #$01
 	jsl CODE_09BACE
 	jmp CODE_00E943
 CODE_00E9B9:
-	stz $1757
+	stz.w $1757
 	rep #$20
-	lda #$09C4
+	lda.w #$09C4
 	jsr CODE_00E8B0
 	bcc CODE_00E9D5
 	rep #$20
-	lda D,$10,x
+	lda.b $10,x
 	clc
-	adc #$0014
-	sta D,$10,x
+	adc.w #$0014
+	sta.b $10,x
 	sep #$10
-	inc $1757
+	inc.w $1757
 CODE_00E9D5:
 	rep #$20
-	lda D,$0C,x
-	cmp #$0000
+	lda.b $0C,x
+	cmp.w #$0000
 	sep #$20
 	bpl CODE_00E9E4
 	jml CODE_00E9F3
 CODE_00E9E4:
 	rep #$20
-	lda D,$0C,x
+	lda.b $0C,x
 	clc
-	adc #$FFE7
-	sta D,$0C,x
+	adc.w #$FFE7
+	sta.b $0C,x
 	sep #$20
-	inc $1757
+	inc.w $1757
 CODE_00E9F3:
-	lda $1757
+	lda.w $1757
 	bne CODE_00E9FC
 	jml CODE_00E9B0
 CODE_00E9FC:
 	jmp CODE_00F0CB
 CODE_00E9FF:
-	lda $1CFC,x
-	cmp #$1E
+	lda.w Object2ListRel+$32,x
+	cmp.b #$1E
 	bne CODE_00EA13
-	lda #$00
-	sta $1CFC,x
-	lda #$0D
-	sta $1CDC,x
+	lda.b #$00
+	sta.w Object2ListRel+$32,x
+	lda.b #$0D
+	sta.w Object2ListRel+$12,x
 	jmp CODE_00E943
 CODE_00EA13:
-	inc $1CFC,x
+	inc.w Object2ListRel+$32,x
 	jmp CODE_00F0A3
 CODE_00EA19:
 	rep #$20
-	lda D,$0E,x
-	sta D,$3A
-	lda #$FE70
+	lda.b $0E,x
+	sta.b $3A
+	lda.w #$FE70
 	jsl CODE_1FD6F0
-	sta D,$0E,x
+	sta.b $0E,x
 	sep #$20
 	bcc CODE_00EA30
 	jml CODE_00E9B0
 	jmp CODE_00F0CB
 CODE_00EA33:
 	jsr CODE_00EE33
-	lda #$07
+	lda.b #$07
 	jsl CODE_1FDC40
-	cpy #$0000
+	cpy.w #$0000
 	beq CODE_00EA45
 	jml CODE_00F0CB
 CODE_00EA45:
-	lda D,$1E,x
-	and #$7F
-	sta D,$1E,x
+	lda.b $1E,x
+	and.b #$7F
+	sta.b $1E,x
 	jmp CODE_00E9B0
 CODE_00EA4E:
 	rep #$20
-	lda #$BCEC
-	sta $14C5
+	lda.w #$BCEC
+	sta.w $14C5
 	sep #$20
 	jsl CODE_1FD54B
 	bcs CODE_00EA62
 	jml CODE_00EA81
 CODE_00EA62:
-	lda #$07
+	lda.b #$07
 	jsl CODE_1FD56F
 	phx
 	tyx
 	ply
 	rep #$20
-	lda #$F69E
-	sta D,$16,x
+	lda.w #$F69E
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
-	lda D,$2E,x
-	ora #$10
-	sta D,$2E,x
+	lda.b #$00
+	sta.b $18,x
+	lda.b $2E,x
+	ora.b #$10
+	sta.b $2E,x
 	phx
 	tyx
 	ply
 CODE_00EA81:
-	lda #$98
+	lda.b #$98
 	jsl CODE_03B7F9
-	lda #$07
+	lda.b #$07
 	jsl CODE_1FDC40
 	phx
 	tyx
@@ -1823,445 +1823,445 @@ CODE_00EA81:
 CODE_00EA97:
 	jsr CODE_00EE33
 	rep #$20
-	lda #$05DC
+	lda.w #$05DC
 	bra CODE_00EAA6
 CODE_00EAA1:
 	rep #$20
-	lda #$09C4
+	lda.w #$09C4
 CODE_00EAA6:
 	jsr CODE_00E8B0
 	bcc CODE_00EAAF
 	jml CODE_00E9B0
 CODE_00EAAF:
 	rep #$20
-	lda D,$10,x
+	lda.b $10,x
 	clc
-	adc #$FFCE
-	sta D,$10,x
+	adc.w #$FFCE
+	sta.b $10,x
 	sep #$20
 	jmp CODE_00F0A3
 CODE_00EABE:
-	lda #$01
+	lda.b #$01
 	jsl CODE_1FDC40
 	rep #$20
-	lda #$82ED
-	sta $1CEA,y
+	lda.w #$82ED
+	sta.w $1CEA,y
 CODE_00EACC:
 	sep #$20
-	lda #$03
+	lda.b #$03
 	jsl CODE_1FDC40
 	rep #$20
-	lda #$82ED
-	sta $1CEA,y
+	lda.w #$82ED
+	sta.w $1CEA,y
 	sep #$20
-	lda #$05
+	lda.b #$05
 	jsl CODE_1FDC40
 	rep #$20
-	lda #$82ED
-	sta $1CEA,y
+	lda.w #$82ED
+	sta.w $1CEA,y
 	sep #$20
-	lda #$02
+	lda.b #$02
 	jsl CODE_1FDC40
 	rep #$20
-	lda #$82ED
-	sta $1CEA,y
+	lda.w #$82ED
+	sta.w $1CEA,y
 	sep #$20
-	lda #$04
+	lda.b #$04
 	jsl CODE_1FDC40
 	rep #$20
-	lda #$82ED
-	sta $1CEA,y
+	lda.w #$82ED
+	sta.w $1CEA,y
 	sep #$20
 	jmp CODE_00E9B0
-	lda #$09
-	sta D,$02
+	lda.b #$09
+	sta.b $02
 	jsr CODE_00EE57
 	jmp CODE_00E9B0
 CODE_00EB1B:
 	rep #$20
-	lda #$07D0
+	lda.w #$07D0
 	jsr CODE_00E8B0
 	bcs CODE_00EB29
 	jml CODE_00E8B0
 CODE_00EB29:
 	rep #$20
-	lda D,$10,x
+	lda.b $10,x
 	clc
-	adc #$50
-	sta D,$10,x
+	adc.b #$50
+	sta.b $10,x
 	sep #$20
 	jmp CODE_00F065
 CODE_00EB38:
 	rep #$20
-	lda #$05DC
+	lda.w #$05DC
 	jsr CODE_00E8B0
 	bcc CODE_00EB46
 	jml CODE_00E9B0
 CODE_00EB46:
-	lda D,$24,x
-	sta D,$3A
-	lda #$02
+	lda.b $24,x
+	sta.b $3A
+	lda.b #$02
 	jsl CODE_1FD8BD
-	sta D,$24,x
+	sta.b $24,x
 	rep #$20
-	lda D,$10,x
+	lda.b $10,x
 	sec
-	sbc #$32
-	sta D,$10,x
+	sbc.b #$32
+	sta.b $10,x
 	sep #$20
 	jmp CODE_00F065
-	lda #$0A
+	lda.b #$0A
 	jsr CODE_00EE34
-	cmp #$05
+	cmp.b #$05
 	beq CODE_00EB6E
 	jml CODE_00F065
 CODE_00EB6E:
-	lda #$0B
-	sta D,$02
+	lda.b #$0B
+	sta.b $02
 	jsr CODE_00EE57
 	jmp CODE_00E9B0
 CODE_00EB78:
-	lda #$0D
+	lda.b #$0D
 	jsr CODE_00EE34
-	cmp #$05
+	cmp.b #$05
 	beq CODE_00EB85
 	jml CODE_00F065
 CODE_00EB85:
-	lda #$0E
-	sta D,$02
+	lda.b #$0E
+	sta.b $02
 	jsr CODE_00EE57
 	jmp CODE_00E9B0
 CODE_00EB8F:
-	lda #$0C
-	sta D,$02
+	lda.b #$0C
+	sta.b $02
 	jsr CODE_00EE57
 	jmp CODE_00E9B0
 CODE_00EB99:
-	lda D,$1E,x
-	and #$20
+	lda.b $1E,x
+	and.b #$20
 	beq CODE_00EBA3
 	jml CODE_00EC23
 CODE_00EBA3:
 	rep #$20
-	lda D,$10,x
+	lda.b $10,x
 	clc
-	adc #$FFD8
-	sta D,$10,x
+	adc.w #$FFD8
+	sta.b $10,x
 	sep #$20
-	lda D,$1E,x
-	and #$40
+	lda.b $1E,x
+	and.b #$40
 CODE_00EBB3:
 	beq CODE_00EBB9
 	jml CODE_00EBE9
 CODE_00EBB9:
 	rep #$20
-	lda #$07D0
+	lda.w #$07D0
 	jsr CODE_00E8B0
 	bcc CODE_00EBF9
-	lda D,$1E,x
-	ora #$40
-	sta D,$1E,x
+	lda.b $1E,x
+	ora.b #$40
+	sta.b $1E,x
 	jsl CODE_02FC58
-	cmp #$7F
+	cmp.b #$7F
 	bcs CODE_00EBD5
 	jml CODE_00EBE0
 CODE_00EBD5:
 	rep #$20
-	lda #$FED4
-	sta D,$28,x
+	lda.w #$FED4
+	sta.b $28,x
 	sep #$20
 	bra CODE_00EBE9
 CODE_00EBE0:
 	rep #$20
-	lda #$FFBA
-	sta D,$28,x
+	lda.w #$FFBA
+	sta.b $28,x
 	sep #$20
 CODE_00EBE9:
 	rep #$20
-	lda D,$0E,x
-	sta D,$3A
-	lda D,$28,x
+	lda.b $0E,x
+	sta.b $3A
+	lda.b $28,x
 	jsl CODE_1FD6AB
-	sta D,$0E,x
+	sta.b $0E,x
 	sep #$20
 CODE_00EBF9:
 	rep #$20
-	lda #$01F4
+	lda.w #$01F4
 	jsr CODE_00E8B0
 	bcc CODE_00EC52
 CODE_00EC03:
-	lda D,$23,x
-	cmp #$01
+	lda.b $23,x
+	cmp.b #$01
 	bne CODE_00EC13
-	lda D,$1E,x
-	and #$DF
-	sta D,$1E,x
+	lda.b $1E,x
+	and.b #$DF
+	sta.b $1E,x
 	jml CODE_00E9AC
 CODE_00EC13:
-	inc D,$23,x
-	lda D,$1E,x
-	eor #$20
-	sta D,$1E,x
-	lda D,$1E,x
-	and #$BF
-	sta D,$1E,x
+	inc.b $23,x
+	lda.b $1E,x
+	eor.b #$20
+	sta.b $1E,x
+	lda.b $1E,x
+	and.b #$BF
+	sta.b $1E,x
 	bra CODE_00EC52
 CODE_00EC23:
 	rep #$20
-	lda D,$0E,x
-	cmp #$FE70
+	lda.b $0E,x
+	cmp.w #$FE70
 	beq CODE_00EC38
 	bmi CODE_00EC34
 	sec
-	sbc #$0005
+	sbc.w #$0005
 	bra CODE_00EC38
 CODE_00EC34:
 	clc
-	adc #$0005
+	adc.w #$0005
 CODE_00EC38:
-	sta D,$0E,x
+	sta.b $0E,x
 	sep #$20
 	rep #$20
-	lda D,$10,x
+	lda.b $10,x
 	clc
-	adc #$0028
-	sta D,$10,x
+	adc.w #$0028
+	sta.b $10,x
 	sep #$20
 	rep #$20
-	lda #$09C4
+	lda.w #$09C4
 	jsr CODE_00E8B0
 	bcc CODE_00EC03
 CODE_00EC52:
 	phx
 	rep #$20
-	lda D,$25,x
-	and #$00FF
+	lda.b $25,x
+	and.w #$00FF
 	tax
-	lda SineTable8,x
-	bit #$0080
+	lda.w SineTable8,x
+	bit.w #$0080
 	beq CODE_00EC69
-	ora #$FF00
+	ora.w #$FF00
 	bra CODE_00EC6C
 CODE_00EC69:
-	and #$00FF
+	and.w #$00FF
 CODE_00EC6C:
 	plx
 	asl
 	asl
-	sta D,$0C,x
+	sta.b $0C,x
 	sep #$20
-	lda D,$25,x
+	lda.b $25,x
 	clc
-	adc #$04
-	sta D,$25,x
+	adc.b #$04
+	sta.b $25,x
 	jmp CODE_00F0CB
 CODE_00EC7D:
-	lda $15BB
-	and #$03
+	lda.w $15BB
+	and.b #$03
 	beq CODE_00EC88
 	jml CODE_00EC9A
 CODE_00EC88:
-	lda D,$24,x
-	cmp #$14
+	lda.b $24,x
+	cmp.b #$14
 	beq CODE_00EC98
 	bmi CODE_00EC95
 	sec
-	sbc #$01
+	sbc.b #$01
 	bra CODE_00EC98
 CODE_00EC95:
 	clc
-	adc #$01
+	adc.b #$01
 CODE_00EC98:
-	sta D,$24,x
+	sta.b $24,x
 CODE_00EC9A:
 	rep #$20
-	lda D,$0E,x
+	lda.b $0E,x
 	clc
-	adc #$FFFC
-	sta D,$0E,x
+	adc.w #$FFFC
+	sta.b $0E,x
 	sep #$20
 	rep #$20
-	lda D,$0E,x
-	cmp #$FE70
+	lda.b $0E,x
+	cmp.w #$FE70
 	sep #$20
 	bpl CODE_00ECB5
 	jml CODE_00E9B0
 CODE_00ECB5:
 	jmp CODE_00F0CB
 CODE_00ECB8:
-	lda #$07
-	sta D,$02
+	lda.b #$07
+	sta.b $02
 	jsr CODE_00EE57
 	jsl ApplyObjectVelocity
 	rep #$20
-	lda D,$31,x
+	lda.b $31,x
 	clc
-	adc #$0008
-	sta D,$31,x
+	adc.w #$0008
+	sta.b $31,x
 	sep #$20
 	rep #$20
-	lda D,$0E,x
-	cmp #$FFB0
+	lda.b $0E,x
+	cmp.w #$FFB0
 	sep #$20
 	bpl CODE_00ECDE
 	jml CODE_00ED29
 CODE_00ECDE:
 	rep #$20
-	lda #$FFB0
-	sta D,$0E,x
+	lda.w #$FFB0
+	sta.b $0E,x
 	sep #$20
 	rep #$20
-	lda D,$31,x
-	eor #$FFFF
+	lda.b $31,x
+	eor.w #$FFFF
 	inc
-	cmp #$8000
+	cmp.w #$8000
 	ror
 	bpl CODE_00ECF8
-	adc #$0000
+	adc.w #$0000
 CODE_00ECF8:
-	cmp #$8000
+	cmp.w #$8000
 	ror
 	bpl CODE_00ED01
-	adc #$0000
+	adc.w #$0000
 CODE_00ED01:
-	cmp #$8000
+	cmp.w #$8000
 	ror
 	bpl CODE_00ED0A
-	adc #$0000
+	adc.w #$0000
 CODE_00ED0A:
-	cmp #$8000
+	cmp.w #$8000
 	ror
 	bpl CODE_00ED13
-	adc #$0000
+	adc.w #$0000
 CODE_00ED13:
-	cmp #$FFFB
+	cmp.w #$FFFB
 	bcc CODE_00ED1B
-	lda #$000
+	lda.w #$000
 CODE_00ED1B:
-	sta D,$31,x
+	sta.b $31,x
 	sep #$20
-	cmp #$00
+	cmp.b #$00
 	sep #$20
 	bne CODE_00ED29
 	jmp CODE_00ED2C
 CODE_00ED29:
 	jmp CODE_00F0CB
 CODE_00ED2C:
-	lda #$8E
+	lda.b #$8E
 	jsl CODE_03B7F9
-	lda $F0C9
+	lda.w $F0C9
 	sec
-	sbc #$05
-	sta $F0C9
+	sbc.b #$05
+	sta.w $F0C9
 	jsr CODE_00ED6A
 	jsr CODE_00ED6A
 	jsr CODE_00ED6A
 	jmp CODE_00E9B0
 CODE_00ED47:
-	lda #$04
-	sta D,$02
+	lda.b #$04
+	sta.b $02
 	jsr CODE_00EE57
 	jmp CODE_00F0CB
 CODE_00ED51:
-	inc D,$23,x
-	lda D,$23,x
-	cmp #$0F
+	inc.b $23,x
+	lda.b $23,x
+	cmp.b #$0F
 	bne CODE_00ED5D
 	jml CODE_00E9B0
 CODE_00ED5D:
-	lda #$03
-	sta D,$02
+	lda.b #$03
+	sta.b $02
 	jsr CODE_00EE57
 	jmp CODE_00F0CB
 CODE_00ED67:
 	jmp CODE_00F065
 CODE_00ED6A:
 	rep #$20
-	lda #$ADF1
-	sta $14C5
+	lda.w #$ADF1
+	sta.w $14C5
 	sep #$20
 	jsl CODE_1FD54B
 	bcs CODE_00ED7E
 	jml CODE_00EDDD
 CODE_00ED7E:
 	rep #$20
-	lda #$EDE0
-	sta $0016,y
+	lda.w #CODE_00EDE0
+	sta.w $0016,y
 	sep #$20
-	lda #$00
-	sta $0018,y
-	lda #$00
-	ora #$80
-	sta $1CE6,y
-	lda $001E,y
-	ora #$01
-	sta $001E,y
+	lda.b #BANKOF(CODE_00EDE0)
+	sta.w $0018,y
+	lda.b #$00
+	ora.b #$80
+	sta.w $1CE6,y
+	lda.w $001E,y
+	ora.b #$01
+	sta.w $001E,y
 	jsl CopyPositionIndXToIndY
-	lda $001D,y
-	ora #$20
-	sta $001D,y
-	lda #$00
-	sta $1CF4,y
+	lda.w $001D,y
+	ora.b #$20
+	sta.w $001D,y
+	lda.b #$00
+	sta.w $1CF4,y
 	jsl CODE_02FC58
-	and #$1F
+	and.b #$1F
 	sec
-	sbc #$0F
+	sbc.b #$0F
 	clc
-	adc $1CF4,y
-	sta $1CF4,y
+	adc.w $1CF4,y
+	sta.w $1CF4,y
 	jsl CODE_02FC58
 	rep #$20
-	bit #$0080
+	bit.w #$0080
 	beq CODE_00EDD2
-	ora #$FF00
+	ora.w #$FF00
 	bra CODE_00EDD5
 CODE_00EDD2:
-	and #$00FF
+	and.w #$00FF
 CODE_00EDD5:
 	asl
 	clc
-	adc $000C,y
-	sta $000C,y
+	adc.w $000C,y
+	sta.w $000C,y
 	sep #$20
 	rts
 CODE_00EDE0:
-	lda $1CE6,x
-	and #$7F
-	cmp #$07
+	lda.w $1CE6,x
+	and.b #$7F
+	cmp.b #$07
 	beq CODE_00EE03
-	lda $1CE6,x
+	lda.w $1CE6,x
 	clc
-	adc #$01
+	adc.b #$01
 	bmi CODE_00EDF4
 	clc
-	adc #$08
+	adc.b #$08
 CODE_00EDF4:
-	and #$7F
-	cmp #$08
+	and.b #$7F
+	cmp.b #$08
 	bcc CODE_00EDFD
 	sec
-	sbc #$08
+	sbc.b #$08
 CODE_00EDFD:
-	ora #$80
-	sta $1CE6,x
+	ora.b #$80
+	sta.w $1CE6,x
 	rtl
 CODE_00EE03:
 	jsl CODE_1FD501
 	rtl
 CODE_00EE08:
-	lda #$06
+	lda.b #$06
 	jsl CODE_1FDC40
-	cpy #$0000
+	cpy.w #$0000
 	beq CODE_00EE20
-	lda $001E,y
-	ora #$01
-	sta $001E,y
-	lda #$00
-	sta $002A,y
+	lda.w $001E,y
+	ora.b #$01
+	sta.w $001E,y
+	lda.b #$00
+	sta.w $002A,y
 CODE_00EE20:
-	lda #$07
+	lda.b #$07
 	jsl CODE_1FDC40
-	cpy #$0000
+	cpy.w #$0000
 	beq CODE_00EE2F
 	jslCODE_1FD540
 CODE_00EE2F:
@@ -2269,73 +2269,73 @@ CODE_00EE2F:
 CODE_00EE33:
 	rts
 CODE_00EE34:
-	sta D,$02
-	stz D,$08
-	lda #$01
-	sta D,$90
+	sta.b $02
+	stz.b $08
+	lda.b #$01
+	sta.b $90
 CODE_00EE3C:
-	lda D,$90
+	lda.b $90
 	jsl CODE_1FDC40
-	lda $1CDC,y
-	cmp D,$02
+	lda.w $1CDC,y
+	cmp.b $02
 	bne CODE_00EE4B
-	inc D,$08
+	inc.b $08
 CODE_00EE4B:
-	lda D,$90
+	lda.b $90
 	inc
-	sta D,$90
+	sta.b $90
 	cmp #$06
 	bne CODE_00EE3C
-	lda D,$08
+	lda.b $08
 	rts
 CODE_00EE57:
-	ldb. #$01
+	lda.b #$01
 	jsl CODE_1FDC40
 	phx
 	tyx
 	ply
-	lda D,$02
-	sta $1CDC,x
+	lda.b $02
+	sta.w $1CDC,x
 	phx
 	tyx
 	ply
-	lda #$03
+	lda.b #$03
 	jsl CODE_1FDC40
 	phx
 	tyx
 	ply
-	lda D,$02
-	sta $1CDC,x
+	lda.b $02
+	sta.w $1CDC,x
 	phx
 	tyx
 	ply
-	lda #$05
+	lda.b #$05
 	jsl CODE_1FDC40
 	phx
 	tyx
 	ply
-	lda D,$02
-	sta $1CDC,x
+	lda.b $02
+	sta.w $1CDC,x
 	phx
 	tyx
 	ply
-	lda #$02
+	lda.b #$02
 	jsl CODE_1FDC40
 	phx
 	tyx
 	ply
-	lda D,$02
-	sta $1CDC,x
+	lda.b $02
+	sta.w $1CDC,x
 	phx
 	tyx
 	ply
-	lda #$04
+	lda.b #$04
 	jsl CODE_1FDC40
 	phx
 	tyx
 	ply
-	lda D,$02
-	sta $1CDC,x
+	lda.b $02
+	sta.w $1CDC,x
 	phx
 	tyx
 	ply
@@ -2343,206 +2343,206 @@ CODE_00EE57:
 DATA_00EEAD:
 	DW $FFF1,$FFFB,$0005,$000F
 CODE_00EEB5:
-	lda #$00
-	sta D,$22,x
+	lda.b #$00
+	sta.b $22,x
 	rep #$20
-	lda #$0000
-	sta D,$06,x
+	lda.w #$0000
+	sta.b $06,x
 	sep #$20
 	rep #$20
-	lda #$0000
-	st D,$26,x
+	lda.w #$0000
+	sta.b $26,x
 	sep #$20
 	rep #$20
-	lda #$BC0C
-	sta $14C5
+	lda.w #$BC0C
+	sta.w $14C5
 	sep #$20
 	jsl CODE_1FD54B
 	bcs CODE_00EEDF
 	jml CODE_00EF0D
 CODE_00EEDF:
-	lda #$01
+	lda.b #$01
 	jsl CODE_1FD56F
 	phx
 	tyx
 	ply
 	rep #$20
-	lda #$F15A
-	sta D,$16,x
+	lda.w #$F15A
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
-	lda D,$2E,x
-	ora #$10
-	sta D,$2E,x
-	lda #$05
-	sta $1CED,x
-	lda #$0F
-	sta $1CEE,x
-	lda #$80
-	sta $1CF0,x
+	lda.b #$00
+	sta.b $18,x
+	lda.b $2E,x
+	ora.b #$10
+	sta.b $2E,x
+	lda.b #$05
+	sta.w $1CED,x
+	lda.b #$0F
+	sta.w $1CEE,x
+	lda.b #$80
+	sta.w $1CF0,x
 	phx
 	tyx
 	ply
 CODE_00EF0D:
 	rep #$20
-	lda #$BC0C
-	sta $14C5
+	lda.w #$BC0C
+	sta.w $14C5
 	sep #$20
 	jsl CODE_1FD54B
 	bcs CODE_00EF21
 	jml CODE_00EF54
 CODE_00EF21:
-	lda #$03
+	lda.b #$03
 	jsl CODE_1FD56F
 	phx
 	tyx
 	ply
 	rep #$20
-	lda #$F15A
-	sta D,$16,x
+	lda.w #$F15A
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
-	lda D,$2E,x
-	ora #$10
-	sta D,$2E,x
-	lda #$0E
-	sta $1CEC,x
-	lda #$05
-	sta $1CED,x
-	lda #$04
-	sta $1CEE,x
-	lda #$4D
-	sta $1CF0,x
+	lda.b #$00
+	sta.b $18,x
+	lda.b $2E,x
+	ora.b #$10
+	sta.b $2E,x
+	lda.b #$0E
+	sta.w $1CEC,x
+	lda.b #$05
+	sta.w $1CED,x
+	lda.b #$04
+	sta.w $1CEE,x
+	lda.b #$4D
+	sta.w $1CF0,x
 	phx
 	tyx
 	ply
 CODE_00EF54:
 	rep #$20
-	lda #$BC0C
-	sta $14C5
+	lda.w #$BC0C
+	sta.w $14C5
 	sep #$20
 	jsl CODE_1FD54B
 	bcs CODE_00EF68
 	jml CODE_00EF9B
 CODE_00EF68:
-	lda #$05
+	lda.b #$05
 	jsl CODE_1FD56F
 	phx
 	tyx
 	ply
 	rep #$20
-	lda #$F15A
-	sta D,$16,x
+	lda.w #$F15A
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
-	lda D,$2E,x
-	ora #$10
-	sta D,$2E,x
-	lda #$09
-	sta $1CEC,x
-	lda #$05
-	sta $1CED,x
-	lda #$F4
-	sta $1CEE,x
-	lda #$1A
-	sta $1CF0,x
+	lda.b #$00
+	sta.b $18,x
+	lda.b $2E,x
+	ora.b #$10
+	sta.b $2E,x
+	lda.b #$09
+	sta.w $1CEC,x
+	lda.b #$05
+	sta.w $1CED,x
+	lda.b #$F4
+	sta.w $1CEE,x
+	lda.b #$1A
+	sta.w $1CF0,x
 	phx
 	tyx
 	ply
 CODE_00EF9B:
 	rep #$20
-	lda #$BC0C
-	sta $14C5
+	lda.w #$BC0C
+	sta.w $14C5
 	sep #$20
 	jsl CODE_1FD54B
 	bcs CODE_00EFAF
 	jml CODE_00EFE2
 CODE_00EFAF:
-	lda #$02
+	lda.b #$02
 	jsl CODE_1FD56F
 	phx
 	tyx
 	ply
 	rep #$20
-	lda #$F15A
-	sta D,$16,x
+	lda.w #$F15A
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
-	lda D,$2E,x
-	ora #$10
-	sta D,$2E,x
-	lda #$F7
-	sta $1CEC,x
-	lda #$05
-	sta $1CED,x
-	lda #$F4
-	sta $1CEE,x
-	lda #$E7
-	sta $1CF0,x
+	lda.b #$00
+	sta.b $18,x
+	lda.b $2E,x
+	ora.b #$10
+	sta.b $2E,x
+	lda.b #$F7
+	sta.w $1CEC,x
+	lda.b #$05
+	sta.w $1CED,x
+	lda.b #$F4
+	sta.w $1CEE,x
+	lda.b #$E7
+	sta.w $1CF0,x
 	phx
 	tyx
 	ply
 CODE_00EFE2:
 	rep #$20
-	lda #$BC0C
-	sta $14C5
+	lda.w #$BC0C
+	sta.w $14C5
 	sep #$20
 	jsl CODE_1FD54B
 	bcs CODE_00EFF6
 	jml CODE_00F029
 CODE_00EFF6
-	lda #$04
+	lda.b #$04
 	jsl CODE_1FD56F
 	phx
 	tyx
 	ply
 	rep #$20
-	lda #$F15A
-	sta D,$16,x
+	lda.w #$F15A
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
-	lda D,$2E,x
-	ora #$10
-	sta D,$2E,x
-	lda #$F2
-	sta $1CEC,x
-	lda #$05
-	sta $1CED,x
-	lda #$04
-	sta $1CEE,x
-	lda #$B4
-	sta $1CF0,x
+	lda.b #$00
+	sta.b $18,x
+	lda.b $2E,x
+	ora.b #$10
+	sta.b $2E,x
+	lda.b #$F2
+	sta.w $1CEC,x
+	lda.b #$05
+	sta.w $1CED,x
+	lda.b #$04
+	sta.w $1CEE,x
+	lda.b #$B4
+	sta.w $1CF0,x
 	phx
 	tyx
 	ply
 CODE_00F029:
 	rep #$20
-	lda #$BC0C
-	sta $14C5
+	lda.w #$BC0C
+	sta.w $14C5
 	sep #$20
 	jsl CODE_1FD54B
 	bcs CODE_00F03D
 	jml CODE_00F05C
 CODE_00F03D:
-	lda #$06
+	lda.b #$06
 	jsl CODE_1FD56F
 	phx
 	tyx
 	ply
 	rep #$20
-	lda #$F614
-	sta D,$16,x
+	lda.w #$F614
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
-	lda D,$2E,x
-	ora #$10
-	sta D,$2E,x
+	lda.b #$00
+	sta.b $18,x
+	lda.b $2E,x
+	ora.b #$10
+	sta.b $2E,x
 	phx
 	tyx
 	ply
@@ -2553,918 +2553,929 @@ CODE_00F060:
 	jsl CODE_09DBCF
 	rts
 CODE_00F065:
-	lda #$06
+	lda.b #$06
 	jsr CODE_00EE34
-	cmp #$03
+	cmp.b #$03
 	bmi CODE_00F072
 	jml CODE_00E9B0
 CODE_00F072:
-	cmp #$02
+	cmp.b #$02
 	beq CODE_00F07A
 	jml CODE_00F080
 CODE_00F07A:
-	lda #$06
-	sta D,$24,x
+	lda.b #$06
+	sta.b $24,x
 	bra CODE_00F08C
 CODE_00F080:
-	cmp #$01
+	cmp.b #$01
 	beq CODE_00F088
 	jml CODE_00F08C
 CODE_00F088:
-	lda #$04
-	sta D,$24,x
+	lda.b #$04
+	sta.b $24,x
 CODE_00F08C:
 	txy
 	rep #$20
-	lda $15BB
-	and #$0003
+	lda.w $15BB
+	and.w #$0003
 	asl
 	tax
 	lda DATA_00EEAD,x
 	tyx
 	clc
-	adc D,$0E,x
-	sta D,$0E,x
+	adc.b $0E,x
+	sta.b $0E,x
 	sep #$20
 CODE_00F0A3:
 	phx
 	rep #$20
-	lda D,$25,x
-	and #$00FF
+	lda.b $25,x
+	and.w #$00FF
 	tax
-	lda SineTable8,x
-	bit #$0080
+	lda.w SineTable8,x
+	bit.w #$0080
 	beq CODE_00F0BA
-	ora #$FF00
+	ora.w #$FF00
 	bra CODE_00F0BD
 CODE_00F0BA:
-	and #$00FF
+	and.w #$00FF
 CODE_00F0BD:
 	plx
 	asl
 	asl
-	sta D,$0C,x
+	sta.b $0C,x
 	sep #$20
-	lda D,$25,x
+	lda.b $25,x
 	clc
-	adc #$02
-	sta D,$25,x
+	adc.b #$02
+	sta.b $25,x
 CODE_00F0CB:
-	lda D,$13,x
-	and #$80
+	lda.b $13,x
+	and.b #$80
 	pha
-	lda D,$13,x
+	lda.b $13,x
 	clc
-	adc $0024,x
-	sta D,$13,x
-	lda D,$13,x
-	and #$80
-	sta D,$02
+	adc.w $0024,x
+	sta.b $13,x
+	lda.b $13,x
+	and.b #$80
+	sta.b $02
 	pla
-	eor D,$02
+	eor.b $02
 	beq CODE_00F0F3
-	lda D,$24,x
-	cmp #$08
+	lda.b $24,x
+	cmp.b #$08
 	bpl CODE_00F0ED
 	jml CODE_00F0F3
 CODE_00F0ED:
-	lda #$4F
+	lda.b #$4F
 	jsl CODE_03B7F9
 CODE_00F0F3:
 	jsl CODE_1FDC69
 	phy
-	lda #$01
+	lda.b #$01
 	dec
 CODE_00F0FB:
 	inc
-	sta $14C5
+	sta.w $14C5
 	pha
-	lda $14C5
+	lda.w $14C5
 	jsl CODE_1FDC40
 	pla
-	cpy #$0000
+	cpy.w #$0000
 	bne CODE_00F116
-	cmp #$05
+	cmp.b #$05
 	bne CODE_00F0FB
 	ply
 	jml CODE_00F11D
 CODE_00F116:
 	ply
-	lda #$40
-	sta D,$2A,x
+	lda.b #$40
+	sta.b $2A,x
 	bra CODE_00F136
 CODE_00F11D:
 	rep #$20
-	lda #$82ED
-	sta $1CEA,x
+	lda.w #$82ED
+	sta.w $1CEA,x
 	sep #$20
-	lda D,$1F,x
-	and #$DF
-	sta D,$1F,x
-	lda $1CF4,x
+	lda.b $1F,x
+	and.b #$DF
+	sta.b $1F,x
+	lda.w $1CF4,x
 	clc
-	adc #$0A
-	sta $1CF4,x
+	adc.b #$0A
+	sta.w $1CF4,x
 CODE_00F136:
-	lda $1CF4,x
+	lda.w $1CF4,x
 	clc
-	adc #$05
-	sta $1CF4,x
+	adc.b #$05
+	sta.w $1CF4,x
 	jsr CODE_00F060
-	lda $70019C
+	lda.l $70019C
 	clc
-	adc D,$2A,x
-	sta $70019C
-	lda $70019C
+	adc.b $2A,x
+	sta.l $70019C
+	lda.l $70019C
 	clc
-	adc $F0C9
-	sta $70019C
+	adc.w $F0C9
+	sta.l $70019C
 	rtl
 CODE_00F15A:
 	rep #$20
-	lda #$F1A1
-	sta D,$16,x
+	lda.l #$F1A1
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
-	lda #$00
-	sta $1CD5,x
-	lda #$00
-	sta $1CD2,x
+	lda.b #$00
+	sta.b $18,x
+	lda.b #$00
+	sta.w $1CD5,x
+	lda.b #$00
+	sta.w $1CD2,x
 	rep #$20
-	lda #$F53D
-	sta $1CD3,x
-	lda #$F547
-	sta $1CD0,x
+	lda.w #$F53D
+	sta.w $1CD3,x
+	lda.w #$F547
+	sta.w $1CD0,x
 	sep #$20
-	lda #$4A
-	sta D,$2A,x
-	lda #$04
-	sta D,$2B,x
-	lda #$01
-	sta $1CDF,x
-	lda D,$22,x
+	lda.b #$4A
+	sta.b $2A,x
+	lda.b #$04
+	sta.b $2B,x
+	lda.b #$01
+	sta.w $1CDF,x
+	lda.b $22,x
 	clc
-	adc #$FE
-	sta D,$02
-	lda D,$02
-	ora #$80
-	sta $1CE7,x
-	lda #$00
-	sta $1CDC,x
+	adc.b #$FE
+	sta.b $02
+	lda.b $02
+	ora.b #$80
+	sta.w $1CE7,x
+	lda.b #$00
+	sta.w $1CDC,x
 CODE_00F1A1:
 	rep #$20
-	lda #$F1B2
-	sta D,$53
+	lda.w #$F1B2
+	sta.b $53
 	sep #$20
-	lda #$00
-	sta D,$55
-	jml CODE_09BADE
+	lda.b #$00
+	sta.b $55
+	jml DoJumpTable
 DATA_00F1B2:
-	DB $00,$DC,$F4,$00,$00,$06,$F4,$00,$00,$0F,$F4,$00,$00,$7A,$F3,$00
-	DB $00,$56,$F3,$00,$00,$70,$F4,$00,$00,$98,$F4,$00,$00,$FA,$F2,$00
-	DB $00,$C1,$F3,$00,$00,$5D,$F2,$00,$00,$F7,$F2,$00,$00,$25,$F2,$00
-	DB $00,$AA,$F2,$00,$00,$F7,$F2,$00,$00,$ED,$F1,$00
+	JUMPTABLE(CODE_00F4DD)
+	JUMPTABLE(CODE_00F407)
+	JUMPTABLE(CODE_00F410)
+	JUMPTABLE(CODE_00F37B)
+	JUMPTABLE(CODE_00F357)
+	JUMPTABLE(CODE_00F471)
+	JUMPTABLE(CODE_00F499)
+	JUMPTABLE(CODE_00F2FB)
+	JUMPTABLE(CODE_00F3C2)
+	JUMPTABLE(CODE_00F25E)
+	JUMPTABLE(CODE_00F2F8)
+	JUMPTABLE(CODE_00F226)
+	JUMPTABLE(CODE_00F2AB)
+	JUMPTABLE(CODE_00F2F8)
+	JUMPTABLE(CODE_00F1EE)
 CODE_00F1EE:
-	lda D,$1E,x
-	and #$10
+	lda.b $1E,x
+	and.b #$10
 	beq CODE_00F1F8
 	jml CODE_00F209
 CODE_00F1F8:
-	lda $1CE7,x
-	and #$7F
-	cmp #$06
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$06
 	beq CODE_00F21D
-	lda #$01
+	lda.b #$01
 	jsr CODE_00F4BA
 	jmp CODE_00F510
 CODE_00F209:
-	lda $1CE7,x
-	and #$7F
-	cmp #$04
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$04
 	beq CODE_00F21A
-	lda #$FF
+	lda.b #$FF
 	jsr CODE_00F4BA
 	jmp CODE_00F510
 CODE_00F21A:
 	jsr CODE_00F4D6
 CODE_00F21D:
-	lda D,$1E,x
-	eor #$10
-	sta D,$1E,x
+	lda.b $1E,x
+	eor.b #$10
+	sta.b $1E,x
 	jmp CODE_00F510
 CODE_00F226:
-	lda D,$1E,x
-	and #$10
+	lda.b $1E,x
+	and.b #$10
 	beq CODE_00F230
 	jml CODE_00F241
 CODE_00F230:
-	lda $1CE7,x
-	and #$7F
-	cmp #$0B
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$0B
 	beq CODE_00F225
-	lda #$01
+	lda.b #$01
 	jsr CODE_00F4BA
 	jmp CODE_00F510
 CODE_00F241:
-	lda $1CE7,x
-	and #$7F
-	cmp #$09
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$09
 	beq CODE_00F252
-	lda #$FF
+	lda.b #$FF
 	jsr CODE_00F4BA
 	jmp CODE_00F510
 CODE_00F252:
 	jsr CODE_00F4D6
 CODE_00F255:
-	lda D,$1E,x
-	eor #$10
-	sta D,$1E,x
+	lda.b $1E,x
+	eor.b #$10
+	sta.b $1E,x
 	jmp CODE_00F510
 CODE_00F25E:
 	rep #$20
-	lda #$F53D
-	sta $1CD3,x
+	lda.w #$F53D
+	sta.w $1CD3,x
 	sep #$20
-	lda #$00
-	sta $1CD5,x
-	lda #$4A
-	sta D,$2A,x
-	lda D,$1E,x
-	ora #$10
-	sta D,$1E,x
-	lda D,$22,x
-	and #$03
+	lda.b #$00
+	sta.w $1CD5,x
+	lda.b #$4A
+	sta.b $2A,x
+	lda.b $1E,x
+	ora.b #$10
+	sta.b $1E,x
+	lda.b $22,x
+	and.b #$03
 	clc
-	adc #$09
-	sta D,$02
-	lda $1CE7,x
-	and #$7F
-	cmp D,$02
+	adc.b #$09
+	sta.b $02
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b $02
 	bne CODE_00F28F
 	jml CODE_00F3FE
 CODE_00F28F:
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$FF
+	adc.b #$FF
 	bmi CODE_00F29A
 	clc
-	adc #$10
+	adc.b #$10
 CODE_00F29A:
-	and #$7F
-	cmp #$10
+	and.b #$7F
+	cmp.b #$10
 	bcc CODE_00F2A3
 	sec
-	sbc #$10
+	sbc.b #$10
 CODE_00F2A3:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 	rep #$20
-	lda #$F53D
-	sta $1CD3,x
+	lda.w #$F53D
+	sta.w $1CD3,x
 	sep #$20
-	lda #$00
-	sta $1CD5,x
-	lda #$4A
-	sta D,$2A,x
-	lda D,$1E,x
-	ora #$10
-	sta D,$1E,x
-	lda D,$22,x
-	and #$03
+	lda.b #$00
+	sta.w $1CD5,x
+	lda.b #$4A
+	sta.b $2A,x
+	lda.b $1E,x
+	ora.b #$10
+	sta.b $1E,x
+	lda.b $22,x
+	and.b #$03
 	clc
-	adc #$04
-	sta D,$02
-	lda $1CE7,x
-	and #$7F
-	cmp D,$02
+	adc.b #$04
+	sta.b $02
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b $02
 	bne CODE_00F2DC
 	jml CODE_00F3FE
 CODE_00F2DC:
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$FF
+	adc.b #$FF
 	bmi CODE_00F2E7
 	clc
-	adc #$10
+	adc.b #$10
 CODE_00F2E7:
-	and #$7F
-	cmp #$10
+	and.b #$7F
+	cmp.b #$10
 	bcc CODE_00F2F0
 	sec
-	sbc #$10
+	sbc.b #$10
 CODE_00F2F0:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 CODE_00F2F8:
 	jmp CODE_00F51B
 CODE_00F2FB:
 	rep #$20
-	lda $1CEA,x
-	cmp #$82ED
+	lda.w $1CEA,x
+	cmp.w #$82ED
 	sep #$20
 	bne CODE_00F30B
 	jml CODE_00F322
 CODE_00F30B:
-	lda #$4A
-	sta D,$2A,x
+	lda.b #$4A
+	sta.b $2A,x
 	rep #$20
-	lda #$889E
-	sta $1CD3,x
+	lda.w #$889E
+	sta.w $1CD3,x
 	sep #$20
-	lda #$06
-	sta $1CD5,x
+	lda.b #$06
+	sta.w $1CD5,x
 	bra CODE_00F333
 CODE_00F322:
 	rep #$20
-	lda #$F53D
-	sta $1CD3,x
+	lda.w #$F53D
+	sta.w $1CD3,x
 	sep #$20
-	lda #$00
-	sta $1CD5,x
+	lda.b #$00
+	sta.w $1CD5,x
 CODE_00F333:
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$01
+	adc.b #$01
 	bmi CODE_00F33E
 	clc
-	adc #$0F
+	adc.b #$0F
 CODE_00F33E:
-	and #$7F
-	cmp #$0F
+	and.b #$7F
+	cmp.b #$0F
 	bcc CODE_00F34F
-	lda #$0F
+	lda.b #$0F
 	dec
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 CODE_00F34F:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 CODE_00F357:
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$01
+	adc.b #$01
 	bmi CODE_00F362
 	clc
-	adc #$08
+	adc.b #$08
 CODE_00F362:
-	and #$7F
-	cmp #$0B
+	and.b #$7F
+	cmp.b #$0B
 	bcc CODE_00F373
-	lda #$0B
+	lda.b #$0B
 	dec
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 CODE_00F373:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 CODE_00F37B:
-	lda $1CE7,x
-	and #$7F
-	cmp #$00
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$00
 	bne CODE_00F388
 	jml CODE_00F51B
 CODE_00F388:
 	bpl CODE_00F3A6
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$01
+	adc.b #$01
 	bmi CODE_00F395
 	clc
-	adc #$10
+	adc.b #$10
 CODE_00F395:
-	and #$7F
-	cmp #$10
+	and.b #$7F
+	cmp.b #$10
 	bcc CODE_00F39E
 	sec
-	sbc #$10
+	sbc.b #$10
 CODE_00F39E:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 CODE_00F3A6:
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$FF
+	adc.b #$FF
 	bmi CODE_00F3B1
 	clc
-	adc #$10
+	adc.b #$10
 CODE_00F3B1:
-	and #$7F
-	cmp #$10
+	and.b #$7F
+	cmp.b #$10
 	bcc CODE_00F3BA
 	sec
-	sbc #$10
+	sbc.b #$10
 CODE_00F3BA:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 CODE_00F3C2:
-	lda $15BB
-	and #$0F
+	lda.w $15BB
+	and.b #$0F
 	beq CODE_00F3CD
 	jml CODE_00F51B
 CODE_00F3CD:
-	lda $1CE7,x
-	and #$7F
-	cmp #$0B
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$0B
 	bne CODE_00F3DA
 	jml CODE_00F51B
 CODE_00F3DA:
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$FF
+	adc.b #$FF
 	bmi CODE_00F3E5
 	clc
-	adc #$10
+	adc.b #$10
 CODE_00F3E5:
-	and #$7F
-	cmp #$10
+	and.b #$7F
+	cmp.b #$10
 	bcc CODE_00F3EE
 	sec
-	sbc #$10
+	sbc.b #$10
 CODE_00F3EE:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 CODE_00F3F6:
-	lda #$00
-	sta $1CDC,x
+	lda.b #$00
+	sta.w $1CDC,x
 	jmp CODE_00F1A1
 CODE_00F3FE:
-	lda #$01
+	lda.b #$01
 	jsl CODE_09BACE
 	jmp CODE_00F1A1
 CODE_00F407:
-	lda D,$1E,x
-	and #$EF
-	sta D,$1E,x
+	lda.b $1E,x
+	and.b #$EF
+	sta.b $1E,x
 	jmp CODE_00F3FE
 CODE_00F410:
-	lda D,$1E,x
-	and #$10
+	lda.b $1E,x
+	and.b #$10
 	beq CODE_00F41A
 	jml CODE_00F43F
 CODE_00F41A:
-	lda $1CE7,x
-	and #$7F
-	cmp #$05
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$05
 	beq CODE_00F468
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$01
+	adc.b #$01
 	bmi CODE_00F42E
 	clc
-	adc #$10
+	adc.b #$10
 CODE_00F42E:
-	and #$7F
-	cmp #$10
+	and.b #$7F
+	cmp.b #$10
 	bcc CODE_00F437
 	sec
-	sbc #$10
+	sbc.b #$10
 CODE_00F437:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 CODE_00F43F:
-	lda $1CE7,x
-	and #$7F
-	cmp #$00
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$00
 	bne CODE_00F44C
 	jml CODE_00F3F6
 CODE_00F44C:
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$FF
+	adc.b #$FF
 	bmi CODE_00F457
 	clc
-	adc #$10
+	adc.b #$10
 CODE_00F457:
-	and #$7F
-	cmp #$10
+	and.b #$7F
+	cmp.b #$10
 	bcc CODE_00F460
 	sec
-	sbc #$10
+	sbc.b #$10
 CODE_00F460:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 CODE_00F468:
-	lda D,$1E,x
-	eor #$10
-	sta D,$1E,x
+	lda.b $1E,x
+	eor.b #$10
+	sta.b $1E,x
 	jmp CODE_00F51B
 CODE_00F471:
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$01
+	adc.b #$01
 	bmi CODE_00F47C
 	clc
-	adc #$0B
+	adc.b #$0B
 CODE_00F47C:
-	and #$7F
-	cmp #$0B
+	and.b #$7F
+	cmp.b #$0B
 	bcc CODE_00F48D
-	lda #$0B
+	lda.b #$0B
 	dec
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F3FE
 CODE_00F48D:
-	ora #$80
-	sta $1CE7,x
-	lda #$4A
-	sta D,$2A,x
+	ora.b #$80
+	sta.w $1CE7,x
+	lda.b #$4A
+	sta.b $2A,x
 	jmp CODE_00F51B
 CODE_00F499:
-	lda #$4A
-	sta D,$2A,x
-	lda $1CE7,x
-	and #$7F
-	cmp #$0A
+	lda.b #$4A
+	sta.b $2A,x
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$0A
 	beq CODE_00F4B0
-	lda #$0A
-	ora #$80
-	sta $1CE7,x
+	lda.b #$0A
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 CODE_00F4B0:
-	lda #$09
-	ora #$80
-	sta $1CE7,x
+	lda.b #$09
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F51B
 CODE_00F4BA:
-	sta D,$02
-	lda $1CE7,x
+	sta.b $02
+	lda.w $1CE7,x
 	clc
-	adc D,$02
+	adc.b $02
 	bmi CODE_00F4C7
 	clc
-	adc #$10
+	adc.b #$10
 CODE_00F4C7:
-	and #$7F
-	cmp #$10
+	and.b #$7F
+	cmp.b #$10
 	bcc CODE_00F4D0
 	sec
-	sbc #$10
+	sbc.b #$10
 CODE_00F4D0:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	rts
 CODE_00F4D6:
-	lda #$97
+	lda.b #$97
 	jsl CODE_03B7F9
 	rts
 CODE_00F4DD:
-	lda D,$1E,x
-	and #$10
+	lda.b $1E,x
+	and.b #$10
 	beq CODE_00F4E7
 	jml CODE_00F4F7
 CODE_00F4E7:
-	lda $1CE7,x
-	and #$7F
-	cmp #$03
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$03
 	beq CODE_00F50A
 CODE_00F4F0:
-	lda #$01
+	lda.b #$01
 	jsr CODE_00F4BA
 	bra CODE_00F510
 CODE_00F4F7:
-	lda $1CE7,x
-	and #$7F
-	cmp #$00
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$00
 	beq CODE_00F507
-	lda #$FF
+	lda.b #$FF
 	jsr CODE_00F4BA
 	bra CODE_00F510
 CODE_00F507:
 	jsr CODE_00F4D6
 CODE_00F50A:
-	lda D,$1E,x
-	eor #$10
-	sta D,$1E,x
+	lda.b $1E,x
+	eor.b #$10
+	sta.b $1E,x
 CODE_00F510:
-	lda D,$2A,x
-	cmp #$40
+	lda.b $2A,x
+	cmp.b #$40
 	bpl CODE_00F51B
-	lda #$05
-	sta $1CDC,x
+	lda.b #$05
+	sta.w $1CDC,x
 CODE_00F51B:
-	lda $1CE7,x
-	and #$7F
-	cmp #$0D
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$0D
 	bcs CODE_00F528
 	jml CODE_00F533
 CODE_00F528:
 	rep #$20
-	lda #$BC28
-	sta D,$04,x
+	lda.w #$BC28
+	sta.b $04,x
 	sep #$20
 	bra CODE_00F53C
 CODE_00F533:
 	rep #$20
-	lda #$BC0C
-	sta D,$04,x
+	lda.w #$BC0C
+	sta.b $04,x
 	sep #$20
 CODE_00F53C:
 	rts
 CODE_00F53C:
-	lda #$24
+	lda.b #$24
 	jsl CODE_03B7F9
 	jml CODE_0689A3
 CODE_00F547:
-	lda $F0C9
+	lda.w $F0C9
 	sec
-	sbc #$05
-	sta $F0C9
+	sbc.b #$05
+	sta.w $F0C9
 	rep #$20
-	lda #$F5A2
-	sta $7E1CD0,x
+	lda.w #$F5A2
+	sta.l Object2ListRel+$06,x
 	sep #$20
-	lda #$00
-	sta $7E1CD2,x
-	ldy D,$06,x
-	lda D,$20,x
-	and #$EF
-	sta D,$20,x
+	lda.b #$00
+	sta.l Object2ListRel+$08,x
+	ldy.b $06,x
+	lda.b $20,x
+	and.b #$EF
+	sta.b $20,x
 	rep #$20
-	stx D,$3C
+	stx.b $3C
 	phy
 CODE_00F56E:
-	lda $0026,y
+	lda.w $0026,y
 	beq CODE_00F57F
-	cmp D,$3C
+	cmp.b $3C
 	beq CODE_00F57A
 	tay
 	bra CODE_00F56E
 CODE_00F57A:
-	lda D,$26,x
-	sta $0026,y
+	lda.b $26,x
+	sta.w $0026,y
 CODE_00F57F:
 	ply
 	sep #$20
-	lda #$78
-	sta D,$15,x
-	lda D,$15,x
-	sta D,$7E
-	lda D,$13,x
+	lda.b #$78
+	sta.b $15,x
+	lda.b $15,x
+	sta.b $7E
+	lda.b $13,x
 	jsl CODE_1FC177
 	rep #$20
-	lda D,$02
-	sta D,$2F,x
-	lda D,$90
-	sta D,$33,x
+	lda.b $02
+	sta.b $2F,x
+	lda.b $90
+	sta.b $33,x
 	sep #$20
 CODE_00F59C:
-	lda D,$1E,x
-	ora #$01
-	sta D,$1E,x
+	lda.b $1E,x
+	ora.b #$01
+	sta.b $1E,x
 	jsl ApplyObjectVelocity
-	lda D,$13,x
+	lda.b $13,x
 	clc
-	adc #$10
-	sta D,$13,x
+	adc.b #$10
+	sta.b $13,x
 	rep #$20
-	lda D,$31,x
+	lda.b $31,x
 	clc
-	adc #$04
-	sta D,$31,x
+	adc.b #$04
+	sta.b $31,x
 	sep #$20
 	rep #$20
-	lda D,$0E,x
-	cmp #$FFEC
+	lda.b $0E,x
+	cmp.w #$FFEC
 	sep #$20
 	bpl CODE_00F5C8
 	jml CODE_00F613
 CODE_00F5C8:
 	rep #$20
-	lda #$FFEC
-	sta D,$0E,x
+	lda.w #$FFEC
+	sta.b $0E,x
 	sep #$20
 	rep #$20
-	lda D,$31,x
-	eor #$FFFF
+	lda.b $31,x
+	eor.w #$FFFF
 	inc
-	cmp #$8000
+	cmp.w #$8000
 	ror
 	bpl CODE_00F5E2
-	adc #$0000
+	adc.w #$0000
 CODE_00F5E2:
-	cmp #$8000
+	cmp.w #$8000
 	ror
 	bpl CODE_00F5EB
-	adc #$0000
+	adc.w #$0000
 CODE_00F5EB:
-	cmp #$8000
+	cmp.w #$8000
 	ror
 	bpl CODE_00F5F4
-	adc #$0000
+	adc.w #$0000
 CODE_00F5F4:
-	cmp #$8000
+	cmp.w #$8000
 	ror
 	bpl CODE_00F5FD
-	adc #$0000
+	adc.w #$0000
 CODE_00F5FD:
-	cmp #$FFFB
+	cmp.w #$FFFB
 	bcc CODE_00F605
-	lda #$0000
+	lda.w #$0000
 CODE_00F605:
-	sta D,$31,x
+	sta.b $31,x
 	sep #$20
-	cmp #$00
+	cmp.b #$00
 	sep #$20
 	bne CODE_00F613
 	jml CODE_06F45F
 CODE_00F613:
 	rtl
 CODE_00F614:
-	lda D,$1D,x
-	ora #$08
-	sta D,$1D,x
+	lda.b $1D,x
+	ora.b #$08
+	sta.b $1D,x
 	rep #$20
-	lda #$F639
-	sta D,$16,x
+	lda.w #$F639
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
+	lda.b #$00
+	sta.b $18,x
 	jsl CODE_1FD41A
-	lda #$FF
-	sta D,$2A,x
-	lda #$08
-	sta D,$2B,x
-	lda D,$1F,x
-	ora #$20
-	sta D,$2F,x
-	lda $1CF0,x
+	lda.b #$FF
+	sta.b $2A,x
+	lda.b #$08
+	sta.b $2B,x
+	lda.b $1F,x
+	ora.b #$20
+	sta.b $2F,x
+	lda.w $1CF0,x
 	clc
-	adc #$05
-	sta $1CF0,x
-	lda D,$13,x
-	cmp #$F0
+	adc.b #$05
+	sta.w $1CF0,x
+	lda.b $13,x
+	cmp.b #$F0
 	bcs CODE_00F64E
-	lda D,$13,x
-	cmp #$10
+	lda.b $13,x
+	cmp.b #$10
 	bcs CODE_00F69D
 CODE_00F64E:
-	lda $15BB
-	and #$0F
+	lda.w $15BB
+	and.b #$0F
 	beq CODE_00F659
 	jml CODE_00F69D
 CODE_00F659:
-	lda #$00
-	sta $1545
-	lda #$CE
-	sta $1547
-	lda #$00
-	sta $1549
-	lda #$00
-	sta $154C
-	lda #$80
-	sta $154B
-	stz $154D
-	stz $154E
-	lda #$26
+	lda.b #$00
+	sta.w $1545
+	lda.b #$CE
+	sta.w $1547
+	lda.b #$00
+	sta.w $1549
+	lda.b #$00
+	sta.w $154C
+	lda.b #$80
+	sta.w $154B
+	stz.w $154D
+	stz.w $154E
+	lda.b #$26
 	jsl CODE_1FD146
-	cpy #$0000
+	cpy.w #$0000
 	bneCODE_00F686
-	ldy $156B
+	ldy.w $156B
 CODE_00F686:
 	rep #$20
-	lda $1238
-	sta $0006,y
+	lda.w $1238
+	sta.w $0006,y
 	sep #$20
-	lda #$FF
-	sta $000A,y
-	lda $002E,y
-	ora #$10
-	sta $002E,y
+	lda.b #$FF
+	sta.w $000A,y
+	lda.w $002E,y
+	ora.b #$10
+	sta.w $002E,y
 CODE_00F69D:
 	rts
 CODE_00F69E:
-	lda #$00
-	ora #$80
-	sta $1CE7,x
-	lda #$FF
-	sta D,$2A,x
-	lda #$08
-	sta D,$2B,x
-	lda D,$1E,x
-	ora #$01
-	sta D,$1E,x
+	lda.b #$00
+	ora.b #$80
+	sta.w $1CE7,x
+	lda.b #$FF
+	sta.b $2A,x
+	lda.b #$08
+	sta.b $2B,x
+	lda.b $1E,x
+	ora.b #$01
+	sta.b $1E,x
 	rep #$20
-	lda #$F6C4
-	sta D,$16,x
+	lda.w #$F6C4
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
-	lda #$32
-	sta D,$23,x
-	lda D,$1E,x
-	and #$10
+	lda.b #$00
+	sta.b $18,x
+	lda.b #$32
+	sta.b $23,x
+	lda.b $1E,x
+	and.b #$10
 	bne CODE_00F6CE
 	jml CODE_00F6F7
 CODE_00F6CE:
-	lda $1CE7,x
-	and #$7F
-	cmp #$00
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$00
 	bne CODE_00F6DB
 	jml CODE_00F76E
 CODE_00F6DB:
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$FF
+	adc.b #$FF
 	bmi CODE_00F6E6
 	clc
-	adc #$10
+	adc.b #$10
 CODE_00F6E6:
-	and #$7F
-	cmp #$10
+	and.b #$7F
+	cmp.b #$10
 	bcc CODE_00F6EF
 	sec
-	sbc #$10
+	sbc.b #$10
 CODE_00F6EF:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F73A
 CODE_00F6F7:
-	lda D,$23,x
-	cmp #$14
+	lda.b $23,x
+	cmp.b #$14
 	beq CODE_00F703
-	lda D,$23,x
-	cmp #$01
+	lda.b $23,x
+	cmp.b #$01
 	bne CODE_00F706
 CODE_00F703:
 	jsr CODE_00F773
 CODE_00F706:
-	lda D,$23,x
+	lda.b $23,x
 	bne CODE_00F70E
 	jml CODE_00F74B
 CODE_00F70E:
-	dec D,$23,x
-	lda $1CE7,x
+	dec.b $23,x
+	lda.w $1CE7,x
 	clc
-	adc #$01
+	adc.b #$01
 	bmi CODE_00F71B
 	clc
-	adc #$0A
+	adc.b #$0A
 CODE_00F71B:
-	and #$7F
-	cmp #$0A
+	and.b #$7F
+	cmp.b #$0A
 	bcc CODE_00F72C
-	lda #$0A
+	lda.b #$0A
 	dec
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F731
 CODE_00F72C:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 CODE_00F731:
-	lda $1CF5,x
+	lda.w $1CF5,x
 	clc
-	adc #$FB
-	sta $1CF5,x
+	adc.b #$FB
+	sta.w $1CF5,x
 CODE_00F73A:
 	jsl CODE_1FDC69
-	lda #$00
-	sta D,$12,x
-	lda #$00
-	sta D,$13,x
-	lda #$00
-	sta D,$14,x
+	lda.b #$00
+	sta.b $12,x
+	lda.b #$00
+	sta.b $13,x
+	lda.b #$00
+	sta.b $14,x
 	rtl
 CODE_00F74B:
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$01
+	adc.b #$01
 	bmi CODE_00F756
 	clc
-	adc #$14
+	adc.b #$14
 CODE_00F756:
-	and #$7F
-	cmp #$14
+	and.b #$7F
+	cmp.b #$14
 	bcc CODE_00F767
-	lda #$14
+	lda.b #$14
 	dec
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp CODE_00F76E
 CODE_00F767:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	bra CODE_00F731
 CODE_00F76E:
 	jsl CODE_1FD501
 	rtl
 CODE_00F773:
 	rep #$20
-	lda #$AD9D
-	sta $14C5
+	lda.w #$AD9D
+	sta.w $14C5
 	sep #$20
 	jsl CODE_1FD54B
 	bcs CODE_00F787
@@ -3472,81 +3483,81 @@ CODE_00F773:
 CODE_00F787:
 	jsl CopyPositionIndXToIndY
 	rep #$20
-	lda #$0000
-	sta $000E,y
+	lda.w #$0000
+	sta.w $000E,y
 	sep #$20
 	rep #$20
-	lda #$F7D9
-	sta $0016,y
+	lda.w #$F7D9
+	sta.w $0016,y
 	sep #$20
-	lda #$00
-	sta $0018,y
-	lda $002E,y
-	ora #$10
-	sta $002E,y
-	lda #$99
+	lda.b #$00
+	sta.w $0018,y
+	lda.w $002E,y
+	ora.b #$10
+	sta.w $002E,y
+	lda.b #$99
 	jsl CODE_03B7F9
 	phx
 	tyx
-	ldy $1238
-	stz $1532
+	ldy.w $1238
+	stz.w $1532
 	jsl CODE_1FD03E
 	sep #$20
 	xba
-	cmp D,$12,x
+	cmp.b $12,x
 	beq CODE_00F7C5
 CODE_00F7C5:
-	sta D,$12,x
+	sta.b $12,x
 	jsl CODE_1FD021
 	sep #$20
 	xba
-	eor #$FF
+	eor.b #$FF
 	inc
-	cmp D,$13,x
+	cmp.b $13,x
 	beq CODE_00F7D5
 CODE_00F7D5:
-	sta D,$13,x
+	sta.b $13,x
 	plx
 CODE_00F7D8:
 	rts
 CODE_00F7D9:
 	rep #$20
-	lda #$F828
-	sta D,$16,x
+	lda.w #$F828
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
+	lda.b #$00
+	sta.b $18,x
 	jsl CODE_1FD41A
-	lda D,$1F,x
-	ora #$20
-	sta D,$1F,x
-	lda #$FF
-	sta D,$2A,x
-	lda #$08
-	sta D,$2B,x
+	lda.b $1F,x
+	ora.b #$20
+	sta.b $1F,x
+	lda.b #$FF
+	sta.b $2A,x
+	lda.b #$08
+	sta.b $2B,x
 	rep #$20
-	lda #$8574
-	sta $1CEA,x
+	lda.w #$8574
+	sta.w $1CEA,x
 	sep #$20
-	lda D,$1D,x
-	ora #$20
-	sta D,$1D,x
-	lda #$00
-	sta $1CDF,x
-	lda #$00
-	sta $1CF4,x
-	lda #$78
-	sta D,$15,x
-	lda D,$15,x
-	sta D,$7E
-	lda D,$13,x
-	sta $15A7
-	lda D,$12,x
-	sta $15A6
+	lda.b $1D,x
+	ora.b #$20
+	sta.b $1D,x
+	lda.b #$00
+	sta.w $1CDF,x
+	lda.b #$00
+	sta.w $1CF4,x
+	lda.b #$78
+	sta.b $15,x
+	lda.b $15,x
+	sta.b $7E
+	lda.b $13,x
+	sta.w $15A7
+	lda.b $12,x
+	sta.w $15A6
 	jsl CODE_1FD5A7
 	rep #$20
-	lda #$AD9D
-	sta $14C5
+	lda.w #$AD9D
+	sta.w $14C5
 	sep #$20
 	jsl CODE_1FC54B
 	bcs
@@ -3554,37 +3565,37 @@ CODE_00F7D9:
 CODE_00F83C:
 	jsl CopyPositionIndXToIndY
 	rep #$20
-	lda #$F860
-	sta $0016,y
+	lda.w #$F860
+	sta.w $0016,y
 	sep #$20
-	lda #$00
-	sta $0018,y
-	lda $001E,y
-	ora #$01
-	sta $001E,y
+	lda.b #$00
+	sta.w $0018,y
+	lda.w $001E,y
+	ora.b #$01
+	sta.w $001E,y
 CODE_00F857:
 	jsl ApplyObjectVelocity
 	jsl CODE_1FDC69
 	rtl
 CODE_00F860:
-	lda D,$2E,x
-	ora #$10
-	sta D,$2E,x
+	lda.b $2E,x
+	ora.b #$10
+	sta.b $2E,x
 	rep #$20
-	lda #$8574
-	sta $1CEA,x
+	lda.w #$8574
+	sta.w $1CEA,x
 	sep #$20
-	lda D,$1D,x
-	ora #$20
-	sta D,$1D,x
-	lda #$01
-	sta $1CDF,x
-	lda #$00
-	sta $1CF4,x
-	lda D,$22,x
-	cmp #$0A
+	lda.b $1D,x
+	ora.b #$20
+	sta.b $1D,x
+	lda.b #$01
+	sta.w $1CDF,x
+	lda.b #$00
+	sta.w $1CF4,x
+	lda.b $22,x
+	cmp.b #$0A
 	beq CODE_00F88D
-	inc D,$22,x
+	inc.b $22,x
 	jsl CODE_1FDC69
 	rtl
 CODE_00F88D:
@@ -3592,8 +3603,8 @@ CODE_00F88D:
 	rtl
 CODE_00F892:
 	rep #$20
-	lda #$AD81
-	sta $14C5
+	lda.w #$AD81
+	sta.w $14C5
 	sep #$20
 	jsl CODE_1FD54B
 CODE_00F8A6:
@@ -3603,85 +3614,85 @@ CODE_00F8AC:
 	jsl CopyRotationIndXToIndY
 	jsl CopyPositionIndXToIndY
 	rep #$20
-	lda #$EFC6
-	sta $0016,y
+	lda.w #$EFC6
+	sta.w $0016,y
 	sep #$20
-	lda #$09
-	sta $0018,y
-	lda $002E,y
-	ora #$10
-	sta $002E,y
+	lda.b #$09
+	sta.w $0018,y
+	lda.w $002E,y
+	ora.b #$10
+	sta.w $002E,y
 	phx
 	tyx
-	ldy $1238
-	stz $1532
+	ldy.w $1238
+	stz.w $1532
 	jsl CODE_1FD03E
 	sep #$20
 	xba
-	cmp D,$12,x
+	cmp.b $12,x
 	beq CODE_00F8DE
 CODE_00F8DE:
-	sta D,$12,x
+	sta.b $12,x
 	jsl CODE_1FD021
 	sep #$20
 	xba
-	eor #$FF
+	eor.b #$FF
 	inc
-	cmp D,$13,x
+	cmp.b $13,x
 	beq CODE_00F8EE
 CODE_00F8EE:
-	sta D,$13,x
+	sta.b $13,x
 	txy
 	plx
 	jsl CODE_02FC58
-	and #$0F
-	sta D,$02
+	and.b #$0F
+	sta.b $02
 	jsl CODE_02FC58
-	and #$3F
-	sta D,$08
+	and.b #$3F
+	sta.b $08
 	sec
-	sbc #$20
-	sta D,$08
-	lda $0012,y
+	sbc.b #$20
+	sta.b $08
+	lda.w $0012,y
 	clc
-	adc D,$02
-	sta $0012,y
-	lda $0012,y
+	adc.b $02
+	sta.w $0012,y
+	lda.w $0012,y
 	clc
-	adc #$F8
-	sta $0012,y
-	lda $0013,y
+	adc.b #$F8
+	sta.w $0012,y
+	lda.w $0013,y
 	clc
-	adc D,$08
-	sta $0013,y
-	lda $001E,y
-	ora #$10
-	sta $001E,y
-	lda #$49
+	adc.b $08
+	sta.w $0013,y
+	lda.w $001E,y
+	ora.b #$10
+	sta.w $001E,y
+	lda.b #$49
 	jsl CODE_03B7F9
 CODE_00F932:
 	rts
 CODE_00F933:
-	lda D,$1D,x
-	ora #$20
-	sta D,$1D,x
-	lda #$08
-	sta $1CDF,x
-	lda #$00
-	sta $1CF4,x
+	lda.b $1D,x
+	ora.b #$20
+	sta.b $1D,x
+	lda.b #$08
+	sta.w $1CDF,x
+	lda.b #$00
+	sta.w $1CF4,x
 	rep #$20
-	lda #$F95C
-	sta D,$16,x
+	lda.w #$F95C
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
+	lda.b #$00
+	sta.b $18,x
 	jsl CODE_1FD41A
-	lda #$06
-	sta D,$2A,x
-	lda #$10
-	sta D,$2B,x
+	lda.b #$06
+	sta.b $2A,x
+	lda.b #$10
+	sta.b $2B,x
 	rep #$20
-	lda #$03E8
+	lda.w #$03E8
 	jsl CODE_0398A7
 	bcc CODE_00F96B
 	jml CODE_00F96C
@@ -3689,11 +3700,11 @@ CODE_00F96B:
 	rtl
 CODE_00F96C:
 	rep #$20
-	lda #$F979
-	sta D,$16,x
+	lda.w #$F979
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
+	lda.b #$00
+	sta.b $18,x
 	jsr CODE_00F892
 	jsr CODE_00F892
 	jsr CODE_00F892
@@ -3703,270 +3714,271 @@ CODE_00F96C:
 	jsr CODE_00F892
 	jsr CODE_00F892
 	jsr CODE_00F892
-	lda D,$1E,x
-	ora #$01
-	sta D,$1E,x
-	lda #$00
-	sta D,$2A,x
+	lda.b $1E,x
+	ora.b #$01
+	sta.b $1E,x
+	lda.b #$00
+	sta.b $2A,x
 	rtl
 
 ;BEHAVIOR FUNCTION ID $E5
 BehE5_BigBlueArchway:
 	rep #$20
-	lda #$F9C5
-	sta D,$16,x
+	lda.w #BehE5_BigBlueArchwayLoop
+	sta.b $16,x
 	sep #$20
-	lda #$00
-	sta D,$18,x
+	lda.b #BANKOF(BehE5_BigBlueArchwayLoop)
+	sta.b $18,x
 	jsl CODE_1FD41A
-	lda #$FF
-	sta D,$2A,x
-	lda #$08
-	sta D,$2B,x
-	lda D,$1F,x
-	ora #$20
-	sta D,$1F,x
-	lda #$00
-	ora #$80
-	sta $1CE7,x
-	lda D,$1E,x
-	and #$10
+	lda.b #$FF
+	sta.b $2A,x
+	lda.b #$08
+	sta.b $2B,x
+	lda.b $1F,x
+	ora.b #$20
+	sta.b $1F,x
+	lda.b #$00
+	ora.b #$80
+	sta.w $1CE7,x
+BehE5_BigBlueArchwayLoop:
+	lda.b $1E,x
+	and.b #$10
 	beq BehE5_L1
 	jml BehE5_L8
 BehE5_L1:
-	lda D,$1E,x
-	and #$EF
-	sta D,$1E,x
-	lda $1CE7,x
-	and #$7F
-	cmp #$00
+	lda.b $1E,x
+	and.b #$EF
+	sta.b $1E,x
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$00
 	beq BehE5_L2
 	jml BehE5_L3
 BehE5_L2:
 	jsl CODE_03B731
 BehE5_L3:
-	lda $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$01
+	adc.b #$01
 	bmi BehE5_L4
 	clc
-	adc #$08
+	adc.b #$08
 BehE5_L4:
-	and #$7F
-	cmp #$08
+	and.b #$7F
+	cmp.b #$08
 	bcc BehE5_L5
-	lda #$08
+	lda.b #$08
 	dec
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	jmp BehE5_L6
 BehE5_L5:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	rtl
 BehE5_L6:
-	inc D,$22,x
-	lda D,$22,x
-	cmp #$0A
+	inc.b $22,x
+	lda.b $22,x
+	cmp.b #$0A
 	bne BehE5_L7
-	lda #$00
-	sta D,$22,x
-	lda D,$1E,x
-	ora #$10
-	sta D,$1E,x
+	lda.b #$00
+	sta.b $22,x
+	lda.b $1E,x
+	ora.b #$10
+	sta.b $1E,x
 BehE5_L7:
 	rtl
 BehE5_L8:
-	lda $1CE7,x
-	and #$7F
-	cmp #$00
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$00
 	bne BehE5_L9
 	jml BehE5_L14
 BehE5_L9:
-	lda $1CE7,x
-	and #$7F
-	cmp #$07
+	lda.w $1CE7,x
+	and.b #$7F
+	cmp.b #$07
 	beq BehE5_L10
 	jml BehE5_L11
 BehE5_L10:
 	jsl CODE_03B719
 BehE5_L11:
-	LDA $1CE7,x
+	lda.w $1CE7,x
 	clc
-	adc #$FF
+	adc.b #$FF
 	bmi BehE5_L12
 	clc
-	adc #$08
+	adc.b #$08
 BehE5_L12:
-	and #$7F
-	cmp #$08
+	and.b #$7F
+	cmp.b #$08
 	bcc BehE5_L13
 	sec
-	sbc #$08
+	sbc.b #$08
 BehE5_L13:
-	ora #$80
-	sta $1CE7,x
+	ora.b #$80
+	sta.w $1CE7,x
 	rtl
 BehE5_L14:
-	inc D,$22,x
-	lda D,$22,x
-	cmp #$0A
+	inc.b $22,x
+	lda.b $22,x
+	cmp.b #$0A
 	bne BehE5_L7
-	lda #$00
-	sta D,$22,x
+	lda.b #$00
+	sta.b $22,x
 	brl BehE5_L1
 ;BEHAVIOR FUNCTION ID $E9
 BehE9_BigAsteroid:
 	rep #$20				;\Set object behavior routine pointer to $00FAA4
 	lda.w #BehE9_BigAsteroid_Loop		;|
-	sta D,$16,x				;|
+	sta.b $16,x				;|
 	sep #$20				;|
 	lda.b #BANKOF(BehE9_BigAsteroid_Loop)	;|
-	sta D,$18,x				;/
+	sta.b $18,x				;/
 	jsl CODE_1FD41A
-	lda D,$1F,x
-	ora #$20
-	sta D,$1F,x
-	lda #$FF				;\Set HP (indestructible)
-	sta D,$2A,x				;/
-	lda #$0C				;\Set power (damage to player upon impact)
-	sta D,$2B,x				;/
-	lda $18C8				;\Calculate Y rotation
-	eor #$FF				;|
+	lda.b $1F,x
+	ora.b #$20
+	sta.b $1F,x
+	lda.b #$FF				;\Set HP (indestructible)
+	sta.b $2A,x				;/
+	lda.b #$0C				;\Set power (damage to player upon impact)
+	sta.b $2B,x				;/
+	lda.w $18C8				;\Calculate Y rotation
+	eor.b #$FF				;|
 	inc					;|
 	clc					;|
-	adc #$80				;|
+	adc.b #$80				;|
 	clc					;|
-	adc $152B				;|
-	sta D,$13,x				;/
-	lda $18C6				;\Set X rotation
-	sta D,$12,x				;/
+	adc.w $152B				;|
+	sta.b $13,x				;/
+	lda.w $18C6				;\Set X rotation
+	sta.b $12,x				;/
 	jsl CODE_02FC58
-	and #$0F
-	sta D,$22,x
-	lda D,$22,x
+	and.b #$0F
+	sta.b $22,x
+	lda.b $22,x
 	sec
-	sbc #$08
-	sta D,$22,x
+	sbc.b #$08
+	sta.b $22,x
 BehE9_BigAsteroid_Loop:
 	rtl
 ;BEHAVIOR FUNCTION ID $EA
 BehEA_ShootableAsteroid:
 	rep #$20
-	lda #$459F
-	sta D,$28,x
+	lda.w #$459F
+	sta.b $28,x
 	sep #$20
-	lda #$02				;\Set HP
-	sta D,$2A,x				;/
-	lda #$0C				;\Set power (damage to player upon impact)
-	sta D,$2B,x				;/
+	lda.b #$02				;\Set HP
+	sta.b $2A,x				;/
+	lda.b #$0C				;\Set power (damage to player upon impact)
+	sta.b $2B,x				;/
 	jml Beh9C
 ;BEHAVIOR FUNCTION ID $ED
 BehED_ShootableAsteroid:
 	rep #$20
-	lda #$459B
-	sta D,$28,x
-	sep #$20
-	lda #$02				;\Set HP
-	sta D,$2A,x				;/
-	lda #$0C				;\Set power (damage to player upon impact)
-	sta D,$2B,x				;/
+	lda.w #$459B
+	sta.b $28,x
+	sep.b #$20
+	lda.b #$02				;\Set HP
+	sta.b $2A,x				;/
+	lda.b #$0C				;\Set power (damage to player upon impact)
+	sta.b $2B,x				;/
 	jml Beh9C
 
 CODE_00FACF:
-	lda D,$1E,x
-	ora #$01
-	sta D,$1E,x
+	lda.b $1E,x
+	ora.b #$01
+	sta.b $1E,x
 	rtl
 CODE_00FAD6:
-	lda D,$2E,x
-	ora #$10
-	sta D,$2E,x
+	lda.b $2E,x
+	ora.b #$10
+	sta.b $2E,x
 	rep #$20			;\Set object behavior routine pointer to $00FB03
 	lda.w #CODE_00FB03		;|
-	sta D,$16,x			;|
+	sta.b $16,x			;|
 	sep #$20			;|
 	lda.b #BANKOF(CODE_00FB03)	;|
-	sta D,$18,x			;/
+	sta.b $18,x			;/
 	jsl CODE_1FD41A
-	lda D,$13,x
+	lda.b $13,x
 	clc
-	adc #$80
-	sta D,$13,x
-	lda #$04
-	sta D,$2A,x
-	lda #$08
-	sta D,$2B,x
-	lda #$00
-	ora #$80
-	sta $1CE7,x
+	adc.b #$80
+	sta.b $13,x
+	lda.b #$04
+	sta.b $2A,x
+	lda.b #$08
+	sta.b $2B,x
+	lda.b #$00
+	ora.b #$80
+	sta.w $1CE7,x
 CODE_00FB03:
-	lda D,$1E,x
+	lda.b $1E,x
 	and #$20
 	beq CODE_00FB0D
 	jml CODE_00FC69
 CODE_00FB0D:
-	lda $15BB
-	and #$01
+	lda.w $15BB
+	and.b #$01
 	beq CODE_00FB18
 	jml CODE_00FB2F
 CODE_00FB18:
 	jsl CODE_068C1A
-	cpy #$0000
+	cpy.w #$0000
 	bne CODE_00FB25
 	jml CODE_00FB2F
 CODE_00FB25:
 	rep #$20
-	lda #$0000
-	sta $000E,y
+	lda.w #$0000
+	sta.w $000E,y
 	sep #$20
 CODE_00FB2F:
 	rep #$20
-	lda D,$0E,x
-	cmp #$0000
+	lda.b $0E,x
+	cmp.w #$0000
 	sep #$20
 	bmi CODE_00FB3E
 	jml CODE_00FB65
 CODE_00FB3E:
 	rep #$20
-	lda D,$31,x		;\Increase object Y velocity by 2
+	lda.b $31,x		;\Increase object Y velocity by 2
 	clc			;|
-	adc #$0002		;|
-	sta D,$31,x		;/
+	adc.w #$0002		;|
+	sta.b $31,x		;/
 	sep #$20
 	rep #$20
-	lda D,$0E,x		;\Apply object Y velocity to object Y position
+	lda.b $0E,x		;\Apply object Y velocity to object Y position
 	clc			;|
-	adc D,$31,x		;|
-	sta D,$0E,x		;/
+	adc.b $31,x		;|
+	sta.b $0E,x		;/
 	sep #$20
 	bpl CODE_00FB5C
 	jml CODE_00FB65
 CODE_00FB5C:
 	rep #$20
-	lda #$0000		;\Set object Y position to 0
-	sta D,$0E,x		;/
+	lda.w #$0000		;\Set object Y position to 0
+	sta.b $0E,x		;/
 	sep #$20
 CODE_00FB65:
-	jsl MoveObjectAlongRails
-	lda D,$1E,x
-	and #$40
+	jsl OffsetObjectZPosition
+	lda.b $1E,x
+	and.b #$40
 	beq CODE_00FB73
 	jml CODE_00FB9D
 CODE_00FB73:
 	rep #$20
-	lda D,$0C,x
-	sta D,$3A
-	lda #$FF38
+	lda.b $0C,x
+	sta.b $3A
+	lda.w #$FF38
 	jsl CODE_1FD6AB
-	sta D,$0C,x
+	sta.b $0C,x
 	sep #$20
 	bcc CODE_00FB8A
 	jml CODE_00FBC6
 CODE_00FB8A:
 	rep #$20
-	lda D,$0C,x
-	cmp #$FF6A
+	lda.b $0C,x
+	cmp.w #$FF6A
 	sep #$20
 	bpl CODE_00FB99
 	jml CODE_00FBC6
@@ -3974,113 +3986,118 @@ CODE_00FB99:
 	jml CODE_00FB69
 CODE_00FB9D:
 	rep #$20
-	lda D,$0C,x
-	sta D,$3A
-	lda #$00C8
+	lda.b $0C,x
+	sta.b $3A
+	lda.w #$00C8
 	jsl CODE_1FD6AB
-	sta D,$0C,x
+	sta.b $0C,x
 	sep #$20
 	bcc CODE_00FBB4
 	jml CODE_00FBC6
 CODE_00FBB4:
 	rep #$20
-	lda D,$0C,x
-	cmp #$0096
+	lda.b $0C,x
+	cmp.w #$0096
 	sep #$20
 	bmi CODE_00FBC3
 	jml CODE_00FBC6
 CODE_00FBC3:
 	jmp CODE_00FC69
 CODE_00FBC6:
-	ldy $1238
+	ldy.w $1238
 	jsl CODE_1FD021
 	sep #$20
 	xba
-	eor #$FF
+	eor.b #$FF
 	inc
-	cmp D,$13,x
+	cmp.b $13,x
 	beq CODE_00FBD7
 CODE_00FBD7:
-	sta D,$13,x
+	sta.b $13,x
 	lda #$00
 	sta $1CE7,x
 	rep #$20			;\Set object behavior routine pointer to $00FC29
 	lda.w #CODE_00FC29		;|
-	sta D,$16,x			;|
+	sta.b $16,x			;|
 	sep #$20			;|
 	lda.b #BANKOF(CODE_00FC29)	;|
-	sta D,$18,x			;/
-	lda #$46
-	sta D,$15,x
-	lda D,$15,x
-	sta D,$7E
-	lda D,$13,x
+	sta.b $18,x			;/
+	lda.b #$46
+	sta.b $15,x
+	lda.b $15,x
+	sta.b $7E
+	lda.b $13,x
 	jsl CODE_1FC177
 	rep #$20
-	lda D,$02
-	sta D,$2F,x
-	lda D,$90
-	sta D,$33,x
+	lda.b $02
+	sta.b $2F,x
+	lda.b $90
+	sta.b $33,x
 	sep #$20
 	rep #$20
-	lda #$FFF1
-	sta D,$31,x
+	lda.w #$FFF1
+	sta.b $31,x
 	sep #$20
 	jsl CODE_068C31
-	cpy #$0000
+	cpy.w #$0000
 	bne CODE_00FC1B
 	jml CODE_00FC25
 CODE_00FC1B:
 	rep #$20
-	lda #$0000
-	sta $000E,y
+	lda.w #$0000
+	sta.w $000E,y
 	sep #$20
 CODE_00FC25:
 	jsl CODE_03B749
 CODE_00FC29:
 	rep #$20
-	lda D,$31,x
+	lda.b $31,x
 	clc
-	adc #$0002
-	sta D,$31,x
+	adc.w #$0002
+	sta.b $31,x
 	sep #$20
 	jsl ApplyObjectVelocity
-	jsl MoveObjectAlongRails
+	jsl OffsetObjectZPosition
 	rep #$20
-	lda D,$0E,x
-	cmp #$0000
+	lda.b $0E,x
+	cmp.w #$0000
 	sep #$20
 	bpl CODE_00FC4C
 	jml CODE_00FC69
 CODE_00FC4C:
 	jsl CODE_068C31
-	cpy #$0000
+	cpy.w #$0000
 	bne CODE_00FC59
 	jml CODE_00FC63
 CODE_00FC59:
 	rep #$20
-	lda #$0000
-	sta $000E,y
+	lda.w #$0000
+	sta.w $000E,y
 	sep #$20
 CODE_00FC63:
-	lda D,$1E,x
-	ora #$20
-	sta D,$1E,x
+	lda.b $1E,x
+	ora.b #$20
+	sta.b $1E,x
 CODE_00FC69:
 	rtl
-;unknown data
-DATA_00FC6A:
-	DB $A9,$00,$48,$AB
-	;Compressed tilemap
+
+UnusedBank00SetBRegBank00:
+	lda.b #$00					;\Set data bank to $00
+	pha						;|(not called, probably was for Nintendo's assembler)
+	plb						;/
+
+;Compressed tilemap
 	INCBIN "graphics/compressed/gameover.mapz"
+
+;Reset and interrupt routines
 Reset_L1:
-	clc
-	xce
-	jml DoReset		;Do actual reset at $1FBDB1
+	clc						;\Disable emulation mode
+	xce						;/
+	jml DoReset					; Jump to do more reset initialization stuff
 Reset:
-	bra Reset_L1
-GeneralInterrupt:
-	rti
+	bra Reset_L1					; Branch to do reset stuff
+GeneralInterrupt:					;\If interrupt occurs, exit immediately
+	rti						;/
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;INTERNAL SNES HEADER;

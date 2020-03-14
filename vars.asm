@@ -30,32 +30,20 @@ endmacro
 ;;;;;;;;;;;;;;;;;;
 ;VARS AND STRUCTS;
 ;;;;;;;;;;;;;;;;;;
-;Matrix structure
-;struct Matrix
-;	.XX: skip 2
-;	.XY: skip 2
-;	.XZ: skip 2
-;	.YX: skip 2
-;	.YY: skip 2
-;	.YZ: skip 2
-;	.ZX: skip 2
-;	.ZY: skip 2
-;	.ZZ: skip 2
-;endstruct
-
 ;Zero Page ($00)
 CurNMITask		= $00	;byte
 TempPtr			= $02	;long
 TempVecX		= $02	;word
+TempVecXB		= $04	;word
 TempVecY		= $08	;word
-			= $0A	;word
+TempVecYB		= $0A	;word
 			= $0C	;word
 BG1HOFSMirror		= $10	;word
 BG1VOFSMirror		= $12	;word
 			= $14	;word
 			= $16	;word
-BG1HOFSScrollSpeed	= $18	;word
-BG1VOFSScrollSpeed	= $1A	;word
+BG1HorizScrollSpeed	= $18	;word
+BG1VertScrollSpeed	= $1A	;word
 			= $1C	;word
 			= $1E	;word
 			= $20	;word
@@ -82,19 +70,19 @@ TempJptPtr		= $53	;long
 			= $56	;byte
 TempScrBWPtr		= $5D	;long
 TempDbgFontCtr		= $60	;byte
-			= $63	;word
-			= $65	;byte
-			= $66	;word
-			= $68	;word
+TempMultiplicand	= $63	;word
+TempMultiplier		= $65	;byte
+TempProduct		= $66	;word
+TempZero		= $68	;word
 			= $6C	;word
 			= $6E	;word
-			= $72	;word
-			= $74	;word
+CrosshairX		= $72	;word
+CrosshairY		= $74	;word
 TempRegX		= $76	;word
 TempRegY		= $78	;word
 TempSin			= $7A	;byte
 TempCos			= $7B	;byte
-			= $7E	;byte
+TempRotZ		= $7E	;byte
 TempSinB		= $82	;byte
 TempCosB		= $83	;byte
 			= $84	;word
@@ -132,7 +120,7 @@ TempLdAudPtr		= $FA	;long
 ;This is an open doubly linked list,
 ;where each entry points to the previous/next one.
 ;Space is available for 70 objects.
-struct ObjectList $0336
+struct ObjectList	  $0336
 	.NextObj: skip 2	;00
 	.PrevObj: skip 2	;02
 	.ID: skip 2		;04
@@ -154,14 +142,14 @@ struct ObjectList $0336
 	.Flags1D: skip 1	;1D
 	.Flags1E: skip 1	;1E
 	.Flags1F: skip 1	;1F
-	.Unk20: skip 1
+	.Flags20: skip 1
 	.Unk21: skip 1
-	.Unk22: skip 1
+	.ChildIdx: skip 1	;22
 	.Unk23: skip 1
 	.Unk24: skip 1
 	.Unk25: skip 1
-	.Unk26: skip 2
-	.Event: skip 2		;28
+	.WParam26: skip 2	;26
+	.WParam28: skip 2	;28
 	.HP: skip 1		;2A
 	.Power: skip 1		;2B
 	.Unk2C: skip 1
@@ -173,10 +161,33 @@ struct ObjectList $0336
 	.Unk35: skip 1
 endstruct
 ;Flags
-FLAGS08_INIT		= $10
-FLAGS09_INIT		= $08
-FLAGS1F_INIT		= $08
-FLAGS2E_INIT		= $04
+FLAGS08_UNK10		= $10
+FLAGS08_UNK08		= $08
+FLAGS08_UNK04		= $04
+FLAGS08_UNK02		= $02
+FLAGS08_UNK01		= $01
+
+FLAGS09_HASDESTROYFUNC	= $10
+FLAGS09_UNK08		= $08
+FLAGS09_UNK02		= $02
+FLAGS09_DISPBEHIND	= $01
+
+FLAGS1D_ISCOLI		= $80
+
+FLAGS1D_DISPSHADOW	= $08
+
+FLAGS1D_SPAWNRING	= $01
+
+FLAGS1E_UNK02		= $02
+FLAGS1E_UNK01		= $01
+
+FLAGS1F_UNK08		= $08
+
+FLAGS20_ISPARENT	= $40
+
+FLAGS1F_ISCHILD		= $10
+
+FLAGS2E_UNK04		= $04
 
 
 ;Page $12
@@ -197,8 +208,8 @@ FirstFreeObject		= $121F	;word
 PlayerAngX		= $1230	;word
 PlayerAngY		= $1232	;word
 PlayerAngZ		= $1234	;word
-			= $1236	;word
-Unknown_1238		= $1238	;word
+PlayerTempObject	= $1236	;word
+PlayerObject		= $1238	;word
 CurProcObject		= $123A	;word
 BehFuncTemp		= $1242	;long
 			= $1248	;long
@@ -207,7 +218,7 @@ BehFuncTemp		= $1242	;long
 			= $125A	;word
 			= $125C	;word
 SCMRMirror		= $1260	;byte
-OAMMirror		= $1261 ;byte array of size $220
+OAMBuffer		= $1261 ;byte array of size $220
 
 ;Page $14
 			= $14C1	;byte
@@ -230,8 +241,8 @@ FirstCandidate		= $14CA	;word
 			= $14D8	;byte
 			= $14D9	;byte
 			= $14DA	;byte
-			= $14DB	;byte
-			= $14DC	;byte
+CurViewMode		= $14DB	;byte
+MaxViewMode		= $14DC	;byte
 			= $14DD	;byte
 			= $14DE	;byte
 			= $14DF	;byte
@@ -248,7 +259,8 @@ FirstCandidate		= $14CA	;word
 			= $14F2	;byte
 			= $14F3	;byte
 			= $14F4	;word
-			= $14F6	;word
+MusicLoaded		= $14F6	;byte
+MusicID			= $14F7	;byte
 			= $14F8	;word
 			= $14FA	;word
 			= $14FC	;word
@@ -267,9 +279,9 @@ FirstCandidate		= $14CA	;word
 			= $150D	;word
 			= $150F	;word
 			= $1511	;word
-			= $1513	;word
-			= $1515	;word
-			= $1517	;word
+TempObjX		= $1513	;word
+TempObjY		= $1515	;word
+TempObjZ		= $1517	;word
 			= $151B	;word
 			= $151D	;word
 			= $151F	;word
@@ -339,7 +351,7 @@ FirstCandidate		= $14CA	;word
 			= $1589	;word
 			= $158B	;word
 			= $158D	;word
-			= $158F	;word
+TempXYManhattanDistance	= $158F	;word
 			= $1591	;word
 			= $1593	;word
 			= $1595	;word
@@ -350,27 +362,27 @@ FirstCandidate		= $14CA	;word
 			= $15A2	;word
 			= $15A4	;byte
 			= $15A5	;byte
-			= $15A6	;byte
-			= $15A7	;byte
+TempRotX		= $15A6	;byte
+TempRotY		= $15A7	;byte
 			= $15A8	;byte
 			= $15AB	;byte
 			= $15AC	;byte
 NovaBombs		= $15AD	;word
-			= $15AF	;word
+OAMBufferPtr		= $15AF	;word
 			= $15B1	;word
 			= $15B3	;word
 			= $15B5	;word
 			= $15B8	;byte
-			= $15B9	;byte
+StageNumTextTimer	= $15B9	;byte
 			= $15BB	;word
 			= $15BF	;byte
-			= $15C2	;word
-			= $15C6	;byte
-			= $15C7	;byte
+TempVecZB		= $15C2	;word
+TempSinD		= $15C6	;byte
+TempCosD		= $15C7	;byte
 			= $15CA	;word
 			= $15D7	;Matrix
-			= $15F3	;byte
-			= $15F4	;byte
+TempSinC		= $15F3	;byte
+TempCosC		= $15F4	;byte
 
 ;Page $16
 			= $1609	;Matrix
@@ -384,8 +396,8 @@ NovaBombs		= $15AD	;word
 			= $1639	;Matrix
 			= $164B	;byte
 			= $164C	;byte
-			= $169C	;word
-			= $169E	;word
+VerticalScrollBase	= $169C	;word
+VerticalScrollBase2	= $169E	;word
 			= $16A0	;word
 			= $16A2	;byte
 			= $16A3	;byte
@@ -423,18 +435,18 @@ EngineSoundFlag		= $16C9	;byte
 			= $16D2	;word
 			= $16D4	;word
 StageID			= $16D6	;word
-LevelID			= $16D8	;word
+TempLevelID		= $16D8	;word
 ScanlineToWaitFor	= $16DB	;word
 			= $16DD	;word
-			= $16DF	;word
-			= $16E1	;word
+Unknown_16DF		= $16DF	;word
+Unknown_16E1		= $16E1	;word
 			= $16E4	;word
 			= $16E6	;word
 			= $16E8	;word
 			= $16EA	;word
 Lives			= $16EC	;byte
 			= $16ED	;byte
-Unknown_16F1		= $16F1	;byte
+FGTiltFlag		= $16F1	;byte
 			= $16F2	;word
 			= $16F4	;word
 			= $16F6	;byte
@@ -452,8 +464,8 @@ ScriptCallStackSz	= $1732	;word
 			= $1734	;word
 			= $1736	;word
 Unknown_173C		= $173C	;byte
-			= $173D	;byte
-			= $173F	;word
+CheckpointScriptPointer	= $173D	;lo16 word of long
+TempScriptPointer	= $173F	;lo16 word of long
 Preset			= $1741	;word
 			= $1743	;byte array of size 8
 			= $174B	;byte array of size 8
@@ -471,27 +483,25 @@ NumObjectsWithID	= $1755	;word
 			= $176E	;byte
 			= $176F	;byte
 			= $1770	;byte
-			= $1772	;word
+CheckpointPreset	= $1772	;word
 			= $1774	;word
 			= $1777	;word
 			= $177A	;byte
-			= $177E	;word
-			= $1780	;word
+Unused_177E		= $177E	;word
+Unused_1780		= $1780	;word
 			= $1782	;byte
-			= $1785	;byte
-			= $1786	;word
-			= $1788	;byte
-			= $1789	;byte array of size $100
+PresetSettings		= $1785	;byte
+			= $1786	;long
+PaletteBuffer		= $1789	;byte array of size $100
 
 ;Page $18
 			= $188A	;word
 			= $188C	;word
 			= $188E	;word
 			= $1890	;word
-			= $1892	;word
-			= $1894	;byte
+			= $1892	;long
 			= $1895	;word
-			= $1897	;byte
+SuperFXPalette		= $1897	;byte
 Continues		= $1898	;byte
 			= $189A	;byte
 			= $189B	;word
@@ -526,9 +536,9 @@ BG3HOFSMirror		= $18B9	;word
 VerticalScroll		= $194D	;word
 			= $194F	;word
 			= $1951	;word
-			= $1953	;byte
-Mode2Flag		= $1954	;byte
-			= $1955	;byte
+Unknown_1953		= $1953	;byte
+BGTiltFlag		= $1954	;byte
+Unknown_1955		= $1955	;byte
 			= $1956	;byte
 			= $1957	;word
 			= $195F	;word
@@ -592,24 +602,20 @@ BG2HOFSMirror		= $1F37	;word
 			= $1F39	;word
 			= $1F3B	;word
 			= $1F3D	;word
-			= $1F3F	;word
+TempLdAudioBnkOffs	= $1F3F	;word
 			= $1F41	;word
 			= $1F43	;byte
 			= $1F44	;word
 			= $1F46	;byte
 			= $1F47	;byte
-			= $1F48	;byte
-			= $1F49	;byte
-			= $1F4A	;byte
-			= $1F4B	;byte
-			= $1F4C	;byte
-			= $1F4D	;word
-			= $1F4F	;word
+			= $1F48	;byte array of size $05
+SEQueuePtr		= $1F4D	;byte
+SEQueuePtrOld		= $1F4F	;byte
 			= $1F51	;byte
 			= $1F52	;byte
-			= $1F53	;byte array of size $10
-			= $1F63	;word
-			= $1F65	;byte
+SoundEffectQueue	= $1F53	;byte array of size $10
+TempLdAudioPktOffs	= $1F63	;word
+InitDataSentFlag	= $1F65	;byte
 			= $1F66	;word
 			= $1F68	;byte
 			= $1F69	;word (array???)
@@ -646,16 +652,16 @@ BG2HOFSMirror		= $1F37	;word
 			= $1FEE	;byte
 			= $1FEF	;word
 			= $1FF1	;byte
-			= $1FF2	;word
+UnusedBGColor		= $1FF2	;word
 LevelScriptBank		= $1FF4	;hi8 byte of long
-			= $1FF5	;byte
-			= $1FF6	;byte
+CheckpointScriptBank	= $1FF5	;hi8 byte of long
+TempScriptBank		= $1FF6	;hi8 byte of long
 			= $1FF7	;word
 			= $1FF9	;byte
 			= $1FFA	;byte
 			= $1FFB	;byte
 			= $1FFC	;byte
-			= $1FFD	;byte
+LevelID			= $1FFD	;byte
 			= $1FFE	;word
 
 ;Bank $70 (first 2 pages)
@@ -663,38 +669,76 @@ CurVtxPtr		= $70001E	;word
 DesiredXRot		= $700020	;word
 DesiredYRot		= $700022	;word
 DesiredZRot		= $700024	;word
+OutputVecX		= $700026	;word
+OutputVecY		= $700028	;word
+OutputVecZ		= $70002A	;word
 InputVecY		= $70002C	;word
 InputVecZ		= $70002E	;word
 			= $700044
 			= $700046
 BSPTreePtr		= $700056	;word
+			= $70005C
+			= $70005E
 InputVecX		= $700062	;word
-			= $7000D2	;Matrix
-			= $700120	;Matrix
+InputPtr		= $700062	;long
+			= $70006C
+			= $700090
+			
+			
+struct CalculatedMatrix	  $7000D2	;Matrix
+	.XX: skip 2
+	.YX: skip 2
+	.ZX: skip 2
+	.XY: skip 2
+	.YY: skip 2
+	.ZY: skip 2
+	.XZ: skip 2
+	.YZ: skip 2
+	.ZZ: skip 2
+endstruct
+struct TransformMatrix	  $700120	;Matrix
+	.XX: skip 2
+	.YX: skip 2
+	.ZX: skip 2
+	.XY: skip 2
+	.YY: skip 2
+	.ZY: skip 2
+	.XZ: skip 2
+	.YZ: skip 2
+	.ZZ: skip 2
+endstruct
 TotalVtxCnt		= $700132	;word
+			= $700142
+			= $700144
+			= $700146
+			= $700148
+			= $70014A
+			= $70014C
+			= $700150
+			= $700152
+EnemyHPBarMax		= $70019A	;word
+EnemyHPBarCur		= $70019C	;word
 
 ;Bank $70 high
+RenderHUDFlag		= $70021C	;word
 BSPTreeStack		= $700B02	;??? array of size ???
-RenderedTileset		= $702C00	;byte array of size ???
-RenderedTilemap		= $705600	;byte array of size ???
+CopiedDebugFont		= $701A2C
+DecompressedTileset	= $702800	;byte array of size ???
+DecompressedTilemap	= $704000	;byte array of size ???
+RenderedTiles		= $702C00	;byte array of size ???
+			= $705600	;byte array of size ???
 
 ;Bank $7E high
 struct Object2List $7E2000
 	.Unk00: skip 2
 	.Unk02: skip 2
 	.Unk04: skip 2
-	.Unk06: skip 2
-	.Unk08: skip 1
-	.Unk09: skip 2
-	.Unk0B: skip 1
-	.Unk0C: skip 2
-	.Unk0E: skip 1
-	.Unk0F: skip 1
-	.Unk10: skip 1
-	.Unk11: skip 1
+	.OnDestroy: skip 3	;06
+	.OnColi: skip 3		;09
+	.Unk0C: skip 3
+	.Unk0F: skip 3
 	.Unk12: skip 1
-	.Unk13: skip 1
-	.Unk14: skip 1
+	.Unk13: skip 2
 	.Unk15: skip 1
 	.Unk16: skip 1
 	.Unk17: skip 1
@@ -705,22 +749,18 @@ struct Object2List $7E2000
 	.Unk1D: skip 1
 	.Unk1E: skip 1
 	.Unk1F: skip 1
-	.Unk20: skip 1
-	.Unk21: skip 1
+	.Unk20: skip 2
 	.Unk22: skip 1
 	.Unk23: skip 1
 	.Unk24: skip 1
 	.Unk25: skip 1
 	.Unk26: skip 1
 	.Unk27: skip 1
-	.Unk28: skip 1
-	.Unk29: skip 1
+	.Unk28: skip 2
 	.Unk2A: skip 1
 	.Unk2B: skip 1
-	.Unk2C: skip 1
-	.Unk2D: skip 1
-	.Unk2E: skip 1
-	.Unk2F: skip 1
+	.Unk2C: skip 2
+	.Unk2E: skip 2
 	.Unk30: skip 1
 	.Unk31: skip 1
 	.Unk32: skip 1
@@ -739,12 +779,65 @@ Object2ListRel		= (Object2List-($7E0000|ObjectList))
 			= $7EA05A	;word
 			= $7EA05C	;word
 			= $7EA05E	;word
-			= $7EA061	;word
-			= $7EA063	;word
-			= $7EA065	;word
+CheckpointStackPtr	= $7EA061	;long
+CheckpointCallStack	= $7EA065	;long array of size 15
 			= $7EA092	;byte array of size 8
 			= $7EA09A	;byte array of size 8
 			= $7EA0A2	;word
 			= $7EA0A4	;word
 			= $7EA0A6	;word
 			= $7EA0A8	;word
+Unknown_7EF0C9		= $7EF0C9	;word
+
+;Bank $7F
+
+;SPC700 address space
+
+SPCTempKOF		= $0E	;byte
+
+SPCTempAddr		= $14	;word
+SPCPitch		= $16	;word
+
+SPCMuteChan		= $1A	;byte
+
+
+SPCCurChanPtrs		= $30	;word array of size 8
+
+
+SPCTempKON		= $45	;byte
+SPCTempKOF2		= $46	;byte
+SPCCurChan		= $47	;byte
+SPCTempFLG		= $48	;byte
+SPCTempNON		= $49	;byte
+SPCTempEON		= $4A	;byte
+SPCTempPMON		= $4B	;byte
+
+
+SPCTempEFB		= $4E	;byte
+
+SPCMstXpose		= $50	;byte
+
+;SPCMstVol		= $58	;byte?
+
+
+SPCTempEVOLLeft		= $61	;byte
+
+SPCTempEVOLRight	= $63	;byte
+
+
+
+;SPCVolFade		= $90	;byte
+SPCPanFade		= $91	;byte
+
+
+			= $C0	;??? array of size ???
+
+
+
+
+SPCPan			= $330	;word array of size 8
+
+
+SPCMusPtrBase		= $FDC0
+
+

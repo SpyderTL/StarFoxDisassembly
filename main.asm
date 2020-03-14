@@ -1,6 +1,8 @@
 INCSRC "regs.asm"
 INCSRC "vars.asm"
 
+INCSRC "padding.asm"
+
 ORG $008000
 INCSRC "bank00.asm"
 ORG $018000
@@ -33,7 +35,6 @@ ORG $0E8000
 INCSRC "bank0E.asm"
 ORG $0F8000
 INCSRC "bank0F.asm"
-
 ORG $108000
 INCSRC "bank10.asm"
 ORG $118000

@@ -453,32 +453,32 @@ CODE_018235:
 MultiplyPointByMatrix:
 	cache
 	alt1				;\Get X position in r1
-	lms r1,($0062)			;/
+	lms r1,(InputVecX)		;/
 	alt1				;\Get Y position in r2
-	lms r2,($002C)			;/
+	lms r2,(InputVecY)		;/
 	alt1				;\Get Z position in r3
-	lms r3,($002E)			;/
+	lms r3,(InputVecZ)		;/
 	alt1				;\Get XX matrix element in r6
-	lms r6,($00D2)			;/
+	lms r6,(CalculatedMatrix.XX)	;/
 	from r1				;\Multiply X position by XX matrix element...
 	fmult				;|
 	to r5				;|
 	rol				;/...shifting in bit 15 of the product for extra precision
 	alt1				;\Get XY matrix element in r6
-	lms r6,($00D8)			;/
+	lms r6,(CalculatedMatrix.XY)	;/
 	from r2				;\Multiply Y position by XY matrix element...
 	fmult				;|
 	rol				;|...shifting in bit 15 of the product for extra precision...
 	with r5				;|
 	add r0				;/...and accumulating to previous value
 	alt1				;\Get XZ matrix element in r6
-	lms r6,($00DE)			;/
+	lms r6,(CalculatedMatrix.XZ)	;/
 	from r3				;\Multiply Z position by XZ matrix element...
 	fmult				;|
 	rol				;|...shifting in bit 15 of the product for extra precision...
 	add r5				;|...accumulating to previous value...
 	alt2				;|...and storing the result
-	sms ($0026),r0			;/
+	lms r6,(CalculatedMatrix.YX)	;/
 	alt1				;\Get YX matrix element in r6
 	lms r6,($00D4)			;/
 	from r1				;\Multiply Y position by YX matrix element...
@@ -486,45 +486,45 @@ MultiplyPointByMatrix:
 	to r5				;|
 	rol				;/...shifting in bit 15 of the product for extra precision
 	alt1				;\Get YY matrix element in r6
-	lms r6,($00DA)			;/
+	lms r6,(CalculatedMatrix.YY)	;/
 	from r2				;\Multiply Y position by YY matrix element...
 	fmult				;|
 	rol				;|...shifting in bit 15 of the product for extra precision...
 	with r5				;|
 	add r0				;/...and accumulating to previous value
 	alt1				;\Get YZ matrix element in r6
-	lms r6,($00E0)			;/
+	lms r6,(CalculatedMatrix.YZ)	;/
 	from r3				;\Multiply Z position by YZ matrix element...
 	fmult				;|
 	rol				;|...shifting in bit 15 of the product for extra precision...
 	add r5				;|...accumulating to previous value...
 	alt2				;|...and storing the result
-	sms ($0028),r0			;/
+	sms (OutputVecY),r0		;/
 	alt1				;\Get ZX matrix element in r6
-	lms r6,($00D6)			;/
+	lms r6,(CalculatedMatrix.ZX)	;/
 	from r1				;\Multiply Z position by ZX matrix element...
 	fmult				;|
 	to r5				;|
 	rol				;/...shifting in bit 15 of the product for extra precision
 	alt1				;\Get ZY matrix element in r6
-	lms r6,($00DC)			;/
+	lms r6,(CalculatedMatrix.XY)	;/
 	from r2				;\Multiply Y position by ZY matrix element...
 	fmult				;|
 	rol				;|...shifting in bit 15 of the product for extra precision...
 	with r5				;|
 	add r0				;/...and accumulating to previous value
 	alt1				;\Get ZZ matrix element in r6
-	lms r6,($00E2)			;/
+	lms r6,(CalculatedMatrix.ZZ)	;/
 	from r3				;\Multiply Z position by ZZ matrix element...
 	fmult				;|
 	rol				;|...shifting in bit 15 of the product for extra precision...
 	add r5				;|...accumulating to previous value...
 	alt2				;|...and storing the result
-	sms ($002A),r0			;/
+	sms (OutputVecZ),r0		;/
 	stop				;\End SuperFX task
 	nop				;/
 CalculateMatrix:
-	iwt r9,#$00D2
+	iwt r9,#CalculatedMatrix
 	link #4
 	iwt r15,#DoCalculateMatrix
 	nop
@@ -537,7 +537,7 @@ DoCalculateMatrix:
 	alt3
 	romb
 	alt1
-	lms r1,($0020)			; r1 = X rotation
+	lms r1,(DesiredXRot)		; r1 = X rotation
 	iwt r6,#SineTable8p8
 	from r1				;\r2 = sin(hib(r1))
 	hib				;|
@@ -565,173 +565,173 @@ DoCalculateMatrix:
 	rol				;|
 	to r12				;|...and store in r12 (sin(xrot))
 	add r12				;/
-	iwt r14,#$4000			; Offset for cosine
-	with r1
-	add r14
+	iwt r14,#$4000			;\Offset for cosine
+	with r1				;|
+	add r14				;/
 	iwt r6,#SineTable8p8
-	from r1
-	hib
-	add r0
-	to r14
-	add r6
-	to r2
-	getb
-	inc r14
-	with r2
-	alt1
-	getbh
-	inc r14
-	getb
-	inc r14
-	alt1
-	getbh
-	to r6
-	sub r2
-	from r1
-	lob
-	swap
-	lsr
-	fmult
-	rol
-	to r8				;|...same for cos(xrot), gets stored in r8
+	from r1				;\r2 = cos(hib(r1))
+	hib				;|
+	add r0				;|
+	to r14				;|
+	add r6				;|
+	to r2				;|
+	getb				;|
+	inc r14				;|
+	with r2				;|
+	alt1				;|
+	getbh				;/
+	inc r14				;\r0 = cos(hib(r1)+$100)
+	getb				;|
+	inc r14				;|
+	alt1				;|
+	getbh				;/
+	to r6				;\Lerp r0 and r2 using lob(r1)...
+	sub r2				;|
+	from r1				;|
+	lob				;|
+	swap				;|
+	lsr				;|
+	fmult				;|
+	rol				;|
+	to r8				;|...and store in r8 (cos(xrot))
 	add r2				;/
 	alt1
-	lms r1,($0022)
+	lms r1,(DesiredYRot)		; r1 = Y rotation
 	iwt r6,#SineTable8p8
-	from r1
-	hib
-	add r0
-	to r14
-	add r6
-	to r2
-	getb
-	inc r14
-	with r2
-	alt1
-	getbh
-	inc r14
-	getb
-	inc r14
-	alt1
-	getbh
-	to r6
-	sub r2
-	from r1
-	lob
-	swap
-	lsr
-	fmult
-	rol
-	to r4				;|...same for sin(yrot), gets stored in r4
+	from r1				;\r2 = sin(hib(r1))
+	hib				;|
+	add r0				;|
+	to r14				;|
+	add r6				;|
+	to r2				;|
+	getb				;|
+	inc r14				;|
+	with r2				;|
+	alt1				;|
+	getbh				;/
+	inc r14				;\r0 = cos(hib(r1)+$100)
+	getb				;|
+	inc r14				;|
+	alt1				;|
+	getbh				;/
+	to r6				;\Lerp r0 and r2 using lob(r1)...
+	sub r2				;|
+	from r1				;|
+	lob				;|
+	swap				;|
+	lsr				;|
+	fmult				;|
+	rol				;|
+	to r4				;|...and store in r4 (sin(yrot))
 	add r2				;/
-	iwt r14,#$4000
-	with r1
-	add r14
+	iwt r14,#$4000			;\Offset for cosine
+	with r1				;|
+	add r14				;/
 	iwt r6,#SineTable8p8
-	from r1
-	hib
-	add r0
-	to r14
-	add r6
-	to r2
-	getb
-	inc r14
-	with r2
-	alt1
-	getbh
-	inc r14
-	getb
-	inc r14
-	alt1
-	getbh
-	to r6
-	sub r2
-	from r1
-	lob
-	swap
-	lsr
-	fmult
-	rol
-	to r3				;|...same for cos(yrot), gets stored in r3
+	from r1				;\r2 = cos(hib(r1))
+	hib				;|
+	add r0				;|
+	to r14				;|
+	add r6				;|
+	to r2				;|
+	getb				;|
+	inc r14				;|
+	with r2				;|
+	alt1				;|
+	getbh				;/
+	inc r14				;\r0 = cos(hib(r1)+$100)
+	getb				;|
+	inc r14				;|
+	alt1				;|
+	getbh				;/
+	to r6				;\Lerp r0 and r2 using lob(r1)...
+	sub r2				;|
+	from r1				;|
+	lob				;|
+	swap				;|
+	lsr				;|
+	fmult				;|
+	rol				;|
+	to r3				;|...and store in r3 (cos(yrot))
 	add r2				;/
 	alt1
-	lms r1,($0024)
+	lms r1,(DesiredZRot)		; r1 = Z rotation
 	iwt r6,#SineTable8p8
-	from r1
-	hib
-	add r0
-	to r14
-	add r6
-	to r2
-	getb
-	inc r14
-	with r2
-	alt1
-	getbh
-	inc r14
-	getb
-	inc r14
-	alt1
-	getbh
-	to r6
-	sub r2
-	from r1
-	lob
-	swap
-	lsr
-	fmult
-	rol
-	to r7				;|...same for sin(zrot), gets stored in r7
+	from r1				;\r2 = sin(hib(r1))
+	hib				;|
+	add r0				;|
+	to r14				;|
+	add r6				;|
+	to r2				;|
+	getb				;|
+	inc r14				;|
+	with r2				;|
+	alt1				;|
+	getbh				;/
+	inc r14				;\r0 = cos(hib(r1)+$100)
+	getb				;|
+	inc r14				;|
+	alt1				;|
+	getbh				;/
+	to r6				;\Lerp r0 and r2 using lob(r1)...
+	sub r2				;|
+	from r1				;|
+	lob				;|
+	swap				;|
+	lsr				;|
+	fmult				;|
+	rol				;|
+	to r7				;|...and store in r4 (sin(zrot))
 	add r2				;/
-	iwt r14,#$4000
-	with r1
-	add r14
+	iwt r14,#$4000			;\Offset for cosine
+	with r1				;|
+	add r14				;/
 	iwt r6,#SineTable8p8
-	from r1
-	hib
-	add r0
-	to r14
-	add r6
-	to r2
-	getb
-	inc r14
-	with r2
-	alt1
-	getbh
-	inc r14
-	getb
-	inc r14
-	alt1
-	getbh
-	to r6
-	sub r2
-	from r1
-	lob
-	swap
-	lsr
-	fmult
-	rol
-	to r5				;|...same for cos(zrot), gets stored in r5
+	from r1				;\r2 = cos(hib(r1))
+	hib				;|
+	add r0				;|
+	to r14				;|
+	add r6				;|
+	to r2				;|
+	getb				;|
+	inc r14				;|
+	with r2				;|
+	alt1				;|
+	getbh				;/
+	inc r14				;\r0 = cos(hib(r1)+$100)
+	getb				;|
+	inc r14				;|
+	alt1				;|
+	getbh				;/
+	to r6				;\Lerp r0 and r2 using lob(r1)...
+	sub r2				;|
+	from r1				;|
+	lob				;|
+	swap				;|
+	lsr				;|
+	fmult				;|
+	rol				;|
+	to r5				;|...and store in r4 (cos(zrot))
 	add r2				;/
-	move r6,r5			;\r1 = sin(yrot)*cos(zrot)
+	move r6,r5			;\r1 = sinycosz
 	from r4				;|
 	fmult				;|
 	to r1				;|
 	rol				;/
-	from r3				;\r2 = cos(yrot)*cos(zrot)
+	from r3				;\r2 = cosycosz
 	fmult				;|
 	to r2				;|
 	rol				;/
-	move r6,r7			;\r13 = sin(yrot)*sin(zrot)
+	move r6,r7			;\r13 = sinysinz
 	from r4				;|
 	fmult				;|
 	to r13				;|
 	rol				;/
-	from r3				;\r14 = cos(yrot)*sin(zrot)
+	from r3				;\r14 = cosysinz
 	fmult				;|
 	to r14				;|
 	rol				;/
-	move r6,r12			;\XX = sin(xrot)*sin(yrot)*sin(zrot)+cos(yrot)*cos(zrot)
+	move r6,r12			;\XX = sinxsinysinz+cosycosz
 	from r13			;|
 	fmult				;|
 	rol				;|
@@ -739,39 +739,39 @@ DoCalculateMatrix:
 	stw r9				;|
 	inc r9				;|
 	inc r9				;/
-	from r1				;\XY = sin(xrot)*sin(yrot)*cos(zrot)
+	from r1				;\YX = sinxsinycosz
 	fmult				;|
 	rol				;|
 	sub r14				;|
 	stw r9				;|
 	inc r9				;|
 	inc r9				;/
-	move r6,r8			;\XZ = cos(xrot)*sin(yrot)
+	move r6,r8			;\ZX = cosxsiny
 	from r4				;|
 	fmult				;|
 	rol				;|
 	stw r9				;|
 	inc r9				;|
 	inc r9				;/
-	from r7				;\YX = cos(xrot)*sin(zrot)
+	from r7				;\XY = cosxsinz
 	fmult				;|
 	rol				;|
 	stw r9				;|
 	inc r9				;|
 	inc r9				;/
-	from r5				;\YY = cos(xrot)*cos(zrot)
+	from r5				;\YY = cosxcosz
 	fmult				;|
 	rol				;|
 	stw r9				;|
 	inc r9				;|
 	inc r9				;/
-	from r12			;\YZ = -sin(xrot)
+	from r12			;\ZY = -sinx
 	not				;|
 	inc r0				;|
 	stw r9				;|
 	inc r9				;|
 	inc r9				;/
-	move r6,r12			;\ZX = sin(xrot)*cos(yrot)*sin(zrot)
+	move r6,r12			;\XZ = sinxcosysinz
 	from r14			;|
 	fmult				;|
 	rol				;|
@@ -779,14 +779,14 @@ DoCalculateMatrix:
 	stw r9				;|
 	inc r9				;|
 	inc r9				;/
-	from r2				;\ZY = sin(xrot)*cos(yrot)*cos(zrot)+sin(yrot)*sin(zrot)
+	from r2				;\YZ = sinxcosycosz+sinysinz
 	fmult				;|
 	rol				;|
 	add r13				;|
 	stw r9				;|
 	inc r9				;|
 	inc r9				;/
-	move r6,r8			;\ZZ = cos(xrot)*cos(yrot)
+	move r6,r8			;\ZZ = cosxcosy
 	from r3				;|
 	fmult				;|
 	rol				;|
@@ -812,7 +812,7 @@ CODE_0183CF:
 	romb
 	iwt r10,#$04C2
 	alt1
-	lms r0,($0028)
+	lms r0,(OutputVecY)
 	stw r10
 	inc r10
 	inc r10
@@ -824,19 +824,19 @@ CODE_0183CF:
 	iwt r15,#CODE_01846B
 	nop
 	alt1
-	lms r0,($0020)
+	lms r0,(DesiredXRot)
 	swap
 	not
 	inc r0
 	sbk
 	alt1
-	lms r0,($0022)
+	lms r0,(DesiredYRot)
 	swap
 	not
 	inc r0
 	sbk
 	alt1
-	lms r0,($0024)
+	lms r0,(DesiredZRot)
 	swap
 	not
 	inc r0
@@ -845,7 +845,7 @@ CODE_0183CF:
 	dec r10
 	ldw r10
 	alt2
-	sms ($0028),r0
+	sms (OutputVecY),r0
 	link #4
 	iwt r15,#CODE_018479
 	nop
@@ -1070,43 +1070,43 @@ CODE_018524:
 	bne CODE_018575
 	nop
 	alt1				;\Copy XX matrix element
-	lms r0,($00D2)			;|
+	lms r0,(CalculatedMatrix.XX)	;|
 	alt2				;|
 	sms ($0120),r0			;/
 	alt1				;\Copy YX matrix element
-	lms r0,($00D4)			;|
+	lms r0,(CalculatedMatrix.YX)	;|
 	alt2				;|
 	sms ($0122),r0			;/
 	alt1				;\Copy ZX matrix element
-	lms r0,($00D6)			;|
+	lms r0,(CalculatedMatrix.ZX)	;|
 	alt2				;|
 	sms ($0124),r0			;/
 	alt1				;\Copy XY matrix element
-	lms r0,($00D8)			;|
+	lms r0,(CalculatedMatrix.XY)	;|
 	alt2				;|
 	sms ($0126),r0			;/
 	alt1				;\Copy YY matrix element
-	lms r0,($00DA)			;|
+	lms r0,(CalculatedMatrix.YY)	;|
 	alt2				;|
 	sms ($0128),r0			;/
 	alt1				;\Copy ZY matrix element
-	lms r0,($00DC)			;|
+	lms r0,(CalculatedMatrix.ZY)	;|
 	alt2				;|
 	sms ($012A),r0			;/
 	alt1				;\Copy XZ matrix element
-	lms r0,($00DE)			;|
+	lms r0,(CalculatedMatrix.XZ)	;|
 	alt2				;|
 	sms ($012C),r0			;/
 	alt1				;\Copy YZ matrix element
-	lms r0,($00E0)			;|
+	lms r0,(CalculatedMatrix.YZ)	;|
 	alt2				;|
 	sms ($012E),r0			;/
 	alt1				;\Copy ZZ matrix element
-	lms r0,($00E2)			;|
+	lms r0,(CalculatedMatrix.ZZ)	;|
 	alt2				;|
 	sms ($0130),r0			;/
 	alt1
-	lms r0,($00E2)
+	lms r0,($0054)
 	iwt r1,#$2000
 	and r1
 	beq CODE_018571
@@ -1132,49 +1132,49 @@ CODE_018581:
 	bne CODE_0185DE
 	nop
 	alt1				;\Negate XX matrix element
-	lms r0,($00D2)			;|
+	lms r0,(CalculatedMatrix.XX)	;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($0120),r0			;/
 	alt1				;\Negate YX matrix element
-	lms r0,($00D4)			;|
+	lms r0,(CalculatedMatrix.YX)	;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($0122),r0			;/
 	alt1				;\Negate ZX matrix element
-	lms r0,($00D6)			;|
+	lms r0,(CalculatedMatrix.ZX)	;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($0124),r0			;/
 	alt1				;\Copy XY matrix element
-	lms r0,($00D8)			;|
+	lms r0,(CalculatedMatrix.XY)	;|
 	alt2				;|
 	sms ($0126),r0			;/
 	alt1				;\Copy YY matrix element
-	lms r0,($00DA)			;|
+	lms r0,(CalculatedMatrix.YY)	;|
 	alt2				;|
 	sms ($0128),r0			;/
 	alt1				;\Copy ZY matrix element
-	lms r0,($00DC)			;|
+	lms r0,(CalculatedMatrix.ZY)	;|
 	alt2				;|
 	sms ($012A),r0			;/
 	alt1				;\Negate XZ matrix element
-	lms r0,($00DE)			;|
+	lms r0,(CalculatedMatrix.XZ)	;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($012C),r0			;/
 	alt1				;\Negate YZ matrix element
-	lms r0,($00E0)			;|
+	lms r0,(CalculatedMatrix.YZ)	;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($012E),r0			;/
 	alt1				;\Negate ZZ matrix element
-	lms r0,($00E2)			;|
+	lms r0,(CalculatedMatrix.ZZ)	;|
 	not				;|
 	inc r0				;|
 	alt2				;|
@@ -1185,11 +1185,11 @@ CODE_018581:
 	and r1
 	beq CODE_0185DA
 	sub r0
-	alt2				;\Overwrite XY matrix element
+	alt2				;\Zero XY matrix element
 	sms ($0126),r0			;/
-	alt2				;\Overwrite YY matrix element
+	alt2				;\Zero YY matrix element
 	sms ($0128),r0			;/
-	alt2				;\Overwrite ZY matrix element
+	alt2				;\Zero ZY matrix element
 	sms ($012A),r0			;/
 CODE_0185DA:
 	iwt r15,#CODE_018615
@@ -5672,6 +5672,7 @@ DialogStingrayPeppy:
 	DB $01,$02,$0E,"beware of the big stingray!",$00
 DialogStingraySlippy:
 	DB $03,$02,$0E,"beware of the big stingray!",$00
+DialogPtrs:
 	;Check in lines
 	DW DialogCheckInFox,DialogWeDidIt,DialogSlippySlippy,DialogGoBackToTheBase
 	;Falco lines
@@ -5730,5 +5731,5 @@ DialogStingraySlippy:
 	DW DialogUnknownASlippy
 	;Stingray lines
 	DW DialogStingrayFalco,DialogStingrayPeppy,DialogStingraySlippy
-	
+UnusedDMADataPtr:
 	ARCH 65816

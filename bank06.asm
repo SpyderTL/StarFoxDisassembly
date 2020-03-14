@@ -1,7 +1,8 @@
-CODE_068000:
-	lda #$7E
-	pha
-	plb
+UnusedBank06SetBRegWRAM:
+	lda.b #$7E					;\Set data bank to $7E
+	pha						;|(not called, probably was for Nintendo's assembler)
+	plb						;/
+
 CODE_068004:
 	rep #$20
 	stz $18C5
