@@ -1,11 +1,11 @@
 	;Transfer $0018 bytes to SPC address $3EE8
 	DW $0018,$3EE8
 	;Data to transfer
-	;Note length and volume data
+	;Note length and volume table data
 	BASE $3EE8
-
+SPCNoteDurRtTable:
 	DB $32,$65,$7F,$98,$B2,$CB,$E5,$FC
-
+SPCNoteVelRtTable:
 	DB $19,$32,$4C,$65,$72,$7F,$8C,$98,$A5,$B2,$BF,$CB,$D8,$E5,$F2,$FC
 	END BASE
 	;Transfer $27FF bytes (of code) to SPC address $0400
@@ -15,24 +15,24 @@
 	ARCH SPC700
 	BASE $0400
 SPCStart:
-	clrp
-	mov x,#$CF			;\Reset stack
-	mov sp,x			;/
+	clrp						; Reset processor flags
+	mov x,#$CF					;\Reset stack
+	mov sp,x					;/
 	mov a,#$00
-	mov x,a				;\Clear zero page ($00-$DF)
-SPCClearZeroPage:			;|
-	mov (x)+,a			;|
-	cmp x,#$E0			;|
-	bne SPCClearZeroPage		;/
-	mov x,#$00			;\Clear page 2 ($0200-$02FF)
-SPCClearPage2:				;|
-	mov $0200+x,a			;|
-	inc x				;|
-	bne SPCClearPage2		;/
-SPCClearPage3:				;\Clear page 3 ($0300-$03FF)
-	mov $0300+x,a			;|
-	inc x				;|
-	bne SPCClearPage3		;/
+	mov x,a						;\Clear zero page ($00-$DF)
+SPCClearZeroPage:					;|
+	mov (x)+,a					;|
+	cmp x,#$E0					;|
+	bne SPCClearZeroPage				;/
+	mov x,#$00					;\Clear page 2 ($0200-$02FF)
+SPCClearPage2:						;|
+	mov $0200+x,a					;|
+	inc x						;|
+	bne SPCClearPage2				;/
+SPCClearPage3:						;\Clear page 3 ($0300-$03FF)
+	mov $0300+x,a					;|
+	inc x						;|
+	bne SPCClearPage3				;/
 	inc a
 	call SPC_0B14
 	set5 $48
@@ -43,9 +43,9 @@ SPCClearPage3:				;\Clear page 3 ($0300-$03FF)
 	call SPC_0648
 	mov a,#$60
 	mov y,#$0C
-	call SPC_060D
+	call SPCWriteDSPReg
 	mov y,#$1C
-	call SPC_060D
+	call SPCWriteDSPReg
 	mov a,#$F0
 	mov $00F1,a
 	mov a,#$10
@@ -423,23 +423,23 @@ SPCPlaySpecialF3Louder:
 SPCPlaySpecialChgVolNA:
 	ret
 SPCChkSpecialMusID:
-	cmp a,#$FF
-	beq SPCPlaySpecialFFStopAll
-	cmp a,#$F1
-	beq SPCPlaySpecialF1FadeOut
-	cmp a,#$F2
-	beq SPCPlaySpecialF2Quieter
-	cmp a,#$F3
-	beq SPCPlaySpecialF3Louder
-	cmp a,#$F4
-	beq SPCPlaySpecialF4Slower
-	cmp a,#$F5
-	beq SPCPlaySpecialF5Faster
-	cmp a,#$F0
-	beq SPCPlaySpecialF0Stop
-	cmp a,#$14
-	bcc SPCPlayNormMusID
-	ret
+	cmp a,#$FF					;\Check for special music IDs
+	beq SPCPlaySpecialFFStopAll			;|
+	cmp a,#$F1					;|
+	beq SPCPlaySpecialF1FadeOut			;|
+	cmp a,#$F2					;|
+	beq SPCPlaySpecialF2Quieter			;|
+	cmp a,#$F3					;|
+	beq SPCPlaySpecialF3Louder			;|
+	cmp a,#$F4					;|
+	beq SPCPlaySpecialF4Slower			;|
+	cmp a,#$F5					;|
+	beq SPCPlaySpecialF5Faster			;|
+	cmp a,#$F0					;|
+	beq SPCPlaySpecialF0Stop			;/
+	cmp a,#$14					;\Check if music ID is less than max...
+	bcc SPCPlayNormMusID				;|...if so, branch to play normal music...
+	ret						;/...otherwise, return
 SPCPlaySpecialF5Faster:
 	mov x,#$03
 	mov a,#$30
@@ -578,7 +578,7 @@ SPC_080F:
 	dec y
 	bpl SPC_080F
 	mov x,#$00
-	mov $47,#$01
+	mov SPCCurChan,#$01
 SPC_081C:
 	mov a,$31+x
 	beq SPC_082A
@@ -590,7 +590,7 @@ SPC_082A:
 	mov a,#$00
 	mov $80+x,a
 	push a
-	mov a,$47
+	mov a,SPCCurChan
 	and a,$1A
 	and a,#$C0
 	pop a
@@ -602,11 +602,11 @@ SPC_083C:
 	mov $70+x,a
 	inc x
 	inc x
-	asl $47
+	asl SPCCurChan
 	bne SPC_081C
 	mov x,#$00
 	mov $5E,x
-	mov $47,#$01
+	mov SPCCurChan,#$01
 	mov $44,x
 	mov a,$31+x
 	beq SPC_08C0
@@ -618,7 +618,7 @@ SPCGetCmdByte:
 	bne SPCSkEndRet					;/...if not 0, branch to skip end/return
 	mov a,$80+x
 	beq SPC_07EF
-	call SPC_0AA9
+	call SPCDoReturn
 	dec $80+x
 	bne SPCGetCmdByte
 	mov a,$0230+x
@@ -628,21 +628,21 @@ SPCGetCmdByte:
 	bra SPCGetCmdByte
 SPCSkEndRet:
 	bmi SPCChkForVCMD				; Branch if not note length/volume byte
-	mov $0200+x,a
-	call SPCGetMusByte
-	bmi SPCChkForVCMD
-	push a
-	xcn a
-	and a,#$07
-	mov y,a
-	mov a,$3EE8+y
-	mov $0201+x,a
-	pop a
-	and a,#$0F
-	mov y,a
-	mov a,$3EF0+y
-	mov $0210+x,a
-	call SPCGetMusByte
+	mov SPCNoteLen+x,a				; Set note length
+	call SPCGetMusByte				;\Get next command byte...
+	bmi SPCChkForVCMD				;/...if MSB set, branch to check for VCMD
+	push a						;\Set note duration rate
+	xcn a						;|
+	and a,#$07					;|
+	mov y,a						;|
+	mov a,SPCNoteDurRtTable+y			;|
+	mov SPCDurRt+x,a				;/
+	pop a						;\Set note velocity rate
+	and a,#$0F					;|
+	mov y,a						;|
+	mov a,SPCNoteVelRtTable+y			;|
+	mov SPCVelRt+x,a				;/
+	call SPCGetMusByte				; Get next command byte
 SPCChkForVCMD:
 	cmp a,#$E0					;\Check for VCMD...
 	bcc SPCProcNoteOn				;|...if less than smallest VCMD, branch to do note on...
@@ -674,18 +674,18 @@ SPC_08BD:
 SPC_08C0:
 	inc x
 	inc x
-	asl $47
+	asl SPCCurChan
 	beq SPC_08C9
 	jmp SPC_084C
 SPC_08C9:
 	mov a,$54
 	beq SPC_08D8
 	movw ya,$56
-	addw ya,$52
+	addw ya,SPCTempo
 	dbnz $54,SPC_08D6
 	movw ya,$54
 SPC_08D6:
-	movw $52,ya
+	movw SPCTempo,ya
 SPC_08D8:
 	mov a,$68
 	beq SPC_08F1
@@ -705,8 +705,9 @@ SPC_08F1:
 	beq SPC_0903
 	movw ya,$5C
 	addw ya,$58
-	dbnz $5A,$08FE
+	dbnz $5A,SPC_08FE
 	movw ya,$5A
+SPC_08FE:
 	movw $58,ya
 	mov $5E,#$FF
 SPC_0903:
@@ -753,10 +754,10 @@ SPCVCMDSetInst:
 SPC_093E:
 	mov y,#$06
 	mul ya
-	movw $14,ya
+	movw SPCTempAddr,ya
 	clrc
-	adc $14,#$00
-	adc $15,#$3D
+	adc SPCTempAddr,#$00
+	adc SPCTempAddr+1,#$3D
 	mov a,$1A
 	and a,$47
 	bne SPC_098A
@@ -767,7 +768,7 @@ SPC_093E:
 	or a,#$04
 	mov x,a
 	mov y,#$00
-	mov a,($14)+y
+	mov a,(SPCTempAddr)+y
 	bpl SPC_096B
 	and a,#$1F
 	and $48,#$20
@@ -779,7 +780,7 @@ SPC_096B:
 	mov a,$47
 	tclr1 $0049
 SPC_0970:
-	mov a,($14)+y
+	mov a,(SPCTempAddr)+y
 SPC_0972:
 	mov $00F2,x
 	mov $00F3,a
@@ -788,10 +789,10 @@ SPC_0972:
 	cmp y,#$04
 	bne SPC_0970
 	pop x
-	mov a,($14)+y
+	mov a,(SPCTempAddr)+y
 	mov $0221+x,a
 	inc y
-	mov a,($14)+y
+	mov a,(SPCTempAddr)+y
 	mov $0220+x,a
 SPC_098A:
 	ret
@@ -840,8 +841,8 @@ SPCVCMDMstVol:
 	bne SPCSkMstVol
 	mov a,$03F1
 	bne SPCSkMstVol
-	mov a,#$00
-	movw $58,ya
+	mov a,#$00					;\Set master volume
+	movw SPCMstVol,ya				;/
 SPCSkMstVol:
 	ret
 SPCVCMDMstVolFade:
@@ -855,9 +856,9 @@ SPCVCMDMstVolFade:
 	movw $5C,ya
 	ret
 SPCVCMDTempo:
-	mov a,#$00
-	movw $52,ya
-	ret
+	mov a,#$00					;\Set tempo
+	movw SPCTempo,ya				;|
+	ret						;/
 SPCVCMDTempoFade:
 	mov $54,a
 	call SPCGetMusByte
@@ -948,6 +949,7 @@ SPCVCMDCall:
 	mov $0320+x,a
 	mov a,$31+x
 	mov $0231+x,a
+SPCDoReturn:
 	mov a,$0240+x
 	mov $30+x,a
 	mov a,$0241+x
@@ -997,7 +999,7 @@ SPCVCMDEchoProps:
 	mov y,#$0F
 SPCEchoPropsLoop:
 	mov a,SPCEchoFilters+x
-	call SPC_060D
+	call SPCWriteDSPReg
 	inc x
 	mov a,y
 	clrc
@@ -1031,10 +1033,10 @@ SPC_0B30:
 	mov a,$48
 	or a,#$20
 	mov y,#$6C
-	call SPC_060D
+	call SPCWriteDSPReg
 	mov a,$4D
 	mov y,#$7D
-	call SPC_060D
+	call SPCWriteDSPReg
 SPC_0B4D:
 	asl a
 	asl a
@@ -1043,7 +1045,7 @@ SPC_0B4D:
 	setc
 	adc a,#$3C
 	mov y,#$6D
-	jmp SPC_060D
+	jmp SPCWriteDSPReg
 SPCVCMDPercBase:
 	mov $5F,a
 	ret
@@ -1110,10 +1112,9 @@ SPC_0BC6:
 	mov x,$44
 SPC_0BD0:
 	bbc7 $12,SPC_0BD9
-SPC_0BD3:
-	movw $14,ya
+	movw SPCTempAddr,ya
 	movw ya,$0E
-	subw ya,$14
+	subw ya,SPCTempAddr
 SPC_0BD9:
 	ret
 SPCCommandPtrTable:
@@ -1399,11 +1400,11 @@ SPC_0DC4:
 	beq SPC_0DD3
 	call SPC_0E3D
 SPC_0DD3:
-	mov a,(SPCPan+1)+x
+	mov a,$331+x
 	mov y,a
-	mov a,SPCPan+x
+	mov a,$330+x
 	movw $10,ya
-	mov a,SPCPanFade+x
+	mov a,$91+x
 	beq SPC_0DEA
 	mov a,$0341+x
 	mov y,a

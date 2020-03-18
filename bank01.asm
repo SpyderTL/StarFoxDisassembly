@@ -459,26 +459,26 @@ MultiplyPointByMatrix:
 	alt1				;\Get Z position in r3
 	lms r3,(InputVecZ)		;/
 	alt1				;\Get XX matrix element in r6
-	lms r6,(CalculatedMatrix.XX)	;/
+	lms r6,(ObjectMatrix.XX)	;/
 	from r1				;\Multiply X position by XX matrix element...
 	fmult				;|
 	to r5				;|
 	rol				;/...shifting in bit 15 of the product for extra precision
 	alt1				;\Get XY matrix element in r6
-	lms r6,(CalculatedMatrix.XY)	;/
+	lms r6,(ObjectMatrix.XY)	;/
 	from r2				;\Multiply Y position by XY matrix element...
 	fmult				;|
 	rol				;|...shifting in bit 15 of the product for extra precision...
 	with r5				;|
 	add r0				;/...and accumulating to previous value
 	alt1				;\Get XZ matrix element in r6
-	lms r6,(CalculatedMatrix.XZ)	;/
+	lms r6,(ObjectMatrix.XZ)	;/
 	from r3				;\Multiply Z position by XZ matrix element...
 	fmult				;|
 	rol				;|...shifting in bit 15 of the product for extra precision...
 	add r5				;|...accumulating to previous value...
 	alt2				;|...and storing the result
-	lms r6,(CalculatedMatrix.YX)	;/
+	lms r6,(ObjectMatrix.YX)	;/
 	alt1				;\Get YX matrix element in r6
 	lms r6,($00D4)			;/
 	from r1				;\Multiply Y position by YX matrix element...
@@ -486,14 +486,14 @@ MultiplyPointByMatrix:
 	to r5				;|
 	rol				;/...shifting in bit 15 of the product for extra precision
 	alt1				;\Get YY matrix element in r6
-	lms r6,(CalculatedMatrix.YY)	;/
+	lms r6,(ObjectMatrix.YY)	;/
 	from r2				;\Multiply Y position by YY matrix element...
 	fmult				;|
 	rol				;|...shifting in bit 15 of the product for extra precision...
 	with r5				;|
 	add r0				;/...and accumulating to previous value
 	alt1				;\Get YZ matrix element in r6
-	lms r6,(CalculatedMatrix.YZ)	;/
+	lms r6,(ObjectMatrix.YZ)	;/
 	from r3				;\Multiply Z position by YZ matrix element...
 	fmult				;|
 	rol				;|...shifting in bit 15 of the product for extra precision...
@@ -501,20 +501,20 @@ MultiplyPointByMatrix:
 	alt2				;|...and storing the result
 	sms (OutputVecY),r0		;/
 	alt1				;\Get ZX matrix element in r6
-	lms r6,(CalculatedMatrix.ZX)	;/
+	lms r6,(ObjectMatrix.ZX)	;/
 	from r1				;\Multiply Z position by ZX matrix element...
 	fmult				;|
 	to r5				;|
 	rol				;/...shifting in bit 15 of the product for extra precision
 	alt1				;\Get ZY matrix element in r6
-	lms r6,(CalculatedMatrix.XY)	;/
+	lms r6,(ObjectMatrix.XY)	;/
 	from r2				;\Multiply Y position by ZY matrix element...
 	fmult				;|
 	rol				;|...shifting in bit 15 of the product for extra precision...
 	with r5				;|
 	add r0				;/...and accumulating to previous value
 	alt1				;\Get ZZ matrix element in r6
-	lms r6,(CalculatedMatrix.ZZ)	;/
+	lms r6,(ObjectMatrix.ZZ)	;/
 	from r3				;\Multiply Z position by ZZ matrix element...
 	fmult				;|
 	rol				;|...shifting in bit 15 of the product for extra precision...
@@ -524,7 +524,7 @@ MultiplyPointByMatrix:
 	stop				;\End SuperFX task
 	nop				;/
 CalculateMatrix:
-	iwt r9,#CalculatedMatrix
+	iwt r9,#ObjectMatrix
 	link #4
 	iwt r15,#DoCalculateMatrix
 	nop
@@ -1070,39 +1070,39 @@ CODE_018524:
 	bne CODE_018575
 	nop
 	alt1				;\Copy XX matrix element
-	lms r0,(CalculatedMatrix.XX)	;|
+	lms r0,(ObjectMatrix.XX)	;|
 	alt2				;|
 	sms ($0120),r0			;/
 	alt1				;\Copy YX matrix element
-	lms r0,(CalculatedMatrix.YX)	;|
+	lms r0,(ObjectMatrix.YX)	;|
 	alt2				;|
 	sms ($0122),r0			;/
 	alt1				;\Copy ZX matrix element
-	lms r0,(CalculatedMatrix.ZX)	;|
+	lms r0,(ObjectMatrix.ZX)	;|
 	alt2				;|
 	sms ($0124),r0			;/
 	alt1				;\Copy XY matrix element
-	lms r0,(CalculatedMatrix.XY)	;|
+	lms r0,(ObjectMatrix.XY)	;|
 	alt2				;|
 	sms ($0126),r0			;/
 	alt1				;\Copy YY matrix element
-	lms r0,(CalculatedMatrix.YY)	;|
+	lms r0,(ObjectMatrix.YY)	;|
 	alt2				;|
 	sms ($0128),r0			;/
 	alt1				;\Copy ZY matrix element
-	lms r0,(CalculatedMatrix.ZY)	;|
+	lms r0,(ObjectMatrix.ZY)	;|
 	alt2				;|
 	sms ($012A),r0			;/
 	alt1				;\Copy XZ matrix element
-	lms r0,(CalculatedMatrix.XZ)	;|
+	lms r0,(ObjectMatrix.XZ)	;|
 	alt2				;|
 	sms ($012C),r0			;/
 	alt1				;\Copy YZ matrix element
-	lms r0,(CalculatedMatrix.YZ)	;|
+	lms r0,(ObjectMatrix.YZ)	;|
 	alt2				;|
 	sms ($012E),r0			;/
 	alt1				;\Copy ZZ matrix element
-	lms r0,(CalculatedMatrix.ZZ)	;|
+	lms r0,(ObjectMatrix.ZZ)	;|
 	alt2				;|
 	sms ($0130),r0			;/
 	alt1
@@ -1132,49 +1132,49 @@ CODE_018581:
 	bne CODE_0185DE
 	nop
 	alt1				;\Negate XX matrix element
-	lms r0,(CalculatedMatrix.XX)	;|
+	lms r0,(ObjectMatrix.XX)	;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($0120),r0			;/
 	alt1				;\Negate YX matrix element
-	lms r0,(CalculatedMatrix.YX)	;|
+	lms r0,(ObjectMatrix.YX)	;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($0122),r0			;/
 	alt1				;\Negate ZX matrix element
-	lms r0,(CalculatedMatrix.ZX)	;|
+	lms r0,(ObjectMatrix.ZX)	;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($0124),r0			;/
 	alt1				;\Copy XY matrix element
-	lms r0,(CalculatedMatrix.XY)	;|
+	lms r0,(ObjectMatrix.XY)	;|
 	alt2				;|
 	sms ($0126),r0			;/
 	alt1				;\Copy YY matrix element
-	lms r0,(CalculatedMatrix.YY)	;|
+	lms r0,(ObjectMatrix.YY)	;|
 	alt2				;|
 	sms ($0128),r0			;/
 	alt1				;\Copy ZY matrix element
-	lms r0,(CalculatedMatrix.ZY)	;|
+	lms r0,(ObjectMatrix.ZY)	;|
 	alt2				;|
 	sms ($012A),r0			;/
 	alt1				;\Negate XZ matrix element
-	lms r0,(CalculatedMatrix.XZ)	;|
+	lms r0,(ObjectMatrix.XZ)	;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($012C),r0			;/
 	alt1				;\Negate YZ matrix element
-	lms r0,(CalculatedMatrix.YZ)	;|
+	lms r0,(ObjectMatrix.YZ)	;|
 	not				;|
 	inc r0				;|
 	alt2				;|
 	sms ($012E),r0			;/
 	alt1				;\Negate ZZ matrix element
-	lms r0,(CalculatedMatrix.ZZ)	;|
+	lms r0,(ObjectMatrix.ZZ)	;|
 	not				;|
 	inc r0				;|
 	alt2				;|
@@ -4377,6 +4377,126 @@ CODE_0194FE:
 	jmp r11
 	nop
 CODE_01952E:
+	
+	
+	
+	
+	
+	
+	
+	
+DrawLine:
+	cache
+	iwt r7,#CurPolyVerts2D
+	to r1
+	ldw r7
+	inc r7
+	inc r7
+	to r2
+	ldw r7
+	inc r7
+	inc r7
+	to r3
+	ldw r7
+	inc r7
+	inc r7
+	to r4
+	ldw r7
+	ibt r5,#$01
+	with r3
+	sub r1
+	bpl DrawLineSkipNegDx
+	nop
+	ibt r5,#$FF
+	with r3
+	not
+	inc r3
+DrawLineSkipNegDx:
+	ibt r6,#$01
+	with r4
+	sub r2
+	bpl DrawLineSkipNegDy
+	nop
+	ibt r6,#$FF
+	with r4
+	not
+	inc r4
+DrawLineSkipNegDy:
+	from r3
+	sub r4
+	bmi DrawLineVertOctant
+	nop
+	move r12,r3
+	inc r12
+	lsr
+	sub r4
+	move r13,r15
+	bcs DrawLineSkipOffsY
+	plot
+	add r3
+	with r2
+	add r6
+DrawLineSkipOffsY:
+	dec r1
+	with r1
+	add r5
+	loop
+	sub r4
+	iwt r15,#CODE_018EAD
+	nop
+DrawLineVertOctant:
+	move r12,r4
+	inc r12
+	not
+	inc r0
+	lsr
+	sub r3
+	move r13,r15
+	bcs DrawLineSkipOffsX
+	plot
+	add r4
+	with r1
+	add r5
+DrawLineSkipOffsX:
+	dec r1
+	with r2
+	add r6
+	loop
+	sub r3
+	iwt r15,#CODE_018EAD
+	nop
+DrawNgon:
+	dec r0						;\If vertex count is not 2...
+	dec r0						;|
+	bne DrawNgonSkipLine				;/...branch to skip drawing line
+	iwt r15,#DrawLine				;\Branch to draw line
+	nop						;/
+DrawNgonSkipLine:
+	inc r0
+	inc r0
+	with r0
+	to r12
+	add r0
+	add r0
+	add r0
+	with r0
+	to r3
+	iwt r4,#CurPolyVerts2D
+	from r4
+	to r5
+	add r0
+	iwt r2,#$03FF
+	ibt r8,#$00
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

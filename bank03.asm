@@ -1896,116 +1896,143 @@ CODE_03B639:
 	
 	
 	
-CODE_03B799:
+PlaySESurround:
 	phx
 	phy
 	php
-	ldy Unknown_1238
+	ldy.w PlayerObject
 	jsl CODE_1FD0AB
 	rep #$20
-	lda $1250
-	cmp #$07D0
-	bcc CODE_03B7BB
-	cmp #$047E
-	bcc CODE_03B7E5
-	cmp #$0C4E
-	bcc CODE_03B7ED
-CODE_03B7B7:
+	lda.w $1250
+	cmp.w #$07D0
+	bcc PlaySESurround_Near
+	cmp.w #$047E
+	bcc PlaySESurround_Mid
+	cmp.w #$0C4E
+	bcc PlaySESurround_Far
+PlaySESurround_Exit:
 	plp
 	ply
 	plx
 	rtl
-CODE_03B7BB:
-	lda $14F6
+PlaySESurround_Near:
+	lda.w $14F6
 	sec
 	sbc.b $0C,x
-	bmi CODE_03B7D0
-	cmp #$00AA
-	bcc CODE_03B7DD
+	bmi PlaySESurround_NearRight
+	cmp.w #$00AA
+	bcc PlaySESurround_NearCenter
 	sep #$20
-	lda $1F48
-	jmp CODE_03B7F2
-CODE_03B7D0:
-	cmp #$FF56
-	bcs CODE_03B7DD
+	lda.w SESurroundTable+$00
+	jmp PlaySESurround_PushSE
+PlaySESurround_NearRight:
+	cmp.w #$FF56
+	bcs PlaySESurround_NearCenter
 	sep #$20
-	lda $1F4A
-	jmp CODE_03B7F2
-CODE_03B7DD:
+	lda.w SESurroundTable+$02
+	jmp PlaySESurround_PushSE
+PlaySESurround_NearCenter:
 	sep #$20
-	lda $1F49
-	jmp CODE_03B7F2
-CODE_03B7E5:
+	lda.w SESurroundTable+$01
+	jmp PlaySESurround_PushSE
+PlaySESurround_Mid:
 	sep #$20
-	lda $1F4B
-	jmp CODE_03B7F2
-CODE_03B7ED:
+	lda.w SESurroundTable+$03
+	jmp PlaySESurround_PushSE
+PlaySESurround_Far:
 	sep #$20
-	lda $1F4C
-CODE_03B7F2:
-	jsl CODE_03B7F9
-	jmp CODE_03B7B7
-CODE_03B7F9:
+	lda.w SESurroundTable+$04
+PlaySESurround_PushSE:
+	jsl PushSoundEffectToQueue
+	jmp PlaySESurround_Exit
+PushSoundEffectToQueue:
 	php
 	pha
 	sep #$20
-	lda $1FCF
-	bne CODE_03B824
-	lda $14D1
-	and #$08
-	beq CODE_03B810
-	lda $14D7
-	and #$80
-	bne CODE_03B824
-CODE_03B810:
+	lda.w $1FCF
+	bne PushSoundEffectToQueue_Exit
+	lda.w $14D1
+	and.b #$08
+	beq PushSoundEffectToQueue_Insert
+	lda.w $14D7
+	and.b #$80
+	bne PushSoundEffectToQueue_Exit
+PushSoundEffectToQueue_Insert:
 	pla
 	phx
-	ldx $1F4D
-	sta $1F53,x
-	lda $1F4D
+	ldx.w SEQueuePtr
+	sta.w SoundEffectQueue,x
+	lda.w SEQueuePtr
 	inc
-	and #$0F
-	sta $1F4D
+	and.b #$0F
+	sta.w SEQueuePtr
 	plx
 	plp
 	rtl
-CODE_03B824:
+PushSoundEffectToQueue_Exit:
 	pla
 	plp
 	rtl
-	
-	
-	
-	
-	
-	
+CODE_03B827:
+	php
+	bra CODE_03B82D
+	php
+	sep #$30
+CODE_03B82D:
+	lda.b #$3A
+	sta.b $EF
+	lda.b #$AF
+	sta.b $F0
+	lda.b #$55
+	sta.b $F1
+	lda.b #$7F
+	sta.b $F2
+	stz.b $98
+	stz.b $B9
+	stz.b $95
+	stz.b $9C
+	stz.b $9D
+	stz.b $99
+	stz.b $DC
+	stz.w $1634
+	stz.w $1636
+	stz.w $1638
+	stz.w $1249
+	stz.w $124A
+	lda.b #$00
+	sta.w $15CA
+	jsl RunSuperFXCalculateMatrixEx
+	jsl CopyDebugFont
+	jsl CODE_03B86F
+	plp
+	rtl
 CODE_03B86F:
-	lda #$FF
-	sta $15BF
-	jsl CODE_03BCE5
+	lda.b #$FF
+	sta.w $15BF
+	jsl RunSuperFXUnkRoutine01A861
 	lda.b $CA
-	sta $700034
+	sta.l $700034
 	lda.b $CC
-	sta $700036
+	sta.l $700036
 	lda.b $2A
-	sta $700038
+	sta.l $700038
 	lda.b $2E
-	sta $70003A
+	sta.l $70003A
 	lda.b $2C
-	sta $70003C
+	sta.l $70003C
 	lda.b $30
-	sta $70003E
+	sta.l $70003E
 	rtl
 CopyDebugFont:
 	php
 	sep #$30
-	ldy #$00
-	ldx #$00
-	lda #$80
+	ldy.b #$00
+	ldx.b #$00
+	lda.b #$80
 	sta.b $60
 CopyDebugFont_Loop:
-	lda DebugFont,x
-	sta CopiedDebugFont,x
+	lda.w DebugFont,x
+	sta.w CopiedDebugFont,x
 	inx
 	iny
 	iny
@@ -2013,23 +2040,25 @@ CopyDebugFont_Loop:
 	bne CopyDebugFont_Loop
 	plp
 	rtl
-RunSuperFXCalculateMatrix2:
+RunSuperFXCalculateMatrixEx:
 	php
 	rep #$20
-	stz $1633
-	stz $1635
-	stz $1637
-	lda $1633
-	sta $162D
-	lda $1635
-	sta $162F
-	lda $1637
-	sta $1631
+	stz.w $1633
+	stz.w $1635
+	stz.w $1637
+	lda.w $1633
+	sta.w $162D
+	lda.w $1635
+	sta.w $162F
+	lda.w $1637
+	sta.w $1631
 	sep #$20
 	jsl RunSuperFXCalculateMatrix
 	rep #$20
-	lda Unknown_15D7.XX
-	sta Unknown_161B.XX
+	lda.w Unknown_15D7.XX
+	sta.w Unknown_161B.XX
+	
+	
 	
 	
 	
@@ -2039,21 +2068,21 @@ RunSuperFXMultiplyPointByMatrix:
 	php
 	rep #$30
 	lda.b TempVecX
-	sta InputVecX
+	sta.l InputVecX
 	lda.b TempVecY
-	sta InputVecY
+	sta.l InputVecY
 	lda.b TempVecZ
-	sta InputVecZ
+	sta.l InputVecZ
 	sep #$20
-	lda #BANKOF(MultiplyPointByMatrix)
-	ldx #MultiplyPointByMatrix
+	lda.b #BANKOF(MultiplyPointByMatrix)
+	ldx.w #MultiplyPointByMatrix
 	jsl RunSuperFXRoutine
 	rep #$20
-	lda OutputVecX
+	lda.l OutputVecX
 	sta.b $B3
-	lda OutputVecY
+	lda.l OutputVecY
 	sta.b $B5
-	lda OutputVecZ
+	lda.l OutputVecZ
 	sta.b $B7
 	plp
 	ply
@@ -2061,35 +2090,35 @@ RunSuperFXMultiplyPointByMatrix:
 	rtl
 RunSuperFXCalculateMatrix:
 	rep #$20
-	lda $162D
-	sta DesiredXRot
-	lda $162F
-	sta DesiredYRot
-	lda $1631
-	sta DesiredZRot
+	lda.w $162D
+	sta.l DesiredXRot
+	lda.w $162F
+	sta.l DesiredYRot
+	lda.w $1631
+	sta.l DesiredZRot
 	sep #$20
 	rep #$10
 	lda.b #BANKOF(CalculateMatrix)
 	ldx.w #CalculateMatrix
 	jsl RunSuperFXRoutine
-	lda CalculatedMatrix.XX
-	sta $15D7
-	lda CalculatedMatrix.YX
-	sta $16D9
-	lda CalculatedMatrix.ZX
-	sta $16DB
-	lda CalculatedMatrix.XY
-	sta $15DD
-	lda CalculatedMatrix.YY
-	sta $16DF
-	lda CalculatedMatrix.ZY
-	sta $16E1
-	lda CalculatedMatrix.XZ
-	sta $15E3
-	lda CalculatedMatrix.YZ
-	sta $16E5
-	lda CalculatedMatrix.ZZ
-	sta $16E7
+	lda.l ObjectMatrix.XX
+	sta.w $15D7
+	lda.l ObjectMatrix.YX
+	sta.w $16D9
+	lda.l ObjectMatrix.ZX
+	sta.w $16DB
+	lda.l ObjectMatrix.XY
+	sta.w $15DD
+	lda.l ObjectMatrix.YY
+	sta.w $16DF
+	lda.l ObjectMatrix.ZY
+	sta.w $16E1
+	lda.l ObjectMatrix.XZ
+	sta.w $15E3
+	lda.l ObjectMatrix.YZ
+	sta.w $16E5
+	lda.l ObjectMatrix.ZZ
+	sta.w $16E7
 	sep #$30
 	rtl
 CODE_03B9F2:
@@ -2120,7 +2149,7 @@ CODE_03B9F2:
 	
 	
 CODE_03BA45:
-	ldx #$00
+	ldx.b #$00
 	lda.b $87
 	beq CODE_03BA57
 	inx
@@ -2135,15 +2164,15 @@ CODE_03BA55:
 	ror.b $86
 CODE_03BA57:
 	stx.b $92
-	ldx #$00
+	ldx.b #$00
 	lda.b $85
 	sta.b $8B
 	bpl CODE_03BA6E
-	lda #$00
+	lda.b #$00
 	sec
 	sbc.b $84
 	sta.b $84
-	lda #$00
+	lda.b #$00
 	sbc.b $85
 	sta.b $85
 CODE_03BA6E:
@@ -3178,6 +3207,22 @@ Level3Headers:
 ;LEVEL SCRIPT PARSER;
 ;;;;;;;;;;;;;;;;;;;;;
 ;Each level script consists of a series of commands, which get parsed here
+UpdateZTimer:
+	rep #$30
+	ldx.w PlayerObject
+	lda.b $10,x
+	sec
+	sbc.w PlayerPrevZPos
+	sta.w ZTimerVel
+	lda.b $10,x
+	sta.w PlayerPrevZPos
+	ldx.w LevelScriptPointer
+	lda.w ZTimer
+	sec
+	sbc.w ZTimerVel
+	bmi RunLevelScript
+	sta.w ZTimer
+	rtl
 RunLevelScript:
 	php
 	sep #$20
@@ -3540,9 +3585,9 @@ LevelCommand66_InitPresetSettings:
 	inx
 	jmp RunLevelScriptCommands
 SetPresetInitFlag:
-	lda Unknown_1F13
+	lda CurMainLoopLoaderTasks
 	ora #$0008
-	sta Unknown_1F13
+	sta CurMainLoopLoaderTasks
 	rtl
 InitPresetSettings:
 	php
@@ -4298,9 +4343,9 @@ LevelCommand10_SetPreset:
 	jmp RunLevelScriptCommands
 DoSetPreset:
 	sta Preset
-	lda Unknown_1F13
+	lda CurMainLoopLoaderTasks
 	ora #$0004
-	sta Unknown_1F13
+	sta CurMainLoopLoaderTasks
 	rtl
 LoadPreset:
 	rep #$20

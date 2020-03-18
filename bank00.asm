@@ -353,36 +353,43 @@ UnknownSineTable8:
 	DB $30,$33,$36,$39,$3B,$3E,$41,$43,$46,$49,$4B,$4E,$50,$52,$55,$57
 	DB $59,$5B,$5E,$60,$62,$64,$66,$67,$69,$6B,$6C,$6E,$70,$71,$72,$74
 	DB $75,$76,$77,$78,$79,$7A,$7B,$7B,$7C,$7D,$7D,$7E,$7E,$7E,$7E,$7E
-DATA_008C15:
-	DW DATA_008C29,DATA_008C69,DATA_008CA9,DATA_008CE9
-	DW DATA_008D29,DATA_008D69,DATA_008D69,DATA_008D69
-	DW DATA_008D69,DATA_008D69
-DATA_008C29:
+TiltScrollTable:
+	DW TiltScrollTable_00_Flat
+	DW TiltScrollTable_01
+	DW TiltScrollTable_02
+	DW TiltScrollTable_03
+	DW TiltScrollTable_04
+	DW TiltScrollTable_05_Max
+	DW TiltScrollTable_05_Max
+	DW TiltScrollTable_05_Max
+	DW TiltScrollTable_05_Max
+	DW TiltScrollTable_05_Max
+TiltScrollTable_00_Flat:
 	DW $4010,$4010,$4010,$4010,$4010,$4010,$4010,$4010
 	DW $4010,$4010,$4010,$4010,$4010,$4010,$4010,$4010
 	DW $4010,$4010,$4010,$4010,$4010,$4010,$4010,$4010
 	DW $4010,$4010,$4010,$4010,$4010,$4010,$4010,$4010
-DATA_008C69:
+TiltScrollTable_01:
 	DW $4014,$4013,$4013,$4013,$4012,$4012,$4012,$4012
 	DW $4012,$4011,$4011,$4011,$4011,$4010,$4010,$4010
 	DW $4010,$4010,$400F,$400F,$400F,$400F,$400E,$400E
 	DW $400E,$400E,$400E,$400D,$400D,$400D,$400C,$400C
-DATA_008CA9:
+TiltScrollTable_02:
 	DW $4017,$4016,$4015,$4015,$4014,$4014,$4014,$4013
 	DW $4013,$4012,$4012,$4012,$4011,$4011,$4010,$4010
 	DW $4010,$400F,$400F,$400E,$400E,$400E,$400D,$400D
 	DW $400C,$400C,$400C,$400B,$400B,$400A,$4009,$4009
-DATA_008CE9:
+TiltScrollTable_03:
 	DW $4019,$4018,$4018,$4017,$4017,$4016,$4015,$4015
 	DW $4014,$4014,$4013,$4012,$4012,$4011,$4011,$4010
 	DW $400F,$400F,$400E,$400E,$400D,$400C,$400C,$400B
 	DW $400B,$400A,$4009,$4009,$4008,$4008,$4007,$4007
-DATA_008D29:
+TiltScrollTable_04:
 	DW $401C,$401B,$401A,$4019,$4018,$4018,$4017,$4016
 	DW $4015,$4015,$4014,$4013,$4012,$4012,$4011,$4010
 	DW $400F,$400E,$400E,$400D,$400C,$400B,$400B,$400A
 	DW $4009,$4008,$4008,$4007,$4006,$4005,$4004,$4004
-DATA_008D69:
+TiltScrollTable_05_Max:
 	DW $4020,$401F,$401E,$401D,$401C,$401B,$401A,$4019
 	DW $4018,$4017,$4016,$4015,$4014,$4013,$4012,$4011
 	DW $4010,$400F,$400E,$400D,$400C,$400B,$400A,$4009
@@ -2709,7 +2716,7 @@ CODE_00F15A:
 	sta.b $02
 	lda.b $02
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	lda.b #$00
 	sta.w $1CDC,x
 CODE_00F1A1:
@@ -2742,7 +2749,7 @@ CODE_00F1EE:
 	beq CODE_00F1F8
 	jml CODE_00F209
 CODE_00F1F8:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$06
 	beq CODE_00F21D
@@ -2750,7 +2757,7 @@ CODE_00F1F8:
 	jsr CODE_00F4BA
 	jmp CODE_00F510
 CODE_00F209:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$04
 	beq CODE_00F21A
@@ -2770,7 +2777,7 @@ CODE_00F226:
 	beq CODE_00F230
 	jml CODE_00F241
 CODE_00F230:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$0B
 	beq CODE_00F225
@@ -2778,7 +2785,7 @@ CODE_00F230:
 	jsr CODE_00F4BA
 	jmp CODE_00F510
 CODE_00F241:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$09
 	beq CODE_00F252
@@ -2809,13 +2816,13 @@ CODE_00F25E:
 	clc
 	adc.b #$09
 	sta.b $02
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b $02
 	bne CODE_00F28F
 	jml CODE_00F3FE
 CODE_00F28F:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
 	bmi CODE_00F29A
@@ -2829,7 +2836,7 @@ CODE_00F29A:
 	sbc.b #$10
 CODE_00F2A3:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 	rep #$20
 	lda.w #$F53D
@@ -2847,13 +2854,13 @@ CODE_00F2A3:
 	clc
 	adc.b #$04
 	sta.b $02
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b $02
 	bne CODE_00F2DC
 	jml CODE_00F3FE
 CODE_00F2DC:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
 	bmi CODE_00F2E7
@@ -2867,7 +2874,7 @@ CODE_00F2E7:
 	sbc.b #$10
 CODE_00F2F0:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 CODE_00F2F8:
 	jmp CODE_00F51B
@@ -2896,7 +2903,7 @@ CODE_00F322:
 	lda.b #$00
 	sta.w $1CD5,x
 CODE_00F333:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
 	bmi CODE_00F33E
@@ -2909,14 +2916,14 @@ CODE_00F33E:
 	lda.b #$0F
 	dec
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 CODE_00F34F:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 CODE_00F357:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
 	bmi CODE_00F362
@@ -2929,21 +2936,21 @@ CODE_00F362:
 	lda.b #$0B
 	dec
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 CODE_00F373:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 CODE_00F37B:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$00
 	bne CODE_00F388
 	jml CODE_00F51B
 CODE_00F388:
 	bpl CODE_00F3A6
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
 	bmi CODE_00F395
@@ -2957,10 +2964,10 @@ CODE_00F395:
 	sbc.b #$10
 CODE_00F39E:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 CODE_00F3A6:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
 	bmi CODE_00F3B1
@@ -2974,7 +2981,7 @@ CODE_00F3B1:
 	sbc.b #$10
 CODE_00F3BA:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 CODE_00F3C2:
 	lda.w $15BB
@@ -2982,13 +2989,13 @@ CODE_00F3C2:
 	beq CODE_00F3CD
 	jml CODE_00F51B
 CODE_00F3CD:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$0B
 	bne CODE_00F3DA
 	jml CODE_00F51B
 CODE_00F3DA:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
 	bmi CODE_00F3E5
@@ -3002,7 +3009,7 @@ CODE_00F3E5:
 	sbc.b #$10
 CODE_00F3EE:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 CODE_00F3F6:
 	lda.b #$00
@@ -3023,11 +3030,11 @@ CODE_00F410:
 	beq CODE_00F41A
 	jml CODE_00F43F
 CODE_00F41A:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$05
 	beq CODE_00F468
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
 	bmi CODE_00F42E
@@ -3041,16 +3048,16 @@ CODE_00F42E:
 	sbc.b #$10
 CODE_00F437:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 CODE_00F43F:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$00
 	bne CODE_00F44C
 	jml CODE_00F3F6
 CODE_00F44C:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
 	bmi CODE_00F457
@@ -3064,7 +3071,7 @@ CODE_00F457:
 	sbc.b #$10
 CODE_00F460:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 CODE_00F468:
 	lda.b $1E,x
@@ -3072,7 +3079,7 @@ CODE_00F468:
 	sta.b $1E,x
 	jmp CODE_00F51B
 CODE_00F471:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
 	bmi CODE_00F47C
@@ -3085,33 +3092,33 @@ CODE_00F47C:
 	lda.b #$0B
 	dec
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F3FE
 CODE_00F48D:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	lda.b #$4A
 	sta.b $2A,x
 	jmp CODE_00F51B
 CODE_00F499:
 	lda.b #$4A
 	sta.b $2A,x
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$0A
 	beq CODE_00F4B0
 	lda.b #$0A
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 CODE_00F4B0:
 	lda.b #$09
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F51B
 CODE_00F4BA:
 	sta.b $02
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b $02
 	bmi CODE_00F4C7
@@ -3125,7 +3132,7 @@ CODE_00F4C7:
 	sbc.b #$10
 CODE_00F4D0:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	rts
 CODE_00F4D6:
 	lda.b #$97
@@ -3137,7 +3144,7 @@ CODE_00F4DD:
 	beq CODE_00F4E7
 	jml CODE_00F4F7
 CODE_00F4E7:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$03
 	beq CODE_00F50A
@@ -3146,7 +3153,7 @@ CODE_00F4F0:
 	jsr CODE_00F4BA
 	bra CODE_00F510
 CODE_00F4F7:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$00
 	beq CODE_00F507
@@ -3166,7 +3173,7 @@ CODE_00F510:
 	lda.b #$05
 	sta.w $1CDC,x
 CODE_00F51B:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$0D
 	bcs CODE_00F528
@@ -3194,10 +3201,10 @@ CODE_00F547:
 	sbc.b #$05
 	sta.w $F0C9
 	rep #$20
-	lda.w #$F5A2
+	lda.w #CODE_00F5A2
 	sta.l Object2ListRel+$06,x
 	sep #$20
-	lda.b #$00
+	lda.b #BANKOF(CODE_00F5A2)
 	sta.l Object2ListRel+$08,x
 	ldy.b $06,x
 	lda.b $20,x
@@ -3222,19 +3229,19 @@ CODE_00F57F:
 	lda.b #$78
 	sta.b $15,x
 	lda.b $15,x
-	sta.b $7E
+	sta.b TempRotZ
 	lda.b $13,x
-	jsl CODE_1FC177
+	jsl GetLocalZX8RotateNegRotY
 	rep #$20
-	lda.b $02
+	lda.b TempVecX
 	sta.b $2F,x
-	lda.b $90
+	lda.b TempVecZ
 	sta.b $33,x
 	sep #$20
-CODE_00F59C:
 	lda.b $1E,x
 	ora.b #$01
 	sta.b $1E,x
+CODE_00F5A2:
 	jsl ApplyObjectVelocity
 	lda.b $13,x
 	clc
@@ -3290,7 +3297,7 @@ CODE_00F605:
 	cmp.b #$00
 	sep #$20
 	bne CODE_00F613
-	jml CODE_06F45F
+	jml DestroyCommonEnemy
 CODE_00F613:
 	rtl
 CODE_00F614:
@@ -3298,12 +3305,12 @@ CODE_00F614:
 	ora.b #$08
 	sta.b $1D,x
 	rep #$20
-	lda.w #$F639
+	lda.w #CODE_00F639
 	sta.b $16,x
 	sep #$20
-	lda.b #$00
+	lda.b #BANKOF(CODE_00F639)
 	sta.b $18,x
-	jsl CODE_1FD41A
+	jsl SetDefaultDestroyColiFuncPtrs
 	lda.b #$FF
 	sta.b $2A,x
 	lda.b #$08
@@ -3311,10 +3318,11 @@ CODE_00F614:
 	lda.b $1F,x
 	ora.b #$20
 	sta.b $2F,x
-	lda.w $1CF0,x
+CODE_00F639:
+	lda.w Object2ListRel+$26,x
 	clc
 	adc.b #$05
-	sta.w $1CF0,x
+	sta.w Object2ListRel+$26,x
 	lda.b $13,x
 	cmp.b #$F0
 	bcs CODE_00F64E
@@ -3340,13 +3348,13 @@ CODE_00F659:
 	stz.w $154D
 	stz.w $154E
 	lda.b #$26
-	jsl CODE_1FD146
+	jsl ShootProjectile
 	cpy.w #$0000
-	bneCODE_00F686
+	bne CODE_00F686
 	ldy.w $156B
 CODE_00F686:
 	rep #$20
-	lda.w $1238
+	lda.w PlayerObject
 	sta.w $0006,y
 	sep #$20
 	lda.b #$FF
@@ -3359,7 +3367,7 @@ CODE_00F69D:
 CODE_00F69E:
 	lda.b #$00
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	lda.b #$FF
 	sta.b $2A,x
 	lda.b #$08
@@ -3368,25 +3376,26 @@ CODE_00F69E:
 	ora.b #$01
 	sta.b $1E,x
 	rep #$20
-	lda.w #$F6C4
+	lda.w #CODE_00F6C4
 	sta.b $16,x
 	sep #$20
-	lda.b #$00
+	lda.b #BANKOF(CODE_00F6C4)
 	sta.b $18,x
 	lda.b #$32
 	sta.b $23,x
+CODE_00F6C4:
 	lda.b $1E,x
 	and.b #$10
 	bne CODE_00F6CE
 	jml CODE_00F6F7
 CODE_00F6CE:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$00
 	bne CODE_00F6DB
 	jml CODE_00F76E
 CODE_00F6DB:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
 	bmi CODE_00F6E6
@@ -3400,7 +3409,7 @@ CODE_00F6E6:
 	sbc.b #$10
 CODE_00F6EF:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F73A
 CODE_00F6F7:
 	lda.b $23,x
@@ -3417,7 +3426,7 @@ CODE_00F706:
 	jml CODE_00F74B
 CODE_00F70E:
 	dec.b $23,x
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
 	bmi CODE_00F71B
@@ -3430,27 +3439,27 @@ CODE_00F71B:
 	lda.b #$0A
 	dec
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F731
 CODE_00F72C:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 CODE_00F731:
-	lda.w $1CF5,x
+	lda.w Object2ListRel+$2B,x
 	clc
 	adc.b #$FB
-	sta.w $1CF5,x
+	sta.w Object2ListRel+$2B,x
 CODE_00F73A:
-	jsl CODE_1FDC69
-	lda.b #$00
-	sta.b $12,x
-	lda.b #$00
-	sta.b $13,x
-	lda.b #$00
-	sta.b $14,x
+	jsl OffsetObjectZPosition
+	lda.b #$00					;\Clear object rotation
+	sta.b $12,x					;|
+	lda.b #$00					;|
+	sta.b $13,x					;|
+	lda.b #$00					;|
+	sta.b $14,x					;/
 	rtl
 CODE_00F74B:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
 	bmi CODE_00F756
@@ -3463,11 +3472,11 @@ CODE_00F756:
 	lda.b #$14
 	dec
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp CODE_00F76E
 CODE_00F767:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	bra CODE_00F731
 CODE_00F76E:
 	jsl CODE_1FD501
@@ -3477,11 +3486,11 @@ CODE_00F773:
 	lda.w #$AD9D
 	sta.w $14C5
 	sep #$20
-	jsl CODE_1FD54B
+	jsl CreateChildObject
 	bcs CODE_00F787
 	jml CODE_00F7D8
 CODE_00F787:
-	jsl CopyPositionIndXToIndY
+	jsl CopyPositionTo
 	rep #$20
 	lda.w #$0000
 	sta.w $000E,y
@@ -3496,10 +3505,10 @@ CODE_00F787:
 	ora.b #$10
 	sta.w $002E,y
 	lda.b #$99
-	jsl CODE_03B7F9
+	jsl PushSoundEffectToQueue
 	phx
 	tyx
-	ldy.w $1238
+	ldy.w PlayerObject
 	stz.w $1532
 	jsl CODE_1FD03E
 	sep #$20
@@ -3522,12 +3531,12 @@ CODE_00F7D8:
 	rts
 CODE_00F7D9:
 	rep #$20
-	lda.w #$F828
+	lda.w #CODE_00F828
 	sta.b $16,x
 	sep #$20
-	lda.b #$00
+	lda.b #BANKOF(CODE_00F828)
 	sta.b $18,x
-	jsl CODE_1FD41A
+	jsl SetDefaultDestroyColiFuncPtrs
 	lda.b $1F,x
 	ora.b #$20
 	sta.b $1F,x
@@ -3537,33 +3546,34 @@ CODE_00F7D9:
 	sta.b $2B,x
 	rep #$20
 	lda.w #$8574
-	sta.w $1CEA,x
+	sta.w Object2ListRel+$20,x
 	sep #$20
 	lda.b $1D,x
 	ora.b #$20
 	sta.b $1D,x
 	lda.b #$00
-	sta.w $1CDF,x
+	sta.w Object2ListRel+$15,x
 	lda.b #$00
-	sta.w $1CF4,x
+	sta.w Object2ListRel+$2A,x
 	lda.b #$78
 	sta.b $15,x
 	lda.b $15,x
-	sta.b $7E
+	sta.b TempRotZ
 	lda.b $13,x
-	sta.w $15A7
+	sta.w TempRotY
 	lda.b $12,x
-	sta.w $15A6
-	jsl CODE_1FD5A7
+	sta.w TempRotX
+	jsl SetTempVelocity
+CODE_00F828:
 	rep #$20
 	lda.w #$AD9D
 	sta.w $14C5
 	sep #$20
-	jsl CODE_1FC54B
+	jsl CreateChildObject
 	bcs
 	jml CODE_00F857
 CODE_00F83C:
-	jsl CopyPositionIndXToIndY
+	jsl CopyPositionTo
 	rep #$20
 	lda.w #$F860
 	sta.w $0016,y
@@ -3575,7 +3585,7 @@ CODE_00F83C:
 	sta.w $001E,y
 CODE_00F857:
 	jsl ApplyObjectVelocity
-	jsl CODE_1FDC69
+	jsl OffsetObjectZPosition
 	rtl
 CODE_00F860:
 	lda.b $2E,x
@@ -3583,20 +3593,20 @@ CODE_00F860:
 	sta.b $2E,x
 	rep #$20
 	lda.w #$8574
-	sta.w $1CEA,x
+	sta.w Object2ListRel+$20,x
 	sep #$20
 	lda.b $1D,x
 	ora.b #$20
 	sta.b $1D,x
 	lda.b #$01
-	sta.w $1CDF,x
+	sta.w Object2ListRel+$15,x
 	lda.b #$00
-	sta.w $1CF4,x
+	sta.w Object2ListRel+$2A,x
 	lda.b $22,x
 	cmp.b #$0A
 	beq CODE_00F88D
 	inc.b $22,x
-	jsl CODE_1FDC69
+	jsl OffsetObjectZPosition
 	rtl
 CODE_00F88D:
 	jsl CODE_1FD501
@@ -3606,25 +3616,25 @@ CODE_00F892:
 	lda.w #$AD81
 	sta.w $14C5
 	sep #$20
-	jsl CODE_1FD54B
+	jsl CreateChildObject
 CODE_00F8A6:
 	bcc CODE_00F8AC
 	jml CODE_00F932
 CODE_00F8AC:
-	jsl CopyRotationIndXToIndY
-	jsl CopyPositionIndXToIndY
+	jsl CopyRotationTo
+	jsl CopyRotationTo
 	rep #$20
-	lda.w #$EFC6
+	lda.w #CODE_09EFC6
 	sta.w $0016,y
 	sep #$20
-	lda.b #$09
+	lda.b #BANKOF(CODE_09EFC6)
 	sta.w $0018,y
 	lda.w $002E,y
 	ora.b #$10
 	sta.w $002E,y
 	phx
 	tyx
-	ldy.w $1238
+	ldy.w PlayerObject
 	stz.w $1532
 	jsl CODE_1FD03E
 	sep #$20
@@ -3646,16 +3656,17 @@ CODE_00F8EE:
 	plx
 	jsl CODE_02FC58
 	and.b #$0F
-	sta.b $02
+	sta.b TempVecX
 	jsl CODE_02FC58
 	and.b #$3F
-	sta.b $08
+	sta.b TempVecY
+	lda.b TempVecY
 	sec
 	sbc.b #$20
-	sta.b $08
+	sta.b TempVecY
 	lda.w $0012,y
 	clc
-	adc.b $02
+	adc.b TempVecX
 	sta.w $0012,y
 	lda.w $0012,y
 	clc
@@ -3663,13 +3674,13 @@ CODE_00F8EE:
 	sta.w $0012,y
 	lda.w $0013,y
 	clc
-	adc.b $08
+	adc.b TempVecY
 	sta.w $0013,y
 	lda.w $001E,y
 	ora.b #$10
 	sta.w $001E,y
 	lda.b #$49
-	jsl CODE_03B7F9
+	jsl PushSoundEffectToQueue
 CODE_00F932:
 	rts
 CODE_00F933:
@@ -3677,20 +3688,21 @@ CODE_00F933:
 	ora.b #$20
 	sta.b $1D,x
 	lda.b #$08
-	sta.w $1CDF,x
+	sta.w Object2ListRel+$15,x
 	lda.b #$00
-	sta.w $1CF4,x
+	sta.w Object2ListRel+$2A,x
 	rep #$20
-	lda.w #$F95C
+	lda.w #CODE_00F95C
 	sta.b $16,x
 	sep #$20
-	lda.b #$00
+	lda.b #BANKOF(CODE_00F95C)
 	sta.b $18,x
 	jsl CODE_1FD41A
 	lda.b #$06
 	sta.b $2A,x
 	lda.b #$10
 	sta.b $2B,x
+CODE_00F95C:
 	rep #$20
 	lda.w #$03E8
 	jsl CODE_0398A7
@@ -3700,11 +3712,12 @@ CODE_00F96B:
 	rtl
 CODE_00F96C:
 	rep #$20
-	lda.w #$F979
+	lda.w #CODE_00F979
 	sta.b $16,x
 	sep #$20
-	lda.b #$00
+	lda.b #BANKOF(CODE_00F979)
 	sta.b $18,x
+CODE_00F979:
 	jsr CODE_00F892
 	jsr CODE_00F892
 	jsr CODE_00F892
@@ -3729,7 +3742,7 @@ BehE5_BigBlueArchway:
 	sep #$20
 	lda.b #BANKOF(BehE5_BigBlueArchwayLoop)
 	sta.b $18,x
-	jsl CODE_1FD41A
+	jsl SetDefaultDestroyColiFuncPtrs
 	lda.b #$FF
 	sta.b $2A,x
 	lda.b #$08
@@ -3739,7 +3752,7 @@ BehE5_BigBlueArchway:
 	sta.b $1F,x
 	lda.b #$00
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 BehE5_BigBlueArchwayLoop:
 	lda.b $1E,x
 	and.b #$10
@@ -3749,7 +3762,7 @@ BehE5_L1:
 	lda.b $1E,x
 	and.b #$EF
 	sta.b $1E,x
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$00
 	beq BehE5_L2
@@ -3757,7 +3770,7 @@ BehE5_L1:
 BehE5_L2:
 	jsl CODE_03B731
 BehE5_L3:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
 	bmi BehE5_L4
@@ -3770,11 +3783,11 @@ BehE5_L4:
 	lda.b #$08
 	dec
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	jmp BehE5_L6
 BehE5_L5:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	rtl
 BehE5_L6:
 	inc.b $22,x
@@ -3789,13 +3802,13 @@ BehE5_L6:
 BehE5_L7:
 	rtl
 BehE5_L8:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$00
 	bne BehE5_L9
 	jml BehE5_L14
 BehE5_L9:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$07
 	beq BehE5_L10
@@ -3803,7 +3816,7 @@ BehE5_L9:
 BehE5_L10:
 	jsl CODE_03B719
 BehE5_L11:
-	lda.w $1CE7,x
+	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
 	bmi BehE5_L12
@@ -3817,7 +3830,7 @@ BehE5_L12:
 	sbc.b #$08
 BehE5_L13:
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 	rtl
 BehE5_L14:
 	inc.b $22,x
@@ -3829,30 +3842,30 @@ BehE5_L14:
 	brl BehE5_L1
 ;BEHAVIOR FUNCTION ID $E9
 BehE9_BigAsteroid:
-	rep #$20				;\Set object behavior routine pointer to $00FAA4
-	lda.w #BehE9_BigAsteroid_Loop		;|
-	sta.b $16,x				;|
-	sep #$20				;|
-	lda.b #BANKOF(BehE9_BigAsteroid_Loop)	;|
-	sta.b $18,x				;/
-	jsl CODE_1FD41A
+	rep #$20					;\Set object behavior routine pointer to BehE9_BigAsteroid_Loop
+	lda.w #BehE9_BigAsteroid_Loop			;|
+	sta.b $16,x					;|
+	sep #$20					;|
+	lda.b #BANKOF(BehE9_BigAsteroid_Loop)		;|
+	sta.b $18,x					;/
+	jsl SetDefaultDestroyColiFuncPtrs
 	lda.b $1F,x
 	ora.b #$20
 	sta.b $1F,x
-	lda.b #$FF				;\Set HP (indestructible)
-	sta.b $2A,x				;/
-	lda.b #$0C				;\Set power (damage to player upon impact)
-	sta.b $2B,x				;/
-	lda.w $18C8				;\Calculate Y rotation
-	eor.b #$FF				;|
-	inc					;|
-	clc					;|
-	adc.b #$80				;|
-	clc					;|
-	adc.w $152B				;|
-	sta.b $13,x				;/
-	lda.w $18C6				;\Set X rotation
-	sta.b $12,x				;/
+	lda.b #$FF					;\Set HP (indestructible)
+	sta.b $2A,x					;/
+	lda.b #$0C					;\Set power (damage to player upon impact)
+	sta.b $2B,x					;/
+	lda.w $18C8					;\Calculate Y rotation
+	eor.b #$FF					;|
+	inc						;|
+	clc						;|
+	adc.b #$80					;|
+	clc						;|
+	adc.w $152B					;|
+	sta.b $13,x					;/
+	lda.w $18C6					;\Set X rotation
+	sta.b $12,x					;/
 	jsl CODE_02FC58
 	and.b #$0F
 	sta.b $22,x
@@ -3868,10 +3881,10 @@ BehEA_ShootableAsteroid:
 	lda.w #$459F
 	sta.b $28,x
 	sep #$20
-	lda.b #$02				;\Set HP
-	sta.b $2A,x				;/
-	lda.b #$0C				;\Set power (damage to player upon impact)
-	sta.b $2B,x				;/
+	lda.b #$02					;\Set HP
+	sta.b $2A,x					;/
+	lda.b #$0C					;\Set power (damage to player upon impact)
+	sta.b $2B,x					;/
 	jml Beh9C
 ;BEHAVIOR FUNCTION ID $ED
 BehED_ShootableAsteroid:
@@ -3879,10 +3892,10 @@ BehED_ShootableAsteroid:
 	lda.w #$459B
 	sta.b $28,x
 	sep.b #$20
-	lda.b #$02				;\Set HP
-	sta.b $2A,x				;/
-	lda.b #$0C				;\Set power (damage to player upon impact)
-	sta.b $2B,x				;/
+	lda.b #$02					;\Set HP
+	sta.b $2A,x					;/
+	lda.b #$0C					;\Set power (damage to player upon impact)
+	sta.b $2B,x					;/
 	jml Beh9C
 
 CODE_00FACF:
@@ -3894,13 +3907,13 @@ CODE_00FAD6:
 	lda.b $2E,x
 	ora.b #$10
 	sta.b $2E,x
-	rep #$20			;\Set object behavior routine pointer to $00FB03
-	lda.w #CODE_00FB03		;|
-	sta.b $16,x			;|
-	sep #$20			;|
-	lda.b #BANKOF(CODE_00FB03)	;|
-	sta.b $18,x			;/
-	jsl CODE_1FD41A
+	rep #$20					;\Set object behavior routine pointer to $00FB03
+	lda.w #CODE_00FB03				;|
+	sta.b $16,x					;|
+	sep #$20					;|
+	lda.b #BANKOF(CODE_00FB03)			;|
+	sta.b $18,x					;/
+	jsl SetDefaultDestroyColiFuncPtrs
 	lda.b $13,x
 	clc
 	adc.b #$80
@@ -3911,7 +3924,7 @@ CODE_00FAD6:
 	sta.b $2B,x
 	lda.b #$00
 	ora.b #$80
-	sta.w $1CE7,x
+	sta.w Object2ListRel+$1D,x
 CODE_00FB03:
 	lda.b $1E,x
 	and #$20
@@ -3941,23 +3954,23 @@ CODE_00FB2F:
 	jml CODE_00FB65
 CODE_00FB3E:
 	rep #$20
-	lda.b $31,x		;\Increase object Y velocity by 2
-	clc			;|
-	adc.w #$0002		;|
-	sta.b $31,x		;/
+	lda.b $31,x					;\Increase object Y velocity by 2
+	clc						;|
+	adc.w #$0002					;|
+	sta.b $31,x					;/
 	sep #$20
 	rep #$20
-	lda.b $0E,x		;\Apply object Y velocity to object Y position
-	clc			;|
-	adc.b $31,x		;|
-	sta.b $0E,x		;/
+	lda.b $0E,x					;\Apply object Y velocity to object Y position
+	clc						;|
+	adc.b $31,x					;|
+	sta.b $0E,x					;/
 	sep #$20
 	bpl CODE_00FB5C
 	jml CODE_00FB65
 CODE_00FB5C:
 	rep #$20
-	lda.w #$0000		;\Set object Y position to 0
-	sta.b $0E,x		;/
+	lda.w #$0000					;\Set object Y position to 0
+	sta.b $0E,x					;/
 	sep #$20
 CODE_00FB65:
 	jsl OffsetObjectZPosition
@@ -4015,23 +4028,23 @@ CODE_00FBC6:
 CODE_00FBD7:
 	sta.b $13,x
 	lda #$00
-	sta $1CE7,x
-	rep #$20			;\Set object behavior routine pointer to $00FC29
-	lda.w #CODE_00FC29		;|
-	sta.b $16,x			;|
-	sep #$20			;|
-	lda.b #BANKOF(CODE_00FC29)	;|
-	sta.b $18,x			;/
+	sta Object2ListRel+$1D,x
+	rep #$20						;\Set object behavior routine pointer to $00FC29
+	lda.w #CODE_00FC29					;|
+	sta.b $16,x						;|
+	sep #$20						;|
+	lda.b #BANKOF(CODE_00FC29)				;|
+	sta.b $18,x						;/
 	lda.b #$46
 	sta.b $15,x
 	lda.b $15,x
-	sta.b $7E
+	sta.b TempRotZ
 	lda.b $13,x
-	jsl CODE_1FC177
+	jsl GetLocalZX8RotateNegRotY
 	rep #$20
-	lda.b $02
+	lda.b TempVecX
 	sta.b $2F,x
-	lda.b $90
+	lda.b TempVecZ
 	sta.b $33,x
 	sep #$20
 	rep #$20
@@ -4103,33 +4116,33 @@ GeneralInterrupt:					;\If interrupt occurs, exit immediately
 ;INTERNAL SNES HEADER;
 ;;;;;;;;;;;;;;;;;;;;;;
 	ORG $FFC0
-	DB "STAR FOX             "	;Title
-	DB $20				;SlowROM, LoROM
-	DB $13				;ROM + SuperFX
-	DB $0A				;ROM is 1MiB (32 banks)
-	DB $00				;No RAM (not true however, there's actually 64KiB)
-	DB $01				;North America region
-	DB $01				;???
-	DB $02				;Version 1.2
-	DW $06CF			;Complement Checksum	
-	DB $F930			;Checksum
+	DB "STAR FOX             "			;Title
+	DB $20						;SlowROM, LoROM
+	DB $13						;ROM + SuperFX
+	DB $0A						;ROM is 1MiB (32 banks)
+	DB $00						;No RAM (not true however, there's actually 64KiB)
+	DB $01						;North America region
+	DB $01						;???
+	DB $02						;Version 1.2
+	DW $06CF					;Complement Checksum	
+	DB $F930					;Checksum
 	
 	;Native mode vectors
-	DW $FFFF			;UNUSED
-	DW $FFFF			;UNUSED
-	DW GeneralInterrupt		;COP
-	DW GeneralInterrupt		;BRK
-	DW GeneralInterrupt		;ABORT
-	DW $0108			;NMI
-	DW $0000			;RESET (unused, CPU resets in emulation mode)
-	DW $010C			;IRQ
+	DW $FFFF					;UNUSED
+	DW $FFFF					;UNUSED
+	DW GeneralInterrupt				;COP
+	DW GeneralInterrupt				;BRK
+	DW GeneralInterrupt				;ABORT
+	DW $0108					;NMI
+	DW $0000					;RESET (unused, CPU resets in emulation mode)
+	DW $010C					;IRQ
 	
 	;Emulation mode vectors
-	DW $FFFF			;UNUSED
-	DW $FFFF			;UNUSED
-	DW GeneralInterrupt		;COP
-	DW $0000			;BRK (unused, uses the same vector as IRQ in emulation mode)
-	DW GeneralInterrupt		;ABORT
-	DW GeneralInterrupt		;NMI
-	DW Reset			;RESET
-	DW GeneralInterrupt		;IRQ
+	DW $FFFF					;UNUSED
+	DW $FFFF					;UNUSED
+	DW GeneralInterrupt				;COP
+	DW $0000					;BRK (unused, uses the same vector as IRQ in emulation mode)
+	DW GeneralInterrupt				;ABORT
+	DW GeneralInterrupt				;NMI
+	DW Reset					;RESET
+	DW GeneralInterrupt				;IRQ

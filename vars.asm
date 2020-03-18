@@ -26,6 +26,12 @@ macro JUMPTABLE(FuncPtr)
 	DW STACKIFY(FuncPtr)
 	DB $00
 endmacro
+;For ProjectileFunctionTable
+macro PROJFUNCPTR(Unk00,FuncPtr)
+	DW Unk00
+	DL FuncPtr
+	DB $00
+endmacro
 
 ;;;;;;;;;;;;;;;;;;
 ;VARS AND STRUCTS;
@@ -58,6 +64,7 @@ BG1VertScrollSpeed	= $1A	;word
 			= $36	;word
 			= $38	;word
 TempSelf		= $3A	;word
+			= $3A	;word
 			= $3C	;word
 			= $3E	;word
 			= $42	;byte
@@ -142,7 +149,7 @@ struct ObjectList	  $0336
 	.Flags1D: skip 1	;1D
 	.Flags1E: skip 1	;1E
 	.Flags1F: skip 1	;1F
-	.Flags20: skip 1
+	.Flags20: skip 1	;20
 	.Unk21: skip 1
 	.ChildIdx: skip 1	;22
 	.Unk23: skip 1
@@ -161,33 +168,60 @@ struct ObjectList	  $0336
 	.Unk35: skip 1
 endstruct
 ;Flags
+
+
+
 FLAGS08_UNK10		= $10
 FLAGS08_UNK08		= $08
 FLAGS08_UNK04		= $04
 FLAGS08_UNK02		= $02
 FLAGS08_UNK01		= $01
 
+
+
 FLAGS09_HASDESTROYFUNC	= $10
 FLAGS09_UNK08		= $08
 FLAGS09_UNK02		= $02
 FLAGS09_DISPBEHIND	= $01
-
 FLAGS1D_ISCOLI		= $80
+FLAGS1D_UNK40		= $40
+FLAGS1D_UNK20		= $20
 
 FLAGS1D_DISPSHADOW	= $08
 
+
 FLAGS1D_SPAWNRING	= $01
+FLAGS1E_UNK80		= $80
+FLAGS1E_UNK40		= $40
+FLAGS1E_UNK20		= $20
+FLAGS1E_UNK10		= $10
+
 
 FLAGS1E_UNK02		= $02
 FLAGS1E_UNK01		= $01
 
+
+FLAGS1F_UNK20		= $20
+FLAGS1F_ISCHILD		= $10
 FLAGS1F_UNK08		= $08
+FLAGS1F_UNK04		= $04
+FLAGS1F_UNK02		= $02
+
 
 FLAGS20_ISPARENT	= $40
 
-FLAGS1F_ISCHILD		= $10
+
+FLAGS20_UNK08		= $08
+
+
+
+
+
+
+FLAGS2E_UNK10		= $10
 
 FLAGS2E_UNK04		= $04
+
 
 
 ;Page $12
@@ -225,8 +259,7 @@ OAMBuffer		= $1261 ;byte array of size $220
 			= $14C2	;byte
 			= $14C3	;byte
 			= $14C4	;byte
-			= $14C5	;byte
-			= $14C6	;byte
+			= $14C5	;word
 			= $14C9	;byte
 FirstCandidate		= $14CA	;word
 			= $14CC	;byte
@@ -355,7 +388,8 @@ TempXYManhattanDistance	= $158F	;word
 			= $1591	;word
 			= $1593	;word
 			= $1595	;word
-			= $1597	;word
+			= $1597	;byte
+			= $1598	;word
 			= $159E	;word
 			= $15A0	;byte
 			= $15A1	;byte
@@ -400,8 +434,7 @@ VerticalScrollBase	= $169C	;word
 VerticalScrollBase2	= $169E	;word
 			= $16A0	;word
 			= $16A2	;byte
-			= $16A3	;byte
-			= $16A4	;byte
+			= $16A3	;word
 			= $16A5	;byte
 			= $16A6	;byte
 			= $16A7	;word
@@ -454,7 +487,7 @@ CurScriptObject		= $16F7	;word
 PointEffect		= $16F9	;word
 ZTimer			= $16FB	;word
 LevelScriptPointer	= $16FD	;lo16 word of long
-			= $16FF	;word
+PlayerPrevZPos		= $16FF	;word
 
 ;Page $17
 ZTimerVel		= $1701	;word
@@ -530,11 +563,11 @@ BG3HOFSMirror		= $18B9	;word
 			= $18C7	;word
 			= $18C9	;word
 			= $18CB	;word
-			= $18CD	;byte array of size $40
+TiltScrollBuffer	= $18CD	;byte array of size $40
 
 ;Page $19
 VerticalScroll		= $194D	;word
-			= $194F	;word
+PrevTiltScrollIndex	= $194F	;word
 			= $1951	;word
 Unknown_1953		= $1953	;byte
 BGTiltFlag		= $1954	;byte
@@ -574,7 +607,7 @@ Unknown_1F05		= $1F05	;byte
 			= $1F0F	;byte
 			= $1F10	;byte
 			= $1F11	;word
-Unknown_1F13		= $1F13	;word
+CurMainLoopLoaderTasks	= $1F13	;word
 			= $1F15	;word
 			= $1F17	;word
 			= $1F19	;word
@@ -597,8 +630,8 @@ Unknown_1F13		= $1F13	;word
 			= $1F30	;byte
 			= $1F31	;word
 			= $1F33	;word
-BG2VOFSMirror		= $1F35	;word
-BG2HOFSMirror		= $1F37	;word
+			= $1F35	;word
+			= $1F37	;word
 			= $1F39	;word
 			= $1F3B	;word
 			= $1F3D	;word
@@ -608,7 +641,7 @@ TempLdAudioBnkOffs	= $1F3F	;word
 			= $1F44	;word
 			= $1F46	;byte
 			= $1F47	;byte
-			= $1F48	;byte array of size $05
+SESurroundTable		= $1F48	;byte array of size $05
 SEQueuePtr		= $1F4D	;byte
 SEQueuePtrOld		= $1F4F	;byte
 			= $1F51	;byte
@@ -674,8 +707,10 @@ OutputVecY		= $700028	;word
 OutputVecZ		= $70002A	;word
 InputVecY		= $70002C	;word
 InputVecZ		= $70002E	;word
+			
 			= $700044
 			= $700046
+			
 BSPTreePtr		= $700056	;word
 			= $70005C
 			= $70005E
@@ -683,9 +718,13 @@ InputVecX		= $700062	;word
 InputPtr		= $700062	;long
 			= $70006C
 			= $700090
+			= $700098
+			= $70009A
+			= $7000A6
+			= $7000A8
 			
 			
-struct CalculatedMatrix	  $7000D2	;Matrix
+struct ObjectMatrix	= $7000D2	;Matrix
 	.XX: skip 2
 	.YX: skip 2
 	.ZX: skip 2
@@ -696,7 +735,7 @@ struct CalculatedMatrix	  $7000D2	;Matrix
 	.YZ: skip 2
 	.ZZ: skip 2
 endstruct
-struct TransformMatrix	  $700120	;Matrix
+struct TransformMatrix	= $700120	;Matrix
 	.XX: skip 2
 	.YX: skip 2
 	.ZX: skip 2
@@ -721,8 +760,9 @@ EnemyHPBarCur		= $70019C	;word
 
 ;Bank $70 high
 RenderHUDFlag		= $70021C	;word
+CurPolyVerts2D		= $700982	;word array of size ???
 BSPTreeStack		= $700B02	;??? array of size ???
-CopiedDebugFont		= $701A2C
+CopiedDebugFont		= $701A2C	;byte array of size $60
 DecompressedTileset	= $702800	;byte array of size ???
 DecompressedTilemap	= $704000	;byte array of size ???
 RenderedTiles		= $702C00	;byte array of size ???
@@ -774,7 +814,7 @@ Object2ListRel		= (Object2List-($7E0000|ObjectList))
 			= $7E2EC8	;word
 			= $7E2ECA	;word
 			= $7E2ECC	;word
-			= $7E9F55	;word array of size ???
+CreditsBossPrevTextBuf	= $7E9F55	;byte array of size $100?
 			= $7EA058	;word
 			= $7EA05A	;word
 			= $7EA05C	;word
@@ -816,27 +856,38 @@ SPCTempPMON		= $4B	;byte
 SPCTempEFB		= $4E	;byte
 
 SPCMstXpose		= $50	;byte
-
-;SPCMstVol		= $58	;byte?
+SPCTempo		= $52	;word
+			= $54	;word
+			= $56	;word
+SPCMstVol		= $58	;word
+			= $5A	;word
+			= $5C	;word
+			= $5E	;word
 
 
 SPCTempEVOLLeft		= $61	;byte
 
 SPCTempEVOLRight	= $63	;byte
 
-
-
-;SPCVolFade		= $90	;byte
-SPCPanFade		= $91	;byte
+			= $70	;byte array of size 8, interlaced
+			= $71	;byte array of size 8, interlaced
+			= $80	;byte array of size 8, interlaced
+			= $81	;byte array of size 8, interlaced
+			= $90	;byte array of size 8, interlaced
+			= $91	;byte array of size 8, interlaced
 
 
 			= $C0	;??? array of size ???
 
 
 
+SPCNoteLen		= $0200	;byte array of size 8, interlaced
+SPCDurRt		= $0201	;byte array of size 8, interlaced
+SPCVelRt		= $0210	;byte array of size 8, interlaced
 
-SPCPan			= $330	;word array of size 8
+			= $0240	;word array of size 8
 
+			= $0320	;word array of size 8
 
 SPCMusPtrBase		= $FDC0
 
