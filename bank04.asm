@@ -5,10 +5,10 @@ UnusedBank04SetBRegWRAM:
 
 ;BEHAVIOR FUNCTION ID $F2
 BehF2:
-	lda.b #$0A
-	sta.b $2A,x
-	lda.b #$0A
-	sta.b $2B,x
+	lda.b #$0A					;\Set enemy HP to 10
+	sta.b $2A,x					;/
+	lda.b #$0A					;\Set enemy power to 10
+	sta.b $2B,x					;/
 	bra Beh9C
 ;BEHAVIOR FUNCTION ID $E4
 BehE4:
@@ -18,17 +18,17 @@ BehE4:
 	lda.b $1D,x
 	ora.b #$40
 	sta.b $1D,x
-	lda.b #$0A
-	sta.b $2A,x
-	lda.b #$08
-	sta.b $2B,x
+	lda.b #$0A					;\Set enemy HP to 10
+	sta.b $2A,x					;/
+	lda.b #$08					;\Set enemy power to 8
+	sta.b $2B,x					;/
 ;BEHAVIOR FUNCTION ID $9C
 Beh9C:
 	rep #$20
 	lda.w #Beh9C_E4_F2_Loop
 	sta.b $16,x
 	sep #$20
-	lda.b #(Beh9C_E4_F2_Loop>>16)
+	lda.b #BANKOF(Beh9C_E4_F2_Loop)
 	sta.b $18,x
 	lda.b #$04
 	sta.w Object2ListRel+$0B,x
@@ -58,184 +58,185 @@ Beh9C_E4_F2_Loop:
 	plx
 	sta.w Object2ListRel+$12,x
 	rep #$20
-	lda.w #Beh9C_E4_F2_LoopJumpTable
+	lda.w #BehCommandJumpTable
 	sta.b $53
 	sep #$20
-	lda.b #(Beh9C_E4_F2_LoopJumpTable>>16)
+	lda.b #BANKOF(BehCommandJumpTable)
 	sta.b $55
 	jml DoJumpTable
-Beh9C_E4_F2_LoopJumpTable:
-	JUMPTABLE(CODE_048471)
-	JUMPTABLE(CODE_04847A)
-	JUMPTABLE(CODE_048483)
-	JUMPTABLE(CODE_04849C)
-	DB $04,$A4,$84,$00
-	DB $04,$AD,$84,$00
-	DB $04,$F6,$84,$00
-	DB $04,$10,$85,$00
-	DB $04,$BC,$85,$00
-	DB $04,$CB,$86,$00
-	DB $04,$2A,$86,$00
-	DB $04,$45,$88,$00
-	DB $04,$9D,$88,$00
-	DB $04,$10,$89,$00
-	DB $04,$7B,$89,$00
-	DB $04,$1F,$93,$00
-	DB $04,$2E,$8B,$00
-	DB $04,$42,$8B,$00
-	DB $04,$81,$8B,$00
-	DB $04,$BB,$8B,$00
-	DB $04,$FA,$8B,$00
-	DB $04,$C3,$8C,$00
-	DB $04,$31,$8D,$00
-	DB $04,$A5,$8E,$00
-	DB $04,$EA,$8C,$00
-	DB $04,$1E,$90,$00
-	DB $04,$67,$84,$00
-	DB $04,$5E,$84,$00
-	DB $04,$4C,$84,$00
-	DB $04,$55,$84,$00
-	DB $04,$30,$90,$00
-	DB $04,$7D,$90,$00
-	DB $04,$91,$90,$00
-	DB $04,$F8,$83,$00
-	DB $04,$9D,$90,$00
-	DB $04,$AA,$90,$00
-	DB $04,$D1,$90,$00
-	DB $04,$04,$91,$00
-	DB $04,$15,$91,$00
-	DB $04,$41,$91,$00
-	DB $04,$58,$91,$00
-	DB $04,$E2,$91,$00
-	DB $04,$FA,$91,$00
-	DB $04,$05,$92,$00
-	DB $04,$2D,$92,$00
-	DB $04,$3E,$92,$00
-	DB $04,$5E,$92,$00
-	DB $04,$6F,$92,$00
-	DB $04,$83,$92,$00
-	DB $04,$BB,$92,$00
-	DB $04,$F1,$92,$00
-	DB $04,$D8,$92,$00
-	DB $04,$0D,$93,$00
-	DB $04,$16,$93,$00
-	DB $04,$28,$93,$00
-	DB $04,$8F,$93,$00
-	DB $04,$BB,$93,$00
-	DB $04,$EB,$93,$00
-	DB $04,$32,$94,$00
-	DB $04,$7D,$94,$00
-	DB $04,$86,$94,$00
-	DB $04,$8F,$94,$00
-	DB $04,$E8,$95,$00
-	DB $04,$63,$95,$00
-	DB $04,$A8,$94,$00
-	DB $04,$24,$97,$00
-	DB $04,$2D,$97,$00
-	DB $04,$20,$97,$00
-	DB $04,$BE,$87,$00
-	DB $04,$CC,$87,$00
-	DB $04,$D2,$87,$00
-	DB $04,$E0,$87,$00
-	DB $04,$F1,$87,$00
-	DB $04,$FF,$87,$00
-	DB $04,$B6,$87,$00
-	DB $04,$36,$97,$00
-	DB $04,$6B,$97,$00
-	DB $04,$75,$98,$00
-	DB $04,$AB,$97,$00
-	DB $04,$5F,$98,$00
-	DB $04,$8B,$98,$00
-	DB $04,$9E,$98,$00
-	DB $04,$D9,$98,$00
-	DB $04,$15,$99,$00
-	DB $04,$2B,$99,$00
-	DB $04,$04,$9A,$00
-	DB $04,$3A,$9A,$00
-	DB $04,$AB,$9A,$00
-	DB $04,$05,$9B,$00
-	DB $04,$30,$9B,$00
-	DB $04,$5B,$9B,$00
-	DB $04,$6A,$9B,$00
-	DB $04,$79,$9B,$00
-	DB $04,$3A,$9C,$00
-	DB $04,$B4,$9C,$00
-	DB $04,$C8,$9C,$00
-	DB $04,$E9,$9C,$00
-	DB $04,$64,$8A,$00
-	DB $04,$82,$8A,$00
-	DB $04,$72,$8A,$00
-	DB $04,$94,$8A,$00
-	DB $04,$07,$8A,$00
-	DB $04,$2D,$8A,$00
-	DB $04,$19,$8A,$00
-	DB $04,$43,$8A,$00
-	DB $04,$08,$9D,$00
-	DB $04,$23,$9D,$00
-	DB $04,$3D,$9D,$00
-	DB $04,$5F,$9D,$00
-	DB $04,$88,$9D,$00
-	DB $04,$A5,$9D,$00
-	DB $04,$AE,$9D,$00
-	DB $04,$B7,$9D,$00
-	DB $04,$DF,$9D,$00
-	DB $04,$E7,$9D,$00
-	DB $04,$11,$9E,$00
-	DB $04,$1A,$9E,$00
-	DB $04,$23,$9E,$00
-	DB $04,$2D,$9E,$00
-	DB $04,$76,$95,$00
-	DB $04,$0E,$98,$00
-	DB $04,$4F,$92,$00
-	DB $04,$CC,$8A,$00
-	DB $04,$D8,$8A,$00
-	DB $04,$E6,$8A,$00
-	DB $04,$F4,$8A,$00
-	DB $04,$3D,$9E,$00
-	DB $04,$5B,$9E,$00
-	DB $04,$78,$9E,$00
-	DB $04,$8D,$9E,$00
-	DB $04,$CA,$9E,$00
-	DB $04,$EC,$9E,$00
-	DB $04,$0E,$9F,$00
-	DB $04,$30,$9F,$00
-	DB $04,$52,$9F,$00
-	DB $04,$87,$9F,$00
-	DB $04,$C7,$92,$00
-	DB $04,$CD,$99,$00
-	DB $04,$50,$99,$00
-	DB $04,$90,$99,$00
-	DB $04,$E2,$98,$00
-	DB $04,$E0,$97,$00
-	DB $04,$0E,$A0,$00
-	DB $04,$ED,$9F,$00
-	DB $04,$CC,$9F,$00
-	DB $04,$47,$A0,$00
-	DB $04,$64,$A0,$00
-	DB $04,$A0,$8C,$00
-	DB $04,$37,$93,$00
-	DB $04,$4C,$93,$00
-	DB $04,$63,$93,$00
-	DB $04,$78,$93,$00
-	DB $04,$58,$8B,$00
-	DB $04,$6B,$8B,$00
-	DB $04,$D6,$85,$00
-	DB $04,$E9,$85,$00
-	DB $04,$00,$86,$00
-	DB $04,$13,$86,$00
-	DB $04,$26,$85,$00
-	DB $04,$31,$85,$00
-	DB $04,$3C,$85,$00
-	DB $04,$47,$85,$00
-	DB $04,$61,$85,$00
-	DB $04,$7B,$85,$00
-	DB $04,$95,$85,$00
-	DB $04,$92,$84,$00
-	DB $04,$86,$A0,$00
-
+BehCommandJumpTable:
+	JUMPTABLE(BehCommand00)
+	JUMPTABLE(BehCommand01)
+	JUMPTABLE(BehCommand02)
+	JUMPTABLE(BehCommand03)
+	JUMPTABLE(BehCommand04)
+	JUMPTABLE(BehCommand05)
+	JUMPTABLE(BehCommand06)
+	JUMPTABLE(BehCommand07)
+	JUMPTABLE(BehCommand08)
+	JUMPTABLE(BehCommand09)
+	JUMPTABLE(BehCommand0A)
+	JUMPTABLE(BehCommand0B)
+	JUMPTABLE(BehCommand0C)
+	JUMPTABLE(BehCommand0D)
+	JUMPTABLE(BehCommand0E)
+	JUMPTABLE(BehCommand0F)
+	JUMPTABLE(BehCommand10)
+	JUMPTABLE(BehCommand11)
+	JUMPTABLE(BehCommand12)
+	JUMPTABLE(BehCommand13)
+	JUMPTABLE(BehCommand14)
+	JUMPTABLE(BehCommand15)
+	JUMPTABLE(BehCommand16)
+	JUMPTABLE(BehCommand17)
+	JUMPTABLE(BehCommand18)
+	JUMPTABLE(BehCommand19)
+	JUMPTABLE(BehCommand1A)
+	JUMPTABLE(BehCommand1B)
+	JUMPTABLE(BehCommand1C)
+	JUMPTABLE(BehCommand1D)
+	JUMPTABLE(BehCommand1E)
+	JUMPTABLE(BehCommand1F)
+	JUMPTABLE(BehCommand20)
+	JUMPTABLE(BehCommand21_Jump)
+	JUMPTABLE(BehCommand22)
+	JUMPTABLE(BehCommand23)
+	JUMPTABLE(BehCommand24)
+	JUMPTABLE(BehCommand25)
+	JUMPTABLE(BehCommand26)
+	JUMPTABLE(BehCommand27)
+	JUMPTABLE(BehCommand28)
+	JUMPTABLE(BehCommand29)
+	JUMPTABLE(BehCommand2A)
+	JUMPTABLE(BehCommand2B)
+	JUMPTABLE(BehCommand2C_BranchIfRightOfPlayer)
+	JUMPTABLE(BehCommand2D_BranchIfLeftOfPlayer)
+	JUMPTABLE(BehCommand2E_BranchIfBelowPlayer)
+	JUMPTABLE(BehCommand2F_BranchIfAbovePlayer)
+	JUMPTABLE(BehCommand30)
+	JUMPTABLE(BehCommand31)
+	JUMPTABLE(BehCommand32)
+	JUMPTABLE(BehCommand33)
+	JUMPTABLE(BehCommand34)
+	JUMPTABLE(BehCommand35)
+	JUMPTABLE(BehCommand36)
+	JUMPTABLE(BehCommand37)
+	JUMPTABLE(BehCommand38)
+	JUMPTABLE(BehCommand39)
+	JUMPTABLE(BehCommand3A)
+	JUMPTABLE(BehCommand3B)
+	JUMPTABLE(BehCommand3C)
+	JUMPTABLE(BehCommand3D)
+	JUMPTABLE(BehCommand3E)
+	JUMPTABLE(BehCommand3F)
+	JUMPTABLE(BehCommand40)
+	JUMPTABLE(BehCommand41)
+	JUMPTABLE(BehCommand42)
+	JUMPTABLE(BehCommand43)
+	JUMPTABLE(BehCommand44)
+	JUMPTABLE(BehCommand45_ShootProjectile)
+	JUMPTABLE(BehCommand46)
+	JUMPTABLE(BehCommand47_ShootProjectileAtPlayer)
+	JUMPTABLE(BehCommand48)
+	JUMPTABLE(BehCommand49_ShootProjectileAtTarget)
+	JUMPTABLE(BehCommand4A_SetProjectileType)
+	JUMPTABLE(BehCommand4B)
+	JUMPTABLE(BehCommand4C)
+	JUMPTABLE(BehCommand4D)
+	JUMPTABLE(BehCommand4E)
+	JUMPTABLE(BehCommand4F)
+	JUMPTABLE(BehCommand50)
+	JUMPTABLE(BehCommand51)
+	JUMPTABLE(BehCommand52)
+	JUMPTABLE(BehCommand53)
+	JUMPTABLE(BehCommand54)
+	JUMPTABLE(BehCommand55)
+	JUMPTABLE(BehCommand56)
+	JUMPTABLE(BehCommand57)
+	JUMPTABLE(BehCommand58)
+	JUMPTABLE(BehCommand59)
+	JUMPTABLE(BehCommand5A)
+	JUMPTABLE(BehCommand5B)
+	JUMPTABLE(BehCommand5C)
+	JUMPTABLE(BehCommand5D)
+	JUMPTABLE(BehCommand5E)
+	JUMPTABLE(BehCommand5F)
+	JUMPTABLE(BehCommand60)
+	JUMPTABLE(BehCommand61)
+	JUMPTABLE(BehCommand62)
+	JUMPTABLE(BehCommand63)
+	JUMPTABLE(BehCommand64)
+	JUMPTABLE(BehCommand65)
+	JUMPTABLE(BehCommand66)
+	JUMPTABLE(BehCommand67)
+	JUMPTABLE(BehCommand68)
+	JUMPTABLE(BehCommand69)
+	JUMPTABLE(BehCommand6A)
+	JUMPTABLE(BehCommand6B)
+	JUMPTABLE(BehCommand6C)
+	JUMPTABLE(BehCommand6D)
+	JUMPTABLE(BehCommand6E)
+	JUMPTABLE(BehCommand6F)
+	JUMPTABLE(BehCommand70_RunASMBlock)
+	JUMPTABLE(BehCommand71)
+	JUMPTABLE(BehCommand72)
+	JUMPTABLE(BehCommand73_EnableShadow)
+	JUMPTABLE(BehCommand74_DisableShadow)
+	JUMPTABLE(BehCommand75_PlaySoundEffect)
+	JUMPTABLE(BehCommand76)
+	JUMPTABLE(BehCommand77)
+	JUMPTABLE(BehCommand78)
+	JUMPTABLE(BehCommand79)
+	JUMPTABLE(BehCommand7A)
+	JUMPTABLE(BehCommand7B)
+	JUMPTABLE(BehCommand7C)
+	JUMPTABLE(BehCommand7D)
+	JUMPTABLE(BehCommand7E)
+	JUMPTABLE(BehCommand7F)
+	JUMPTABLE(BehCommand80)
+	JUMPTABLE(BehCommand81)
+	JUMPTABLE(BehCommand82)
+	JUMPTABLE(BehCommand83)
+	JUMPTABLE(BehCommand84)
+	JUMPTABLE(BehCommand85)
+	JUMPTABLE(BehCommand86)
+	JUMPTABLE(BehCommand87)
+	JUMPTABLE(BehCommand88)
+	JUMPTABLE(BehCommand89)
+	JUMPTABLE(BehCommand8A)
+	JUMPTABLE(BehCommand8B)
+	JUMPTABLE(BehCommand8C)
+	JUMPTABLE(BehCommand8D)
+	JUMPTABLE(BehCommand8E)
+	JUMPTABLE(BehCommand8F)
+	JUMPTABLE(BehCommand90)
+	JUMPTABLE(BehCommand91)
+	JUMPTABLE(BehCommand92)
+	JUMPTABLE(BehCommand93)
+	JUMPTABLE(BehCommand94)
+	JUMPTABLE(BehCommand95)
+	JUMPTABLE(BehCommand96)
+	JUMPTABLE(BehCommand97)
+	JUMPTABLE(BehCommand98)
+	JUMPTABLE(BehCommand99)
+	JUMPTABLE(BehCommand9A)
+	JUMPTABLE(BehCommand9B)
+	JUMPTABLE(BehCommand9C)
+	JUMPTABLE(BehCommand9D)
+	JUMPTABLE(BehCommand9E_AddRotX)
+	JUMPTABLE(BehCommand9F_AddRotY)
+	JUMPTABLE(BehCommandA0_AddRotZ)
+	JUMPTABLE(BehCommandA1_AddPosX8)
+	JUMPTABLE(BehCommandA2_AddPosY8)
+	JUMPTABLE(BehCommandA3_AddPosZ8)
+	JUMPTABLE(BehCommandA4)
+	JUMPTABLE(BehCommandA5)
+	JUMPTABLE(BehCommandA6)
+	
 CODE_048318:
 	lda.b #$00
 	sta.b $24,x
+BehSubMoveAhead14:
 	sep #$20
 	rep #$20
 	lda.b $28,x
@@ -247,7 +248,7 @@ CODE_048318:
 CODE_04832D:
 	lda.b #$00
 	sta.b $24,x
-CODE_048331:
+BehSubMoveAhead13:
 	sep #$20
 	rep #$20
 	lda.b $28,x
@@ -270,7 +271,7 @@ CODE_048342:
 CODE_048357:
 	lda.b #$00
 	sta.b $24,x
-CODE_04835B:
+BehSubMoveAhead8:
 	sep #$20
 	rep #$20
 	lda.b $28,x
@@ -279,4 +280,29 @@ CODE_04835B:
 	sta.b $28,x
 	sep #$20
 	jmp CODE_04805F
+CODE_04836C:
+	lda.b #$00
+	sta.b $24,x
+BehSubMoveAhead7:
+	sep #$20
+	rep #$20
+	lda.b $28,x
+	clc
+	adc.w #$0007
+	sta.b $28,x
+	sep #$20
+	jmp CODE_04805F
+CODE_048381:
+	lda.b #$00
+	sta.b $24,x
+BehSubMoveAhead6:
+	sep #$20
+	rep #$20
+	lda.b $28,x
+	clc
+	adc.w #$0006
+	sta.b $28,x
+	sep #$20
+	jmp CODE_04805F
+	
 	

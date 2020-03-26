@@ -49,6 +49,9 @@
 	nop
 	iwt r15,#CODE_018C8F
 	nop
+;;;;;;;;;;;;;;;;;;;
+;UTILITY FUNCTIONS;
+;;;;;;;;;;;;;;;;;;;
 CODE_018058:
 	ibt r6,#$00
 	ibt r4,#$00
@@ -77,16 +80,16 @@ CODE_018062:
 CODE_018075:
 	loop
 	with r3
-	jmp r11				;\Return from link
-	nop				;/
+	jmp r11						;\Return from link
+	nop						;/
 CODE_018079:
 	iwt r5,#$FFFF
 	iwt r4,#$7FFF
 	link #4
 	iwt r15,#CODE_018086
 	nop
-	stop				;\End SuperFX task
-	nop				;/
+	stop						;\End SuperFX task
+	nop						;/
 CODE_018086:
 	ibt r6,#$00
 	ibt r8,#$00
@@ -119,8 +122,8 @@ CODE_018086:
 CODE_0180A8:
 	loop
 	with r5
-	jmp r11				;\Return from link
-	nop				;/
+	jmp r11						;\Return from link
+	nop						;/
 CODE_0180AC:
 	iwt r1,#$0100
 	iwt r2,#$0100
@@ -128,8 +131,8 @@ CODE_0180AC:
 	link #4
 	iwt r15,#CODE_0180C5
 	nop
-	stop				;\End SuperFX task
-	nop				;/
+	stop						;\End SuperFX task
+	nop						;/
 CODE_0180BC:
 	from r4
 	to r1
@@ -140,10 +143,10 @@ CODE_0180BC:
 	from r6
 	to r3
 	sub r3
-	from r11			;\Push r11 (link) to stack
-	stw r10				;|
-	inc r10				;|
-	inc r10				;/
+	from r11					;\Push r11 (link) to stack
+	stw r10						;|
+	inc r10						;|
+	inc r10						;/
 	move r6,r1
 	from r1
 	alt1
@@ -175,11 +178,11 @@ CODE_0180BC:
 	ibt r1,#$00
 	ibt r2,#$00
 	ibt r3,#$00
-	dec r10				;\Pop r15 (pc) from stack and return
-	dec r10				;|
-	to r15				;|
-	ldw r10				;|
-	nop				;/
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
 CODE_0180F9:
 	move r4,r0
 	link #4
@@ -200,7 +203,7 @@ CODE_01810B:
 	moves r12,r9
 	beq CODE_01811A
 	nop
-	move r13,r15			;Set loop point
+	move r13,r15					; Set loop point
 	with r4
 	add r4
 	loop
@@ -228,7 +231,7 @@ CODE_01811A:
 	moves r12,r9
 	beq CODE_018148
 	nop
-	move r13,r15			;Set loop point
+	move r13,r15					; Set loop point
 	with r7
 	asr
 	with r1
@@ -243,11 +246,11 @@ CODE_01811A:
 	loop
 	nop
 CODE_018148:
-	dec r10				;\Pop r15 (pc) from stack and return
-	dec r10				;|
-	to r15				;|
-	ldw r10				;|
-	nop				;/
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
 CODE_01814D:
 	cache
 	from r5
@@ -273,7 +276,7 @@ CODE_018162:
 	from r5
 	rol
 	ibt r12,#$10
-	move r13,r15			;Set loop point
+	move r13,r15					; Set loop point
 	sub r6
 	bcc CODE_018175
 	nop
@@ -296,14 +299,14 @@ CODE_01817A:
 	not
 	inc r4
 CODE_018181:
-	jmp r11				;\Return from link
-	nop				;/
+	jmp r11						;\Return from link
+	nop						;/
 CODE_018183:
 	moves r0,r0
 	bmi CODE_01818D
 	nop
 	moves r6,r6
-	bpl CODE_018192
+	bpl Divide
 	nop
 CODE_01818D:
 	with r6
@@ -311,225 +314,224 @@ CODE_01818D:
 	lsr
 	with r4
 	ror
-CODE_018192:
+Divide:
 	ibt r12,#$10
 	with r4
 	add r4
 	rol
-	move r13,r15			;Set loop point
+	move r13,r15					; Set loop point
 	sub r6
-	bcc CODE_0181A3
+	bcc Divide_L1
 	nop
 	with r4
 	rol
 	loop
 	rol
-	jmp r11				;\Return from link
-	lsr				;/
-CODE_0181A3:
+	jmp r11						;\Return from link
+	lsr						;/
+Divide_L1:
 	add r6
 	with r4
 	add r4
 	loop
 	rol
-	jmp r11				;\Return from link
-	lsr				;/
-	iwt r10,#$04C2
-	alt1
-	lms r1,($0062)
-	alt1
-	lms r2,($002C)
+	jmp r11						;\Return from link
+	lsr						;/
+CalculateAtan2:
+	iwt r10,#SuperFXStack				; Init SuperFX stack
+	alt1						;\Get X in r1
+	lms r1,(InputVecX)				;/
+	alt1						;\Get Y in r2
+	lms r2,(InputVecY)				;/
 	link #4
-	iwt r15,#CODE_0181BE
+	iwt r15,#DoCalculateAtan2
 	nop
-	alt2
-	sms ($0040),r0
-	nop
-	stop				;\End SuperFX task
-	nop				;/
-CODE_0181BE:
-	from r11			;\Push r11 (link) to stack
-	stw r10				;|
-	inc r10				;|
-	inc r10				;/
-	from r14			;\Push r14 to stack
-	stw r10				;|
-	inc r10				;|
-	inc r10				;/
-	moves r6,r1
-	bpl CODE_0181CE
-	nop
-	with r6
-	not
-	inc r6
-CODE_0181CE:
-	moves r0,r2
-	bpl CODE_0181D5
-	not
-	nop
-	not
-	inc r0
-CODE_0181D5:
-	bne CODE_0181DF
-	nop
-	iwt r0,#$4000
-	iwt r15,#CODE_018223
-	nop
-CODE_0181DF:
-	ibt r5,#$00
-	alt3
-	cmp r6
-	bne CODE_0181ED
-	nop
-	iwt r0,#$2000
-	iwt r15,#CODE_018223
-	nop
-CODE_0181ED:
-	blt CODE_0181F7
-	nop
-	move r4,r6
-	move r6,r0
-	move r0,r4
-	dec r5
-CODE_0181F7:
-	ibt r4,#$00
-	lsr
-	with r4
-	ror
-	link #4
-	iwt r15,#CODE_018192
-	nop
-	sub r0
-	alt3
-	romb
-	from r4
-	lsr
-	lsr
-	lsr
-	lsr
-	lsr
-	alt3
-	bic #$01
-	iwt r4,#$A44B
-	to r14
-	add r4
-	getb
-	inc r14
-	alt1
-	getbh
-	with r5
-	from r5
-	bmi CODE_018223
-	nop
-	not
-	inc r0
-	iwt r4,#$4000
-	add r4
-CODE_018223:
-	from r1
-	to r4
-	alt1
-	xor r2
-	bpl CODE_01822C
-	nop
-	not
-	inc r0
-CODE_01822C:
-	moves r2,r2
-	bpl CODE_018235
-	nop
-	iwt r4,#$8000
-	add r10
-CODE_018235:
-	dec r10				;\Pop r14 from stack
-	dec r10				;|
-	to r14				;|
-	ldw r10				;/
-	dec r10				;\Pop r15 (pc) from stack and return
-	dec r10				;|
-	to r15				;|
-	ldw r10				;|
-	nop				;/
+	alt2						;\Store result
+	sms ($0040),r0					;|
+	nop						;/
+	stop						;\End SuperFX task
+	nop						;/
+DoCalculateAtan2:
+	from r11					;\Push r11 (link) to stack
+	stw r10						;|
+	inc r10						;|
+	inc r10						;/
+	from r14					;\Push r14 to stack
+	stw r10						;|
+	inc r10						;|
+	inc r10						;/
+	moves r6,r1					;\Get |X| in r6
+	bpl DoCalculateAtan2_SkipNegX			;|
+	nop						;|
+	with r6						;|
+	not						;|
+	inc r6						;/
+DoCalculateAtan2_SkipNegX:
+	moves r0,r2					;\Get |Y| in r0
+	bpl DoCalculateAtan2_SkipNegY			;|
+	nop						;|
+	not						;|
+	inc r0						;/
+DoCalculateAtan2_SkipNegY:
+	bne DoCalculateAtan2_SkipY0			;\If |Y| is 0, return 90 degrees
+	nop						;|
+	iwt r0,#$4000					;|
+	iwt r15,#DoCalculateAtan2_ChkRes		;|
+	nop						;/
+DoCalculateAtan2_SkipY0:
+	ibt r5,#$00					;\If |X|=|Y|, return 45 degrees
+	alt3						;|
+	cmp r6						;|
+	bne DoCalculateAtan2_SkipXEquY			;|
+	nop						;|
+	iwt r0,#$2000					;|
+	iwt r15,#DoCalculateAtan2_ChkRes		;|
+	nop						;/
+DoCalculateAtan2_SkipXEquY:
+	blt DoCalculateAtan2_SkipSwapXY			;\If |X|<|Y|, swap r0/r6 (|X|/|Y|)
+	nop						;|
+	move r4,r6					;|
+	move r6,r0					;|
+	move r0,r4					;|
+	dec r5						;/
+DoCalculateAtan2_SkipSwapXY:
+	ibt r4,#$00					;\Divide |Y| by |X|
+	lsr						;|
+	with r4						;|
+	ror						;|
+	link #4						;|
+	iwt r15,#Divide					;|
+	nop						;/
+	sub r0						;\Get value in table
+	alt3						;|
+	romb						;|
+	from r4						;|
+	lsr						;|
+	lsr						;|
+	lsr						;|
+	lsr						;|
+	lsr						;|
+	alt3						;|
+	bic #$01					;|
+	iwt r4,#Atan2Table				;|
+	to r14						;|
+	add r4						;|
+	getb						;|
+	inc r14						;|
+	alt1						;|
+	getbh						;/
+	moves r5,r5					;\If X and Y were swapped, use other octant in quadrant
+	bmi DoCalculateAtan2_ChkRes			;|
+	nop						;|
+	not						;|
+	inc r0						;|
+	iwt r4,#$4000					;|
+	add r4						;/
+DoCalculateAtan2_ChkRes:
+	from r1						;\If either X or Y is negative (but not both), negate result
+	to r4						;|
+	alt1						;|
+	xor r2						;|
+	bpl DoCalculateAtan2_SkNegRes			;|
+	nop						;|
+	not						;|
+	inc r0						;/
+DoCalculateAtan2_SkNegRes:
+	moves r2,r2					;\If Y is negative, negate result again
+	bpl DoCalculateAtan2_Return			;|
+	nop						;|
+	iwt r4,#$8000					;|
+	add r4						;/
+DoCalculateAtan2_Return:
+	dec r10						;\Pop r14 from stack
+	dec r10						;|
+	to r14						;|
+	ldw r10						;/
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
 MultiplyPointByMatrix:
 	cache
-	alt1				;\Get X position in r1
-	lms r1,(InputVecX)		;/
-	alt1				;\Get Y position in r2
-	lms r2,(InputVecY)		;/
-	alt1				;\Get Z position in r3
-	lms r3,(InputVecZ)		;/
-	alt1				;\Get XX matrix element in r6
-	lms r6,(ObjectMatrix.XX)	;/
-	from r1				;\Multiply X position by XX matrix element...
-	fmult				;|
-	to r5				;|
-	rol				;/...shifting in bit 15 of the product for extra precision
-	alt1				;\Get XY matrix element in r6
-	lms r6,(ObjectMatrix.XY)	;/
-	from r2				;\Multiply Y position by XY matrix element...
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	with r5				;|
-	add r0				;/...and accumulating to previous value
-	alt1				;\Get XZ matrix element in r6
-	lms r6,(ObjectMatrix.XZ)	;/
-	from r3				;\Multiply Z position by XZ matrix element...
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	add r5				;|...accumulating to previous value...
-	alt2				;|...and storing the result
-	lms r6,(ObjectMatrix.YX)	;/
-	alt1				;\Get YX matrix element in r6
-	lms r6,($00D4)			;/
-	from r1				;\Multiply Y position by YX matrix element...
-	fmult				;|
-	to r5				;|
-	rol				;/...shifting in bit 15 of the product for extra precision
-	alt1				;\Get YY matrix element in r6
-	lms r6,(ObjectMatrix.YY)	;/
-	from r2				;\Multiply Y position by YY matrix element...
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	with r5				;|
-	add r0				;/...and accumulating to previous value
-	alt1				;\Get YZ matrix element in r6
-	lms r6,(ObjectMatrix.YZ)	;/
-	from r3				;\Multiply Z position by YZ matrix element...
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	add r5				;|...accumulating to previous value...
-	alt2				;|...and storing the result
-	sms (OutputVecY),r0		;/
-	alt1				;\Get ZX matrix element in r6
-	lms r6,(ObjectMatrix.ZX)	;/
-	from r1				;\Multiply Z position by ZX matrix element...
-	fmult				;|
-	to r5				;|
-	rol				;/...shifting in bit 15 of the product for extra precision
-	alt1				;\Get ZY matrix element in r6
-	lms r6,(ObjectMatrix.XY)	;/
-	from r2				;\Multiply Y position by ZY matrix element...
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	with r5				;|
-	add r0				;/...and accumulating to previous value
-	alt1				;\Get ZZ matrix element in r6
-	lms r6,(ObjectMatrix.ZZ)	;/
-	from r3				;\Multiply Z position by ZZ matrix element...
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	add r5				;|...accumulating to previous value...
-	alt2				;|...and storing the result
-	sms (OutputVecZ),r0		;/
-	stop				;\End SuperFX task
-	nop				;/
+	alt1						;\Get X position in r1
+	lms r1,(InputVecX)				;/
+	alt1						;\Get Y position in r2
+	lms r2,(InputVecY)				;/
+	alt1						;\Get Z position in r3
+	lms r3,(InputVecZ)				;/
+	alt1						;\Get XX matrix element in r6
+	lms r6,(ObjectMatrix.XX)			;/
+	from r1						;\Multiply X position by XX matrix element...
+	fmult						;|
+	to r5						;|
+	rol						;/...shifting in bit 15 of the product for extra precision
+	alt1						;\Get XY matrix element in r6
+	lms r6,(ObjectMatrix.XY)			;/
+	from r2						;\Multiply Y position by XY matrix element...
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	with r5						;|
+	add r0						;/...and accumulating to previous value
+	alt1						;\Get XZ matrix element in r6
+	lms r6,(ObjectMatrix.XZ)			;/
+	from r3						;\Multiply Z position by XZ matrix element...
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	add r5						;|...accumulating to previous value...
+	alt2						;|...and storing the result
+	lms r6,(ObjectMatrix.YX)			;/
+	alt1						;\Get YX matrix element in r6
+	lms r6,($00D4)					;/
+	from r1						;\Multiply Y position by YX matrix element...
+	fmult						;|
+	to r5						;|
+	rol						;/...shifting in bit 15 of the product for extra precision
+	alt1						;\Get YY matrix element in r6
+	lms r6,(ObjectMatrix.YY)			;/
+	from r2						;\Multiply Y position by YY matrix element...
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	with r5						;|
+	add r0						;/...and accumulating to previous value
+	alt1						;\Get YZ matrix element in r6
+	lms r6,(ObjectMatrix.YZ)			;/
+	from r3						;\Multiply Z position by YZ matrix element...
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	add r5						;|...accumulating to previous value...
+	alt2						;|...and storing the result
+	sms (OutputVecY),r0				;/
+	alt1						;\Get ZX matrix element in r6
+	lms r6,(ObjectMatrix.ZX)			;/
+	from r1						;\Multiply Z position by ZX matrix element...
+	fmult						;|
+	to r5						;|
+	rol						;/...shifting in bit 15 of the product for extra precision
+	alt1						;\Get ZY matrix element in r6
+	lms r6,(ObjectMatrix.XY)			;/
+	from r2						;\Multiply Y position by ZY matrix element...
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	with r5						;|
+	add r0						;/...and accumulating to previous value
+	alt1						;\Get ZZ matrix element in r6
+	lms r6,(ObjectMatrix.ZZ)			;/
+	from r3						;\Multiply Z position by ZZ matrix element...
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	add r5						;|...accumulating to previous value...
+	alt2						;|...and storing the result
+	sms (OutputVecZ),r0				;/
+	stop						;\End SuperFX task
+	nop						;/
 CalculateMatrix:
 	iwt r9,#ObjectMatrix
 	link #4
 	iwt r15,#DoCalculateMatrix
 	nop
-	stop				;\End SuperFX task
-	nop				;/
+	stop						;\End SuperFX task
+	nop						;/
 DoCalculateMatrix:
 	sub r0
 	alt2
@@ -537,280 +539,280 @@ DoCalculateMatrix:
 	alt3
 	romb
 	alt1
-	lms r1,(DesiredXRot)		; r1 = X rotation
+	lms r1,(DesiredXRot)				; r1 = X rotation
 	iwt r6,#SineTable8p8
-	from r1				;\r2 = sin(hib(r1))
-	hib				;|
-	add r0				;|
-	to r14				;|
-	add r6				;|
-	to r2				;|
-	getb				;|
-	inc r14				;|
-	with r2				;|
-	alt1				;|
-	getbh				;/
-	inc r14				;\r0 = sin(hib(r1)+$100)
-	getb				;|
-	inc r14				;|
-	alt1				;|
-	getbh				;/
-	to r6				;\Lerp r0 and r2 using lob(r1)...
-	sub r2				;|
-	from r1				;|
-	lob				;|
-	swap				;|
-	lsr				;|
-	fmult				;|
-	rol				;|
-	to r12				;|...and store in r12 (sin(xrot))
-	add r12				;/
-	iwt r14,#$4000			;\Offset for cosine
-	with r1				;|
-	add r14				;/
+	from r1						;\r2 = sin(hib(r1))
+	hib						;|
+	add r0						;|
+	to r14						;|
+	add r6						;|
+	to r2						;|
+	getb						;|
+	inc r14						;|
+	with r2						;|
+	alt1						;|
+	getbh						;/
+	inc r14						;\r0 = sin(hib(r1)+$100)
+	getb						;|
+	inc r14						;|
+	alt1						;|
+	getbh						;/
+	to r6						;\Lerp r0 and r2 using lob(r1)...
+	sub r2						;|
+	from r1						;|
+	lob						;|
+	swap						;|
+	lsr						;|
+	fmult						;|
+	rol						;|
+	to r12						;|...and store in r12 (sin(xrot))
+	add r12						;/
+	iwt r14,#$4000					;\Offset for cosine
+	with r1						;|
+	add r14						;/
 	iwt r6,#SineTable8p8
-	from r1				;\r2 = cos(hib(r1))
-	hib				;|
-	add r0				;|
-	to r14				;|
-	add r6				;|
-	to r2				;|
-	getb				;|
-	inc r14				;|
-	with r2				;|
-	alt1				;|
-	getbh				;/
-	inc r14				;\r0 = cos(hib(r1)+$100)
-	getb				;|
-	inc r14				;|
-	alt1				;|
-	getbh				;/
-	to r6				;\Lerp r0 and r2 using lob(r1)...
-	sub r2				;|
-	from r1				;|
-	lob				;|
-	swap				;|
-	lsr				;|
-	fmult				;|
-	rol				;|
-	to r8				;|...and store in r8 (cos(xrot))
-	add r2				;/
+	from r1						;\r2 = cos(hib(r1))
+	hib						;|
+	add r0						;|
+	to r14						;|
+	add r6						;|
+	to r2						;|
+	getb						;|
+	inc r14						;|
+	with r2						;|
+	alt1						;|
+	getbh						;/
+	inc r14						;\r0 = cos(hib(r1)+$100)
+	getb						;|
+	inc r14						;|
+	alt1						;|
+	getbh						;/
+	to r6						;\Lerp r0 and r2 using lob(r1)...
+	sub r2						;|
+	from r1						;|
+	lob						;|
+	swap						;|
+	lsr						;|
+	fmult						;|
+	rol						;|
+	to r8						;|...and store in r8 (cos(xrot))
+	add r2						;/
 	alt1
-	lms r1,(DesiredYRot)		; r1 = Y rotation
+	lms r1,(DesiredYRot)				; r1 = Y rotation
 	iwt r6,#SineTable8p8
-	from r1				;\r2 = sin(hib(r1))
-	hib				;|
-	add r0				;|
-	to r14				;|
-	add r6				;|
-	to r2				;|
-	getb				;|
-	inc r14				;|
-	with r2				;|
-	alt1				;|
-	getbh				;/
-	inc r14				;\r0 = cos(hib(r1)+$100)
-	getb				;|
-	inc r14				;|
-	alt1				;|
-	getbh				;/
-	to r6				;\Lerp r0 and r2 using lob(r1)...
-	sub r2				;|
-	from r1				;|
-	lob				;|
-	swap				;|
-	lsr				;|
-	fmult				;|
-	rol				;|
-	to r4				;|...and store in r4 (sin(yrot))
-	add r2				;/
-	iwt r14,#$4000			;\Offset for cosine
-	with r1				;|
-	add r14				;/
+	from r1						;\r2 = sin(hib(r1))
+	hib						;|
+	add r0						;|
+	to r14						;|
+	add r6						;|
+	to r2						;|
+	getb						;|
+	inc r14						;|
+	with r2						;|
+	alt1						;|
+	getbh						;/
+	inc r14						;\r0 = cos(hib(r1)+$100)
+	getb						;|
+	inc r14						;|
+	alt1						;|
+	getbh						;/
+	to r6						;\Lerp r0 and r2 using lob(r1)...
+	sub r2						;|
+	from r1						;|
+	lob						;|
+	swap						;|
+	lsr						;|
+	fmult						;|
+	rol						;|
+	to r4						;|...and store in r4 (sin(yrot))
+	add r2						;/
+	iwt r14,#$4000					;\Offset for cosine
+	with r1						;|
+	add r14						;/
 	iwt r6,#SineTable8p8
-	from r1				;\r2 = cos(hib(r1))
-	hib				;|
-	add r0				;|
-	to r14				;|
-	add r6				;|
-	to r2				;|
-	getb				;|
-	inc r14				;|
-	with r2				;|
-	alt1				;|
-	getbh				;/
-	inc r14				;\r0 = cos(hib(r1)+$100)
-	getb				;|
-	inc r14				;|
-	alt1				;|
-	getbh				;/
-	to r6				;\Lerp r0 and r2 using lob(r1)...
-	sub r2				;|
-	from r1				;|
-	lob				;|
-	swap				;|
-	lsr				;|
-	fmult				;|
-	rol				;|
-	to r3				;|...and store in r3 (cos(yrot))
-	add r2				;/
+	from r1						;\r2 = cos(hib(r1))
+	hib						;|
+	add r0						;|
+	to r14						;|
+	add r6						;|
+	to r2						;|
+	getb						;|
+	inc r14						;|
+	with r2						;|
+	alt1						;|
+	getbh						;/
+	inc r14						;\r0 = cos(hib(r1)+$100)
+	getb						;|
+	inc r14						;|
+	alt1						;|
+	getbh						;/
+	to r6						;\Lerp r0 and r2 using lob(r1)...
+	sub r2						;|
+	from r1						;|
+	lob						;|
+	swap						;|
+	lsr						;|
+	fmult						;|
+	rol						;|
+	to r3						;|...and store in r3 (cos(yrot))
+	add r2						;/
 	alt1
-	lms r1,(DesiredZRot)		; r1 = Z rotation
+	lms r1,(DesiredZRot)				; r1 = Z rotation
 	iwt r6,#SineTable8p8
-	from r1				;\r2 = sin(hib(r1))
-	hib				;|
-	add r0				;|
-	to r14				;|
-	add r6				;|
-	to r2				;|
-	getb				;|
-	inc r14				;|
-	with r2				;|
-	alt1				;|
-	getbh				;/
-	inc r14				;\r0 = cos(hib(r1)+$100)
-	getb				;|
-	inc r14				;|
-	alt1				;|
-	getbh				;/
-	to r6				;\Lerp r0 and r2 using lob(r1)...
-	sub r2				;|
-	from r1				;|
-	lob				;|
-	swap				;|
-	lsr				;|
-	fmult				;|
-	rol				;|
-	to r7				;|...and store in r4 (sin(zrot))
-	add r2				;/
-	iwt r14,#$4000			;\Offset for cosine
-	with r1				;|
-	add r14				;/
+	from r1						;\r2 = sin(hib(r1))
+	hib						;|
+	add r0						;|
+	to r14						;|
+	add r6						;|
+	to r2						;|
+	getb						;|
+	inc r14						;|
+	with r2						;|
+	alt1						;|
+	getbh						;/
+	inc r14						;\r0 = cos(hib(r1)+$100)
+	getb						;|
+	inc r14						;|
+	alt1						;|
+	getbh						;/
+	to r6						;\Lerp r0 and r2 using lob(r1)...
+	sub r2						;|
+	from r1						;|
+	lob						;|
+	swap						;|
+	lsr						;|
+	fmult						;|
+	rol						;|
+	to r7						;|...and store in r4 (sin(zrot))
+	add r2						;/
+	iwt r14,#$4000					;\Offset for cosine
+	with r1						;|
+	add r14						;/
 	iwt r6,#SineTable8p8
-	from r1				;\r2 = cos(hib(r1))
-	hib				;|
-	add r0				;|
-	to r14				;|
-	add r6				;|
-	to r2				;|
-	getb				;|
-	inc r14				;|
-	with r2				;|
-	alt1				;|
-	getbh				;/
-	inc r14				;\r0 = cos(hib(r1)+$100)
-	getb				;|
-	inc r14				;|
-	alt1				;|
-	getbh				;/
-	to r6				;\Lerp r0 and r2 using lob(r1)...
-	sub r2				;|
-	from r1				;|
-	lob				;|
-	swap				;|
-	lsr				;|
-	fmult				;|
-	rol				;|
-	to r5				;|...and store in r4 (cos(zrot))
-	add r2				;/
-	move r6,r5			;\r1 = sinycosz
-	from r4				;|
-	fmult				;|
-	to r1				;|
-	rol				;/
-	from r3				;\r2 = cosycosz
-	fmult				;|
-	to r2				;|
-	rol				;/
-	move r6,r7			;\r13 = sinysinz
-	from r4				;|
-	fmult				;|
-	to r13				;|
-	rol				;/
-	from r3				;\r14 = cosysinz
-	fmult				;|
-	to r14				;|
-	rol				;/
-	move r6,r12			;\XX = sinxsinysinz+cosycosz
-	from r13			;|
-	fmult				;|
-	rol				;|
-	add r2				;|
-	stw r9				;|
-	inc r9				;|
-	inc r9				;/
-	from r1				;\YX = sinxsinycosz
-	fmult				;|
-	rol				;|
-	sub r14				;|
-	stw r9				;|
-	inc r9				;|
-	inc r9				;/
-	move r6,r8			;\ZX = cosxsiny
-	from r4				;|
-	fmult				;|
-	rol				;|
-	stw r9				;|
-	inc r9				;|
-	inc r9				;/
-	from r7				;\XY = cosxsinz
-	fmult				;|
-	rol				;|
-	stw r9				;|
-	inc r9				;|
-	inc r9				;/
-	from r5				;\YY = cosxcosz
-	fmult				;|
-	rol				;|
-	stw r9				;|
-	inc r9				;|
-	inc r9				;/
-	from r12			;\ZY = -sinx
-	not				;|
-	inc r0				;|
-	stw r9				;|
-	inc r9				;|
-	inc r9				;/
-	move r6,r12			;\XZ = sinxcosysinz
-	from r14			;|
-	fmult				;|
-	rol				;|
-	sub r1				;|
-	stw r9				;|
-	inc r9				;|
-	inc r9				;/
-	from r2				;\YZ = sinxcosycosz+sinysinz
-	fmult				;|
-	rol				;|
-	add r13				;|
-	stw r9				;|
-	inc r9				;|
-	inc r9				;/
-	move r6,r8			;\ZZ = cosxcosy
-	from r3				;|
-	fmult				;|
-	rol				;|
-	stw r9				;/
-	jmp r11				;\Return from link
-	nop				;/
-CODE_0183C0:
-	ibt r0,#$FF
-	color
-	ibt r1,#$00
-	ibt r2,#$40
-	ibt r12,#$20
-	move r13,r15			; Set loop point
-	loop
-	plot
-	stop				;\End SuperFX task
-	nop				;/
+	from r1						;\r2 = cos(hib(r1))
+	hib						;|
+	add r0						;|
+	to r14						;|
+	add r6						;|
+	to r2						;|
+	getb						;|
+	inc r14						;|
+	with r2						;|
+	alt1						;|
+	getbh						;/
+	inc r14						;\r0 = cos(hib(r1)+$100)
+	getb						;|
+	inc r14						;|
+	alt1						;|
+	getbh						;/
+	to r6						;\Lerp r0 and r2 using lob(r1)...
+	sub r2						;|
+	from r1						;|
+	lob						;|
+	swap						;|
+	lsr						;|
+	fmult						;|
+	rol						;|
+	to r5						;|...and store in r4 (cos(zrot))
+	add r2						;/
+	move r6,r5					;\r1 = sinycosz
+	from r4						;|
+	fmult						;|
+	to r1						;|
+	rol						;/
+	from r3						;\r2 = cosycosz
+	fmult						;|
+	to r2						;|
+	rol						;/
+	move r6,r7					;\r13 = sinysinz
+	from r4						;|
+	fmult						;|
+	to r13						;|
+	rol						;/
+	from r3						;\r14 = cosysinz
+	fmult						;|
+	to r14						;|
+	rol						;/
+	move r6,r12					;\XX = sinxsinysinz+cosycosz
+	from r13					;|
+	fmult						;|
+	rol						;|
+	add r2						;|
+	stw r9						;|
+	inc r9						;|
+	inc r9						;/
+	from r1						;\YX = sinxsinycosz
+	fmult						;|
+	rol						;|
+	sub r14						;|
+	stw r9						;|
+	inc r9						;|
+	inc r9						;/
+	move r6,r8					;\ZX = cosxsiny
+	from r4						;|
+	fmult						;|
+	rol						;|
+	stw r9						;|
+	inc r9						;|
+	inc r9						;/
+	from r7						;\XY = cosxsinz
+	fmult						;|
+	rol						;|
+	stw r9						;|
+	inc r9						;|
+	inc r9						;/
+	from r5						;\YY = cosxcosz
+	fmult						;|
+	rol						;|
+	stw r9						;|
+	inc r9						;|
+	inc r9						;/
+	from r12					;\ZY = -sinx
+	not						;|
+	inc r0						;|
+	stw r9						;|
+	inc r9						;|
+	inc r9						;/
+	move r6,r12					;\XZ = sinxcosysinz
+	from r14					;|
+	fmult						;|
+	rol						;|
+	sub r1						;|
+	stw r9						;|
+	inc r9						;|
+	inc r9						;/
+	from r2						;\YZ = sinxcosycosz+sinysinz
+	fmult						;|
+	rol						;|
+	add r13						;|
+	stw r9						;|
+	inc r9						;|
+	inc r9						;/
+	move r6,r8					;\ZZ = cosxcosy
+	from r3						;|
+	fmult						;|
+	rol						;|
+	stw r9						;/
+	jmp r11						;\Return from link
+	nop						;/
+Unknown_DrawHorizLine32GreenPixels:
+	ibt r0,#$FF					;\Set color to $FF (green)
+	color						;/
+	ibt r1,#$00					;\Set initial X/Y coords of line
+	ibt r2,#$40					;/
+	ibt r12,#$20					; Draw 32 pixels
+	move r13,r15					; Set loop point
+	loop						;\Plot horizontal line
+	plot						;/
+	stop						;\End SuperFX task
+	nop						;/
 CODE_0183CF:
 	sub r0
 	alt2
 	ramb
 	alt3
 	romb
-	iwt r10,#$04C2
+	iwt r10,#SuperFXStack
 	alt1
 	lms r0,(OutputVecY)
 	stw r10
@@ -849,17 +851,17 @@ CODE_0183CF:
 	link #4
 	iwt r15,#CODE_018479
 	nop
-	stop				;\End SuperFX task
-	nop				;/
+	stop						;\End SuperFX task
+	nop						;/
 CODE_01840A:
 	sub r0
 	alt2
 	ramb
 	alt3
 	romb
-	iwt r10,#$04C2
+	iwt r10,#SuperFXStack
 	alt1
-	lm r4,($001A)			; Typo? lms could've been used here
+	lm r4,($001A)
 	ibt r14,#$12
 	from r4
 	to r14
@@ -908,8 +910,8 @@ CODE_01840A:
 	link #4
 	iwt r15,#CODE_018484
 	nop
-	stop				;\End SuperFX task
-	nop				;/
+	stop						;\End SuperFX task
+	nop						;/
 CODE_018456:
 	alt1
 	lms r0,($01A2)
@@ -923,11 +925,11 @@ CODE_018456:
 	link #4
 	iwt r15,#CODE_01846B
 	nop
-	dec r10				;\Pop r15 (pc) from stack and return
-	dec r10				;|
-	to r15				;|
-	ldw r10				;|
-	nop				;/
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
 CODE_01846B:
 	iwt r2,#$1000
 	iwt r1,#$2000
@@ -970,7 +972,7 @@ CODE_018484:
 	dec r0
 	add r0
 	add r0
-	iwt r0,#$8F9A
+	iwt r0,#DATA_038F9A
 	to r14
 	add r2
 CODE_0184A5:
@@ -983,7 +985,7 @@ CODE_0184A5:
 	add r1
 	bpl CODE_0184BA
 	nop
-	iwt r0,#$8B2A
+	iwt r0,#LitColorPointerTable
 	iwt r2,#$0000
 	iwt r15,#CODE_0184E4
 	nop
@@ -995,7 +997,7 @@ CODE_0184BA:
 	add r1
 	bpl CODE_0184CC
 	nop
-	iwt r0,#$8B42
+	iwt r0,#LitColorPointerTable+$18
 	iwt r2,#$0020
 	iwt r15,#CODE_0184E4
 	nop
@@ -1007,12 +1009,12 @@ CODE_0184CC:
 	add r1
 	bpl CODE_0184DE
 	nop
-	iwt r0,#$8B5A
+	iwt r0,#LitColorPointerTable+$30
 	iwt r2,#$0040
 	iwt r15,#CODE_0184E4
 	nop
 CODE_0184DE:
-	iwt r0,#$8B72
+	iwt r0,#LitColorPointerTable+$48
 	iwt r2,#$0060
 CODE_0184E4:
 	alt2
@@ -1029,7 +1031,7 @@ CODE_0184E4:
 	moves r12,r12
 	beq CODE_0184FD
 	nop
-	move r13,r15
+	move r13,r15					; Set loop point
 	loop
 	add r0
 CODE_0184FD:
@@ -1069,54 +1071,54 @@ CODE_018524:
 	or r2
 	bne CODE_018575
 	nop
-	alt1				;\Copy XX matrix element
-	lms r0,(ObjectMatrix.XX)	;|
-	alt2				;|
-	sms ($0120),r0			;/
-	alt1				;\Copy YX matrix element
-	lms r0,(ObjectMatrix.YX)	;|
-	alt2				;|
-	sms ($0122),r0			;/
-	alt1				;\Copy ZX matrix element
-	lms r0,(ObjectMatrix.ZX)	;|
-	alt2				;|
-	sms ($0124),r0			;/
-	alt1				;\Copy XY matrix element
-	lms r0,(ObjectMatrix.XY)	;|
-	alt2				;|
-	sms ($0126),r0			;/
-	alt1				;\Copy YY matrix element
-	lms r0,(ObjectMatrix.YY)	;|
-	alt2				;|
-	sms ($0128),r0			;/
-	alt1				;\Copy ZY matrix element
-	lms r0,(ObjectMatrix.ZY)	;|
-	alt2				;|
-	sms ($012A),r0			;/
-	alt1				;\Copy XZ matrix element
-	lms r0,(ObjectMatrix.XZ)	;|
-	alt2				;|
-	sms ($012C),r0			;/
-	alt1				;\Copy YZ matrix element
-	lms r0,(ObjectMatrix.YZ)	;|
-	alt2				;|
-	sms ($012E),r0			;/
-	alt1				;\Copy ZZ matrix element
-	lms r0,(ObjectMatrix.ZZ)	;|
-	alt2				;|
-	sms ($0130),r0			;/
+	alt1						;\Copy XX matrix element
+	lms r0,(ObjectMatrix.XX)			;|
+	alt2						;|
+	sms (TransformMatrix.XX),r0			;/
+	alt1						;\Copy YX matrix element
+	lms r0,(ObjectMatrix.YX)			;|
+	alt2						;|
+	sms (TransformMatrix.YX),r0			;/
+	alt1						;\Copy ZX matrix element
+	lms r0,(ObjectMatrix.ZX)			;|
+	alt2						;|
+	sms (TransformMatrix.ZX),r0			;/
+	alt1						;\Copy XY matrix element
+	lms r0,(ObjectMatrix.XY)			;|
+	alt2						;|
+	sms (TransformMatrix.XY),r0			;/
+	alt1						;\Copy YY matrix element
+	lms r0,(ObjectMatrix.YY)			;|
+	alt2						;|
+	sms (TransformMatrix.YY),r0			;/
+	alt1						;\Copy ZY matrix element
+	lms r0,(ObjectMatrix.ZY)			;|
+	alt2						;|
+	sms (TransformMatrix.ZY),r0			;/
+	alt1						;\Copy XZ matrix element
+	lms r0,(ObjectMatrix.XZ)			;|
+	alt2						;|
+	sms (TransformMatrix.XZ),r0			;/
+	alt1						;\Copy YZ matrix element
+	lms r0,(ObjectMatrix.YZ)			;|
+	alt2						;|
+	sms (TransformMatrix.YZ),r0			;/
+	alt1						;\Copy ZZ matrix element
+	lms r0,(ObjectMatrix.ZZ)			;|
+	alt2						;|
+	sms (TransformMatrix.ZZ),r0			;/
 	alt1
 	lms r0,($0054)
 	iwt r1,#$2000
 	and r1
 	beq CODE_018571
 	sub r0
-	alt2
-	sms ($0126),r0
-	alt2
-	sms ($0128),r0
-	alt2
-	sms ($012A),r0
+	alt2						;\Zero XY matrix element
+	sms (TransformMatrix.XY),r0			;/
+	alt2						;\Zero YY matrix element
+	sms (TransformMatrix.YY),r0			;/
+	alt2						;\Zero ZY matrix element
+	sms (TransformMatrix.ZY),r0			;/
 CODE_018571:
 	iwt r15,#CODE_018615
 	nop
@@ -1131,66 +1133,66 @@ CODE_018575:
 CODE_018581:
 	bne CODE_0185DE
 	nop
-	alt1				;\Negate XX matrix element
-	lms r0,(ObjectMatrix.XX)	;|
-	not				;|
-	inc r0				;|
-	alt2				;|
-	sms ($0120),r0			;/
-	alt1				;\Negate YX matrix element
-	lms r0,(ObjectMatrix.YX)	;|
-	not				;|
-	inc r0				;|
-	alt2				;|
-	sms ($0122),r0			;/
-	alt1				;\Negate ZX matrix element
-	lms r0,(ObjectMatrix.ZX)	;|
-	not				;|
-	inc r0				;|
-	alt2				;|
-	sms ($0124),r0			;/
-	alt1				;\Copy XY matrix element
-	lms r0,(ObjectMatrix.XY)	;|
-	alt2				;|
-	sms ($0126),r0			;/
-	alt1				;\Copy YY matrix element
-	lms r0,(ObjectMatrix.YY)	;|
-	alt2				;|
-	sms ($0128),r0			;/
-	alt1				;\Copy ZY matrix element
-	lms r0,(ObjectMatrix.ZY)	;|
-	alt2				;|
-	sms ($012A),r0			;/
-	alt1				;\Negate XZ matrix element
-	lms r0,(ObjectMatrix.XZ)	;|
-	not				;|
-	inc r0				;|
-	alt2				;|
-	sms ($012C),r0			;/
-	alt1				;\Negate YZ matrix element
-	lms r0,(ObjectMatrix.YZ)	;|
-	not				;|
-	inc r0				;|
-	alt2				;|
-	sms ($012E),r0			;/
-	alt1				;\Negate ZZ matrix element
-	lms r0,(ObjectMatrix.ZZ)	;|
-	not				;|
-	inc r0				;|
-	alt2				;|
-	sms ($0130),r0			;/
+	alt1						;\Negate XX matrix element
+	lms r0,(ObjectMatrix.XX)			;|
+	not						;|
+	inc r0						;|
+	alt2						;|
+	sms (TransformMatrix.XX),r0			;/
+	alt1						;\Negate YX matrix element
+	lms r0,(ObjectMatrix.YX)			;|
+	not						;|
+	inc r0						;|
+	alt2						;|
+	sms (TransformMatrix.YX),r0			;/
+	alt1						;\Negate ZX matrix element
+	lms r0,(ObjectMatrix.ZX)			;|
+	not						;|
+	inc r0						;|
+	alt2						;|
+	sms (TransformMatrix.ZX),r0			;/
+	alt1						;\Copy XY matrix element
+	lms r0,(ObjectMatrix.XY)			;|
+	alt2						;|
+	sms (TransformMatrix.XY),r0			;/
+	alt1						;\Copy YY matrix element
+	lms r0,(ObjectMatrix.YY)			;|
+	alt2						;|
+	sms (TransformMatrix.YY),r0			;/
+	alt1						;\Copy ZY matrix element
+	lms r0,(ObjectMatrix.ZY)			;|
+	alt2						;|
+	sms (TransformMatrix.ZY),r0			;/
+	alt1						;\Negate XZ matrix element
+	lms r0,(ObjectMatrix.XZ)			;|
+	not						;|
+	inc r0						;|
+	alt2						;|
+	sms (TransformMatrix.XZ),r0			;/
+	alt1						;\Negate YZ matrix element
+	lms r0,(ObjectMatrix.YZ)			;|
+	not						;|
+	inc r0						;|
+	alt2						;|
+	sms (TransformMatrix.YZ),r0			;/
+	alt1						;\Negate ZZ matrix element
+	lms r0,(ObjectMatrix.ZZ)			;|
+	not						;|
+	inc r0						;|
+	alt2						;|
+	sms (TransformMatrix.ZZ),r0			;/
 	alt1
 	lms r0,($0054)
 	iwt r1,#$2000
 	and r1
 	beq CODE_0185DA
 	sub r0
-	alt2				;\Zero XY matrix element
-	sms ($0126),r0			;/
-	alt2				;\Zero YY matrix element
-	sms ($0128),r0			;/
-	alt2				;\Zero ZY matrix element
-	sms ($012A),r0			;/
+	alt2						;\Zero XY matrix element
+	sms (TransformMatrix.XY),r0			;/
+	alt2						;\Zero YY matrix element
+	sms (TransformMatrix.YY),r0			;/
+	alt2						;\Zero ZY matrix element
+	sms (TransformMatrix.ZY),r0			;/
 CODE_0185DA:
 	iwt r15,#CODE_018615
 	nop
@@ -1387,309 +1389,314 @@ CODE_0186C9:
 	lms r14,($0016)
 	alt2
 	sms ($001A),r14
-	iwt r0,#FinishModel		;\Push `FinishModel` function pointer to stack
-	stw r10				;|
-	inc r10				;|
-	inc r10				;/
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	iwt r0,#FinishModel				;\Push `FinishModel` function pointer to stack
+	stw r10						;|
+	inc r10						;|
+	inc r10						;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
+	
+;;;;;;;;;;;;;;;;;;;;;;;;
+;MODEL COMMAND ROUTINES;
+;;;;;;;;;;;;;;;;;;;;;;;;
 PopAndReturn:
-	dec r10				;\Pop r15 (pc) from stack and return
-	dec r10				;|
-	to r15				;|
-	ldw r10				;|
-	nop				;/
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
 LoadAnimatedVertices:
-	to r1				;\Get frame count in r1
-	getb				;|
-	inc r14				;/
-	alt1				;\Get timer in r0...
-	lms r0,($0044)			;|
-	ibt r2,#$3F			;|...and mask out the 6 LSBs
-	and r2				;/
+	to r1						;\Get frame count in r1
+	getb						;|
+	inc r14						;/
+	alt1						;\Get timer in r0...
+	lms r0,($0044)					;|
+	ibt r2,#$3F					;|...and mask out the 6 LSBs
+	and r2						;/
 LoadAnimatedVertices_L1:
-	alt3				;\Calculate "timer" modulo "frame count"
-	cmp r1				;|
-	bmi LoadAnimatedVertices_L2	;|If "timer" is smaller, we're done
-	nop				;|
-	bra LoadAnimatedVertices_L1	;|Otherwise, loop back, but first...
-	sub r1				;/...subtract "frame count" from "timer"
+	alt3						;\Calculate "timer" modulo "frame count"
+	cmp r1						;|
+	bmi LoadAnimatedVertices_L2			;|If "timer" is smaller, we're done
+	nop						;|
+	bra LoadAnimatedVertices_L1			;|Otherwise, loop back, but first...
+	sub r1						;/...subtract "frame count" from "timer"
 LoadAnimatedVertices_L2:
-	add r0				;\Double r0 to get offset in bytes...
-	with r14			;|...and add this to the ROM pointer...
-	add r0				;/...to get the offset to this frame's animation vertices
+	add r0						;\Double r0 to get offset in bytes...
+	with r14					;|...and add this to the ROM pointer...
+	add r0						;/...to get the offset to this frame's animation vertices
 JumpToEndOfAnimatedVertices:
-	getb				;\Offset ROM pointer using two bytes read
-	inc r14				;|
-	alt1				;|
-	getbh				;|
-	with r14			;|
-	add r0				;/
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	getb						;\Offset ROM pointer using two bytes read
+	inc r14						;|
+	alt1						;|
+	getbh						;|
+	with r14					;|
+	add r0						;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 LoadVertices16Bit:
-	to r12				;\Get vertex count in r12 (loop register)
-	getb				;|
-	inc r14				;/
-	alt1				;\Add r12 to total vertex count
-	lms r0,($0132)			;|
-	add r12				;|
-	sbk				;/
-	alt1				;\Load r9 with current vertex pointer
-	lms r9,($001E)			;/
-	alt2				;\Save r10
-	sms ($0012),r10			;/
-	alt1				;\Get XX matrix element in r10
-	lms r10,($0120)			;/
-	alt1				;\Get XY matrix element in r11
-	lms r11,($0126)			;/
-	alt1				;\Get XZ matrix element in r13
-	lms r13,($012C)			;/
-	alt1				;\Get YX matrix element in r4
-	lms r4,($0122)			;/
-	alt1				;\Get YY matrix element in r7
-	lms r7,($0128)			;/
-	alt1				;\Get YZ matrix element in r8
-	lms r8,($012E)			;/
+	to r12						;\Get vertex count in r12 (loop register)
+	getb						;|
+	inc r14						;/
+	alt1						;\Add r12 to total vertex count
+	lms r0,(TotalVtxCnt)				;|
+	add r12						;|
+	sbk						;/
+	alt1						;\Load r9 with current vertex pointer
+	lms r9,(CurVtxPtr)				;/
+	alt2						;\Save r10
+	sms ($0012),r10					;/
+	alt1						;\Get XX matrix element in r10
+	lms r10,(TransformMatrix.XX)			;/
+	alt1						;\Get XY matrix element in r11
+	lms r11,(TransformMatrix.XY)			;/
+	alt1						;\Get XZ matrix element in r13
+	lms r13,(TransformMatrix.XZ)			;/
+	alt1						;\Get YX matrix element in r4
+	lms r4,(TransformMatrix.YX)			;/
+	alt1						;\Get YY matrix element in r7
+	lms r7,(TransformMatrix.YY)			;/
+	alt1						;\Get YZ matrix element in r8
+	lms r8,(TransformMatrix.YZ)			;/
 	cache
-LoadVertices16Bit_L1:
-	to r1				;\Get vertex X position in r1
-	getb				;|
-	inc r14				;|
-	with r1				;|
-	alt1				;|
-	getbh				;|
-	inc r14				;/
-	to r2				;\Get vertex Y position in r2
-	getb				;|
-	inc r14				;|
-	with r2				;|
-	alt1				;|
-	getbh				;|
-	inc r14				;/
-	to r3				;\Get vertex Z position in r3
-	getb				;|
-	inc r14				;|
-	with r3				;|
-	alt1				;|
-	getbh				;|
-	inc r14				;/
-	move r6,r10			;\Multiply X position by XX matrix element...
-	from r1				;|
-	fmult				;|
-	to r5				;|
-	rol				;/...shifting in bit 15 of the product for extra precision
-	move r6,r11			;\Multiply Y position by XY matrix element...
-	from r2				;|
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	with r5				;|
-	add r0				;/...and accumulating to previous value
-	move r6,r13			;\Multiply Z position by XZ matrix element...
-	from r3				;|
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	add r5				;|...accumulating to previous value...
-	stw r9				;|...and storing the result
-	inc r9				;|
-	inc r9				;/
-	move r6,r4			;\Multiply X position by YX matrix element...
-	from r1				;|
-	fmult				;|
-	to r5				;|
-	rol				;/...shifting in bit 15 of the product for extra precision
-	move r6,r7			;\Multiply Y position by YY matrix element...
-	from r2				;|
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	with r5				;|
-	add r0				;/...and accumulating to previous value
-	move r6,r8			;\Multiply Z position by YZ matrix element...
-	from r3				;|
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	add r5				;|...accumulating to previous value...
-	stw r9				;|...and storing the result
-	inc r9				;|
-	inc r9				;/
-	alt1				;\Get ZX matrix element in r6
-	lms r6,($0124)			;/
-	from r1				;\Multiply X position by ZX matrix element...
-	fmult				;|
-	to r5				;|
-	rol				;/...shifting in bit 15 of the product for extra precision
-	alt1				;\Get ZY matrix element in r6
-	lms r6,($012A)			;/
-	from r2				;\Multiply Y position by ZY matrix element...
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	with r5				;|
-	add r0				;/...and accumulating to previous value
-	alt1				;\Get ZZ matrix element in r6
-	lms r6,($0130)			;/
-	from r3				;\Multiply Z position by ZZ matrix element...
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	add r5				;|...accumulating to previous value...
-	stw r9				;|...and storing the result
-	inc r9				;/
-	dec r12				;\Decrement vertex count...
-	bne LoadVertices16Bit_L1	;|...and loop back if not zero
-	inc r9				;/(not sure why r13 wasn't used here)
-	alt2				;\Save current vertex pointer
-	sms ($001E),r9			;/
-	alt1				;\Restore r10
-	lms r10,($0012)			;/
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+LoadVertices16Bit_Loop:
+	to r1						;\Get vertex X position in r1
+	getb						;|
+	inc r14						;|
+	with r1						;|
+	alt1						;|
+	getbh						;|
+	inc r14						;/
+	to r2						;\Get vertex Y position in r2
+	getb						;|
+	inc r14						;|
+	with r2						;|
+	alt1						;|
+	getbh						;|
+	inc r14						;/
+	to r3						;\Get vertex Z position in r3
+	getb						;|
+	inc r14						;|
+	with r3						;|
+	alt1						;|
+	getbh						;|
+	inc r14						;/
+	move r6,r10					;\Multiply X position by XX matrix element...
+	from r1						;|
+	fmult						;|
+	to r5						;|
+	rol						;/...shifting in bit 15 of the product for extra precision
+	move r6,r11					;\Multiply Y position by XY matrix element...
+	from r2						;|
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	with r5						;|
+	add r0						;/...and accumulating to previous value
+	move r6,r13					;\Multiply Z position by XZ matrix element...
+	from r3						;|
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	add r5						;|...accumulating to previous value...
+	stw r9						;|...and storing the result
+	inc r9						;|
+	inc r9						;/
+	move r6,r4					;\Multiply X position by YX matrix element...
+	from r1						;|
+	fmult						;|
+	to r5						;|
+	rol						;/...shifting in bit 15 of the product for extra precision
+	move r6,r7					;\Multiply Y position by YY matrix element...
+	from r2						;|
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	with r5						;|
+	add r0						;/...and accumulating to previous value
+	move r6,r8					;\Multiply Z position by YZ matrix element...
+	from r3						;|
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	add r5						;|...accumulating to previous value...
+	stw r9						;|...and storing the result
+	inc r9						;|
+	inc r9						;/
+	alt1						;\Get ZX matrix element in r6
+	lms r6,(TransformMatrix.ZX)			;/
+	from r1						;\Multiply X position by ZX matrix element...
+	fmult						;|
+	to r5						;|
+	rol						;/...shifting in bit 15 of the product for extra precision
+	alt1						;\Get ZY matrix element in r6
+	lms r6,(TransformMatrix.ZY)			;/
+	from r2						;\Multiply Y position by ZY matrix element...
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	with r5						;|
+	add r0						;/...and accumulating to previous value
+	alt1						;\Get ZZ matrix element in r6
+	lms r6,(TransformMatrix.ZZ)			;/
+	from r3						;\Multiply Z position by ZZ matrix element...
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	add r5						;|...accumulating to previous value...
+	stw r9						;|...and storing the result
+	inc r9						;/
+	dec r12						;\Decrement vertex count...
+	bne LoadVertices16Bit_Loop			;|...and loop back if not zero
+	inc r9						;/(not sure why r13 wasn't used here)
+	alt2						;\Save current vertex pointer
+	sms (CurVtxPtr),r9				;/
+	alt1						;\Restore r10
+	lms r10,($0012)					;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 LoadMirroredVertices16Bit:
-	to r12				;\Get vertex count in r12 (loop register)
-	getb				;|
-	inc r14				;/
-	alt1				;\Add r12 to total vertex count
-	lms r0,($0132)			;|
-	add r12				;|
-	add r12				;|
-	sbk				;/
-	alt1				;\Load r9 with current vertex pointer
-	lms r9,($001E)			;/
+	to r12						;\Get vertex count in r12 (loop register)
+	getb						;|
+	inc r14						;/
+	alt1						;\Add r12 to total vertex count
+	lms r0,(TotalVtxCnt)				;|
+	add r12						;|
+	add r12						;|
+	sbk						;/
+	alt1						;\Load r9 with current vertex pointer
+	lms r9,(CurVtxPtr)				;/
 	cache
-	move r13,r15			; Set loop point
-	to r1				;\Get vertex X coordinate in r1
-	getb				;|
-	inc r14				;|
-	with r1				;|
-	alt1				;|
-	getbh				;|
-	inc r14				;/
-	to r2				;\Get vertex Y coordinate in r2
-	getb				;|
-	inc r14				;|
-	with r2				;|
-	alt1				;|
-	getbh				;|
-	inc r14				;/
-	to r3				;\Get vertex Z coordinate in r3
-	getb				;|
-	inc r14				;|
-	with r3				;|
-	alt1				;|
-	getbh				;|
-	inc r14				;/
-	alt1				;\Get XX matrix element in r6
-	lms r6,($0120)			;/
-	from r1				;\Multiply X position by XX matrix element...
-	fmult				;|
-	to r8				;|
-	rol				;/...shifting in bit 15 of the product for extra precision
-	alt1				;\Get XY matrix element in r6
-	lms r6,($0126)			;/
-	from r2				;\Multiply Y position by XY matrix element...
-	fmult				;|
-	to r5				;|
-	rol				;/...shifting in bit 15 of the product for extra precision
-	alt1				;\Get XZ matrix element in r6
-	lms r6,($012C)			;/
-	from r3				;\Multiply Z position by XZ matrix element...
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	add r5				;|...accumulating the previous two values...
-	add r8				;|
-	stw r9				;/...and storing the result
-	sub r8				;\Flip along local X axis...
-	sub r8				;|
-	with r9				;|
-	alt2				;|
-	add #$06			;|
-	stw r9				;|...and store the mirrored vertex
-	with r9				;|
-	alt2				;|
-	sub #$04			;/
-	alt1				;\Get YX matrix element in r6
-	lms r6,($0122)			;/
-	from r1				;\Multiply X position by YX matrix element...
-	fmult				;|
-	to r8				;|
-	rol				;/...shifting in bit 15 of the product for extra precision
-	alt1				;\Get YY matrix element in r6
-	lms r6,($0128)			;/
-	from r2				;\Multiply Y position by YY matrix element...
-	fmult				;|
-	to r5				;|
-	rol				;/...shifting in bit 15 of the product for extra precision
-	alt1				;\Get YZ matrix element in r6
-	lms r6,($012E)			;/
-	from r3				;\Multiply Z position by YZ matrix element...
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	add r5				;|...accumulating the previous two values...
-	add r8				;|
-	stw r9				;/...and storing the result
-	sub r8				;\Flip along local X axis...
-	sub r8				;|
-	with r9				;|
-	alt2				;|
-	add #$06			;|
-	stw r9				;|...and store the mirrored vertex
-	with r9				;|
-	alt2				;|
-	sub #$04			;/
-	alt1				;\Get ZX matrix element in r6
-	lms r6,($0124)			;/
-	from r1				;\Multiply X position by ZX matrix element...
-	fmult				;|
-	to r8				;|
-	rol				;/...shifting in bit 15 of the product for extra precision
-	alt1				;\Get ZY matrix element in r6
-	lms r6,($012A)			;/
-	from r2				;\Multiply Y position by ZY matrix element...
-	fmult				;|
-	to r5				;|
-	rol				;/...shifting in bit 15 of the product for extra precision
-	alt1				;\Get ZZ matrix element in r6
-	lms r6,($0130)			;/
-	from r3				;\Multiply Z position by ZZ matrix element...
-	fmult				;|
-	rol				;|...shifting in bit 15 of the product for extra precision...
-	add r5				;|...accumulating the previous two values...
-	add r8				;|
-	stw r9				;/...and storing the result
-	sub r8				;\Flip along local X axis...
-	sub r8				;|
-	with r9				;|
-	alt2				;|
-	add #$06			;|
-	stw r9				;|...and store the mirrored vertex
-	with r9				;|
-	alt2				;|
-	sub #$04			;/
-	with r9				;\Move vertex pointer for next mirrored vertex pair
-	alt2				;|
-	add #$06			;/
-	loop				;\Loop back until all vertices have been processed
-	nop				;/
-	alt2				;\Save current vertex pointer
-	sms ($001E),r9			;/
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
-LoadVertices8Bit_M1:				;881F
-	to r12				;\Get vertex count in r12 (loop register)
-	getb				;|
-	inc r14				;/
-	alt1
-	lms r0,($0132)
-	add r12
-	sbk
-	alt1				;\Load r9 with current vertex pointer
-	lms r9,($001E)			;/
+	move r13,r15					; Set loop point
+LoadMirroredVertices16Bit_Loop:
+	to r1						;\Get vertex X coordinate in r1
+	getb						;|
+	inc r14						;|
+	with r1						;|
+	alt1						;|
+	getbh						;|
+	inc r14						;/
+	to r2						;\Get vertex Y coordinate in r2
+	getb						;|
+	inc r14						;|
+	with r2						;|
+	alt1						;|
+	getbh						;|
+	inc r14						;/
+	to r3						;\Get vertex Z coordinate in r3
+	getb						;|
+	inc r14						;|
+	with r3						;|
+	alt1						;|
+	getbh						;|
+	inc r14						;/
+	alt1						;\Get XX matrix element in r6
+	lms r6,(TransformMatrix.XX)			;/
+	from r1						;\Multiply X position by XX matrix element...
+	fmult						;|
+	to r8						;|
+	rol						;/...shifting in bit 15 of the product for extra precision
+	alt1						;\Get XY matrix element in r6
+	lms r6,(TransformMatrix.XY)			;/
+	from r2						;\Multiply Y position by XY matrix element...
+	fmult						;|
+	to r5						;|
+	rol						;/...shifting in bit 15 of the product for extra precision
+	alt1						;\Get XZ matrix element in r6
+	lms r6,(TransformMatrix.XZ)			;/
+	from r3						;\Multiply Z position by XZ matrix element...
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	add r5						;|...accumulating the previous two values...
+	add r8						;|
+	stw r9						;/...and storing the result
+	sub r8						;\Flip along local X axis...
+	sub r8						;|
+	with r9						;|
+	alt2						;|
+	add #$06					;|
+	stw r9						;|...and store the mirrored vertex
+	with r9						;|
+	alt2						;|
+	sub #$04					;/
+	alt1						;\Get YX matrix element in r6
+	lms r6,(TransformMatrix.YX)			;/
+	from r1						;\Multiply X position by YX matrix element...
+	fmult						;|
+	to r8						;|
+	rol						;/...shifting in bit 15 of the product for extra precision
+	alt1						;\Get YY matrix element in r6
+	lms r6,(TransformMatrix.YY)			;/
+	from r2						;\Multiply Y position by YY matrix element...
+	fmult						;|
+	to r5						;|
+	rol						;/...shifting in bit 15 of the product for extra precision
+	alt1						;\Get YZ matrix element in r6
+	lms r6,(TransformMatrix.YZ)			;/
+	from r3						;\Multiply Z position by YZ matrix element...
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	add r5						;|...accumulating the previous two values...
+	add r8						;|
+	stw r9						;/...and storing the result
+	sub r8						;\Flip along local X axis...
+	sub r8						;|
+	with r9						;|
+	alt2						;|
+	add #$06					;|
+	stw r9						;|...and store the mirrored vertex
+	with r9						;|
+	alt2						;|
+	sub #$04					;/
+	alt1						;\Get ZX matrix element in r6
+	lms r6,(TransformMatrix.ZX)			;/
+	from r1						;\Multiply X position by ZX matrix element...
+	fmult						;|
+	to r8						;|
+	rol						;/...shifting in bit 15 of the product for extra precision
+	alt1						;\Get ZY matrix element in r6
+	lms r6,(TransformMatrix.ZY)			;/
+	from r2						;\Multiply Y position by ZY matrix element...
+	fmult						;|
+	to r5						;|
+	rol						;/...shifting in bit 15 of the product for extra precision
+	alt1						;\Get ZZ matrix element in r6
+	lms r6,(TransformMatrix.ZZ)			;/
+	from r3						;\Multiply Z position by ZZ matrix element...
+	fmult						;|
+	rol						;|...shifting in bit 15 of the product for extra precision...
+	add r5						;|...accumulating the previous two values...
+	add r8						;|
+	stw r9						;/...and storing the result
+	sub r8						;\Flip along local X axis...
+	sub r8						;|
+	with r9						;|
+	alt2						;|
+	add #$06					;|
+	stw r9						;|...and store the mirrored vertex
+	with r9						;|
+	alt2						;|
+	sub #$04					;/
+	with r9						;\Move vertex pointer for next mirrored vertex pair
+	alt2						;|
+	add #$06					;/
+	loop						;\Loop back until all vertices have been processed
+	nop						;/
+	alt2						;\Save current vertex pointer
+	sms (TotalVtxCnt),r9				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
+LoadVertices8Bit_M1:
+	to r12						;\Get vertex count in r12 (loop register)
+	getb						;|
+	inc r14						;/
+	alt1						;\Add r12 to total vertex count
+	lms r0,(TotalVtxCnt)				;|
+	add r12						;|
+	sbk						;/
+	alt1						;\Load r9 with current vertex pointer
+	lms r9,(CurVtxPtr)				;/
 	alt1
 	lms r8,($0030)
 	cache
-	move r13,r15			; Set loop point
+	move r13,r15					; Set loop point
 	getb
 	inc r14
 	to r1
@@ -1800,23 +1807,23 @@ LoadVertices8Bit_M1:				;881F
 	loop
 	inc r9
 	alt2
-	sms ($001E),r9
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
-LoadMirroredVertices8Bit_M1:			;88AF
-	to r12
-	getb
-	inc r14
-	alt1
-	lms r0,($0132)
-	add r12
-	add r12
-	sbk
-	alt1
-	lms r9,($001E)
+	sms (CurVtxPtr),r9
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
+LoadMirroredVertices8Bit_M1:
+	to r12						;\Get vertex count in r12 (loop register)
+	getb						;|
+	inc r14						;/
+	alt1						;\Add r12 to total vertex count
+	lms r0,(TotalVtxCnt)				;|
+	add r12						;|
+	add r12						;|
+	sbk						;/
+	alt1						;\Load r9 with current vertex pointer
+	lms r9,(CurVtxPtr)				;/
 	cache
-	move r13,r15			; Set loop point
+	move r13,r15					; Set loop point
 	alt1
 	lms r8,($0030)
 	getb
@@ -1924,11 +1931,11 @@ LoadMirroredVertices8Bit_M1:			;88AF
 	loop
 	nop
 	alt2
-	sms ($001E),r9
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
-LoadVertices8Bit:				;8938
+	sms (CurVtxPtr),r9
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
+LoadVertices8Bit:
 	alt1
 	lms r0,($0032)
 	alt2
@@ -1940,7 +1947,7 @@ LoadVertices8Bit:				;8938
 LoadVertices8Bit_L1:
 	nop
 	alt1
-	lms r11,($001E)
+	lms r11,(CurVtxPtr)
 	alt1
 	lms r5,($0116)
 	alt1
@@ -1958,32 +1965,32 @@ LoadVertices8Bit_L1:
 	swap
 	to r9
 	or r1
-	to r12				;\Get vertex count in r12 (loop register)
-	getb				;|
-	inc r14				;/
+	to r12						;\Get vertex count in r12 (loop register)
+	getb						;|
+	inc r14						;/
 	alt1
 	lms r0,($0132)
 	add r12
 	sbk
 	cache
-	move r13,r15			; Set loop point
-	to r1				;\Get vertex X position in r1
-	getb				;|
-	inc r14				;/
+	move r13,r15					; Set loop point
+	to r1						;\Get vertex X position in r1
+	getb						;|
+	inc r14						;/
 	from r5
 	to r4
 	mult r1
-	to r2				;\Get vertex Y position in r2
-	getb				;|
-	inc r14				;/
+	to r2						;\Get vertex Y position in r2
+	getb						;|
+	inc r14						;/
 	from r6
 	hib
 	mult r2
 	to r4
 	add r4
-	to r3				;\Get vertex Y position in r2
-	getb				;|
-	inc r14				;/
+	to r3						;\Get vertex Y position in r2
+	getb						;|
+	inc r14						;/
 	from r8
 	mult r3
 	add r4
@@ -2030,12 +2037,12 @@ LoadVertices8Bit_L1:
 	inc r11
 	loop
 	inc r11
-	alt2				;\Save current vertex pointer
-	sms ($001E),r9			;/
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
-LoadMirroredVertices8Bit:			;89AF
+	alt2						;\Save current vertex pointer
+	sms (CurVtxPtr),r9				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
+LoadMirroredVertices8Bit:
 	alt1
 	lms r0,($0032)
 	alt2
@@ -2047,7 +2054,7 @@ LoadMirroredVertices8Bit:			;89AF
 LoadMirroredVertices8Bit_L1:
 	nop
 	alt1
-	lms r11,($001E)
+	lms r11,(CurVtxPtr)
 	alt1
 	lms r5,($0116)
 	alt1
@@ -2065,11 +2072,11 @@ LoadMirroredVertices8Bit_L1:
 	swap
 	to r9
 	or r1
-	to r12				;\Get vertex count in r12 (loop register)
-	getb				;|
-	inc r14				;/
+	to r12						;\Get vertex count in r12 (loop register)
+	getb						;|
+	inc r14						;/
 	alt1
-	lms r0,($0132)
+	lms r0,(TotalVtxCnt)
 	add r12
 	add r12
 	sbk
@@ -2154,10 +2161,10 @@ LoadMirroredVertices8Bit_L2:
 	bne LoadMirroredVertices8Bit_L2
 	nop
 	alt2
-	sms ($001E),r11
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	sms (CurVtxPtr),r11
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 EndVertexList:
 	alt1
 	lms r3,($0026)
@@ -2394,40 +2401,40 @@ CODE_018B78:
 	lms r14,($0018)
 	alt2
 	sms ($001A),r14
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 StartBSPTree:
-	iwt r1,#$0B02			;\Initialize BSP tree stack pointer
-	alt2				;|
-	sms ($0056),r1			;/
-	iwt r0,#CODE_018C08		;\Set return value and push to stack
-	stw r10				;|
-	inc r10				;|
-	inc r10				;/
+	iwt r1,#BSPTreeStack				;\Initialize BSP tree stack pointer
+	alt2						;|
+	sms (BSPTreePtr),r1				;/
+	iwt r0,#CODE_018C08				;\Set return value and push to stack
+	stw r10						;|
+	inc r10						;|
+	inc r10						;/
 	cache
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 BSPLeaf:
-	getb				;\Offset ROM pointer to point to this leaf's face group
-	inc r14				;|
-	alt1				;|
-	getbh				;|
-	add r14				;/
+	getb						;\Offset ROM pointer to point to this leaf's face group
+	inc r14						;|
+	alt1						;|
+	getbh						;|
+	add r14						;/
 	alt1
-	lms r1,($0056)
+	lms r1,(BSPTreePtr)
 	stw r1
 	inc r1
 	inc r1
 	alt2
-	sms ($0056),r1
+	sms (BSPTreePtr),r1
 BSPEmptyLeaf:
-	dec r10				;\Pop r15 (pc) from stack and return
-	dec r10				;|
-	to r15				;|
-	ldw r10				;|
-	nop				;/
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
 BSPLeafNode:
 	getb
 	inc r14
@@ -2457,18 +2464,18 @@ BSPLeafNode:
 	stw r10
 	inc r10
 	inc r10
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 CODE_018BC8:
 	dec r10
 	dec r10
 	to r14
 	ldw r10
 	inc r14
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 CODE_018BD0:
 	getb
 	inc r14
@@ -2486,19 +2493,19 @@ CODE_018BD0:
 	stw r10
 	inc r10
 	inc r10
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 	dec r10
 	dec r10
 	ldw r10
 	alt1
-	lms r1,($0056)
+	lms r1,(BSPTreePtr)
 	stw r1
 	inc r1
 	inc r1
 	alt2
-	sms ($0056),r1
+	sms (BSPTreePtr),r1
 	dec r10
 	dec r10
 	to r14
@@ -2509,30 +2516,32 @@ CODE_018BD0:
 	nop
 	to r14
 	add r14
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 CODE_018C03:
-	dec r10
-	dec r10
-	to r15
-	ldw r10
-	nop
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
+CODE_018C08:
 	sub r0
 	alt1
-	lms r1,($0056)
+	lms r1,(BSPTreePtr)
 	stw r1
-	iwt r0,#$0B02
+	iwt r0,#BSPTreeStack
 	alt2
-	sms ($0056),r0
+	sms (BSPTreePtr),r0
+CODE_018C13:
 	alt1
-	lms r1,($0056)
+	lms r1,(BSPTreePtr)
 	to r14
 	ldw r1
 	inc r1
 	inc r1
 	alt2
-	sms ($0056),r1
+	sms (BSPTreePtr),r1
 	moves r14,r14
 	beq CODE_018C2D
 	from r15
@@ -2541,10 +2550,10 @@ CODE_018C03:
 	stw r10
 	inc r10
 	inc r10
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
-	bra -25
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
+	bra CODE_018C13
 	nop
 CODE_018C2D:
 	iwt r15,#FinishModel
@@ -2563,7 +2572,7 @@ CODE_018C2D:
 	sms ($0136),r12
 	iwt r9,#$05C6
 	iwt r5,#$0B42
-	move r13,r15			; Set loop point
+	move r13,r15					; Set loop point
 	getb
 	inc r14
 	alt3
@@ -2579,7 +2588,7 @@ CODE_018C54:
 	iwt r7,#$8000
 	alt1
 	lms r12,($0136)
-	move r13,r15			; Set loop point
+	move r13,r15					; Set loop point
 	ldw r5
 	alt3
 	cmp r7
@@ -2608,9 +2617,9 @@ CODE_018C69:
 	stw r10
 	inc r10
 	inc r10
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 	alt1
 	lms r0,($013C)
 	dec r0
@@ -2631,9 +2640,9 @@ CODE_018C69:
 	inc r14
 	inc r14
 	inc r14
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 CODE_018CA2:
 	getb
 	inc r14
@@ -2702,48 +2711,48 @@ CODE_018CE8:
 	romb
 	alt1
 	lms r14,($001A)
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 CODE_018D02:
 	inc r14
 	inc r14
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
-StartFaceGroup_M1:
-	inc r0				;\If terminating byte is $FF, go back to BSP tree
-	lob				;|
-	beq StartFaceGroup_M2		;|
-	nop				;/
-	to r15				;\Otherwise finish up model processing
-	getb				;|(it is implied that the byte after the terminator is a 0 in this case)
-	inc r14				;/
-StartFaceGroup_M2:
-	dec r10				;\Pop r15 (pc) from stack and return
-	dec r10				;|
-	to r15				;|
-	ldw r10				;|
-	nop				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
+StartFaceGroup_End:
+	inc r0						;\If terminating byte is $FF, go back to BSP tree
+	lob						;|
+	beq StartFaceGroup_EndLeaf			;|
+	nop						;/
+	to r15						;\Otherwise finish up model processing
+	getb						;|(it is implied that the byte after the terminator is a 0 in this case)
+	inc r14						;/
+StartFaceGroup_EndLeaf:
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
 StartFaceGroup:
-	ibt r0,#$70			;\Set default color...
-	color				;|
-	ibt r0,#$02			;|..and default plot mode
-	alt1				;|
-	cmode				;/
-	getb				;\Get vertex count
-	lob				;|
-	bmi StartFaceGroup_M1		;|Branch back if negative
-	inc r14				;/
-	ibt r1,#$3F			;\r2 now has vertex count with all but 6 LSBs masked out...
-	to r2				;|
-	and r1				;|
-	alt2				;|
-	sms ($0134),r2			;/save this value for later
-	dec r2				;\If vertex count is 2 (we have a line), branch here
-	dec r2				;|
-	beq CODE_018D54			;|
-	inc r14				;/
+	ibt r0,#$70					;\Set default color...
+	color						;|
+	ibt r0,#$02					;|..and default plot mode
+	alt1						;|
+	cmode						;/
+	getb						;\Get vertex count
+	lob						;|
+	bmi StartFaceGroup_End				;|Branch back if negative
+	inc r14						;/
+	ibt r1,#$3F					;\r2 now has vertex count with all but 6 LSBs masked out...
+	to r2						;|
+	and r1						;|
+	alt2						;|
+	sms ($0134),r2					;/save this value for later
+	dec r2						;\If vertex count is 2 (we have a line), branch here
+	dec r2						;|
+	beq StartFaceGroup_Line				;|
+	inc r14						;/
 	dec r14
 	getb
 	with r14
@@ -2759,11 +2768,10 @@ StartFaceGroup:
 	nop
 	alt1
 	lms r0,($0048)
-	with r0
-	from r0
+	moves r0,r0
 	beq CODE_018D48
 	nop
-	iwt r15,#$8F3A
+	iwt r15,#CODE_018F3A
 	nop
 CODE_018D48:
 	alt1
@@ -2777,7 +2785,7 @@ CODE_018D51:
 	with r14
 	alt2
 	sub #$06
-CODE_018D54:
+StartFaceGroup_Line:
 	link #4
 	iwt r15,#CODE_01904F
 	nop
@@ -2802,7 +2810,7 @@ CODE_018D68:
 	iwt r6,#$0982
 	alt1
 	lms r12,($0134)
-	move r13,r15			; Set loop point
+	move r13,r15					; Set loop point
 	to r4
 	getb
 	inc r14
@@ -2881,7 +2889,7 @@ CODE_018DCB:
 	ibt r5,#$00
 	alt1
 	lms r12,($0134)
-	move r13,r15			; Set loop point
+	move r13,r15					; Set loop point
 	to r4
 	getb
 	inc r14
@@ -3058,11 +3066,12 @@ CODE_018EBC:
 	rpix
 	nop
 	nop
-	dec r10
-	dec r10
-	to r15
-	ldw r10
-	nop
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
+CODE_018EC9:
 	stop
 	nop
 	bra CODE_018EBC
@@ -3100,7 +3109,7 @@ CODE_018ED3:
 	to r3
 	add r6
 	link #4
-	iwt r15,#CODE_019263
+	iwt r15,#CvtPoint3DTo2D
 	nop
 	from r1
 	stw r8
@@ -3153,6 +3162,7 @@ CODE_018ED3:
 	lms r5,($0138)
 	iwt r15,#CODE_018E38
 	nop
+CODE_018F3A:
 	with r14
 	alt2
 	sub #$06
@@ -3200,7 +3210,7 @@ CODE_018F50:
 	to r3
 	add r6
 	link #4
-	iwt r15,#CODE_019263
+	iwt r15,#CvtPoint3DTo2D
 	nop
 	from r1
 	stw r8
@@ -3380,8 +3390,8 @@ CODE_019016:
 	lms r0,($0134)
 	alt2
 	sms ($0040),r0
-	jmp r11
-	nop
+	jmp r11						;\Return from link
+	nop						;/
 CODE_01904F:
 	move r2,r14
 	alt1
@@ -3647,9 +3657,9 @@ CODE_019191:
 	romb
 	with r2
 	to r14
-	jmp r11
-	nop
-CODE_01919A:
+	jmp r11						;\Return from link
+	nop						;/
+StartTriangleList:
 	alt1
 	lms r0,($0054)
 	iwt r1,#$4000
@@ -3665,7 +3675,7 @@ CODE_0191A8:
 	iwt r9,#$07A2
 	iwt r11,#$0E72
 	cache
-	move r13,r15
+	move r13,r15					; Set loop point
 	getb
 	inc r14
 	alt2
@@ -3747,9 +3757,9 @@ CODE_0191A8:
 	stb r11
 	loop
 	inc r11
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 CODE_01920B:
 	to r12
 	getb
@@ -3757,7 +3767,7 @@ CODE_01920B:
 	iwt r9,#$07A2
 	iwt r11,#$0E72
 	cache
-	move r13,r15
+	move r13,r15					; Set loop point
 	getb
 	inc r14
 	alt3
@@ -3818,9 +3828,9 @@ CODE_01920B:
 	stb r11
 	loop
 	inc r11
-	to r15				;\Get next command byte and jump
-	getb				;|
-	inc r14				;/
+	to r15						;\Get next command byte and jump
+	getb						;|
+	inc r14						;/
 	dec r14
 	getb
 	with r14
@@ -3830,9 +3840,9 @@ CODE_01920B:
 	add r1
 	alt1
 	ldb r0
-	jmp r11
-	swap
-CODE_019263:
+	jmp r11						;\Return from link
+	nop						;/
+CvtPoint3DTo2D:
 	from r11
 	stw r10
 	inc r10
@@ -3912,11 +3922,11 @@ CODE_0192D0:
 	not
 	inc r1
 	moves r2,r2
-	bmi 42
+	bmi CODE_019301
 	nop
 	from r1
 	sub r2
-	bcc 13
+	bcc CODE_0192E9
 	nop
 	link #4
 	iwt r15,#CODE_01942F
@@ -3926,6 +3936,7 @@ CODE_0192D0:
 	inc r1
 	iwt r15,#CODE_0193F0
 	nop
+CODE_0192E9:
 	move r0,r1
 	move r1,r2
 	move r2,r0
@@ -3950,6 +3961,7 @@ CODE_0192D0:
 	link #4
 	iwt r15,#CODE_01942F
 	nop
+CODE_019301:
 	with r2
 	not
 	inc r2
@@ -3988,7 +4000,7 @@ CODE_019318:
 	nop
 	from r1
 	sub r2
-	bcc 16
+	bcc CODE_019356
 	nop
 	link #4
 	iwt r15,#CODE_01942F
@@ -4001,6 +4013,7 @@ CODE_019318:
 	inc r2
 	iwt r15,#CODE_0193F0
 	nop
+CODE_019356:
 	move r0,r1
 	move r1,r2
 	move r2,r0
@@ -4145,11 +4158,11 @@ CODE_01941E:
 	xor r5
 	swap
 	or r5
-	dec r10				;\Pop r15 (pc) from stack and return
-	dec r10				;|
-	to r15				;|
-	ldw r10				;|
-	nop				;/
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
 	move r0,r1
 	move r1,r2
 	move r2,r0
@@ -4189,11 +4202,11 @@ CODE_01942F:
 	nop
 	with r4
 	to r2
-	dec r10				;\Pop r15 (pc) from stack and return
-	dec r10				;|
-	to r15				;|
-	ldw r10				;|
-	nop				;/
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
 CODE_019462:
 	move r1,r4
 	from r2
@@ -4227,11 +4240,11 @@ CODE_019473:
 	nop
 	move r2,r4
 	iwt r1,#$3FFF
-	dec r10				;\Pop r15 (pc) from stack and return
-	dec r10				;|
-	to r15				;|
-	ldw r10				;|
-	nop				;/
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
 CODE_019493:
 	moves r0,r0
 	bmi CODE_01949D
@@ -4249,7 +4262,7 @@ CODE_0194A2:
 	with r4
 	add r4
 	rol
-	move r13,r15
+	move r13,r15					; Set loop point
 	sub r6
 	bcc CODE_0194B3
 	nop
@@ -4257,16 +4270,16 @@ CODE_0194A2:
 	rol
 	loop
 	rol
-	jmp r11
-	lsr
+	jmp r11						;\Return from link
+	nop						;/
 CODE_0194B3:
 	add r6
 	with r4
 	add r4
 	loop
 	rol
-	jmp r11
-	lsr
+	jmp r11						;\Return from link
+	nop						;/
 CODE_0194BA:
 	from r11
 	stw r10
@@ -4300,7 +4313,7 @@ CODE_0194C5:
 	to r3
 	add r9
 	link #4
-	iwt r15,#CODE_019263
+	iwt r15,#CvtPoint3DTo2D
 	nop
 	from r1
 	stw r8
@@ -4322,11 +4335,11 @@ CODE_0194C5:
 	dec r0
 	bne CODE_0194C5
 	sbk
-	dec r10				;\Pop r15 (pc) from stack and return
-	dec r10				;|
-	to r15				;|
-	ldw r10				;|
-	nop				;/
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
 CODE_0194FE:
 	inc r9
 	inc r9
@@ -4374,9 +4387,976 @@ CODE_0194FE:
 	sub #$06
 	from r3
 	stw r9
-	jmp r11
-	nop
+	jmp r11						;\Return from link
+	nop						;/
 CODE_01952E:
+	alt1
+	lms r1,($0104)
+	alt1
+	lms r2,($0106)
+	alt1
+	lms r3,($0108)
+	alt1
+	lms r6,($00D2)
+	from r1
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($00D8)
+	from r2
+	fmult
+	rol
+	with r5
+	add r0
+	alt1
+	lms r6,($00DE)
+	from r3
+	fmult
+	rol
+	add r5
+	stw r9
+	inc r9
+	inc r9
+	alt1
+	lms r6,($00D4)
+	from r1
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($00DA)
+	from r2
+	fmult
+	rol
+	with r5
+	add r0
+	alt1
+	lms r6,($00E0)
+	from r3
+	fmult
+	rol
+	add r5
+	stw r9
+	inc r9
+	inc r9
+	alt1
+	lms r6,($00D6)
+	from r1
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($00DC)
+	from r2
+	fmult
+	rol
+	with r5
+	add r0
+	alt1
+	lms r6,($00E2)
+	from r3
+	fmult
+	rol
+	add r5
+	stw r9
+	inc r9
+	inc r9
+	alt1
+	lms r1,($010A)
+	alt1
+	lms r2,($010C)
+	alt1
+	lms r3,($010E)
+	alt1
+	lms r6,($00D2)
+	from r1
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($00D8)
+	from r2
+	fmult
+	rol
+	with r5
+	add r0
+	alt1
+	lms r6,($00DE)
+	from r3
+	fmult
+	rol
+	add r5
+	stw r9
+	inc r9
+	inc r9
+	alt1
+	lms r6,($00D4)
+	from r1
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($00DA)
+	from r2
+	fmult
+	rol
+	with r5
+	add r0
+	alt1
+	lms r6,($00E0)
+	from r3
+	fmult
+	rol
+	add r5
+	stw r9
+	inc r9
+	inc r9
+	alt1
+	lms r6,($00D6)
+	from r1
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($00DC)
+	from r2
+	fmult
+	rol
+	with r5
+	add r0
+	alt1
+	lms r6,($00E2)
+	from r3
+	fmult
+	rol
+	add r5
+	stw r9
+	inc r9
+	inc r9
+	alt1
+	lms r1,($0110)
+	alt1
+	lms r2,($0112)
+	alt1
+	lms r3,($0114)
+	alt1
+	lms r6,($00D2)
+	from r1
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($00D8)
+	from r2
+	fmult
+	rol
+	with r5
+	add r0
+	alt1
+	lms r6,($00DE)
+	from r3
+	fmult
+	rol
+	add r5
+	stw r9
+	inc r9
+	inc r9
+	alt1
+	lms r6,($00D4)
+	from r1
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($00DA)
+	from r2
+	fmult
+	rol
+	with r5
+	add r0
+	alt1
+	lms r6,($00E0)
+	from r3
+	fmult
+	rol
+	add r5
+	stw r9
+	inc r9
+	inc r9
+	alt1
+	lms r6,($00D6)
+	from r1
+	fmult
+	to r5
+	rol
+	alt1
+	lms r6,($00DC)
+	from r2
+	fmult
+	rol
+	with r5
+	add r0
+	alt1
+	lms r6,($00E2)
+	from r3
+	fmult
+	rol
+	add r5
+	stw r9
+	jmp r11						;\Return from link
+	nop						;/
+CODE_01962A:
+	from r11
+	stw r10
+	inc r10
+	inc r10
+	iwt r0,#SineTable8+$40
+	to r14
+	add r2
+	getb
+	to r5
+	swap
+	iwt r0,#SineTable8
+	to r14
+	add r2
+	getb
+	to r9
+	swap
+	move r6,r1
+	from r9
+	to r8
+	alt1
+	lmult
+	move r7,r4
+	move r6,r3
+	from r5
+	alt1
+	lmult
+	with r7
+	add r4
+	alt1
+	adc r8
+	to r2
+	asr
+	move r6,r3
+	from r9
+	to r8
+	alt1
+	lmult
+	move r7,r4
+	move r6,r1
+	from r5
+	alt1
+	lmult
+	with r7
+	sub r4
+	alt1
+	sbc r8
+	to r3
+	asr
+	move r1,r2
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
+CODE_01966B:
+	cache
+	moves r3,r3
+	bmi CODE_019679
+	nop
+	moves r6,r6
+	bmi CODE_019682
+	sub r0
+	jmp r11						;\Return from link
+	nop						;/
+CODE_019679:
+	moves r6,r6
+	bpl CODE_0196DE
+	nop
+	ibt r0,#$FF
+	jmp r11						;\Return from link
+	nop						;/
+CODE_019682:
+	alt2
+	sms ($0088),r1
+	alt2
+	sms ($008A),r2
+	alt2
+	sms ($008C),r3
+	move r0,r1
+	move r1,r4
+	move r4,r0
+	move r0,r2
+	move r2,r5
+	move r5,r0
+	move r0,r3
+	move r3,r6
+	move r6,r0
+CODE_01969D:
+	from r3
+	add r6
+	alt1
+	div2
+	beq CODE_0196C5
+	nop
+	bmi CODE_0196B6
+	nop
+	move r6,r0
+	from r1
+	add r4
+	to r4
+	alt1
+	div2
+	from r2
+	add r5
+	to r5
+	alt1
+	div2
+	bra CODE_01969D
+	nop
+CODE_0196B6:
+	move r3,r0
+	from r1
+	add r4
+	to r1
+	alt1
+	div2
+	from r2
+	add r5
+	to r2
+	alt1
+	div2
+	bra CODE_01969D
+	nop
+CODE_0196C5:
+	move r6,r0
+	from r1
+	add r4
+	to r4
+	alt1
+	div2
+	from r2
+	add r5
+	alt1
+	div2
+	alt1
+	lms r1,($0088)
+	alt1
+	lms r2,($008A)
+	alt1
+	lms r3,($008C)
+	ibt r0,#$01
+	jmp r11						;\Return from link
+	nop						;/
+CODE_0196DE:
+	alt2
+	sms ($0088),r4
+	alt2
+	sms ($008A),r5
+	alt2
+	sms ($008C),r6
+CODE_0196E7:
+	from r3
+	add r6
+	alt1
+	div2
+	beq CODE_01970F
+	nop
+	bmi CODE_019700
+	nop
+	move r6,r0
+	from r1
+	add r4
+	to r4
+	alt1
+	div2
+	from r2
+	add r5
+	to r5
+	alt1
+	div2
+	bra CODE_0196E7
+	nop
+CODE_019700:
+	move r3,r0
+	from r1
+	add r4
+	to r1
+	alt1
+	div2
+	from r2
+	add r5
+	to r2
+	alt1
+	div2
+	bra CODE_0196E7
+	nop
+CODE_01970F:
+	move r3,r0
+	from r1
+	add r4
+	to r1
+	alt1
+	div2
+	from r2
+	add r5
+	to r2
+	alt1
+	div2
+	alt1
+	lms r4,($0088)
+	alt1
+	lms r5,($008A)
+	alt1
+	lms r6,($008C)
+	ibt r0,#$01
+	jmp r11						;\Return from link
+	nop						;/
+CODE_019728:
+	from r11
+	stw r10
+	inc r10
+	inc r10
+	with r0
+	to r9
+	alt1
+	lms r5,($0026)
+	alt1
+	lms r6,($0028)
+	alt1
+	lms r7,($002A)
+	iwt r2,#CurPolyVerts2D
+	move r12,r9
+	move r13,r15					; Set loop point
+	getb
+	inc r14
+	alt3
+	umult #$06
+	iwt r1,#$05C2
+	with r1
+	add r0
+	ldw r1
+	inc r1
+	inc r1
+	add r5
+	stw r2
+	inc r2
+	inc r2
+	ldw r1
+	inc r1
+	inc r1
+	add r6
+	stw r2
+	inc r2
+	inc r2
+	ldw r1
+	add r7
+	stw r2
+	inc r2
+	loop
+	inc r2
+	move r9,r9
+	sub r0
+	alt2
+	sms ($0040),r0
+	iwt r7,#CurPolyVerts2D
+	iwt r8,#CurPolyVerts3D
+	from r9
+	alt2
+	sub #$02
+	bne CODE_0197A9
+	nop
+	to r1
+	ldw r7
+	inc r7
+	inc r7
+	to r2
+	ldw r7
+	inc r7
+	inc r7
+	to r3
+	ldw r7
+	inc r7
+	inc r7
+	to r4
+	ldw r7
+	inc r7
+	inc r7
+	to r5
+	ldw r7
+	inc r7
+	inc r7
+	to r6
+	ldw r7
+	link #4
+	iwt r15,#CODE_01966B
+	nop
+	from r1
+	stw r8
+	inc r8
+	inc r8
+	from r2
+	stw r8
+	inc r8
+	inc r8
+	from r3
+	stw r8
+	inc r8
+	inc r8
+	from r4
+	stw r8
+	inc r8
+	inc r8
+	from r5
+	stw r8
+	inc r8
+	inc r8
+	from r6
+	stw r8
+	inc r8
+	inc r8
+	ibt r0,#$02
+	alt2
+	sms ($0040),r0
+	iwt r15,#CODE_01983B
+	nop
+CODE_0197A9:
+	to r1
+	ldw r7
+	inc r7
+	inc r7
+	to r2
+	ldw r7
+	inc r7
+	inc r7
+	to r3
+	ldw r7
+	inc r7
+	inc r7
+	with r9
+	to r0
+	dec r0
+	bne CODE_0197BE
+	nop
+	iwt r7,#CurPolyVerts2D
+CODE_0197BE:
+	to r4
+	ldw r7
+	inc r7
+	inc r7
+	to r5
+	ldw r7
+	inc r7
+	inc r7
+	to r6
+	ldw r7
+	with r7
+	alt2
+	sub #$04
+	from r6
+	and r3
+	bpl CODE_0197D4
+	nop
+	iwt r15,#CODE_019827
+	nop
+CODE_0197D4:
+	moves r3,r3
+	bpl CODE_0197DD
+	nop
+	iwt r15,#CODE_019811
+	nop
+CODE_0197DD:
+	from r1
+	stw r8
+	inc r8
+	inc r8
+	from r2
+	stw r8
+	inc r8
+	inc r8
+	from r3
+	stw r8
+	inc r8
+	inc r8
+	alt1
+	lms r0,($0040)
+	inc r0
+	sbk
+	moves r6,r6
+	bmi CODE_0197F7
+	nop
+	iwt r15,#CODE_019827
+	nop
+CODE_0197F7:
+	link #4
+	iwt r15,#CODE_01966B
+	nop
+	from r4
+	stw r8
+	inc r8
+	inc r8
+	from r5
+	stw r8
+	inc r8
+	inc r8
+	from r6
+	stw r8
+	inc r8
+	inc r8
+	alt1
+	lms r0,($0040)
+	inc r0
+	sbk
+	iwt r15,#CODE_019827
+	nop
+CODE_019811:
+	link #4
+	iwt r15,#CODE_01966B
+	nop
+	from r1
+	stw r8
+	inc r8
+	inc r8
+	from r2
+	stw r8
+	inc r8
+	inc r8
+	from r3
+	stw r8
+	inc r8
+	inc r8
+	alt1
+	lms r0,($0040)
+	inc r0
+	sbk
+CODE_019827:
+	dec r9
+	beq CODE_01982F
+	nop
+	iwt r15,#CODE_0197A9
+	nop
+CODE_01982F:
+	alt1
+	lms r0,($0040)
+	alt2
+	sub #$03
+	bpl CODE_01983B
+	iwt r15,#CODE_019885
+	nop
+CODE_01983B:
+	alt1
+	lms r0,($0040)
+	move r9,r0
+	sub r0
+	alt2
+	sms ($0138),r0
+	iwt r7,#CurPolyVerts3D
+	iwt r8,#CurPolyVerts2D
+CODE_01984A:
+	to r1
+	ldw r7
+	inc r7
+	inc r7
+	to r2
+	ldw r7
+	inc r7
+	inc r7
+	to r3
+	ldw r7
+	inc r7
+	inc r7
+	link #4
+	iwt r15,#CvtPoint3DTo2D
+	nop
+	from r1
+	stw r8
+	inc r8
+	inc r8
+	from r2
+	stw r8
+	inc r8
+	inc r8
+	alt1
+	lms r3,($0138)
+	or r3
+	sbk
+	dec r9
+	bne CODE_01984A
+	nop
+	alt1
+	lms r0,($0138)
+	iwt r1,#$0F00
+	and r1
+	alt3
+	cmp r1
+	beq CODE_01987C
+	nop
+	iwt r15,#CODE_019885
+	nop
+	nop
+CODE_01987C:
+	alt1
+	lms r0,($0040)
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
+CODE_019885:
+	sub r0
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
+CODE_01988B:
+	from r11
+	stw r10
+	inc r10
+	inc r10
+	ibt r1,#$03
+	alt3
+	cmp r1
+	bpl CODE_01989A
+	nop
+	iwt r15,#CODE_019D34
+	nop
+CODE_01989A:
+	alt2
+	sms ($0086),r0
+	alt2
+	sms ($0040),r0
+	iwt r8,#CurPolyVerts2D
+	iwt r9,#CurPolyVerts3D
+	to r1
+	ldw r8
+	inc r8
+	inc r8
+	to r2
+	ldw r8
+	inc r8
+	inc r8
+	to r3
+	ldw r8
+	inc r8
+	inc r8
+	to r6
+	ldw r8
+	with r8
+	alt2
+	sub #$06
+	alt1
+	lms r0,($0040)
+	alt2
+	mult #$08
+	add r8
+	from r1
+	stw r0
+	inc r0
+	inc r0
+	from r2
+	stw r0
+	inc r0
+	inc r0
+	from r3
+	stw r0
+	inc r0
+	inc r0
+	from r6
+	stw r0
+	to r1
+	ldw r8
+	inc r8
+	inc r8
+	to r2
+	ldw r8
+	inc r8
+	inc r8
+	with r8
+	alt2
+	add #$04
+	to r3
+	ldw r8
+	inc r8
+	inc r8
+	to r6
+	ldw r8
+	with r8
+	alt2
+	sub #$02
+	alt1
+	lms r0,($0038)
+	from r1
+	sub r0
+	blt CODE_0198EB
+	nop
+	iwt r15,#CODE_019900
+	nop
+CODE_0198EB:
+	alt1
+	lms r0,($0038)
+	from r3
+	sub r0
+	blt CODE_0198F7
+	nop
+	iwt r15,#CODE_019928
+	nop
+CODE_0198F7:
+	alt1
+	lms r0,($0086)
+	dec r0
+	sbk
+	iwt r15,#CODE_0199A1
+	nop
+CODE_019900:
+	alt1
+	lms r0,($0038)
+	from r3
+	sub r0
+	blt CODE_01990C
+	nop
+	iwt r15,#CODE_01998A
+	nop
+CODE_01990C:
+	alt1
+	lms r0,($0086)
+	inc r0
+	sbk
+	from r1
+	stw r9
+	inc r9
+	inc r9
+	from r2
+	stw r9
+	inc r9
+	inc r9
+	with r8
+	alt2
+	sub #$04
+	ldw r8
+	inc r8
+	inc r8
+	stw r9
+	inc r9
+	inc r9
+	ldw r8
+	inc r8
+	inc r8
+	stw r9
+	inc r9
+	inc r9
+CODE_019928:
+	with r3
+	sub r1
+	with r6
+	sub r2
+	alt1
+	lms r0,($0038)
+	sub r1
+	to r5
+	alt1
+	lmult
+	move r6,r3
+	link #4
+	iwt r15,#CODE_01814D
+	nop
+	from r4
+	add r2
+	alt1
+	lms r6,($0038)
+	from r6
+	stw r9
+	inc r9
+	inc r9
+	stw r9
+	inc r9
+	inc r9
+	with r8
+	alt2
+	add #$04
+	to r6
+	ldw r8
+	with r8
+	alt2
+	sub #$08
+	to r2
+	ldw r8
+	inc r8
+	inc r8
+	with r6
+	sub r2
+	alt1
+	lms r0,($0038)
+	sub r1
+	to r5
+	alt1
+	lmult
+	move r6,r3
+	link #4
+	iwt r15,#CODE_01814D
+	nop
+	from r4
+	add r2
+	stw r9
+	inc r9
+	inc r9
+	to r2
+	ldw r8
+	with r8
+	alt2
+	add #$08
+	to r6
+	ldw r8
+	with r8
+	alt2
+	sub #$06
+	with r6
+	sub r2
+	alt1
+	lms r0,($0038)
+	sub r1
+	to r5
+	alt1
+	lmult
+	move r6,r3
+	link #4
+	iwt r15,#CODE_01814D
+	nop
+	from r4
+	add r2
+	stw r9
+	inc r9
+	inc r9
+	iwt r15,#CODE_0199A1
+	nop
+CODE_01998A:
+	from r1
+	stw r9
+	inc r9
+	inc r9
+	from r2
+	stw r9
+	inc r9
+	inc r9
+	with r8
+	alt2
+	sub #$04
+	ldw r8
+	inc r8
+	inc r8
+	stw r9
+	inc r9
+	inc r9
+	ldw r8
+	inc r8
+	inc r8
+	stw r9
+	inc r9
+	inc r9
+CODE_0199A1:
+	alt1
 	
 	
 	
@@ -4385,6 +5365,25 @@ CODE_01952E:
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
+CODE_01A34F:
+	sub r0
+	dec r10						;\Pop r15 (pc) from stack and return
+	dec r10						;|
+	to r15						;|
+	ldw r10						;|
+	nop						;/
 DrawLine:
 	cache
 	iwt r7,#CurPolyVerts2D
@@ -4430,7 +5429,7 @@ DrawLineSkipNegDy:
 	inc r12
 	lsr
 	sub r4
-	move r13,r15
+	move r13,r15					; Set loop point
 	bcs DrawLineSkipOffsY
 	plot
 	add r3
@@ -4451,7 +5450,7 @@ DrawLineVertOctant:
 	inc r0
 	lsr
 	sub r3
-	move r13,r15
+	move r13,r15					; Set loop point
 	bcs DrawLineSkipOffsX
 	plot
 	add r4
@@ -4557,8 +5556,9 @@ CODE_01A77A:
 	nop
 	iwt r15,#CODE_018EAD
 	nop
-	jmp r11
-	nop
+	jmp r11						;\Return from link
+	nop						;/
+CODE_01A789:
 	alt2
 	sms ($019E),r11
 	sub r0
@@ -4592,7 +5592,7 @@ CODE_01A77A:
 	with r9
 	sub r3
 	iwt r12,#$000F
-	move r13,r15
+	move r13,r15					; Set loop point
 	with r9
 	add r3
 	bpl 59
@@ -4603,37 +5603,315 @@ CODE_01A77A:
 	
 	
 	
-CODE_01AC1D:	;Seems to be the main entry point for drawing models
-	iwt r10,#$04C2
+	
+	
+	
+	
+	
+RenderCircularWipe:
+	iwt r10,#WipeWindowBuffer
+	iwt r12,#$00E0
+	sub r0
+	move r13,r15
+	cache
+	stw r10
+	inc r10
+	loop
+	inc r10
+	alt1
+	lms r13,($0020)
+	alt1
+	lms r5,($0026)
+	alt1
+	lms r6,($0028)
+	iwt r12,#WipeWindowBuffer
+	ibt r3,#$00
+	move r4,r13
+	ibt r9,#$01
+	with r9
+	sub r4
+	ibt r7,#$01
+	with r7
+	add r3
+	with r7
+	add r3
+	from r9
+	to r8
+	sub r4
+	cache
+CODE_01AAFF:
+	from r3
+CODE_01AB00:
+	sub r4
+	bmi CODE_01AB08
+	nop
+	iwt r15,#CODE_01AB6C
+	nop
+CODE_01AB08:
+	from r5
+	to r1
+	add r3
+	from r6
+	to r2
+	add r4
+	iwt r0,#$00F0
+	alt3
+	cmp r2
+	bcc CODE_01AB1B
+	nop
+	from r12
+	add r2
+	add r2
+	from r1
+	stw r0
+CODE_01AB1B:
+	from r5
+	to r1
+	add r3
+	from r6
+	to r2
+	sub r4
+	iwt r0,#$00F0
+	alt3
+	cmp r2
+	bcc CODE_01AB2E
+	nop
+	from r12
+	add r2
+	add r2
+CODE_01AB2E:
+	from r1
+	stw r0
+	from r5
+	to r1
+	add r4
+	from r6
+	to r2
+	add r3
+	iwt r0,#$00F0
+	alt3
+	cmp r2
+	bcc CODE_01AB41
+	nop
+	from r12
+	add r2
+	add r2
+	from r1
+	stw r0
+CODE_01AB41:
+	from r5
+	to r1
+	add r4
+	from r6
+	to r2
+	sub r3
+	iwt r0,#$00F0
+	alt3
+	cmp r2
+	bcc CODE_01AB54
+	nop
+	from r12
+	add r2
+	add r2
+	from r1
+	stw r0
+CODE_01AB54:
+	inc r3
+	inc r7
+	inc r7
+	inc r8
+	inc r8
+	moves r9,r9
+	bpl CODE_01AB64
+	nop
+	with r9
+	add r7
+	iwt r15,#CODE_01AB00
+	from r3
+CODE_01AB64:
+	inc r8
+	inc r8
+	with r9
+	add r8
+	iwt r15,#CODE_01AAFF
+	dec r4
+CODE_01AB6C:
+	from r5
+	to r1
+	add r3
+	from r6
+	to r2
+	add r4
+	iwt r0,#$00F0
+	alt3
+	cmp r2
+	bcc CODE_01AB7F
+	nop
+	from r12
+	add r2
+	add r2
+	from r1
+	stw r0
+CODE_01AB7F:
+	from r5
+	to r1
+	add r3
+	from r6
+	to r2
+	sub r4
+	iwt r0,#$00F0
+	alt3
+	cmp r2
+	bcc CODE_01AB92
+	nop
+	from r12
+	add r2
+	add r2
+	from r1
+	stw r0
+CODE_01AB92:
+	from r5
+	to r1
+	add r4
+	from r6
+	to r2
+	add r3
+	iwt r0,#$00F0
+	alt3
+	cmp r2
+	bcc CODE_01ABA5
+	nop
+	from r12
+	add r2
+	add r2
+	from r1
+	stw r0
+CODE_01ABA5:
+	from r5
+	to r1
+	add r4
+	from r6
+	to r2
+	sub r3
+	iwt r0,#$00F0
+	alt3
+	cmp r2
+	bcc CODE_01ABB8
+	nop
+	from r12
+	add r2
+	add r2
+	from r1
+	stw r0
+CODE_01ABB8:
+	iwt r1,#WipeWindowBuffer
+	iwt r2,#WipeWindowBuffer
+	iwt r5,#WipeWindowBuffer2
+	iwt r12,#$00E0
+	move r13,r15
+	to r6
+	ldw r1
+	inc r1
+	inc r1
+	alt1
+	lms r3,($0026)
+	from r3
+	to r4
+	sub r6
+	from r4
+	to r7
+	add r3
+	iwt r4,#$00F0
+	with r7
+	alt3
+	cmp r4
+	bpl CODE_01AC0B
+	nop
+	iwt r4,#$0010
+	with r6
+	alt3
+	cmp r4
+	bmi CODE_01AC0B
+	nop
+	iwt r4,#$0010
+	with r7
+	alt3
+	cmp r4
+	bpl CODE_01ABF1
+	nop
+	iwt r7,#$0010
+CODE_01ABF1:
+	iwt r4,#$00F0
+	with r6
+	alt3
+	cmp r4
+	bmi CODE_01ABFD
+	nop
+	iwt r5,#$00F0
+CODE_01ABFD:
+	from r6
+	alt1
+	stb r2
+	inc r2
+	inc r2
+	from r7
+	alt1
+	stb r5
+	inc r5
+	inc r5
+	loop
+	nop
+	stop
+	nop
+CODE_01AC0B:
+	iwt r0,#$0064
+	alt1
+	stb r2
+	inc r2
+	inc r2
+	iwt r0,#$00C8
+	alt1
+	stb r5
+	inc r5
+	inc r5
+	loop
+	nop
+	stop
+	nop
+RenderObjects:
+	iwt r10,#SuperFXStack
 	alt1
 	lms r0,($01BE)
 	lob
-	beq 6
+	beq CODE_01AC2C
 	nop
 	link #4
 	iwt r15,#CODE_01B0BB
 	nop
+CODE_01AC2C:
 	alt1
 	lms r0,($019E)
 	moves r0,r0
-	beq 17
+	beq CODE_01AC44
 	nop
-	bmi 9
+	bmi CODE_01AC3F
 	nop
 	link #4
 	iwt r15,#CODE_01A789
 	nop
-	bra 6
+	bra CODE_01AC44
 	nop
+CODE_01AC3F:
 	link #4
 	iwt r15,#CODE_01A8A6
 	nop
-	iwt r10,#$04C2
+CODE_01AC44:
+	iwt r10,#SuperFXStack
 	ibt r1,#$08
 	alt1
 	lms r0,($01A0)
 	and r1
-	beq 11
+	beq CODE_01AC5A
 	nop
 	ibt r0,#$01
 	alt2
@@ -4641,20 +5919,21 @@ CODE_01AC1D:	;Seems to be the main entry point for drawing models
 	link #4
 	iwt r15,#CODE_01AC97
 	nop
+CODE_01AC5A:
 	sub r0
 	alt2
 	sms ($01A2),r0
 	link #4
 	iwt r15,#CODE_01AC97
 	nop
-	iwt r10,#$04C2
+	iwt r10,#SuperFXStack
 	sub r0
 	alt1
 	cmode
 	alt1
 	lm r0,($021C)
 	lob
-	beq 16
+	beq CODE_01AC80
 	nop
 	link #4
 	iwt r15,#CODE_01AF81
@@ -4665,29 +5944,32 @@ CODE_01AC1D:	;Seems to be the main entry point for drawing models
 	link #4
 	iwt r15,#CODE_01AFED
 	nop
+CODE_01AC80:
 	link #4
 	iwt r15,#CODE_01D76B
 	nop
 	alt1
 	lm r0,($1A28)
 	moves r0,r0
-	beq 6
+	beq CODE_01AC93
 	nop
 	link #4
-	iwt r15,#$D624
+	iwt r15,#CODE_01D624
 	nop
-	alt1				;\Flush pixel buffer
-	rpix				;/
-	stop				;\End SuperFX task
-	nop				;/
+CODE_01AC93:
+	alt1						;\Flush pixel buffer
+	rpix						;/
+	stop						;\End SuperFX task
+	nop						;/
 CODE_01AC97:
 	alt1
 	lm r1,($021E)
 	moves r1,r1
-	bne 3
+	bne CODE_01ACA2
 	nop
-	jmp r11
-	nop
+	jmp r11						;\Return from link
+	nop						;/
+CODE_01ACA2:
 	from r11
 	stw r10
 	inc r10
@@ -4729,26 +6011,159 @@ CODE_01AC97:
 	inc r1
 	inc r1
 	alt1
-	lms r0,($D1)
+	lms r0,($01A2)
 	lob
-	beq 63
+	beq CODE_01AD13
 	nop
 	ibt r0,#$00
 	ibt r5,#$04
 	from r4
 	and r5
-	beq 4
+	beq CODE_01ACE1
 	nop
 	iwt r0,#$1000
+CODE_01ACE1:
 	alt2
-	sms ($2A),r0
+	sms ($0054),r0
 	ibt r5,#$0C
 	from r4
 	and r5
-	bne 5
+	bne CODE_01ACEF
 	nop
 	iwt r15,#CODE_01AF6C
 	nop
+CODE_01ACEF:
+	from r3
+	to r14
+	add r14
+	to r3
+	getb
+	inc r14
+	with r3
+	alt1
+	getbh
+	ldw r1
+	alt2
+	sms ($0028),r0
+	inc r1
+	inc r1
+	ldw r1
+	alt2
+	sms ($0026),r0
+	inc r1
+	inc r1
+	ldw r1
+	alt2
+	sms ($002A),r0
+	inc r1
+	inc r1
+	inc r1
+	inc r1
+	inc r1
+	inc r1
+	bra CODE_01AD34
+	nop
+CODE_01AD13:
+	ibt r5,#$04
+	from r4
+	and r5
+	beq CODE_01AD1E
+	iwt r15,#CODE_01AF6C
+	nop
+CODE_01AD1E:
+	inc r1
+	inc r1
+	inc r1
+	inc r1
+	inc r1
+	inc r1
+	ldw r1
+	alt2
+	sms ($0028),r0
+	inc r1
+	inc r1
+	ldw r1
+	alt2
+	sms ($0026),r0
+	inc r1
+	inc r1
+	ldw r1
+	alt2
+	sms ($002A),r0
+CODE_01AD34:
+	move r6,r0
+	inc r1
+	inc r1
+	iwt r5,#$0010
+	from r4
+	and r5
+	beq CODE_01AD94
+	nop
+	ibt r0,#$F4
+	to r1
+	add r1
+	ldw r1
+	alt2
+	sms ($0136),r0
+	inc r1
+	inc r1
+	alt1
+	ldb r1
+	lob
+	alt2
+	sms ($013C),r0
+	inc r1
+	alt1
+	ldb r1
+	lob
+	alt2
+	sms ($013E),r0
+	inc r1
+	alt1
+	ldb r1
+	lob
+	ibt r5,#$07
+	and r5
+	bne CODE_01AD63
+	nop
+	ibt r0,#$FF
+CODE_01AD63:
+	alt2
+	sms ($0132),r0
+	alt1
+	lm r0,($1A28)
+	moves r0,r0
+	beq CODE_01AD90
+	nop
+	alt1
+	lms r0,($0132)
+	moves r0,r0
+	beq CODE_01AD90
+	nop
+	bmi CODE_01AD88
+	nop
+	alt1
+	lms r1,($013E)
+	alt1
+	lms r2,($0136)
+	alt1
+	lms r3,($013C)
+	link #4
+	iwt r15,#CODE_01D198
+	nop
+CODE_01AD88:
+	alt1
+	lms r2,($0136)
+	link #4
+	iwt r15,#CODE_01D471
+	nop
+CODE_01AD90:
+	iwt r15,#CODE_01AF6C
+	nop
+CODE_01AD94:
+	ibt r5,#$40
+	from r4
+	and r5
 	
 	
 	
@@ -4756,7 +6171,21 @@ CODE_01AC97:
 	
 	
 	
-	;B301
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 DecompressGraphics:
 	alt1
 	lms r0,($0062)
@@ -4931,7 +6360,7 @@ CODE_01B3C1:
 	to r12
 	from r2
 	sub r1
-	move r13,r15
+	move r13,r15					; Set loop point
 	ldw r1
 	add r3
 	stw r1
@@ -5103,8 +6532,8 @@ CODE_01B49A:
 	ror
 	from r2
 	or r3
-	jmp r11
-	nop
+	jmp r11						;\Return from link
+	nop						;/
 CODE_01B4B2:
 	sub r4
 	move r13,r7
@@ -5120,8 +6549,8 @@ CODE_01B4B2:
 	rol
 	loop
 	with r2
-	jmp r11
-	nop
+	jmp r11						;\Return from link
+	nop						;/
 CODE_01B4C4:
 	dec r14
 	to r3
@@ -5147,13 +6576,13 @@ CODE_01B4C4:
 	rol
 	loop
 	with r2
-	jmp r11
-	nop
+	jmp r11						;\Return from link
+	nop						;/
 	
 CODE_01B4DF:
 	iwt r1,#$0200
 	iwt r12,#$3F00
-	move r13,r15
+	move r13,r15					; Set loop point
 	
 	
 	

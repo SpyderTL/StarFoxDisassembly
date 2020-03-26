@@ -1633,9 +1633,9 @@ CODE_7E3FDB:
 	plp
 	rts
 CODE_7E3FFF:
-	lda.w CurMainLoopLoaderTasks
+	lda.w CurLoaderTasks
 	and.b #$EF
-	sta.w CurMainLoopLoaderTasks
+	sta.w CurLoaderTasks
 	plp
 	rts
 CODE_7E4009:
@@ -2055,8 +2055,8 @@ RenderSuperFXObjects:
 	lda.w $1F09
 	sta.l $701A2A
 	sep #$20
-	lda.b #$01
-	ldx.w #$AC1D
+	lda.b #BANKOF(RenderObjects)
+	ldx.w #RenderObjects
 	sta.w PBR
 	lda.w SCMRMirror
 	ora.b #$18
@@ -3197,7 +3197,7 @@ MainLoop_WaitNMITask:
 	stz.w $1F10
 	lda.b #02
 	sta.b CurNMITask
-	jsr CODE_02DD4F
+	jsr DoProcWipes
 	jsl CODE_06BB5C
 	jsr DoUpdateTiltScroll
 	rep #$30
@@ -3251,8 +3251,8 @@ CODE_02D9C7:
 CODE_02D9E2:
 	sta.w $16A0
 CODE_02D9E5:
-	jsr CODE_02DC3A
-	jsr CODE_02DCC3
+	jsr DoUpdateShearScroll
+	jsr DoCopyShearBufferToWram
 	jsl CODE_02DB27
 	sep #$20
 	rep #$10
@@ -3285,7 +3285,7 @@ CODE_02DA08:
 CODE_02DA3B:
 	lda.w $18BB
 	beq CODE_02DA3B
-	lda.w CurMainLoopLoaderTasks
+	lda.w CurLoaderTasks
 	beq CODE_02DA48
 	jsr DoRunMainLoopLoaderTasks
 CODE_02DA48:
@@ -3342,27 +3342,27 @@ DoRunMainLoopLoaderTasks:
 	lda.w TIMEUP
 	cli
 	sep #$20
-	lda.w CurMainLoopLoaderTasks
+	lda.w CurLoaderTasks
 	bit.b #$01
 	beq DoRunMainLoopLoaderTasks_SkRelChkpt
 	jsl ReloadCheckpoint
 DoRunMainLoopLoaderTasks_SkRelChkpt:
 	rep #$30
-	lda.w CurMainLoopLoaderTasks
+	lda.w CurLoaderTasks
 	bit.w #$0004
 	beq DoRunMainLoopLoaderTasks_SkLdPreset
 	jsl LoadPreset
 DoRunMainLoopLoaderTasks_SkLdPreset:
 	rep #$30
-	lda.w CurMainLoopLoaderTasks
+	lda.w CurLoaderTasks
 	bit.w #$0008
 	beq DoRunMainLoopLoaderTasks_SkIntPreset
 	jsl InitPresetSettings
 DoRunMainLoopLoaderTasks_SkIntPreset:
 	sep #$20
-	lda.w CurMainLoopLoaderTasks
+	lda.w CurLoaderTasks
 	and.b #$F2
-	sta.w CurMainLoopLoaderTasks
+	sta.w CurLoaderTasks
 	pla
 	sta.b CurNMITask
 	rts
@@ -3421,6 +3421,9 @@ CODE_02DB4F:
 CODE_02DB52:
 	sta.w $16A7
 	rts
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;TILT AND SHEAR ROUTINES;
+;;;;;;;;;;;;;;;;;;;;;;;;;
 UpdateTiltScroll:
 	jsr DoUpdateTiltScroll
 	rtl
@@ -3540,85 +3543,85 @@ RunSuperFXClearUnknownGFX_02DC26:
 	jsl RunSuperFXRoutine
 	plp
 	rtl
-CODE_02DC36:
-	jsr CODE_02DC3A
+UpdateShearScroll:
+	jsr DoUpdateShearScroll
 	rtl
-CODE_02DC3A:
+DoUpdateShearScroll:
 	rep #$30
-	lda.w $1953
+	lda.w ShearScrollFlag
 	and.w #$00FF
-	bne CODE_02DC45
+	bne DoUpdateShearScroll_Enabled
 	rts
-CODE_02DC45:
-	ldx.w $1FE2
-	jmp (DATA_02DC4B,x)
-DATA_02DC4B:
-	DW CODE_02DC91
-	DW CODE_02DCAD
-	DW CODE_02DCAD
-	DW CODE_02DC7F
-	DW CODE_02DCAD
-	DW CODE_02DC6D
-	DW CODE_02DC5B
-	DW CODE_02DC6D
-CODE_02DC5B:
+DoUpdateShearScroll_Enabled:
+	ldx.w ShearScrollType
+	jmp (ShearScrollJumpTable,x)
+ShearScrollJumpTable:
+	DW ShearScroll_Normal
+	DW ShearScroll_Tunnel2
+	DW ShearScroll_Tunnel2
+	DW ShearScroll_Tunnel
+	DW ShearScroll_Tunnel2
+	DW ShearScroll_Normal2
+	DW ShearScroll_Warped
+	DW ShearScroll_Normal2
+ShearScroll_Warped:
 	lda.b $C1
 	sta.l $7000C6
 	sep #$20
-	lda.b #$06
-	ldx.w #$FCCD
+	lda.b #BANKOF(CalcShearScroll_Warped)
+	ldx.w #CalcShearScroll_Warped
 	jsl RunSuperFXRoutine
 	rts
-CODE_02DC6D:
+ShearScroll_Normal2:
 	lda.b $C1
 	sta.l $7000C6
 	sep #$20
-	lda.b #$06
-	ldx.w #$FB5D
+	lda.b #BANKOF(CalcShearScroll_Normal2)
+	ldx.w #CalcShearScroll_Normal2
 	jsl RunSuperFXRoutine
 	rts
-CODE_02DC7F:
+ShearScroll_Tunnel:
 	lda.b $C1
 	sta.l $7000C6
 	sep #$20
-	lda.b #$06
-	ldx.w #$FC31
+	lda.b #BANKOF(CalcShearScroll_Tunnel)
+	ldx.w #CalcShearScroll_Tunnel
 	jsl RunSuperFXRoutine
 	rts
-CODE_02DC91:
+ShearScroll_Normal:
 	lda.w PlayerAngZ
 	sta.l $7000C6
 	ldx.w PlayerObject
 	lda.b $0C,x
 	sta.l InputVecY
 	sep #$20
-	lda.b #$06
-	ldx.w #$FB87
+	lda.b #BANKOF(CalcShearScroll_Normal)
+	ldx.w #CalcShearScroll_Normal
 	jsl RunSuperFXRoutine
 	rts
-CODE_02DCAD:
+ShearScroll_Tunnel2:
 	lda.b $C1
 	sta.l $7000C6
 	sep #$20
-	lda.b #$06
-	ldx.w #$FBE6
+	lda.b #BANKOF(CalcShearScroll_Tunnel2)
+	ldx.w #CalcShearScroll_Tunnel2
 	jsl RunSuperFXRoutine
 	rts
-CODE_02DCBF:
-	jsr CODE_02DCC3
+CopyShearBufferToWram:
+	jsr DoCopyShearBufferToWram
 	rtl
-CODE_02DCC3:
+DoCopyShearBufferToWram:
 	sep #$30
-CODE_02DCC5:
+DoCopyShearBufferToWram_Wait:
 	lda.w SLHV
 	ldx.w OPHCT
 	lda.w OPCHCT
 	and.b #$01
-	bne CODE_02DCC5
+	bne DoCopyShearBufferToWram_Wait
 	cpx.b #$5A
-	bcc CODE_02DCC5
+	bcc DoCopyShearBufferToWram_Wait
 	cpx.b #$64
-	bcs CODE_02DCC5
+	bcs DoCopyShearBufferToWram_Wait
 	rep #$10
 	sei
 	ldx.w $18B6
@@ -3638,6 +3641,7 @@ CODE_02DCC5:
 	lda.w TIMEUP
 	cli
 	rts
+	
 CODE_02DD0A:
 	sep #$20
 	rep #$10
@@ -3669,15 +3673,18 @@ CODE_02DD35:
 	beq CODE_02DD4A
 CODE_02DD4A:
 	rts
-CODE_02DD4B:
-	jsr CODE_02DD4F
+;;;;;;;;;;;;;;;
+;WIPE ROUTINES;
+;;;;;;;;;;;;;;;
+ProcWipes:
+	jsr DoProcWipes
 	rtl
-CODE_02DD4F:
+DoProcWipes:
 	sep #$20
 	stz.w $1FD0
 	rep #$30
-	ldx.w $16AB
-	bne CODE_02DD6F
+	ldx.w WipePointer
+	bne DoProcWipes_L1
 	sep #$20
 	sep #$20
 	lda.w $14C1
@@ -3687,65 +3694,65 @@ CODE_02DD4F:
 	rep #$10
 	stz.w $1FD1
 	rts
-CODE_02DD6F:
+DoProcWipes_L1:
 	rep #$20
-	lda.l DATA_02E0C2,x
+	lda.l WipeScriptData,x
 	and.w #$00FF
 	txy
 	tax
-	jmp (DATA_02DD7D,x)
-DATA_02DD7D:
-	DW CODE_02DDB3
-	DW CODE_02DDDA
-	DW CODE_02DDFA
-	DW CODE_02DE1C
-	DW CODE_02DE3E
-	DW CODE_02DE60
-	DW CODE_02DE77
-	DW CODE_02DE8E
-	DW CODE_02DEA5
-	DW CODE_02DEBB
-	DW CODE_02DEC7
-	DW CODE_02DECF
-	DW CODE_02DEDE
-	DW CODE_02DEED
-	DW CODE_02DEFC
-	DW CODE_02DF04
-	DW CODE_02DF12
-	DW CODE_02E1DF
-	DW CODE_02E1EF
-	DW CODE_02DDA7
-	DW CODE_02E1F5
-CODE_02DDA7:
+	jmp (WipeSubJumpTable,x)
+WipeSubJumpTable:
+	DW WipeCommand00_Init
+	DW WipeCommand02_SetTimerEx
+	DW WipeCommand04_SetBlueEx
+	DW WipeCommand06_SetGreenEx
+	DW WipeCommand08_SetRedEx
+	DW WipeCommand0A_WaitBlue
+	DW WipeCommand0C_WaitGreen
+	DW WipeCommand0E_WaitRed
+	DW WipeCommand10_WaitTimer
+	DW WipeCommand12_End
+	DW WipeCommand14_Nop
+	DW WipeCommand16_SetBlue
+	DW WipeCommand18_SetGreen
+	DW WipeCommand1A_SetRed
+	DW WipeCommand1C_Nop
+	DW WipeCommand1E_SetTimer
+	DW WipeCommand20
+	DW WipeCommand22_SetShape
+	DW WipeCommand24
+	DW WipeCommand26_Jump
+	DW ProcWipes_Sub28_End
+WipeCommand26_Jump:
 	tyx
-	lda.l DATA_02E0C2+1,x
-	sta.w $16AB
+	lda.l WipeScriptData+1,x
+	sta.w WipePointer
 	tax
-	jmp CODE_02DD6F
-CODE_02DDB3:
+	jmp DoProcWipes_L1
+WipeCommand00_Init:
 	tyx
-	stz.w $16AF
-	stz.w $16AD
+	stz.w WipeTimer
+	stz.w WipeTimerTarget
 	sep #$20
-	stz.w $16B5
-	stz.w $16B8
-	stz.w $16B7
-	stz.w $16BA
-	stz.w $16B6
-	stz.w $16B9
+	stz.w WipeBlueTarget
+	stz.w WipeBlue
+	stz.w WipeRedTarget
+	stz.w WipeRed
+	stz.w WipeGreenTarget
+	stz.w WipeGreen
 	lda.b #$27
 	sta.w $1F68
 	inx
-	stx.w $16AB
-	jmp CODE_02DD6F
-CODE_02DDDA:
+	stx.w WipePointer
+	jmp DoProcWipes_L1
+WipeCommand02_SetTimerEx:
 	tyx
-	lda.l DATA_02E0C2+1,x
-	sta.w $16AD
-	lda.l DATA_02E0C2+3,x
-	sta.w $16B1
-	lda.l DATA_02E0C2+5,x
-	sta.w $16B3
+	lda.l WipeScriptData+1,x
+	sta.w WipeTimerTarget
+	lda.l WipeScriptData+3,x
+	sta.w WipeTimerDelta
+	lda.l WipeScriptData+5,x
+	sta.w WipeTimerDelta2
 	inx
 	inx
 	inx
@@ -3753,160 +3760,840 @@ CODE_02DDDA:
 	inx
 	inx
 	inx
-	jmp CODE_02DD6F
-CODE_02DDFA:
+	jmp DoProcWipes_L1
+WipeCommand04_SetBlueEx:
 	tyx
 	sep #$20
-	lda.l DATA_02E0C2+1,x
-	sta.w $16B5
-	lda.l DATA_02E0C2+2,x
+	lda.l WipeScriptData+1,x
+	sta.w WipeBlueTarget
+	lda.l WipeScriptData+2,x
 	sta.w $16BE
 	sta.w $16C1
-	lda.l DATA_02E0C2+3,x
-	sta.w $16BB
+	lda.l WipeScriptData+3,x
+	sta.w WipeBlueDelta
 	inx
 	inx
 	inx
 	inx
-	jmp CODE_02DD6F
-CODE_02DE1C:
+	jmp DoProcWipes_L1
+WipeCommand06_SetGreenEx:
 	tyx
 	sep #$20
-	lda.l DATA_02E0C2+1,x
-	sta.w $16B6
-	lda.l DATA_02E0C2+2,x
+	lda.l WipeScriptData+1,x
+	sta.w WipeGreenTarget
+	lda.l WipeScriptData+2,x
 	sta.w $16BF
 	sta.w $16C2
-	lda.l DATA_02E0C2+3,x
-	sta.w $16BC
+	lda.l WipeScriptData+3,x
+	sta.w WipeGreenDelta
 	inx
 	inx
 	inx
 	inx
-	jmp CODE_02DD6F
-CODE_02DE3E:
+	jmp DoProcWipes_L1
+WipeCommand08_SetRedEx:
 	tyx
 	sep #$20
-	lda.l DATA_02E0C2+1,x
-	sta.w $16B7
-	lda.l DATA_02E0C2+2,x
+	lda.l WipeScriptData+1,x
+	sta.w WipeRedTarget
+	lda.l WipeScriptData+2,x
 	sta.w $16C0
 	sta.w $16C3
-	lda.l DATA_02E0C2+3,x
-	sta.w $16BD
+	lda.l WipeScriptData+3,x
+	sta.w WipeRedDelta
 	inx
 	inx
 	inx
 	inx
-	jmp CODE_02DD6F
-CODE_02DE60:
+	jmp DoProcWipes_L1
+WipeCommand0A_WaitBlue:
 	tyx
 	sep #$20
-	lda.l DATA_02E0C2+1,x
-	cmp.w $16B8
-	beq CODE_02DE6F
-	brl CODE_02DF21
-CODE_02DE6F:
+	lda.l WipeScriptData+1,x
+	cmp.w WipeBlue
+	beq WipeCommand0A_Continue
+	brl UpdateWipeColor
+WipeCommand0A_Continue:
 	inx
 	inx
 	stx.w $16AF
-	jmp CODE_02DD6F
-CODE_02DE77:
+	jmp DoProcWipes_L1
+WipeCommand0C_WaitGreen:
 	tyx
 	sep #$20
-	lda.l DATA_02E0C2+1,x
-	cmp.w $16B9
-	beq CODE_02DE86
-	brl CODE_02DF21
-CODE_02DE86:
+	lda.l WipeScriptData+1,x
+	cmp.w WipeGreen
+	beq WipeCommand0C_Continue
+	brl UpdateWipeColor
+WipeCommand0C_Continue:
 	inx
 	inx
-	stx.w $16AB
-	jmp CODE_02DD6F
-CODE_02DE8E:
+	stx.w WipePointer
+	jmp DoProcWipes_L1
+WipeCommand0E_WaitRed:
 	tyx
 	sep #$20
-	lda.l DATA_02E0C2+1,x
-	cmp.w $16BA
-	beq CODE_02DE9D
-	brl CODE_02DF21
-CODE_02DE9D:
+	lda.l WipeScriptData+1,x
+	cmp.w WipeRed
+	beq WipeCommand0E_Continue
+	brl UpdateWipeColor
+WipeCommand0E_Continue:
 	inx
 	inx
-	stx.w $16AB
-	jmp CODE_02DD6F
-CODE_02DEA5:
+	stx.w WipePointer
+	jmp DoProcWipes_L1
+WipeCommand10_WaitTimer:
 	tyx
-	lda.l DATA_02E0C2+1,x
-	cmp.w $16AF
-	beq CODE_02DEB2
-	brl CODE_02DF21
-CODE_02DEB2:
+	lda.l WipeScriptData+1,x
+	cmp.w WipeTimer
+	beq WipeCommand10_Continue
+	brl UpdateWipeColor
+WipeCommand10_Continue:
 	inx
 	inx
-	stx.w $16AB
-	jmp CODE_02DD6F
-CODE_02DEBB:
+	stx.w WipePointer
+	jmp DoProcWipes_L1
+WipeCommand12_End:
 	stz.w $16A9
-	stz.w $16AB
-	stz.w $16AF
-	jmp CODE_02DF21
-CODE_02DEC7:
+	stz.w WipePointer
+	stz.w WipeTimer
+	jmp UpdateWipeColor
+WipeCommand14_Nop:
 	tyx
 	inx
-	stx.w $16AB
-	jmp CODE_02DF21
-CODE_02DECF:
-	tyx
-	sep #$20
-	lda.l DATA_02E0C2+1,x
-	sta.w $16B8
-	inx
-	inx
-	jmp CODE_02DD6F
-CODE_02DEDE:
+	stx.w WipePointer
+	jmp UpdateWipeColor
+WipeCommand16_SetBlue:
 	tyx
 	sep #$20
-	lda.l DATA_02E0C2+1,x
-	sta.w $16B9
+	lda.l WipeScriptData+1,x
+	sta.w WipeBlue
 	inx
 	inx
-	jmp CODE_02DD6F
-CODE_02DEED:
+	jmp DoProcWipes_L1
+WipeCommand18_SetGreen:
 	tyx
 	sep #$20
-	lda.l DATA_02E0C2+1,x
-	sta.w $16BA
+	lda.l WipeScriptData+1,x
+	sta.w WipeGreen
 	inx
 	inx
-	jmp CODE_02DD6F
-CODE_02DEFC:
-	tyx
-	inx
-	stx.w $16AB
-	jmp CODE_02DF21
-CODE_02DF04:
-	tyx
-	lda.l DATA_02E0C2+1,x
-	sta.w $16AF
-	inx
-	inx
-	inx
-	jmp CODE_02DD6F
-CODE_02DF12:
+	jmp DoProcWipes_L1
+WipeCommand1A_SetRed:
 	tyx
 	sep #$20
-	lda.l DATA_02E0C2+1,x
+	lda.l WipeScriptData+1,x
+	sta.w WipeRed
+	inx
+	inx
+	jmp DoProcWipes_L1
+WipeCommand1C_Nop:
+	tyx
+	inx
+	stx.w WipePointer
+	jmp UpdateWipeColor
+WipeCommand1E_SetTimer:
+	tyx
+	lda.l WipeScriptData+1,x
+	sta.w WipeTimer
+	inx
+	inx
+	inx
+	jmp DoProcWipes_L1
+WipeCommand20:
+	tyx
+	sep #$20
+	lda.l WipeScriptData+1,x
 	sta.w $1F68
 	inx
 	inx
-	jmp CODE_02DD6F
-CODE_02DF21:
+	jmp DoProcWipes_L1
+UpdateWipeColor:
+	rep #$20
+	lda.w WipeTimer
+	cmp.w WipeTimerTarget
+	beq CODE_02DF47
+	bcc CODE_02DF3B
+	sec
+	sbc.w WipeTimerDelta
+	cmp.w WipeTimerTarget
+	bcs CODE_02DF47
+	lda.w WipeTimerTarget
+	bra CODE_02DF47
+CODE_02DF3B:
+	clc
+	adc.w WipeTimerDelta
+	cmp.w WipeTimerTarget
+	bcc CODE_02DF47
+	lda.w WipeTimerTarget
+CODE_02DF47:
+	cmp.w #$0000
+	bne CODE_02DF4F
+	lda.w #$0001
+CODE_02DF4F:
+	sta.w WipeTimer
+	sta.l DesiredXRot
+	lda.w WipeTimerDelta
+	beq CODE_02DF62
+	clc
+	adc.w WipeTimerDelta2
+	sta.w WipeTimerDelta
+CODE_02DF62:
+	sep #$20
+	lda.w $16BE
+	dec
+	sta.w $16BE
+	bne UpdateWipeColor_SkipBlue
+	lda.w $16C1
+	sta.w $16BE
+	lda.w WipeBlue
+	cmp.w WipeBlueTarget
+	beq UpdateWipeColor_BlueUpd
+	bcc UpdateWipeColor_BlueAdd
+	sec
+	sbc.w WipeBlueDelta
+	bpl UpdateWipeColor_BlueOver
+	lda.b #$00
+UpdateWipeColor_BlueOver:
+	cmp.w WipeBlueTarget
+	bcs UpdateWipeColor_BlueUpd
+	lda.w WipeBlue
+	bra UpdateWipeColor_BlueUpd
+UpdateWipeColor_BlueAdd:
+	clc
+	adc.w WipeBlueDelta
+	cmp.w WipeBlueTarget
+	bcc UpdateWipeColor_BlueUpd
+	lda.w WipeBlue
+UpdateWipeColor_BlueUpd:
+	sta.w WipeBlue
+UpdateWipeColor_SkipBlue:
+	lda.w $16BF
+	dec
+	sta.w $16BF
+	bne UpdateWipeColor_SkipGreen
+	lda.w $16C2
+	sta.w $16BF
+	lda.w WipeGreen
+	cmp.w WipeGreenTarget
+	beq UpdateWipeColor_GreenUpd
+	bcc UpdateWipeColor_GreenAdd
+	sec
+	sbc.w WipeGreenDelta
+	bpl UpdateWipeColor_GreenOver
+	lda.b #$00
+UpdateWipeColor_GreenOver:
+	cmp.w WipeGreenTarget
+	bcs UpdateWipeColor_GreenUpd
+	lda.w WipeGreen
+	bra UpdateWipeColor_GreenUpd
+UpdateWipeColor_GreenAdd:
+	clc
+	adc.w WipeGreenDelta
+	cmp.w WipeGreenTarget
+	bcc UpdateWipeColor_GreenUpd
+	lda.w WipeGreen
+UpdateWipeColor_GreenUpd:
+	sta.w WipeGreen
+UpdateWipeColor_SkipGreen:
+	lda.w $16C0
+	dec
+	sta.w $16C0
+	bne UpdateWipeColor_SkipRed
+	lda.w $16C3
+	sta.w $16C0
+	lda.w WipeRed
+	cmp.w WipeRedTarget
+	beq UpdateWipeColor_RedUpd
+	bcc UpdateWipeColor_RedAdd
+	sec
+	sbc.w WipeRedDelta
+	bpl UpdateWipeColor_RedOver
+	lda.b #$00
+UpdateWipeColor_RedOver:
+	cmp.w WipeRedTarget
+	bcs UpdateWipeColor_RedUpd
+	lda.w WipeRed
+	bra UpdateWipeColor_RedUpd
+UpdateWipeColor_RedAdd:
+	clc
+	adc.w WipeRedDelta
+	cmp.w WipeRedTarget
+	bcc UpdateWipeColor_RedUpd
+	lda.w WipeRed
+UpdateWipeColor_RedUpd:
+	sta.w WipeRed
+UpdateWipeColor_SkipRed:
+	rep #$20
+	ldx.w $16A9
+	beq CODE_02E038
+	lda.w #$0000
+	jsl CODE_03DC8A
+	lda.b $72
+	clc
+	adc.w #$0010
+	sta.b $72
+	sta.l OutputVecX
+	lda.b $74
+	clc
+	adc.w #$0010
+	sta.l OutputVecY
+	bra CODE_02E048
+CODE_02E038:
+	lda.w #$0080
+	sta.l OutputVecX
+	sta.b $72
+	lda.w #$0070
+	sta.l OutputVecY
+CODE_02E048:
+	sep #$20
+	sep #$20
+	rep #$10
+	lda.w $14C1
+	ora.b #$80
+	sta.w $14C1
+	ldx.w #$14B9
+	sep #$20
+	rep #$10
+	stz.b $00,x
+	lda.w WipeBlue
+	sta.b $03,x
+	lda.w WipeGreen
+	sta.b $02,x
+	lda.w WipeRed
+	sta.b $01,x
+	lda.b #$10
+	sta.b $05,x
+	lda.w $1F68
+	sta.b $06,x
+	stz.b $04,x
+	lda.b #BANKOF(RenderCircularWipe)
+	ldx.w #RenderCircularWipe
+	jsl RunSuperFXRoutine
+CODE_02E082:
+	sep #$20
+	phb
+	lda.b #$7E
+	pha
+	plb
+	ldx.w #$017E
+	ldy.w #$0240
+	lda.w $18A9
+	beq CODE_02E0AB
+CODE_02E094:
+	lda.l WipeWindowBuffer,x
+	sta.w $416B,y
+	lda.l WipeWindowBuffer2,x
+	sta.w $416A,y
+	dey
+	dey
+	dey
+	dex
+	dex
+	bpl CODE_02E094
+	plb
+	rts
+CODE_02E0AB:
+	lda.l WipeWindowBuffer,x
+	sta.w $43AF,y
+	lda.l WipeWindowBuffer2,x
+	sta.w $43AE,y
+	dey
+	dey
+	dey
+	dex
+	dex
+	bpl CODE_02E0AB
+	plb
+	rts
+WipeScriptData:
+	DB $00
+	DB $00
+	DB $02,$C8,$00,$04,$00,$00,$00
+	DB $04,$1F,$03,$01
+	DB $06,$1F,$03,$01
+	DB $16,$0E
+	DB $18,$0E
+	DB $1A,$0E
+	DB $14
+	DB $10,$C8,$00
+	DB $04,$00,$01,$02
+	DB $06,$00,$01,$02
+	DB $02,$F4,$01,$04,$00,$00,$00
+	DB $14
+	DB $0A,$00
+	DB $08,$00,$01,$02
+	DB $14
+	DB $0E,$00
+	DB $12
+	DB $00
+	DB $1E,$29,$01
+	DB $16,$1C
+	DB $18,$1C
+	DB $1A,$1C
+	DB $1C
+	DB $1E,$00,$00
+	DB $02,$09,$00,$09,$00,$00,$00
+	DB $04,$1F,$07,$01
+	DB $06,$1F,$0F,$01
+	DB $08,$1F,$03,$01
+	DB $16,$1C
+	DB $18,$1C
+	DB $1A,$1C
+	DB $1C
+	DB $02,$87,$00,$09,$00,$00,$00
+	DB $08,$00,$01,$02
+	DB $14
+	DB $10,$87,$00
+	DB $02,$29,$01,$09,$00,$00,$00
+	DB $04,$00,$01,$01
+	DB $06,$00,$01,$01
+	DB $08,$00,$01,$01
+	DB $16,$0E
+	DB $18,$0E
+	DB $1A,$0E
+	DB $14
+	DB $10,$AB,$00
+	DB $04,$00,$01,$01
+	DB $06,$00,$01,$01
+	DB $14
+	DB $0A,$00
+	DB $02,$0A,$00,$04,$00,$00,$00
+	DB $08,$00,$01,$01
+	DB $14
+	DB $10,$00,$00
+	DB $12
+	DB $00
+	DB $02,$C5,$00,$12,$00,$FF,$FF
+	DB $08,$1F,$01,$01
+	DB $1A,$0E
+	DB $14
+	DB $10,$2C,$01
+	DB $12
+	DB $00
+	DB $20,$22
+	DB $02,$C8,$00,$04,$00,$00,$00
+	DB $04,$1F,$03,$01
+	DB $06,$1F,$03,$01
+	DB $08,$1F,$03,$01
+	DB $16,$0E
+	DB $18,$0E
+	DB $1A,$0E
+	DB $14
+	DB $10,$C8,$00
+	DB $04,$00,$01,$02
+	DB $06,$00,$01,$02
+	DB $14
+	DB $0A,$00
+	DB $08,$00,$01,$02
+	DB $14
+	DB $0E,$00
+	DB $12
+	DB $22,$82,$81
+	DB $24
+	DB $22,$A4,$86
+	DB $24
+	DB $26,$06,$01
+	DB $28
+	DB $22,$00,$80
+	DB $24
+	DB $28
+	DB $22,$13,$84
+	DB $24
+	DB $28
+	DB $22,$CA,$86
+	DB $24
+	DB $28
+WipeCommand22_SetShape:
+	tyx
+	rep #$20
+	lda.l WipeScriptData+1,x
+	sta.w WipeWindowShape
+	inx
+	inx
+	inx
+	stx WipePointer
+WipeCommand24:
+	sep #$20
+	inc.w $1FD0
+	rts
+ProcWipes_Sub28_End:
+	stz.w WipePointer
+	sep #$20
+	sep #$20
+	lda.w $14C1
+	and.b #$FE
+	sta.w $14C1
+	sep #$20
+	rep #$10
+	rts
+UpdateWipeWindow:
+	jsr DoUpdateWipeWindow
+	rtl
+DoUpdateWipeWindow:
+	sep #$20
+	lda.w $1FD0
+	bne CODE_02E215
+	rts
+CODE_02E215:
+	rep #$20
+	lda.w WipeWindowShape
+	sta.l OutputVecY
+	sep #$20
+	lda.b #$01
+	ldx.w #$D68B
+	jsl RunSuperFXRoutine
+	rep #$20
+	rep #$10
+	lda.l OutputVecY
+	sta.w WipeWindowShape
+	sep #$20
+	lda.b #$01
+	sta.w $1FD1
+	sep #$20
+	rep #$10
+	lda.w $14C1
+	ora.b #$01
+	sta.w $14C1
+	ldx.w #$1481
+	sep #$20
+	rep #$10
+	lda.l OutputVecX
+	sta.b $06,x
+	rep #$20
+	lda.w WipeWindowShape
+	cmp.w #$0001
+	bne CODE_02E261
+	inc.w WipePointer
+CODE_02E261:
+	sep #$20
+	jmp CODE_02E082
+InitPlayerStateEx:
+	php
+	sep #$20
+	lda.b #$28
+	sta.w $189F
+	sta.w $18A2
+	sta.w $18A0
+	sta.w $18A1
+	sta.w $18A3
+	sta.w $18A4
+	jsl ReloadPlayerState
+	jsl InitPlayerState
+	rep #$30
+	stz.w $1F69
+	stz.w $1FBB
+	stz.w $173C
+	lda.w #$F0D0
+	sta.l InputVecX
+	lda.w #$1000
+	sta.l InputVecY
+	lda.w #$0000
+	sta.l $700090
+	sep #$20
+	lda.b #$17
+	sta.l $700064
+	lda.b #$01
+	ldx.w #$B301
+	jsl RunSuperFXRoutine
+	rep #$20
+	ldx.w #$0000
+InitPlayerStateEx_L1:
+	lda.l $701000,x
+	sta.l $7F0000,x
+	inx
+	inx
+	cpx.w #$2000
+	bne InitPlayerStateEx_L1
+	plp
+	rtl
+MainGameInit:
+	php
+	phb
+	sep #$20
+	lda.b #$00
+	pha
+	plb
+	sei
+	sep #$20
+	stz.w HDMAEN
+	lda.b #$80
+	jsl CODE_02F8DF
+	sta.w INIDISP
+	stz.w FadeMode
+	stz.w FadeTimer
+	lda.b #$6E
+	sta.w ScanlineToWaitFor
+	jsl WaitScanline
+	sep #$20
+	rep #$10
+	lda.b #$64
+	sta.w ScanlineToWaitFor
+	jsl WaitScanline
+	sep #$20
+	rep #$10
+	rep #$30
+	stz.w $1FD2
+	stz.w WipePointer
+	stz.w ZTimer
+	stz.w PlayerPrevZPos
+	stz.w ZTimerVel
+	stz.b $C5
+	lda.b #$01
+	sta.l RenderHUDFlag
+	stz.w $1FD2
+	stz.w Pad1HiPrev
+	stz.w SEQueuePtrOld
+	stz.w SEQueuePtr
+	stz.w $1F51
+	sep #$20
+	lda.b #$01
+	sta.w $15AC
+	stz.w $1956
+	stz.w $189D
+	stz.w $189E
+	stz.w $1F14
+	stz.w $1FCD
+	stz.w $1FCE
+	stz.w $14C1
+	stz.w $1FCF
+	stz.w $1F52
+	stz.w $1F51
+	stz.w $1FDE
+	jsl ClearObjectList
+	jsl CODE_0AF94C
+	lda.w LevelScriptBank
+	pha
+	lda.l InitPlayersScriptPointer+2
+	sta.w LevelScriptBank
+	rep #$30
+	lda.w LevelScriptPointer
+	pha
+	lda.l InitPlayersScriptPointer
+	tax
+	jsl RunLevelScript
+	sep #$20
+	jsl CODE_068004
+	rep #$10
+	plx
+	pla
+	sta.w LevelScriptBank
+	rep #$20
+	stz.w $1FD2
+	stx.w LevelScriptPointer
+	jsl RunLevelScript
+	jsl CODE_02E39A
+	jsl CODE_02DB27
+	plb
+	plp
+	rtl
+CODE_02E39A:
+	php
+	rep #$20
+	lda.w #$1234
+	sta.l $7001FE
+	lda.w #$0001
+	sta.l ClearFramebufferFlag
+	jsl CODE_02F125
+	sep #$20
+	lda.b #$80
+	sta.b $9C
+	lda.b #$FF
+	sta.w $15BF
+	stz.b CurNMITask
+	sep #$30
+	jsr CODE_02F3FE
+	jml CODE_03B82D
+MainGame:
+	sep #$30
+	jsl MainGameInit
+MainGame_L1:
+	sep #$20
+	sep #$20
+	lda.w $1FE7
+	bne MainGame_SkipPause
+	lda.w $14D6
+	bit.b #$20
+	bne MainGame_SkipPause
+	lda.w $14D3
+	and.b #$10
+	bne MainGame_SkipPause
+	lda.w $14DD
+	and.b #$20
+	bne MainGame_SkipPause
+	lda.w Pad1HiPrev
+	bit.b #$10
+	beq MainGame_SkipPause
+	jsr PauseGame
+MainGame_SkipPause:
+	jsl CODE_02FD84
+	jsl CODE_1FBDB0
+	jsl MainLoop
+	jsl CODE_03EA26
+	rep #$20
+	lda.w $1FD2
+	beq MainGame_L1
+	cmp.w #$000A
+	bne MainGame_NextStage
+	brl MainGame_GameOver
+MainGame_NextStage:
+	inc.w StageID
+	sep #$20
+	lda.b #$01
+	sta.w $15A8
+	stz.w $15AB
+	lda.w $1FD2
+	cmp.b #$05
+	beq MainGame_L5
+	cmp.b #$0B
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+UpdatePRNG:
+	jsr DoUpdatePRNG
+	rtl
+DoUpdatePRNG:
+	lda.b PRNGBuffer
+	clc
+	sbc.b PRNGBuffer+1
+	sta.b PRNGBuffer+1
+	sbc.b PRNGBuffer+2
+	sta.b PRNGBuffer+2
+	sbc.b PRNGBuffer+3
+	sta.b PRNGBuffer+3
+	sbc.b PRNGBuffer
+	sta.b PRNGBuffer
+	rts
+Muliply8By16:
+	jsr DoMuliply8By16
+	rtl
+DoMuliply8By16:
+	stz.b TempZero
+	stz.b TempZero+1
+	stz.b TempProduct+1
+	lda.b TempMultiplier
+	bmi DoMuliply8By16_MerNeg
+	asl
+	sta.w WRMPYA
+	lda.b TempMultiplicand+1
+	bmi DoMuliply8By16_MandNeg
+	lda.b TempMultiplicand
+	sta.w WRMPYB
+	nop
+	nop
+	lda.b TempMultiplicand+1
+	jmp DoMuliply8By16_AddRes
+DoMuliply8By16_MandNeg:
+	lda.b #$00
+	sec
+	sbc.b TempMultiplicand
+	sta.w WRMPYB
+	lda.b #$00
+	sbc.b TempMultiplicand+1
+	jmp DoMuliply8By16_SubRes
+DoMuliply8By16_MerNeg:
+	eor.b #$FF
+	inc
+	asl
+	sta.w WRMPYA
+	lda.b TempMultiplicand+1
+	bmi DoMuliply8By16_MandNeg2
+	lda.b TempMultiplicand
+	sta.w WRMPYB
+	nop
+	nop
+	nop
+	lda.b TempMultiplicand+1
+DoMuliply8By16_SubRes:
+	ldy.w RDMPYH
+	sta.w WRMPYB
+	sty.b TempProduct
+	rep #$20
+	lda.b TempZero
+	sec
+	sbc.w RDMPYL
+	sec
+	sbc.b TempProduct
+	jmp DoMuliply8By16_Exit
+DoMuliply8By16_MandNeg2:
+	lda.b #$00
+	sec
+	sbc.b TempMultiplicand
+	sta.w WRMPYB
+	nop
+	nop
+	lda.b #$00
+	sbc.b TempMultiplicand+1
+DoMuliply8By16_AddRes:
+	ldy.w RDMPYH
+	sta.w WRMPYB
+	sty.b TempProduct
+	rep #$20
+	lda.b TempZero
+	adc.w RDMPYL
+	clc
+	adc.b TempProduct
+DoMuliply8By16_Exit:
+	sta.b TempProduct
+	sep #$20
+	rts
+RunSuperFXCalculateAtan2:
+	jsr DoRunSuperFXCalculateAtan2
+	rep #$20
+	rtl
+DoRunSuperFXCalculateAtan2:
+	phx
+	php
+	rep #$20
+	lda.b TempVecX
+	sta.l InputVecX
+	lda.b TempVecY
+	sta.l InputVecY
+	sep #$20
+	rep #$10
+	lda.b #BANKOF(CalculateAtan2)
+	ldx.w #CalculateAtan2
+	jsl RunSuperFXRoutine
+	rep #$20
+	lda.l $700040
+	plp
+	plx
+	rts
 	
 	
 	

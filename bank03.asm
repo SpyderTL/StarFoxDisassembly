@@ -5221,22 +5221,22 @@ SwarmCommand0E_BranchConditional:
 	beq CODE_03FCB5
 	bra CODE_03FCEA
 CODE_03FCB5:
-	lda NumObjectsWithID
+	lda NumSwarmObjects
 	cmp.l $058003,x
 	bcs CODE_03FCE1
 	bra CODE_03FCEA
 CODE_03FCC0:
-	lda NumObjectsWithID
+	lda NumSwarmObjects
 	cmp.l $058003,x
 	bcc CODE_03FCE1
 	bra CODE_03FCEA
 CODE_03FCCB:
-	lda NumObjectsWithID
+	lda NumSwarmObjects
 	cmp.l $058003,x
 	beq CODE_03FCE1
 	bra CODE_03FCEA
 CODE_03FCD6:
-	lda NumObjectsWithID
+	lda NumSwarmObjects
 	cmp.l $058003,x
 	bne CODE_03FCE1
 	bra CODE_03FCEA
@@ -5252,13 +5252,13 @@ SwarmCommand0C_CountObjectsWithID:
 	tax
 	phy
 	phx
-	stz NumObjectsWithID
+	stz NumSwarmObjects
 	lda.l $058003,x
 	ldx FirstObject
 SwarmCommand0C_Loop:
 	cmp.b $04,x
 	bne SwarmCommand0C_SkipInc
-	inc NumObjectsWithID
+	inc NumSwarmObjects
 SwarmCommand0C_SkipInc:
 	ldy.b $00,x
 	tyx

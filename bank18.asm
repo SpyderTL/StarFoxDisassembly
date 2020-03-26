@@ -72,8 +72,8 @@ SPCWrTempReg:
 	mov $00F3,a					;/
 SPCNextReg:
 	dbnz y,SPCWrTempRegsLoop2			; Decrement Y, loop back if not 0
-	mov $45,y
-	mov $46,y
+	mov SPCTempKON,y				;\Reset key on/off events
+	mov SPCTempKOF,y				;/
 	mov a,$18
 	eor a,$19
 	lsr a
@@ -120,7 +120,6 @@ SPC_04B6:
 	call SPC_04FE
 SPC_04CE:
 	jmp SPCWrTempRegsLoop
-
 SPC_04D1:
 	mov a,$04
 	beq SPC_04E7
@@ -135,10 +134,10 @@ SPC_04E1:
 	inc x
 	asl SPCCurChan
 	bne SPC_04DA
-
 SPC_04E7:
 	call SPC_0614
 	jmp SPCWrTempRegsLoop
+	
 SPC_04ED:
 	mov a,$04+x
 	mov $00F4+x,a
@@ -165,6 +164,7 @@ SPC_0503:
 SPC_0515:
 	mov $00+x,y
 	ret
+	
 SPC_0518:
 	cmp y,#$CA
 	bcc SPC_0521
@@ -194,8 +194,8 @@ SPC_0518:
 	mov $0100+x,a
 	mov $02D0+x,a
 	mov $C0+x,a
-	or ($5E),($47)
-	or ($45),($47)
+	or ($5E),(SPCCurChan)
+	or (SPCTempKON),(SPCCurChan)
 	mov a,$0280+x
 	mov $A0+x,a
 	beq SPC_057F
@@ -304,6 +304,7 @@ SPCWriteDSPReg:
 	mov $00F3,a					;/
 SPCSkipWrP:
 	ret
+	
 SPC_0614:
 	dec $D0
 	mov a,$D0
@@ -333,6 +334,7 @@ SPC_0624:
 	bne SPC_0624
 	dbnz $12,SPC_0621
 	ret
+	
 SPC_0648:
 	mov y,#$00
 	mov x,#$1B
@@ -448,11 +450,11 @@ SPCPlaySpecialF4Slower:
 	mov x,#$FE
 	mov a,#$09
 SPCPlaySpecialChgRate:
-	mov $54,#$8F
+	mov SPCTempoLen,#$8F
 	mov $02F0,x
 	mov $02F2,x
 	mov $02F4,x
-	mov $55,a
+	mov SPCTempoDest,a
 	setc
 	sbc a,$53
 	mov x,$54
@@ -484,7 +486,7 @@ SPC_0758:
 	ret
 SPCPlayNormMusID:
 	clrc
-	mov x, #$00
+	mov x,#$00
 	mov $03CA,x
 	mov $03F1,x
 	mov $04,a
@@ -515,7 +517,7 @@ SPC_0791:
 	mov $0301+x,a
 	mov a,#$0A
 	call SPCVCMDSetPan
-	mov $0211+x,a
+	mov SPCInst+x,a
 	mov $0381+x,a
 	mov $02F0+x,a
 	mov $0280+x,a
@@ -553,7 +555,7 @@ SPC_07E8:
 	mov a,$0C
 	beq SPC_0845
 	dbnz $0C,SPC_078C
-SPC_07EF:
+SPCEndCall:
 	call SPC_0758
 	bne SPC_080B
 	mov y,a
@@ -566,9 +568,9 @@ SPC_07FA:
 SPC_0800:
 	call SPC_0758
 	mov x,$42
-	beq SPC_07EF
+	beq SPCEndCall
 	movw $42,ya
-	bra SPC_07EF
+	bra SPCEndCall
 SPC_080B:
 	movw $16,ya
 	mov y,#$0F
@@ -580,7 +582,7 @@ SPC_080F:
 	mov x,#$00
 	mov SPCCurChan,#$01
 SPC_081C:
-	mov a,$31+x
+	mov a,(SPCCurChanPtrs+1)+x
 	beq SPC_082A
 	mov a,$0211+x
 	bne SPC_082A
@@ -588,27 +590,28 @@ SPC_081C:
 	call SPC_0932
 SPC_082A:
 	mov a,#$00
-	mov $80+x,a
+	mov SPCCallCnt+x,a
 	push a
 	mov a,SPCCurChan
 	and a,$1A
 	and a,#$C0
 	pop a
 	bne SPC_083C
-	mov $91+x,a
+	mov SPCPanFadeLen+x,a
 	mov $90+x,a
 SPC_083C:
 	inc a
 	mov $70+x,a
-	inc x
-	inc x
-	asl SPCCurChan
+	inc x						;\Increment X twice to point to next channel data
+	inc x						;/
+	asl SPCCurChan					;\Shift channel bit...
 	bne SPC_081C
 	mov x,#$00
 	mov $5E,x
 	mov SPCCurChan,#$01
+SPC_084C:
 	mov $44,x
-	mov a,$31+x
+	mov a,(SPCCurChanPtrs+1)+x
 	beq SPC_08C0
 	dec $70+x
 	bne SPC_08BA
@@ -616,11 +619,11 @@ SPC_083C:
 SPCGetCmdByte:
 	call SPCGetMusByte				;\Get command byte...
 	bne SPCSkEndRet					;/...if not 0, branch to skip end/return
-	mov a,$80+x
-	beq SPC_07EF
-	call SPCDoReturn
-	dec $80+x
-	bne SPCGetCmdByte
+	mov a,SPCCallCnt+x				;\Get call count...
+	beq SPCEndCall					;|...if zero, end call...
+	call SPCDoCall					;|...otherwise reload pointer...
+	dec SPCCallCnt+x				;|...and decrement call count...
+	bne SPCGetCmdByte				;/...if still not 0, get next command byte
 	mov a,$0230+x
 	mov $30+x,a
 	mov a,$0231+x
@@ -656,10 +659,10 @@ SPCProcNoteOn:
 	bne SPCNoteMute					;/...if so, branch to skip
 	call SPC_0518
 SPCNoteMute:
-	mov a,$0200+x
+	mov a,SPCNoteLen+x
 	mov $70+x,a
 	mov y,a
-	mov a,$0201+x
+	mov a,SPCDurRt+x
 	mul ya
 	mov a,y
 	bne SPC_08B6
@@ -672,47 +675,47 @@ SPC_08BA:
 SPC_08BD:
 	call SPC_0B6A
 SPC_08C0:
-	inc x
-	inc x
-	asl SPCCurChan
-	beq SPC_08C9
+	inc x						;\Increment X twice to point to next channel data
+	inc x						;/
+	asl SPCCurChan					;\Shift channel bit...
+	beq SPCProcTempoFade
 	jmp SPC_084C
-SPC_08C9:
-	mov a,$54
-	beq SPC_08D8
+SPCProcTempoFade:
+	mov a,SPCTempoLen
+	beq SPCProcEchoFade
 	movw ya,$56
 	addw ya,SPCTempo
-	dbnz $54,SPC_08D6
-	movw ya,$54
-SPC_08D6:
+	dbnz SPCTempoLen,SPCSetTempo
+	movw ya,SPCTempoLen
+SPCSetTempo:
 	movw SPCTempo,ya
-SPC_08D8:
+SPCProcEchoFade:
 	mov a,$68
-	beq SPC_08F1
+	beq SPCProcVolFade
 	movw ya,$64
-	addw ya,$60
-	movw $60,ya
+	addw ya,SPCEchoLeft
+	movw SPCEchoLeft,ya
 	movw ya,$66
-	addw ya,$62
+	addw ya,SPCEchoRight
 	dbnz $68,SPC_08EF
 	movw ya,$68
-	movw $60,ya
+	movw SPCEchoLeft,ya
 	mov y,$6A
 SPC_08EF:
-	movw $62,ya
-SPC_08F1:
-	mov a,$5A
-	beq SPC_0903
+	movw SPCEchoRight,ya
+SPCProcVolFade:
+	mov a,SPCMstVolLen
+	beq SPCChkInit
 	movw ya,$5C
 	addw ya,$58
 	dbnz $5A,SPC_08FE
-	movw ya,$5A
+	movw ya,SPCMstVolLen
 SPC_08FE:
-	movw $58,ya
+	movw SPCMstVol,ya
 	mov $5E,#$FF
-SPC_0903:
-	mov x,#$00
-	mov $47,#$01
+SPCChkInit:
+	mov x,#$00					;\Init array pointer...
+	mov SPCCurChan,#$01				;/...and current channel flag value
 SPCChkChan:
 	mov a,(SPCCurChanPtrs+1)+x			;\If MSB of channel pointer is 0, branch to skip
 	beq SPCNextChan					;/
@@ -744,23 +747,23 @@ SPCSkMusPtrCarry:
 	mov y,a						;\Set Y register to byte read...
 	ret						;/...and return
 SPCVCMDSetInst:
-	mov $0211+x,a
+	mov SPCInst+x,a
 	mov y,a
-	bpl SPC_093E
+	bpl SPCSkInstNoise
 	setc
 	sbc a,#$CA
 	clrc
-	adc a,$5F
-SPC_093E:
+	adc a,SPCPercBase
+SPCSkInstNoise:
 	mov y,#$06
 	mul ya
 	movw SPCTempAddr,ya
 	clrc
 	adc SPCTempAddr,#$00
 	adc SPCTempAddr+1,#$3D
-	mov a,$1A
-	and a,$47
-	bne SPC_098A
+	mov a,SPCMuteChan
+	and a,SPCCurChan
+	bne SPCInstExit
 	push x
 	mov a,x
 	xcn a
@@ -771,14 +774,14 @@ SPC_093E:
 	mov a,(SPCTempAddr)+y
 	bpl SPC_096B
 	and a,#$1F
-	and $48,#$20
-	tset1 $0048
+	and SPCTempFLG,#$20
+	tset1 SPCTempFLG
 	or ($49),($47)
 	mov a,y
 	bra SPC_0972
 SPC_096B:
 	mov a,$47
-	tclr1 $0049
+	tclr1 SPCTempNON
 SPC_0970:
 	mov a,(SPCTempAddr)+y
 SPC_0972:
@@ -794,17 +797,17 @@ SPC_0972:
 	inc y
 	mov a,(SPCTempAddr)+y
 	mov $0220+x,a
-SPC_098A:
+SPCInstExit:
 	ret
 SPCVCMDSetPan:
-	mov $0351+x,a
-	and a,#$1F
-	mov $0331+x,a
+	mov SPCPanEx+x,a				;\Set pan
+	and a,#$1F					;|
+	mov SPCPan+x,a					;/
 	mov a,#$00
 	mov $0330+x,a
 	ret
 SPCVCMDPanFade:
-	mov $91+x,a
+	mov SPCPanFadeLen+x,a				; Set pan fade length
 	push a
 	call SPCGetMusByte
 	mov $0350+x,a
@@ -817,9 +820,9 @@ SPCVCMDPanFade:
 	mov $0341+x,a
 	ret
 SPCVCMDVibOn:
-	mov $02B0+x,a
-	call SPCGetMusByte
-	mov $02A1+x,a
+	mov SPCVibDelay+x,a				;\Set vibrato delay...
+	call SPCGetMusByte				;|...and rate
+	mov SPCVibRate+x,a				;/
 	call SPCGetMusByte
 SPCVCMDVibOff:
 	mov $B1+x,a
@@ -841,14 +844,14 @@ SPCVCMDMstVol:
 	bne SPCSkMstVol
 	mov a,$03F1
 	bne SPCSkMstVol
-	mov a,#$00					;\Set master volume
+	mov a,#$00					;\Set master volume and ? simultaneously
 	movw SPCMstVol,ya				;/
 SPCSkMstVol:
 	ret
 SPCVCMDMstVolFade:
-	mov $5A,a
-	call SPCGetMusByte
-	mov $5B,a
+	mov SPCMstVolLen,a				;\Set master volume length...
+	call SPCGetMusByte				;|
+	mov SPCMstVolDest,a				;/...and destination
 	setc
 	sbc a,$59
 	mov x,$5A
@@ -856,13 +859,13 @@ SPCVCMDMstVolFade:
 	movw $5C,ya
 	ret
 SPCVCMDTempo:
-	mov a,#$00					;\Set tempo
+	mov a,#$00					;\Set tempo and ? simultaneously
 	movw SPCTempo,ya				;|
 	ret						;/
 SPCVCMDTempoFade:
-	mov $54,a
-	call SPCGetMusByte
-	mov $55,a
+	mov SPCTempoLen,a				;\Set tempo fade length...
+	call SPCGetMusByte				;|
+	mov SPCTempoDest,a				;/...and destination
 	setc
 	sbc a,$53
 	mov x,$54
@@ -870,7 +873,7 @@ SPCVCMDTempoFade:
 	movw $56,ya
 	ret
 SPCVCMDMstXpose:
-	mov SPCMstXpose,a
+	mov SPCMstXpose,a				; Set transpose
 	ret
 SPCVCMDXpose:
 	mov $03D0+x,a
@@ -881,12 +884,12 @@ SPCVCMDXpose:
 SPCSkXpose:
 	ret
 SPCVCMDTremOn:
-	mov $02E0+x,a
-	call SPCGetMusByte
-	mov $02D1+x,a
-	call SPCGetMusByte
+	mov SPCTremDelay+x,a				;\Set tremolo delay...
+	call SPCGetMusByte				;|
+	mov SPCTremRate+x,a				;|...and rate
+	call SPCGetMusByte				;/
 SPCVCMDTremOff:
-	mov $C1+x,a
+	mov SPCTremDepth+x,a				; Set tremolo depth
 	ret
 SPCVCMDPitchEnvTo:
 	mov a,#$01
@@ -894,9 +897,9 @@ SPCVCMDPitchEnvTo:
 SPCVCMDPitchEnvFrom:
 	mov a,#$00
 SPCPitchEnv:
-	mov $0290+x,a
-	mov a,y
-	mov $0281+x,a
+	mov SPCPitchEnvDir+x,a				; Set pitch envelope direction
+	mov a,y						;\Set pitch envelope delay
+	mov SPCPitchEnvDelay+x,a			;/
 	call SPCGetMusByte
 	mov $03E1+x,a
 	push a
@@ -908,16 +911,16 @@ SPCPitchEnv:
 SPC_0A4F:
 	mov $0280+x,a
 	call SPCGetMusByte
-	mov $0291+x,a
+	mov SPCPitchEnvKey+x,a
 	ret
 SPCVCMDPitchEnvOff:
 	mov $0280+x,a
 	mov $03E1+x,a
 	ret
 SPCVCMDVol:
-	mov $0301+x,a
+	mov SPCVol+x,a
 	mov a,#$00
-	mov $0300+x,a
+	mov $300+x,a
 	ret
 SPCVCMDVolFade:
 	mov $90+x,a
@@ -935,39 +938,40 @@ SPCVCMDVolFade:
 SPCVCMDTune:
 	mov $03E0+x,a
 	mov a,$03A0+x
-	bne SPC_0A90
+	bne SPCSkTune
 	mov a,$03E0+x
 	mov $0381+x,a
+SPCSkTune:
 	ret
 SPCVCMDCall:
-	mov $0240+x,a
-	call SPCGetMusByte
-	mov $0241+x,a
-	call SPCGetMusByte
-	mov $80+x,a
+	mov SPCCallPtr+x,a				;\Set call pointer
+	call SPCGetMusByte				;|
+	mov (SPCCallPtr+1)+x,a				;|
+	call SPCGetMusByte				;/
+	mov SPCCallCnt+x,a
 	mov a,$30+x
-	mov $0320+x,a
+	mov $0230+x,a
 	mov a,$31+x
 	mov $0231+x,a
-SPCDoReturn:
-	mov a,$0240+x
-	mov $30+x,a
-	mov a,$0241+x
-	mov $31+x,a
+SPCDoCall:
+	mov a,SPCCallPtr+x				;\Reload call pointer
+	mov SPCCurChanPtrs+x,a				;|
+	mov a,(SPCCallPtr+1)+x				;|
+	mov (SPCCurChanPtrs+1)+x,a			;/
 	ret
 SPCVCMDEchoVol:
 	mov $03C3,a
 	mov $4A,a
-	call SPCGetMusByte
-	mov a,#$00
-	movw $60,ya
-	call SPCGetMusByte
-	mov a,#$00
-	movw $62,ya
+	call SPCGetMusByte				;\Set left echo and ? simultaneously
+	mov a,#$00					;|
+	movw SPCEchoLeft,ya				;/
+	call SPCGetMusByte				;\Set right echo and ? simultaneously
+	mov a,#$00					;|
+	movw SPCEchoRight,ya				;/
 	clr5 $48
 	ret
 SPCVCMDEchoVolFade:
-	mov $68,a
+	mov SPCEchoFadeLen,a
 	call SPCGetMusByte
 	mov $69,a
 	setc
@@ -984,8 +988,8 @@ SPCVCMDEchoVolFade:
 	movw $66,ya
 	ret
 SPCVCMDEchoOff:
-	movw $60,ya
-	movw $62,ya
+	movw SPCEchoLeft,ya				;\Clear left/right echo
+	movw SPCEchoRight,ya				;/
 	set5 $48
 	ret
 SPCVCMDEchoProps:
@@ -1047,7 +1051,7 @@ SPC_0B4D:
 	mov y,#$6D
 	jmp SPCWriteDSPReg
 SPCVCMDPercBase:
-	mov $5F,a
+	mov SPCPercBase,a
 	ret
 SPCVCMDMod:
 	push a
@@ -1089,7 +1093,6 @@ SPC_0B8B:
 	mov a,y
 	mov $0371+x,a
 	ret
-
 SPC_0BB3:
 	mov a,$0361+x
 	mov $11,a
@@ -1213,7 +1216,7 @@ SPC_0C85:
 	mov $0250+x,a
 	mov a,$0321+x
 	mul ya
-	mov a,$0351+x
+	mov a,SPCPanEx+x
 	asl a
 	bbc0 $12,SPC_0CA8
 	asl a
@@ -1265,7 +1268,7 @@ SPC_0CE5:
 	mov a,#$02
 	cbne $70+x,SPC_0D4E
 SPC_0CF2:
-	mov a,$80+x
+	mov a,SPCCallCnt+x
 	mov $17,a
 	mov a,$30+x
 	mov y,$31+x
@@ -1499,10 +1502,10 @@ SPCValPtrs:
 	DB SPCTempEON
 	DB SPCTempFLG
 	DB SPCTempKON
-	DB SPCTempKOF
+	DB SPCTempKOF2
 	DB SPCTempNON
 	DB SPCTempPMON
-	DB SPCTempKOF2
+	DB SPCTempKOF
 SPCPitchTable:
 	DW $085F,$08DE,$0965,$09F4,$0A8C,$0B2C,$0BD6,$0C8B
 	DW $0D4A,$0E14,$0EEA,$0FCD,$10BE

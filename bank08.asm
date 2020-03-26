@@ -10,69 +10,69 @@ CODE_088004:
 	jml CODE_08809A
 CODE_088014:
 	lda.w $152C
-	sta.b $02
-	sta.b $04
+	sta.b TempVecXG
+	sta.b TempVecXL
 	bit.b #$80
 	beq CODE_088025
 	lda.b #$FF
-	sta.b $05
+	sta.b TempVecXL+1
 	bra CODE_088027
 CODE_088025:
-	stz.b $05
+	stz.b TempVecXL+1
 CODE_088027:
 	lda.w $152D
-	sta.b $08
-	sta.b $0A
+	sta.b TempVecYG
+	sta.b TempVecYL
 	bit.b #$80
 	beq CODE_088038
 	lda.b #$FF
-	sta.b $0B
+	sta.b TempVecYL+1
 	bra CODE_08803A
 CODE_088038:
-	stz.b $0B
+	stz.b TempVecYL+1
 CODE_08803A:
 	lda.w $152C
-	sta.b $90
-	sta.w $15C2
+	sta.b TempVecZG
+	sta.w TempVecZL
 	bit.b #$80
 	beq CODE_08804D
 	lda.b #$FF
-	sta.w $15C3
+	sta.w TempVecZL+1
 	bra CODE_088050
 CODE_08804D:
-	stz.w $15C3
+	stz.w TempVecZL+1
 CODE_088050:
 	lda.b $14,x
-	jsl CODE_1FCC78
-	lda.b $04
-	sta.b $02
-	lda.b $0A
-	sta.b $08
-	lda.w $15C2
-	sta.b $90
+	jsl GetLocalXY8RotateZ
+	lda.b TempVecXL
+	sta.b TempVecXG
+	lda.b TempVecYL
+	sta.b TempVecYG
+	lda.w TempVecZL
+	sta.b TempVecZG
 	lda.b $13,x
-	jsl CODE_1FC97B
+	jsl GetLocalZX8RotateNegY
 	rep #$20
-	lda.b $04
+	lda.b TempVecXL
 	asl
-	sta.b $04
-	lda.b $0A
+	sta.b TempVecXL
+	lda.b TempVecYL
 	asl
-	sta.b $0A
-	lda.w $15C2
+	sta.b TempVecYL
+	lda.w TempVecZL
 	asl
-	sta.w $15C2
+	sta.w TempVecZL
 	lda.b $0C,x
 	clc
-	adc.b $04
+	adc.b TempVecXL
 	sta.w $000C,y
 	lda.b $10
 	clc
-	adc.w $15C2
+	adc.w TempVecZL
 	sta.w $0010,y
 	lda.b $0E,x
 	clc
-	adc.b $0A
+	adc.b TempVecYL
 	sta.w $000E,y
 	sep #$20
 	inc $1530
@@ -86,72 +86,72 @@ CODE_08809B:
 	jml CODE_088134
 CODE_0880AB:
 	lda.w $152C
-	sta.b $02
-	sta.b $04
+	sta.b TempVecXG
+	sta.b TempVecXL
 	bit.b #$80
 	beq CODE_0880BC
 	lda.b #$FF
-	sta.b $05
+	sta.b TempVecXL+1
 	bra CODE_0880BE
 CODE_0880BC:
-	stz.b $05
+	stz.b TempVecXL+1
 CODE_0880BE:
 	lda.w $152D
-	sta.b $08
-	sta.b $0A
+	sta.b TempVecYG
+	sta.b TempVecYL
 	bit.b #$80
 	beq CODE_0880CF
 	lda.b #$FF
-	sta.b $0B
+	sta.b TempVecYL+1
 	bra CODE_0880D1
 CODE_0880CF:
-	stz.b $0B
+	stz.b TempVecYL+1
 CODE_0880D1:
 	lda.w $152E
-	sta.b $90
-	sta.w $15C2
+	sta.b TempVecZG
+	sta.w TempVecZL
 	bit.b #$80
 	beq CODE_0880E4
 	lda.b #$FF
-	sta.w $15C3
+	sta.w TempVecZL+1
 	bra CODE_0880E7
 CODE_0880E4:
-	stz $15C3
+	stz TempVecZL+1
 CODE_0880E7:
 	lda.b $14,x
-	jsl CODE_1FCC78
-	lda.b $04
-	sta.b $02
-	lda.b $0A
-	sta.b $08
-	lda.w $15C2
-	sta.b $90
+	jsl GetLocalXY8RotateZ
+	lda.b TempVecXL
+	sta.b TempVecXG
+	lda.b TempVecYL
+	sta.b TempVecYG
+	lda.w TempVecZL
+	sta.b TempVecZG
 	lda.b $13,x
-	jsl CODE_1FC97B
+	jsl GetLocalZX8RotateNegY
 	rep #$20
-	lda.b $04
+	lda.b TempVecXL
 	asl
 	asl
-	sta.b $04
-	lda.b $0A
+	sta.b TempVecXL
+	lda.b TempVecYL
 	asl
 	asl
-	sta.b $0A
-	lda.w $15C2
+	sta.b TempVecYL
+	lda.w TempVecZL
 	asl
 	asl
-	sta.w $15C2
+	sta.w TempVecZL
 	lda.b $0C,x
 	clc
-	adc.b $04
+	adc.b TempVecXL
 	sta.w $000C,y
 	lda.b $10,x
 	clc
-	adc.w $15C2
+	adc.w TempVecZL
 	sta.w $0010,y
 	lda.b $0E,x
 	clc
-	adc.b $0A
+	adc.b TempVecYL
 	sta.w $000E,y
 	sep #$20
 	inc $1530
@@ -210,14 +210,14 @@ Beh44_RockCrusherBoss:
 	sep #$20
 	lda.b #BANKOF(Beh44_RockCrusherBossLoop)
 	sta.b $18,x
-	lda.b #$06
+	lda.b #BANKOF(ColiCommonEnemy)
 	sta.w Object2ListRel+$0B,x
-	lda.b #$06
+	lda.b #BANKOF(CODE_06EAAE)
 	sta.w Object2ListRel+$08,x
 	rep #$20
-	lda.w #$89A3
+	lda.w #ColiCommonEnemy
 	sta.w Object2ListRel+$09,x
-	lda.w #$EAAE
+	lda.w #CODE_06EAAE
 	sta.w Object2ListRel+$06,x
 	sep #$20
 	lda.b #$23					;\Set enemy HP to 35
@@ -228,7 +228,7 @@ Beh44_RockCrusherBoss:
 	sta.l EnemyHPBarMax				;/
 	lda.b #$00
 	sta.l EnemyHPBarCur
-	lda.w $1FFD					;\Check level...
+	lda.w LevelID					;\Check level...
 	cmp.b #$00					;|
 	bne Beh44_NotLevel1				;|...if not level 1, branch to increase HP
 	jml Beh44_SkipIncHP				;/...otherwise, branch to skip this
@@ -257,21 +257,21 @@ Beh44_SkipIncHP:
 	ora.b #$40
 	sta.b $20,x
 	lda.b #$82					;\Play sound effect
-	jsl PushSoundEffect				;/
+	jsl PushSoundEffectToQueue			;/
 	rep #$20
 	lda.w #$BE3C
 	sta.w $14C5
 	sep #$20
-	jsl SpawnChildObject
+	jsl CreateChildObject
 	bcs CODE_08821C
 CODE_08821C:
 	lda.b #$01
 	jsl LinkChildObject
 	rep #$20
-	lda.w #CODE_088AC7
+	lda.w #Beh_RockCrusherBossShield
 	sta.w $0016,y
 	sep #$20
-	lda.b #BANKOF(CODE_088AC7)
+	lda.b #BANKOF(Beh_RockCrusherBossShield)
 	sta.w $0018,y
 	lda.w $002E,y
 	ora.b #$10
@@ -284,17 +284,17 @@ CODE_088240:
 	lda.w #$BE58
 	sta.w $14C5
 	sep #$20
-	jsl SpawnChildObject
+	jsl CreateChildObject
 	bcs CODE_088254
 	jml CODE_088274
 CODE_088254:
 	lda.b #$02
 	jsl LinkChildObject
 	rep #$20
-	lda.w #CODE_08891A
+	lda.w #Beh_RockCrusherBossWeakPointA
 	sta.w $0016,y
 	sep #$20
-	lda.b #BANKOF(CODE_08891A)
+	lda.b #BANKOF(Beh_RockCrusherBossWeakPointA)
 	sta.w $0018,y
 	lda.w $002E,y
 	ora.b #$10
