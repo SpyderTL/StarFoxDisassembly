@@ -23,7 +23,7 @@ Beh80_FlyingEnemy:
 	sep #$20					;|
 	lda.b #BANKOF(Beh80_FlyingEnemy_Loop)		;|
 	sta.b $18,x					;/
-	jsl CODE_1FD41A
+	jsl SetDefaultDestroyColiFuncPtrs
 	lda.b #$28
 	sta.b $15,x
 	rep #$20
@@ -72,9 +72,9 @@ CODE_0AA1FE:
 	stz.w $1532
 	rep #$20
 	lda.w Object2ListRel+$00,x
-	sta.b TempVecXB
+	sta.b TempVecXL
 	lda.w Object2ListRel+$04,x
-	sta.w TempVecZB
+	sta.w TempVecZL
 	sep #$20
 	jsl CODE_1FCF43
 	eor.b #$FF
@@ -115,11 +115,11 @@ CODE_0AA261:
 	sta.b $13,x
 	rep #$20
 	lda.w Object2ListRel+$00,x
-	sta.b TempVecXB
+	sta.b TempVecXL
 	lda.w Object2ListRel+$02,x
-	sta.b TempVecYB
+	sta.b TempVecYL
 	lda.w Object2ListRel+$04,x
-	sta TempVecZB
+	sta TempVecZL
 	sep #$20
 	jsl CODE_1FD05C
 	cmp.b $12,x
@@ -455,11 +455,11 @@ Beh84_FlatFarAwayShip:
 	sta.b $0A,x
 Beh84_FlatFarAwayShipLoop:
 	dec.b $0A,x
-	beq Beh84_DoUnk
-	jml Beh84_SkipUnk
-Beh84_DoUnk:
+	beq CODE_0AB341
+	jml CODE_0AB345
+CODE_0AB341:
 	jsl CODE_1FD501
-Beh84_SkipUnk:
+CODE_0AB345:
 	rep #$20					;\Add WParam26 to X position
 	lda.b $0C,x					;|
 	clc						;|
@@ -479,6 +479,66 @@ Beh84_SkipUnk:
 	sta.b $10,x					;|
 	sep #$20					;/
 	rtl
+Beh9B:
+	rep #$20
+	lda.w #Beh9B_Loop
+	sta.b $16,x
+	sep #$20
+	lda.b #BANKOF(Beh9B_Loop)
+	sta.b $18,x
+	jsl SetDefaultDestroyColiFuncPtrs
+	lda.b #$02
+	sta.b $2A,x
+	lda.b #$08
+	sta.b $08,x
+	rep #$20
+	lda.w #$DAAC
+	sta.w Object2ListRel+$1A,x
+	sep #$20
+	lda.b #$80
+	sta.b $13,x
+	lda.b $2E,x
+	ora.b #$10
+	sta.b $2E,x
+	lda.b #$00
+	ora.b #$80
+	sta.w Object2ListRel+$1D,x
+	lda.b $20,x
+	ora.b #$04
+	sta.b $20,x
+	lda.b #$1E
+	sta.b $15,x
+	jsl CODE_06916D
+Beh9B_Loop:
+	ldy PlayerObject
+	lda.w Object2ListRel+$12,x
+	cmp.b #$00
+	beq CODE_0AB3BA
+	jml CODE_0AB46E
+CODE_0AB3BA:
+	stz.w $1532
+	jsl CODE_1FD03E
+	sep #$20
+	xba
+	cmp.b $12,x
+	beq CODE_0AB3EE
+	sec
+	sbc.b $12,x
+	cmp.b #$00
+	bmi CODE_0AB3D7
+	cmp.b #$04
+	bpl CODE_0AB3DD
+	lda.b #$04
+	bra CODE_0AB3DD
+CODE_0AB3D7:
+	cmp.b #$FC
+	bmi CODE_0AB3DD
+	lda.b #$FC
+CODE_0AB3DD:
+	cmp.b #$80
+	ror
+	bpl CODE_0AB3E4
+	
 
 
 

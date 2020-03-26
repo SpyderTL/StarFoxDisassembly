@@ -65,10 +65,10 @@ CODE_07806D:
 	ora.b #$01
 	sta.b $1E,x
 	rep #$20
-	lda.w #$8092
+	lda.w #CODE_078092
 	sta.b $16,x
 	sep #$20
-	lda.b #$07
+	lda.b #BANKOF(CODE_078092)
 	sta.b $18,x
 	lda.b #$46
 	sta.b $0A,x
@@ -76,7 +76,8 @@ CODE_07806D:
 	sta.b $15,x
 	lda.b #$C0
 	sta.b $14,x
-	ldy.w $1238
+CODE_078092:
+	ldy.w PlayerObject
 	rep #$20
 	lda.w $0010,y
 	cmp.w $0010,x
@@ -97,7 +98,7 @@ CODE_0780AF:
 	lda.w #$B219
 	sta.w $14C5
 	sep #$20
-	jsl CODE_1FD54B
+	jsl CreateChildObject
 	bcs CODE_0780CC
 	jml CODE_0780E3
 CODE_0780CC:
@@ -112,10 +113,10 @@ CODE_0780CC:
 	sta.w $0020,y
 CODE_0780E3:
 	lda.b #$32
-	jsl CODE_03B7F9
+	jsl PushSoundEffectToQueue
 CODE_0780E9:
 	lda.b $14,x
-	sta.b TempSelf
+	sta.b $3A
 	lda.b #$00
 	jsl CODE_1FD8F7
 	sta.b $14,x
@@ -125,7 +126,7 @@ CODE_0780E9:
 	jml CODE_07810C
 CODE_078100:
 	lda.b $12,x
-	sta.b TempSelf
+	sta.b $3A
 	lda.b #$C0
 	jsl CODE_1FD8F7
 	sta.b $12,x
@@ -146,9 +147,8 @@ CODE_07812E:
 	jsl CODE_1FD501
 CODE_078132:
 	rtl
-CODE_078132:
-	jml CODE_06F45F
-
+JumpDestroyCommonEnemy:
+	jml DestroyCommonEnemy
 Beh97:
 	
 	

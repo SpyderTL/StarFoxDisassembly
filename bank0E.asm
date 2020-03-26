@@ -61,7 +61,7 @@
 	INCBIN "graphics/models/shielditem.mdl"
 	INCBIN "graphics/models/wingrepairitem.mdl"
 	INCBIN "graphics/models/unuseditem.mdl"
-	INCBIN "graphics/models/unknown_0EBBD7.mdl"
+	INCBIN "graphics/models/extracreditpart.mdl"
 	INCBIN "graphics/models/repairingarwing.mdl"
 	INCBIN "graphics/models/hexhovertank.mdl"
 	INCBIN "graphics/models/enemywithwireframe.mdl"
