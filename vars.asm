@@ -38,6 +38,7 @@ endmacro
 ;;;;;;;;;;;;;;;;;;
 ;Zero Page ($00)
 CurNMITask		= $00	;byte
+Unknown_01		= $00	;byte
 TempPtr			= $02	;long
 TempVecXG		= $02	;word
 TempVecXL		= $04	;word
@@ -140,7 +141,7 @@ struct ObjectList	  $0336
 	.RotX: skip 1		;12
 	.RotY: skip 1		;13
 	.RotZ: skip 1		;14
-	.Unk15: skip 1
+	.RotZ2: skip 1		;15
 	.BehFunc: skip 3	;16
 	.Unk19: skip 2
 	.Unk1B: skip 2
@@ -242,150 +243,151 @@ Unknown_14C4		= $14C4	;byte
 TempMiscW		= $14C5	;word
 Unknown_14C9		= $14C9	;byte
 FirstCandidate		= $14CA	;word
-			= $14CC	;byte
-			= $14CD	;word
-			= $14D0	;byte
-			= $14D1	;byte
-			= $14D2	;byte
-			= $14D3	;byte
-			= $14D5	;byte
-			= $14D6	;byte
-			= $14D7	;byte
-			= $14D8	;byte
-			= $14D9	;byte
-			= $14DA	;byte
+Unknown_14CC		= $14CC	;byte
+Unknown_14CD		= $14CD	;word
+Unknown_14D0		= $14D0	;byte
+Unknown_14D1		= $14D1	;byte
+Unknown_14D2		= $14D2	;byte
+Unknown_14D3		= $14D3	;byte
+Unknown_14D5		= $14D5	;byte
+Unknown_14D6		= $14D6	;byte
+Unknown_14D7		= $14D7	;byte
+Unknown_14D8		= $14D8	;byte
+Unknown_14D9		= $14D9	;byte
+Unknown_14DA		= $14DA	;byte
 CurViewMode		= $14DB	;byte
 MaxViewMode		= $14DC	;byte
-			= $14DD	;byte
-			= $14DE	;byte
-			= $14DF	;byte
-			= $14E0	;byte
-			= $14E3	;byte
-			= $14E4	;byte
-			= $14E6	;word
-			= $14E8	;word
-			= $14EA	;word
-			= $14EC	;word
-			= $14EE	;word
-			= $14F0	;byte
-			= $14F1	;byte
-			= $14F2	;byte
-			= $14F3	;byte
-			= $14F4	;word
-			= $14F6	;word
-			= $14F8	;word
-			= $14FA	;word
-			= $14FC	;word
-			= $14FE	;word
+Unknown_14DD		= $14DD	;byte
+Unknown_14DE		= $14DE	;byte
+Unknown_14DF		= $14DF	;byte
+Unknown_14E0		= $14E0	;byte
+Unknown_14E3		= $14E3	;byte
+Unknown_14E4		= $14E4	;byte
+Unknown_14E6		= $14E6	;word
+Unknown_14E8		= $14E8	;word
+Unknown_14EA		= $14EA	;word
+Unknown_14EC		= $14EC	;byte
+ArwingIdleTimer		= $14EE	;word
+Unknown_14F0		= $14F0	;byte
+Unknown_14F1		= $14F1	;byte
+Unknown_14F2		= $14F2	;byte
+Unknown_14F3		= $14F3	;byte
+Unknown_14F4		= $14F4	;word
+Unknown_14F6		= $14F6	;word
+Unknown_14F8		= $14F8	;word
+Unknown_14FA		= $14FA	;word
+Unknown_14FC		= $14FC	;word
+Unknown_14FE		= $14FE	;word
 
 ;Page $15
-			= $1500	;byte
-			= $1501	;byte
-			= $1502	;byte
-			= $1503	;word
-			= $1505	;word
-			= $1507	;word
-			= $1509	;word
-			= $150B	;byte
-			= $150C	;byte
-			= $150D	;word
-			= $150F	;word
-			= $1511	;word
+Unknown_1500		= $1500	;byte
+Unknown_1501		= $1501	;byte
+Unknown_1502		= $1502	;byte
+Unknown_1503		= $1503	;word
+Unknown_1505		= $1505	;word
+Unknown_1507		= $1507	;byte
+Unknown_1508		= $1508	;byte
+Unknown_1509		= $1509	;word
+Unknown_150B		= $150B	;byte
+Unknown_150C		= $150C	;byte
+Unknown_150D		= $150D	;word
+Unknown_150F		= $150F	;word
+Unknown_1511		= $1511	;word
 TempObjX		= $1513	;word
 TempObjY		= $1515	;word
 TempObjZ		= $1517	;word
-			= $151B	;word
-			= $151D	;word
-			= $151F	;word
-			= $1521	;word
-			= $1523	;byte
-			= $1524	;byte
-			= $1525	;byte
-			= $1526	;byte
-			= $1527	;byte
-			= $1528	;byte
-			= $1529	;byte
-			= $152A	;byte
-			= $152B	;byte
-			= $152C	;byte
-			= $152D	;byte
-			= $152E	;byte
-			= $152F	;byte
-			= $1530	;byte
-			= $1531	;byte
-			= $1532	;word
-			= $1534	;word
-			= $1536	;word
-			= $1538	;word
-			= $153A	;word
-			= $153C	;word
-			= $153E	;word
-			= $1540	;word
-			= $1542	;word
-			= $1545	;byte
-			= $1547	;byte
-			= $1549	;byte
-			= $154B	;byte
-			= $154C	;byte
-			= $154D	;byte
-			= $154E	;byte
-			= $154F	;byte
-			= $1551	;byte
-			= $1552	;byte
-			= $1553	;byte
-			= $1554	;word
-			= $1556	;word
-			= $1558	;word
-			= $155A	;word
-			= $155C	;byte
-			= $155D	;word
-			= $155F	;word
-			= $1561	;word
-			= $1563	;word
-			= $1565	;word
-			= $1567	;word
-			= $1569	;byte
-			= $156A	;byte
-			= $156B	;word
-			= $156E	;byte
-			= $156F	;word
-			= $1571	;word
-			= $1573	;word
-			= $1575	;word
-			= $1577	;word
-			= $1579	;word
-			= $157B	;word
-			= $157D	;word
-			= $157F	;word
-			= $1581	;word
-			= $1583	;word
-			= $1585	;word
-			= $1589	;word
-			= $158B	;word
-			= $158D	;word
+Unknown_151B		= $151B	;word
+Unknown_151D		= $151D	;word
+Unknown_151F		= $151F	;word
+Unused_1521		= $1521	;word
+Unknown_1523		= $1523	;byte
+Unknown_1524		= $1524	;byte
+Unknown_1525		= $1525	;byte
+Unknown_1526		= $1526	;byte
+Unknown_1527		= $1527	;byte
+Unknown_1528		= $1528	;byte
+Unknown_1529		= $1529	;byte
+Unknown_152A		= $152A	;byte
+Unknown_152B		= $152B	;byte
+Unknown_152C		= $152C	;byte
+Unknown_152D		= $152D	;byte
+Unknown_152E		= $152E	;byte
+Unknown_152F		= $152F	;byte
+Unknown_1530		= $1530	;byte
+Unknown_1531		= $1531	;byte
+Unknown_1532		= $1532	;word
+Unknown_1534		= $1534	;word
+Unknown_1536		= $1536	;word
+Unknown_1538		= $1538	;word
+Unknown_153A		= $153A	;word
+Unknown_153C		= $153C	;word
+Unknown_153E		= $153E	;word
+Unknown_1540		= $1540	;word
+Unknown_1542		= $1542	;word
+Unknown_1545		= $1545	;word
+Unknown_1547		= $1547	;word
+Unknown_1549		= $1549	;word
+Unknown_154B		= $154B	;byte
+Unknown_154C		= $154C	;byte
+Unknown_154D		= $154D	;word
+Unknown_154F		= $154F	;byte
+Unknown_1551		= $1551	;byte
+Unknown_1552		= $1552	;byte
+Unknown_1553		= $1553	;byte
+Unknown_1554		= $1554	;word
+Unknown_1556		= $1556	;word
+Unknown_1558		= $1558	;word
+Unknown_155A		= $155A	;word
+Unknown_155C		= $155C	;byte
+Unknown_155D		= $155D	;word
+Unknown_155F		= $155F	;word
+Unknown_1561		= $1561	;word
+Unknown_1563		= $1563	;word
+Unknown_1565		= $1565	;word
+Unknown_1567		= $1567	;word
+Unknown_1569		= $1569	;byte
+Unknown_156A		= $156A	;byte
+Unknown_156B		= $156B	;word
+Unknown_156E		= $156E	;byte
+Unknown_156F		= $156F	;word
+Unknown_1571		= $1571	;word
+Unknown_1573		= $1573	;word
+Unknown_1575		= $1575	;word
+Unknown_1577		= $1577	;word
+Unknown_1579		= $1579	;word
+Unknown_157B		= $157B	;word
+Unknown_157D		= $157D	;word
+Unknown_157F		= $157F	;word
+Unknown_1581		= $1581	;word
+Unknown_1583		= $1583	;word
+Unknown_1585		= $1585	;word
+Unknown_1589		= $1589	;word
+Unknown_158B		= $158B	;word
+Unknown_158D		= $158D	;word
 TempXYManhattanDistance	= $158F	;word
-			= $1591	;word
-			= $1593	;word
-			= $1595	;word
-			= $1597	;byte
-			= $1598	;word
-			= $159E	;word
-			= $15A0	;byte
-			= $15A1	;byte
-			= $15A2	;word
-			= $15A4	;byte
-			= $15A5	;byte
+Unknown_1591		= $1591	;word
+Unknown_1593		= $1593	;word
+Unknown_1595		= $1595	;word
+Unknown_1597		= $1597	;byte
+Unknown_1598		= $1598	;word
+Unknown_159E		= $159E	;word
+Unknown_15A0		= $15A0	;byte
+Unknown_15A1		= $15A1	;byte
+Unknown_15A2		= $15A2	;word
+Unknown_15A4		= $15A4	;byte
+Unknown_15A5		= $15A5	;byte
 TempRotX		= $15A6	;byte
 TempRotY		= $15A7	;byte
-			= $15A8	;byte
-			= $15AB	;byte
-			= $15AC	;byte
+Unknown_15A8		= $15A8	;byte
+Unknown_15AB		= $15AB	;byte
+Unknown_15AC		= $15AC	;byte
 NovaBombs		= $15AD	;word
 OAMBufferPtr		= $15AF	;word
-			= $15B1	;word
-			= $15B3	;word
-			= $15B5	;word
-			= $15B8	;byte
+Unknown_15B1		= $15B1	;word
+Unknown_15B3		= $15B3	;word
+Unknown_15B5		= $15B5	;byte
+Unknown_15B6		= $15B6	;byte
+Unknown_15B8		= $15B8	;byte
 StageNumTextTimer	= $15B9	;byte
 Unknown_15BB		= $15BB	;word
 Unknown_15BF		= $15BF	;byte
@@ -393,7 +395,7 @@ TempVecZL		= $15C2	;word
 TempSinP2C16		= $15C6	;byte
 TempCosP2C16		= $15C7	;byte
 Unknown_15CA		= $15CA	;word
-struct UnkMatrix_15D7		= $15D7	;Matrix
+struct UnkMatrix_15D7 $15D7	;Matrix
 	.XX: skip 2
 	.YX: skip 2
 	.ZX: skip 2
@@ -408,7 +410,7 @@ TempSinP2C8		= $15F3	;byte
 TempCosP2C8		= $15F4	;byte
 
 ;Page $16
-struct TempIdentityMatrix	= $1609	;Matrix
+struct TempIdentityMatrix $1609	;Matrix
 	.XX: skip 2
 	.YX: skip 2
 	.ZX: skip 2
@@ -419,7 +421,7 @@ struct TempIdentityMatrix	= $1609	;Matrix
 	.YZ: skip 2
 	.ZZ: skip 2
 endstruct
-struct UnkMatrix_161B		= $161B	;Matrix
+struct UnkMatrix_161B $161B	;Matrix
 	.XX: skip 2
 	.YX: skip 2
 	.ZX: skip 2
@@ -436,7 +438,7 @@ Unk2DMtx_1631		= $1631	;word
 Unk2DMtx_1633		= $1633	;word
 Unk2DMtx_1635		= $1635	;word
 Unk2DMtx_1637		= $1637	;word
-struct UnkMatrix_1639		= $1639	;Matrix
+struct UnkMatrix_1639 $1639	;Matrix
 	.XX: skip 2
 	.YX: skip 2
 	.ZX: skip 2
@@ -481,11 +483,11 @@ UnkWipe_16C3		= $16C3	;byte
 Unknown_16C5		= $16C5	;word
 Unknown_16C7		= $16C7	;word
 EngineSoundFlag		= $16C9	;byte
-			= $16CD	;byte
-			= $16DE	;word
-			= $16D0	;word
-			= $16D2	;word
-			= $16D4	;word
+Unknown_16CD		= $16CD	;byte
+Unknown_16CE		= $16DE	;word
+Unknown_16D0		= $16D0	;word
+Unknown_16D2		= $16D2	;word
+Unknown_16D4		= $16D4	;word
 StageID			= $16D6	;word
 TempLevelID		= $16D8	;word
 ScanlineToWaitFor	= $16DB	;word
@@ -529,16 +531,16 @@ UnkBCMDTemp_175B	= $175B	;word
 UnkBCMDTemp_175D	= $175D	;word
 UnkBCMDTemp_175F	= $175F	;word
 UnkBCMDTemp_1761	= $1761	;word
-			= $1769	;word
-			= $176B	;byte
-			= $176D	;byte
-			= $176E	;byte
-			= $176F	;byte
-			= $1770	;byte
+UnkBCMDTemp_1769	= $1769	;word
+Unknown_176B		= $176B	;byte
+Unknown_176D		= $176D	;byte
+Unknown_176E		= $176E	;byte
+Unknown_176F		= $176F	;byte
+JumpTableTempRegY	= $1770	;word
 CheckpointPreset	= $1772	;word
-			= $1774	;word
-			= $1777	;word
-			= $177A	;byte
+Unknown_1774		= $1774	;word
+Unused_1777		= $1777	;word
+Unused_177A		= $177A	;byte
 Unused_177E		= $177E	;word
 Unused_1780		= $1780	;word
 Unknown_1782		= $1782	;byte
@@ -547,41 +549,44 @@ TempPlayerBehPtr	= $1786	;long
 PaletteBuffer		= $1789	;byte array of size $100
 
 ;Page $18
-			= $188A	;word
-			= $188C	;word
-			= $188E	;word
-			= $1890	;word
-			= $1892	;long
-			= $1895	;word
+Unknown_188A		= $188A	;word
+Unknown_188C		= $188C	;word
+Unknown_188E		= $188E	;word
+Unknown_1890		= $1890	;word
+Unknown_1892		= $1892	;long
+Unknown_1895		= $1895	;word
 SuperFXPalette		= $1897	;byte
 Continues		= $1898	;byte
-			= $189A	;byte
-			= $189B	;word
-			= $189D	;byte
-			= $189E	;byte
-			= $189F	;byte
-			= $18A0	;byte
-			= $18A1	;byte
-			= $18A2	;byte
-			= $18A3	;byte
-			= $18A4	;byte
-			= $18A5	;word
-			= $18A7	;word
-			= $18A9	;byte
-			= $18AC	;byte
-			= $18AD	;byte
+Unknown_189A		= $189A	;byte
+Unknown_189B		= $189B	;word
+Unknown_189D		= $189D	;byte
+Unknown_189E		= $189E	;byte
+Unknown_189F		= $189F	;byte
+Unknown_18A0		= $18A0	;byte
+Unknown_18A1		= $18A1	;byte
+Unknown_18A2		= $18A2	;byte
+Unused_18A3		= $18A3	;byte
+Unused_18A4		= $18A4	;byte
+Unknown_18A5		= $18A5	;word
+Unknown_18A7		= $18A7	;word
+Unknown_18A9		= $18A9	;byte
+Unknown_18AC		= $18AC	;byte
+Unknown_18AD		= $18AD	;byte
 FadeMode		= $18B2	;byte
 FadeTimer		= $18B3	;byte
-			= $18B4	;word
-			= $18B6	;word
-			= $18B8	;byte
+Unknown_18B4		= $18B4	;word
+Unknown_18B6		= $18B6	;word
+Unknown_18B8		= $18B8	;byte
 BG3HOFSMirror		= $18B9	;word
-			= $18BB	;byte
-			= $18C2	;byte
-			= $18C5	;word
-			= $18C7	;word
-			= $18C9	;word
-			= $18CB	;word
+Unknown_18BB		= $18BB	;byte
+Unknown_18C2		= $18C2	;byte
+Unknown_18C5		= $18C5	;byte
+Unknown_18C6		= $18C6	;byte
+Unknown_18C7		= $18C7	;byte
+Unknown_18C8		= $18C8	;byte
+Unknown_18C9		= $18C9	;byte
+Unknown_18CA		= $18CA	;byte
+Unknown_18CB		= $18CB	;word
 TiltScrollBuffer	= $18CD	;byte array of size $40
 
 ;Page $19
@@ -614,47 +619,40 @@ Unknown_1EFD		= $1EFD	;word
 Unknown_1EFF		= $1EFF	;word
 
 ;Page $1F
-			= $1F03	;word
+Unknown_1F03		= $1F03	;word
 Unknown_1F05		= $1F05	;byte
-			= $1F07	;byte
-			= $1F08	;byte
-			= $1F09	;word
-			= $1F0B	;byte
-			= $1F0C	;byte
-			= $1F0D	;byte
-			= $1F0E	;byte
-			= $1F0F	;byte
-			= $1F10	;byte
-			= $1F11	;word
-CurLoaderTasks		= $1F13	;byte
-			= $1F14	;byte
-			= $1F15	;word
-			= $1F17	;word
-			= $1F19	;word
-			= $1F1B	;word
-			= $1F1D	;word
-			= $1F1F	;word
-			= $1F21	;word
-			= $1F23	;word
-			= $1F25	;byte
-			= $1F26	;byte
-			= $1F27	;byte
-			= $1F28	;byte
-			= $1F29	;byte
-			= $1F2A	;byte
-			= $1F2B	;byte
-			= $1F2C	;byte
-			= $1F2D	;byte
-			= $1F2E	;byte
-			= $1F2F	;byte
-			= $1F30	;byte
-			= $1F31	;word
-			= $1F33	;word
-			= $1F35	;word
-			= $1F37	;word
-			= $1F39	;word
-			= $1F3B	;word
-			= $1F3D	;word
+Unknown_1F07		= $1F07	;byte
+Unknown_1F08		= $1F08	;byte
+Unknown_1F09		= $1F09	;word
+Unknown_1F0B		= $1F0B	;byte
+Unknown_1F0C		= $1F0C	;byte
+Unknown_1F0D		= $1F0D	;byte
+Unknown_1F0E		= $1F0E	;byte
+ControlStyle		= $1F0F	;byte
+Unknown_1F10		= $1F10	;byte
+Unknown_1F11		= $1F11	;word
+CurLoaderTasks		= $1F13	;word
+Unknown_1F15		= $1F15	;word
+Unknown_1F17		= $1F17	;word
+Unknown_1F19		= $1F19	;word
+Unknown_1F1B		= $1F1B	;word
+Unknown_1F1D		= $1F1D	;word
+Unknown_1F1F		= $1F1F	;word
+Unknown_1F21		= $1F21	;word
+Unknown_1F23		= $1F23	;word
+Unknown_1F25		= $1F25	;word
+Unknown_1F27		= $1F27	;word
+Unknown_1F29		= $1F29	;word
+Unknown_1F2B		= $1F2B	;word
+Unknown_1F2D		= $1F2D	;word
+Unknown_1F2F		= $1F2F	;word
+Unknown_1F31		= $1F31	;word
+Unknown_1F33		= $1F33	;word
+Unknown_1F35		= $1F35	;word
+Unknown_1F37		= $1F37	;word
+Unknown_1F39		= $1F39	;word
+Unknown_1F3B		= $1F3B	;word
+Unknown_1F3D		= $1F3D	;word
 TempLdAudioBnkOffs	= $1F3F	;word
 TempLdAudioSz		= $1F41	;word
 Unknown_1F43		= $1F43	;byte
@@ -678,33 +676,33 @@ Unknown_1FC6		= $1FC6	;byte
 Unknown_1FC7		= $1FC7	;byte
 Unknown_1FC8		= $1FC8	;byte
 WipeWindowShape		= $1FC9	;word
-			= $1FCB	;word
-			= $1FCD	;byte
-			= $1FCE	;byte
-			= $1FCF	;byte
-			= $1FD0	;byte
-			= $1FD1	;byte
-			= $1FD2	;word
-			= $1FD4	;word
-			= $1FD6	;word
-			= $1FD8	;word
-			= $1FDA	;byte
-			= $1FDB	;word
-			= $1FDD	;byte
-			= $1FDE	;byte
-			= $1FDF	;byte
-			= $1FE0	;byte
-			= $1FE1	;byte
+Unknown_1FCB		= $1FCB	;word
+Unknown_1FCD		= $1FCD	;byte
+Unknown_1FCE		= $1FCE	;byte
+Unknown_1FCF		= $1FCF	;byte
+UnkWipe_1FD0		= $1FD0	;byte
+Unknown_1FD1		= $1FD1	;byte
+Unknown_1FD2		= $1FD2	;word
+Unknown_1FD4		= $1FD4	;word
+Unknown_1FD6		= $1FD6	;word
+Unknown_1FD8		= $1FD8	;word
+Unknown_1FDA		= $1FDA	;byte
+Unknown_1FDB		= $1FDB	;word
+Unknown_1FDD		= $1FDD	;byte
+Unknown_1FDE		= $1FDE	;byte
+Unknown_1FDF		= $1FDF	;byte
+Unknown_1FE0		= $1FE0	;byte
+Unknown_1FE1		= $1FE1	;byte
 ShearScrollType		= $1FE2	;word
-			= $1FE4	;byte
-			= $1FE5	;byte
-			= $1FE6	;byte
-			= $1FE8	;word
-			= $1FEA	;word
-			= $1FEC	;word
-			= $1FEE	;byte
-			= $1FEF	;word
-			= $1FF1	;byte
+Unknown_1FE4		= $1FE4	;byte
+Unknown_1FE5		= $1FE5	;byte
+Unknown_1FE6		= $1FE6	;byte
+Unknown_1FE7		= $1FE7	;byte
+Unknown_1FE8		= $1FE8	;word
+Unknown_1FEA		= $1FEA	;word
+Unknown_1FEC		= $1FEC	;word
+Unknown_1FEE		= $1FEE	;byte
+Unknown_1FEF		= $1FEF	;long
 UnusedBGColor		= $1FF2	;word
 LevelScriptBank		= $1FF4	;hi8 byte of long
 CheckpointScriptBank	= $1FF5	;hi8 byte of long
@@ -717,6 +715,13 @@ LevelID			= $1FFD	;byte
 Pad1Prev		= $1FFE	;word
 
 ;Bank $70 (first 2 pages)
+
+UnknownGSU_012		= $700012	;word
+
+UnknownGSU_016		= $700016	;word
+UnknownGSU_018		= $700018	;word
+UnknownGSU_01A		= $70001A	;word
+UnknownGSU_01C		= $70001C	;word
 CurVtxPtr		= $70001E	;word
 DesiredXRot		= $700020	;word
 DesiredYRot		= $700022	;word
@@ -726,25 +731,44 @@ OutputVecY		= $700028	;word
 OutputVecZ		= $70002A	;word
 InputVecY		= $70002C	;word
 InputVecZ		= $70002E	;word
-			
-			= $700040
-			= $700044
-			= $700046
-			
+UnknownGSU_030		= $700030	;word
+UnknownGSU_032		= $700032	;word
+UnknownGSU_034		= $700034	;word
+UnknownGSU_036		= $700036	;word
+UnknownGSU_038		= $700038	;word
+UnknownGSU_03A		= $70003A	;word
+UnknownGSU_03C		= $70003C	;word
+UnknownGSU_03E		= $70003E	;word
+UnknownGSU_040		= $700040	;word
+
+VertexAnimFrame		= $700044	;word
+UnknownGSU_046		= $700046	;word
+
+UnknownGSU_04A		= $70004A	;word
+UnknownGSU_04C		= $70004C	;word
+UnknownGSU_04E		= $70004E	;word
+UnknownGSU_050		= $700050	;word
+
+UnknownGSU_054		= $700054	;word
 BSPTreePtr		= $700056	;word
-			= $70005C
-			= $70005E
+UnknownGSU_05C		= $70005C	;word
+UnknownGSU_05E		= $70005E	;word
+			
 InputVecX		= $700062	;word
 InputPtr		= $700062	;long
-			= $70006C
-			= $700090
-			= $700098
-			= $70009A
-TextPointer		= $7000A6
-			= $7000A8
+
+UnknownGSU_06C		= $70006C	;word
+			
+UnknownGSU_090		= $700090	;word
+			
+UnknownGSU_098		= $700098	;word
+UnknownGSU_09A		= $70009A	;word
+			
+TextPointer		= $7000A6	;word
+UnknownGSU_0A8		= $7000A8	;word
 			
 			
-struct ObjectMatrix	= $7000D2	;Matrix
+struct ObjectMatrix $7000D2	;Matrix
 	.XX: skip 2
 	.YX: skip 2
 	.ZX: skip 2
@@ -755,7 +779,26 @@ struct ObjectMatrix	= $7000D2	;Matrix
 	.YZ: skip 2
 	.ZZ: skip 2
 endstruct
-struct TransformMatrix	= $700120	;Matrix
+
+UnknownGSU_0EE		= $7000EE	;word
+UnknownGSU_0F0		= $7000F0	;word
+UnknownGSU_0F2		= $7000F2	;word
+UnknownGSU_0F4		= $7000F4	;word
+UnknownGSU_0F6		= $7000F6	;word
+UnknownGSU_0F8		= $7000F8	;word
+
+UnknownGSU_106		= $700106	;word
+
+UnknownGSU_10C		= $70010C	;word
+
+UnknownGSU_112		= $700112	;word
+
+UnknownGSU_116		= $700116	;word
+UnknownGSU_118		= $700118	;word
+UnknownGSU_11A		= $70011A	;word
+UnknownGSU_11C		= $70011C	;word
+UnknownGSU_11E		= $70011E	;word
+struct TransformMatrix $700120	;Matrix
 	.XX: skip 2
 	.YX: skip 2
 	.ZX: skip 2
@@ -767,18 +810,41 @@ struct TransformMatrix	= $700120	;Matrix
 	.ZZ: skip 2
 endstruct
 TotalVtxCnt		= $700132	;word
-			= $700142
-			= $700144
-			= $700146
-			= $700148
-			= $70014A
-			= $70014C
-			= $700150
-			= $700152
+
+UnknownGSU_142		= $700142	;word
+UnknownGSU_144		= $700144	;word
+UnknownGSU_146		= $700146	;word
+UnknownGSU_148		= $700148	;word
+UnknownGSU_14A		= $70014A	;word
+UnknownGSU_14C		= $70014C	;word
+
+UnknownGSU_150		= $700150	;byte
+UnknownGSU_152		= $700152	;byte
+
 EnemyHPBarMax		= $70019A	;word
 EnemyHPBarCur		= $70019C	;word
+GSUPointEffect		= $70019E	;word
+UnknownGSU_1A0		= $7001A0	;byte
+UnknownGSU_1A2		= $7001A2	;byte
+UnknownGSU_1A4		= $7001A4	;byte
 
+UnknownGSU_1A8		= $7001A8	;byte
+UnknownGSU_1AA		= $7001AA	;byte
+UnknownGSU_1AC		= $7001AC	;byte
+
+UnknownGSU_1B0		= $7001B0	;word
 ClearFramebufferFlag	= $7001B2	;word
+
+UnknownGSU_1D6		= $7001D6	;word
+UnknownGSU_1D8		= $7001D8	;word
+UnknownGSU_1DA		= $7001DA	;word
+
+UnknownGSU_1F2		= $7001F2	;word
+
+UnknownGSU_1F8		= $7001F8	;word
+UnknownGSU_1FA		= $7001FA	;word
+
+UnknownGSU_1FE		= $7001FE	;word
 
 ;Bank $70 high
 RenderHUDFlag		= $70021C	;word
@@ -835,27 +901,50 @@ struct Object2List $7E2000
 	.Unk35: skip 1
 endstruct
 Object2ListRel		= (Object2List-($7E0000|ObjectList))
-			= $7E2EC4	;word
-			= $7E2EC6	;word
-			= $7E2EC8	;word
-			= $7E2ECA	;word
-			= $7E2ECC	;word
+struct ModelInfo $7E2EC4
+	.ObjPtr: skip 2		;00
+	.Unk02: skip 2
+	.Unk04: skip 2
+	.Unk06: skip 2
+	.Unk08: skip 2
+endstruct
+ArwingModelIDBuffer	= $7E3186	;word array of size 4
 CreditsBossPrevTextBuf	= $7E9F55	;byte array of size $100?
-			= $7EA058	;word
-			= $7EA05A	;word
-			= $7EA05C	;word
-			= $7EA05E	;word
+Unknown_7EA058		= $7EA058	;word
+Unknown_7EA05A		= $7EA05A	;word
+Unknown_7EA05C		= $7EA05C	;word
+Unknown_7EA05E		= $7EA05E	;word
 CheckpointStackPtr	= $7EA061	;long
 CheckpointCallStack	= $7EA065	;long array of size 15
 ChkptUnkLoopStackA	= $7EA092	;word array of size 4
 ChkptUnkLoopStackB	= $7EA09A	;word array of size 4
 CheckpointLoopStackPtr	= $7EA0A2	;word
-			= $7EA0A4	;word
-			= $7EA0A6	;word
-			= $7EA0A8	;word
-Unknown_7EF0C9		= $7EF0C9	;word
-
-;Bank $7F
+Unknown_7EA0A4		= $7EA0A4	;word
+Unknown_7EA0A6		= $7EA0A6	;word
+Unknown_7EA0A8		= $7EA0A8	;word
+Unknown_7EF0A4		= $7EF0A4	;word
+Unknown_7EF0A6		= $7EF0A6	;word
+Unused_7EF0A8		= $7EF0A8	;word
+Unknown_7EF0AC		= $7EF0AC	;word
+Unknown_7EF0AE		= $7EF0AE	;word
+Unknown_7EF0B0		= $7EF0B0	;word
+Unknown_7EF0B2		= $7EF0B2	;byte
+Unknown_7EF0B3		= $7EF0B3	;byte
+Unknown_7EF0C5		= $7EF0C5	;byte
+Unknown_7EF0C6		= $7EF0C6	;byte
+Unknown_7EF0C7		= $7EF0C7	;byte
+Unknown_7EF0C8		= $7EF0C8	;byte
+Unknown_7EF0C9		= $7EF0C9	;byte
+Unknown_7EF0D4		= $7EF0D4	;word
+Unknown_7EF0D6		= $7EF0D6	;word
+Unknown_7EF0D8		= $7EF0D8	;word
+Unknown_7EF0DA		= $7EF0DA	;word
+Unknown_7EF0DC		= $7EF0DC	;byte
+Unknown_7EF0DD		= $7EF0DD	;byte
+Unknown_7EF0DE		= $7EF0DE	;byte
+Unknown_7EF0DF		= $7EF0DF	;byte
+Unknown_7EF0E0		= $7EF0E0	;byte
+Unused_7EF0E7		= $7EF0E7	;word
 
 ;SPC700 address space
 UnknownSPCRB_00		= $00	;byte array of size 4

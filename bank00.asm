@@ -1,6 +1,6 @@
-	;Unknown/empty data
+UnkData_008000:
 	DB $00,$00,$00,$00,$00,$00
-	;Unused code
+;Unused code
 SetUnusedBGColorWhite:
 	rep #$30
 	lda.w #$7FFF					;\Set unused background to white
@@ -179,7 +179,7 @@ UnusedHDMADataPtrINIDISP:
 	DB $01,$0D,$01,$0C,$01,$0B,$01,$0A
 	DB $01,$09,$01,$08,$01,$07,$01,$06
 	DB $01,$05,$01,$04,$01,$03,$01,$02
-DATA_0081D5:
+UnkData_0081D5:
 	DB $00,$05,$0B,$11,$17,$1D,$23,$29,$30,$37,$3D,$44,$4B,$53,$5A,$62
 	DB $6A,$71,$7A,$82,$8A,$93,$9C,$A5,$AE,$B7,$C1,$CB,$D5,$DF,$EA,$F5
 	DB $00,$0B,$16,$22,$2E,$3A,$47,$53,$60,$6E,$7B,$89,$97,$A6,$B5,$C4
@@ -196,7 +196,7 @@ DATA_0081D5:
 	DB $82,$7D,$84,$96,$B3,$DC,$12,$54,$A2,$FD,$66,$DC,$60,$F2,$92,$41
 	DB $00,$CD,$AA,$98,$95,$A4,$C3,$F4,$37,$8D,$F5,$70,$FE,$A1,$58,$23
 	DB $04,$FB,$08,$2C,$67,$B9,$24,$A8,$44,$FB,$CC,$B9,$C0,$E4,$25,$83
-DATA_0082D5:
+UnkData_0082D5:
 	DB $01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01
 	DB $01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01
 	DB $02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02
@@ -213,7 +213,7 @@ DATA_0082D5:
 	DB $5A,$5C,$5E,$60,$62,$64,$67,$69,$6B,$6D,$70,$72,$75,$77,$7A,$7D
 	DB $80,$82,$85,$88,$8B,$8E,$91,$94,$98,$9B,$9E,$A2,$A5,$A9,$AD,$B1
 	DB $B5,$B8,$BD,$C1,$C5,$C9,$CE,$D2,$D7,$DB,$E0,$E5,$EA,$EF,$F5,$FA
-DATA_0083D5:
+UnkData_0083D5:
 	DB $00,$00,$20,$32,$40,$4A,$52,$59,$60,$65,$6A,$6E,$72,$76,$79,$7D
 	DB $80,$82,$85,$87,$8A,$8C,$8E,$90,$92,$94,$96,$98,$99,$9B,$9D,$9E
 	DB $A0,$A1,$A2,$A4,$A5,$A6,$A7,$A9,$AA,$AB,$AC,$AD,$AE,$AF,$B0,$B1
@@ -230,7 +230,7 @@ DATA_0083D5:
 	DB $F6,$F6,$F6,$F7,$F7,$F7,$F7,$F7,$F8,$F8,$F8,$F8,$F9,$F9,$F9,$F9
 	DB $F9,$FA,$FA,$FA,$FA,$FA,$FB,$FB,$FB,$FB,$FB,$FC,$FC,$FC,$FC,$FC
 	DB $FD,$FD,$FD,$FD,$FD,$FD,$FE,$FE,$FE,$FE,$FE,$FF,$FF,$FF,$FF,$FF
-DATA_0084D5:
+UnkData_0084D5:
 	DB $00,$00,$12,$1D,$24,$2A,$2F,$33,$36,$3A,$3C,$3F,$41,$43,$45,$47
 	DB $49,$4A,$4C,$4D,$4E,$50,$51,$52,$53,$54,$55,$56,$57,$58,$59,$5A
 	DB $5B,$5C,$5C,$5D,$5E,$5F,$5F,$60,$61,$61,$62,$62,$63,$64,$64,$65
@@ -247,7 +247,7 @@ DATA_0084D5:
 	DB $65,$65,$64,$64,$63,$62,$62,$61,$61,$60,$5F,$5F,$5E,$5D,$5C,$5C
 	DB $5B,$5A,$59,$58,$57,$56,$55,$54,$53,$52,$51,$50,$4E,$4D,$4C,$4A
 	DB $49,$47,$45,$43,$41,$3F,$3C,$3A,$36,$33,$2F,$2A,$24,$1D,$12,$00
-DATA_0085D5:
+UnkData_0085D5:
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
@@ -264,7 +264,7 @@ DATA_0085D5:
 	DB $15,$16,$17,$18,$19,$1A,$1B,$1C,$1D,$1E,$20,$21,$22,$24,$25,$26
 	DB $28,$29,$2B,$2D,$2F,$30,$32,$34,$36,$38,$3B,$3D,$3F,$42,$44,$47
 	DB $4A,$4D,$50,$53,$56,$5A,$5D,$61,$65,$68,$6D,$71,$75,$7A,$7F,$83
-DATA_0086D5:
+UnkData_0086D5:
 	DB $00,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02,$02
 	DB $02,$02,$02,$04,$04,$04,$04,$04,$04,$04,$04,$04,$04,$06,$06,$06
 	DB $06,$06,$06,$06,$06,$08,$08,$08,$08,$08,$08,$0A,$0A,$0A,$0A,$0C
@@ -281,7 +281,7 @@ DATA_0086D5:
 	DB $F0,$CA,$AC,$98,$8E,$8C,$94,$A8,$C4,$EE,$22,$62,$AE,$08,$6E,$E4
 	DB $68,$FA,$9C,$4E,$12,$E6,$CE,$C8,$D6,$F8,$30,$7C,$E2,$5E,$F2,$A2
 	DB $6C,$50,$54,$74,$B2,$12,$94,$38,$00,$EE,$04,$42,$AA,$3E,$00,$F2
-DATA_0087D5:
+UnkData_0087D5:
 	DB $00,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
 	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
 	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
@@ -298,7 +298,7 @@ DATA_0087D5:
 	DB $EA,$E9,$E8,$E7,$E6,$E5,$E4,$E3,$E2,$E1,$DF,$DE,$DD,$DB,$DA,$D9
 	DB $D7,$D6,$D4,$D2,$D0,$CF,$CD,$CB,$C9,$C7,$C4,$C2,$C0,$BD,$BB,$B8
 	DB $B5,$B2,$AF,$AC,$A9,$A5,$A2,$9E,$9B,$97,$92,$8E,$8A,$85,$81,$7C
-DATA_0088D5:
+UnkData_0088D5:
 	DB $00,$FE,$FE,$FE,$FE,$FE,$FE,$FE,$FE,$FE,$FE,$FE,$FE,$FE,$FE,$FE
 	DB $FE,$FE,$FE,$FC,$FC,$FC,$FC,$FC,$FC,$FC,$FC,$FC,$FC,$FA,$FA,$FA
 	DB $FA,$FA,$FA,$FA,$FA,$F8,$F8,$F8,$F8,$F8,$F8,$F6,$F6,$F6,$F6,$F4
@@ -315,7 +315,7 @@ DATA_0088D5:
 	DB $10,$36,$54,$68,$72,$74,$6C,$58,$3C,$12,$DE,$9E,$52,$F8,$92,$1C
 	DB $98,$06,$64,$B2,$EE,$1A,$32,$38,$2A,$08,$D0,$84,$1E,$A2,$0E,$5E
 	DB $94,$B0,$AC,$8C,$4E,$EE,$6C,$C8,$00,$12,$FC,$BE,$56,$C2,$00,$0E
-DATA_0089D5:
+UnkData_0089D5:
 	DB $00,$F0,$F8,$A5,$FC,$96,$52,$22,$FE,$E1,$CB,$B8,$A9,$9C,$91,$87
 	DB $7F,$77,$70,$6A,$65,$60,$5C,$58,$54,$51,$4E,$4B,$48,$46,$43,$41
 	DB $3F,$3D,$3B,$3A,$38,$36,$35,$34,$32,$31,$30,$2F,$2E,$2D,$2C,$2B
@@ -394,10 +394,10 @@ TiltScrollTable_05_Max:
 	DW $4018,$4017,$4016,$4015,$4014,$4013,$4012,$4011
 	DW $4010,$400F,$400E,$400D,$400C,$400B,$400A,$4009
 	DW $4008,$4007,$4006,$4005,$4004,$4003,$4002,$4001
-DATA_008DA9:
+UnkData_008DA9:
 	DB $FF,$FF,$7F,$7F,$3F,$3F,$1F,$1F,$0F,$0F,$07,$07,$03,$03,$01,$01
 	DB $80,$80,$C0,$C0,$E0,$E0,$F0,$F0,$F8,$F8,$FC,$FC,$FE,$FE,$FF,$FF
-DATA_008DC9:
+UnkData_008DC9:
 	DB $00,$FF,$00,$FF,$00,$FF,$00,$FF,$00,$FF,$00,$FF,$00,$FF,$00,$FF
 	DB $00,$00,$FF,$FF,$00,$00,$FF,$FF,$00,$00,$FF,$FF,$00,$00,$FF,$FF
 	DB $00,$00,$00,$00,$FF,$FF,$FF,$FF,$00,$00,$00,$00,$FF,$FF,$FF,$FF
@@ -406,7 +406,7 @@ DATA_008DC9:
 	DB $00,$00,$FF,$00,$00,$FF,$FF,$FF,$00,$00,$FF,$00,$00,$FF,$FF,$FF
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$FF,$00,$FF,$00,$FF,$00,$FF,$00
 	DB $00,$FF,$00,$FF,$00,$FF,$00,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-DATA_008E49:
+UnkData_008E49:
 	DB $DA,$55,$0E,$D1,$22,$ED,$16,$A9,$EA,$05,$9E,$01,$32,$9D,$A6,$D9
 	DB $FA,$B5,$2E,$31,$42,$4D,$36,$09,$0A,$65,$BE,$61,$52,$FD,$C6,$39
 	DB $1A,$15,$4E,$91,$62,$AD,$56,$69,$2A,$C5,$DE,$C1,$72,$5D,$E6,$99
@@ -423,10 +423,10 @@ DATA_008E49:
 	DB $7A,$35,$AE,$B1,$C2,$CD,$B6,$89,$8A,$E5,$3E,$E1,$D2,$7D,$46,$B9
 	DB $9A,$95,$CE,$11,$E2,$2D,$D6,$E9,$AA,$45,$5E,$41,$F2,$DD,$66,$19
 	DB $BA,$F5,$EE,$71,$02,$8D,$F6,$49,$CA,$A5,$7E,$A1,$12,$3D,$86,$79
-DATA_008F49:
+UnkData_008F49:
 	DB $00,$00,$DE,$7B,$5A,$73,$18,$6B,$B5,$66,$52,$5E,$10,$5A,$CE,$51
 	DB $8C,$4D,$4A,$45,$08,$3D,$C6,$38,$A5,$30,$84,$2C,$63,$24,$42,$20
-DATA_008F69:
+UnkData_008F69:
 	DB $1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00
 	DB $1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00
 	DB $1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00
@@ -441,19 +441,19 @@ DATA_008F69:
 	DB $1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00
 	DB $1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00
 	DB $1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00,$1B,$00
-DATA_009049:
+UnkData_009049:
 	DB $00,$00,$20,$00,$00,$00,$A0,$00,$42,$00,$20,$01,$84,$00,$A0,$01
 	DB $C6,$00,$20,$02,$08,$01,$A0,$02,$4A,$01,$20,$03,$8C,$01,$E0,$03
 	DB $00,$00,$00,$04,$00,$00,$00,$14,$00,$08,$00,$24,$00,$10,$00,$34
 	DB $00,$18,$00,$44,$00,$20,$00,$54,$00,$28,$00,$64,$00,$30,$00,$7C
-DATA_009089:
+UnkData_009089:
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 ;An unused font, possibly for a removed debug menu
 DebugFont:
 	INCBIN "graphics/debugfont.2bpp.chr"
-DATA_009339:
+UnkData_009339:
 	DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$FE,$FE
-DATA_009349:
+UnkData_009349:
 	DB $00,$FF,$80,$55,$40,$33,$2A,$24,$20,$1C,$19,$17,$15,$13,$12,$11
 	DB $10,$0F,$0E,$0D,$0C,$0C,$0B,$0B,$0A,$0A,$09,$09,$09,$08,$08,$08
 	DB $08,$07,$07,$07,$07,$06,$06,$06,$06,$06,$06,$05,$05,$05,$05,$05
@@ -539,7 +539,7 @@ ReciprocalTable:
         DW $008C,$008C,$008B,$008A,$008A,$0089,$0089,$0088
         DW $0087,$0087,$0086,$0086,$0085,$0085,$0084,$0084
         DW $0083,$0083,$0082,$0082,$0081,$0081,$0080
-DATA_009847:
+UnkData_009847:
 	DB $0C,$62
 ;Some unused strings
 UnusedStringHover1:
@@ -562,7 +562,7 @@ UnusedStringRelAxis3:
 	DB "REL AXIS 3",$00
 UnusedStringTable0:
 	DW UnusedStringHover1,UnusedStringTank,UnusedStringWalker1,UnusedStringRelAxis1,UnusedStringRelAxis2
-DATA_00989D:
+UnkData_00989D:
 	DW $8B8A,$8C0A,$8C8A,$8D0A
 ;8-bit sine table for 8-bit angles
 SineTable8:
@@ -687,7 +687,7 @@ SineTable16:
         DW $7FA7,$7FAE,$7FB5,$7FBC,$7FC2,$7FC8,$7FCE,$7FD3
         DW $7FD8,$7FDD,$7FE1,$7FE5,$7FE9,$7FED,$7FF0,$7FF3
         DW $7FF6,$7FF8,$7FFA,$7FFC,$7FFD,$7FFE,$7FFF,$7FFF
-DATA_009FE7:
+;Unknown data
 	DB $48,$50,$20,$20,$20,$5D,$00,$41,$5C,$00
 ;More unused strings
 UnusedStringLoading:
@@ -718,7 +718,7 @@ UnusedStringTriLaser:
 	DB "TRILASER",$00,$00
 UnusedStringShotGun:
 	DB "SHOT GUN",$00,$00
-DATA_00A07B:
+UnkData_00A07B:
 	DB $00,$00,$00,$00,$00,$00,$00,$00
 	DB $70,$70,$70,$70,$70,$70,$00,$00
 ;Ship and guideline sprites for the map screen
@@ -1617,42 +1617,43 @@ UnusedBank00SetBRegWRAM:
 	lda.b #$7E					;\Set data bank to $7E
 	pha						;|(not called, probably was for Nintendo's assembler)
 	plb						;/
-CODE_00E8B0:
+UnkFunc_00E8B0:
 	sta.b $02
-	ldy.w $1238
+	ldy.w PlayerObject
 	rep #$20
 	lda.w $0010,y
 	sec
 	sbc.b $10,x
-	bpl CODE_00E8C3
+	bpl UnkFunc_00E8B0_L1
 	eor.w #$FFFF
 	inc a
-CODE_00E8C3:
+UnkFunc_00E8B0_L1:
 	cmp.b $02
 	sep #$20
-	bpl CODE_00E8CD
-	jml CODE_00E8D1
+	bpl UnkFunc_00E8B0_L2
+	jml UnkFunc_00E8B0_L3
+UnkFunc_00E8B0_L2:
 	sep #$20
 	clc
 	rts
-CODE_00E8D1:
+UnkFunc_00E8B0_L3:
 	sep #$21
 	rts
-CODE_00E8D4:
+UnkBehFunc_00E8D4:
 	rep #$20
-	lda.w #CODE_00E943
+	lda.w #UnkBehFunc_00E8D4_Loop
 	sta.b $16,x
 	sep #$20
-	lda.b #BANKOF(CODE_00E943)
+	lda.b #BANKOF(UnkBehFunc_00E8D4_Loop)
 	sta.b $18,x
-	lda.b #$06
+	lda.b #BANKOF(ColiCommonEnemy)
 	sta.w Object2ListRel+$0B,x
-	lda.b #$00
+	lda.b #BANKOF(UnkBehDestroyFunc_00EE08)
 	sta.w Object2ListRel+$08,x
 	rep #$20
-	lda.w #$89A3
+	lda.w #ColiCommonEnemy
 	sta.w Object2ListRel+$09,x
-	lda.w #$EE08
+	lda.w #UnkBehDestroyFunc_00EE08
 	sta.w Object2ListRel+$06,x
 	sep #$20
 	lda.b #$40
@@ -1675,142 +1676,143 @@ CODE_00E8D4:
 	lda.b #$23
 	sta.w Unknown_7EF0C9
 	lda.w Unknown_7EF0C9
-	sta.l $70019A
+	sta.l EnemyHPBarMax
 	lda.b #$00
-	sta.l $70019C
-	lda.l $70019A
+	sta.l EnemyHPBarCur
+	lda.l EnemyHPBarMax
 	clc
 	adc.b #$40
-	sta.l $70019A
-	jsr CODE_00EEB5
+	sta.l EnemyHPBarMax
+	jsr UnkFunc_00EEB5
 	lda.b #$00
 	sta.w Object2ListRel+$12,x
-CODE_00E943:
+UnkBehFunc_00E8D4_Loop:
 	rep #$20
-	lda.w #$E954
-	sta.b $53
+	lda.w #UnkBehFunc_00E8D4_JumpTable
+	sta.b TempJptPtr
 	sep #$20
-	lda.b #$00
-	sta.b $55
-	jml CODE_09BADE
-DATA_00E954:
-	JUMPTABLE(CODE_00E9B9)
-	JUMPTABLE(CODE_00ED67)
-	JUMPTABLE(CODE_00ECB8)
-	JUMPTABLE(CODE_00EC7D)
-	JUMPTABLE(CODE_00EB99)
-	JUMPTABLE(CODE_00EB8F)
-	JUMPTABLE(CODE_00EB78)
-	JUMPTABLE(CODE_00EB38)
-	JUMPTABLE(CODE_00EB1B)
-	JUMPTABLE(CODE_00F065)
-	JUMPTABLE(CODE_00ECB8)
-	JUMPTABLE(CODE_00EABE)
-	JUMPTABLE(CODE_00EC7D)
-	JUMPTABLE(CODE_00EB99)
-	JUMPTABLE(CODE_00EAA1)
-	JUMPTABLE(CODE_00EA19)
-	JUMPTABLE(CODE_00EA4E)
-	JUMPTABLE(CODE_00EA97)
-	JUMPTABLE(CODE_00EA33)
-	JUMPTABLE(CODE_00E9FF)
-	JUMPTABLE(CODE_00ED51)
-	JUMPTABLE(CODE_00ED47)
-CODE_00E9AC:
+	lda.b #BANKOF(UnkBehFunc_00E8D4_JumpTable)
+	sta.b TempJptPtr+2
+	jml DoJumpTable
+UnkBehFunc_00E8D4_JumpTable:
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub00)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub01)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub02_0A)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub03_0B)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub04_0D)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub05)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub06)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub07)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub08)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub09)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub02_0A)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub03_0B)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub0C)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub04_0D)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub0E)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub0F)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub10)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub11)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub12)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub13)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub14)
+	JUMPTABLE(UnkBehFunc_00E8D4_Sub15)
+UnkFunc_00E9AC:
 	lda.b #$00
 	sta.b $23,x
-CODE_00E9B0:
+UnkFunc_00E9AC_L1:
 	lda.b #$01
-	jsl CODE_09BACE
-	jmp CODE_00E943
-CODE_00E9B9:
-	stz.w $1757
+	jsl BehSubAdd
+	jmp UnkBehFunc_00E8D4_Loop
+UnkBehFunc_00E8D4_Sub00:
+	stz.w UnkBCMDTemp_1757
 	rep #$20
 	lda.w #$09C4
-	jsr CODE_00E8B0
-	bcc CODE_00E9D5
+	jsr UnkFunc_00E8B0
+	bcc UnkBehFunc_00E8D4_Sub00_L1
 	rep #$20
 	lda.b $10,x
 	clc
 	adc.w #$0014
 	sta.b $10,x
 	sep #$10
-	inc.w $1757
-CODE_00E9D5:
+	inc.w UnkBCMDTemp_1757
+UnkBehFunc_00E8D4_Sub00_L1:
 	rep #$20
 	lda.b $0C,x
 	cmp.w #$0000
 	sep #$20
-	bpl CODE_00E9E4
-	jml CODE_00E9F3
-CODE_00E9E4:
+	bpl UnkBehFunc_00E8D4_Sub00_L2
+	jml UnkBehFunc_00E8D4_Sub00_L3
+UnkBehFunc_00E8D4_Sub00_L2:
 	rep #$20
 	lda.b $0C,x
 	clc
 	adc.w #$FFE7
 	sta.b $0C,x
 	sep #$20
-	inc.w $1757
-CODE_00E9F3:
-	lda.w $1757
-	bne CODE_00E9FC
-	jml CODE_00E9B0
-CODE_00E9FC:
-	jmp CODE_00F0CB
-CODE_00E9FF:
+	inc.w UnkBCMDTemp_1757
+UnkBehFunc_00E8D4_Sub00_L3:
+	lda.w UnkBCMDTemp_1757
+	bne UnkBehFunc_00E8D4_Sub00_L4
+	jml UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub00_L4:
+	jmp UnkBehFunc_00E8D4_Common_L3
+UnkBehFunc_00E8D4_Sub13:
 	lda.w Object2ListRel+$32,x
 	cmp.b #$1E
-	bne CODE_00EA13
+	bne UnkBehFunc_00E8D4_Sub13_L1
 	lda.b #$00
 	sta.w Object2ListRel+$32,x
 	lda.b #$0D
 	sta.w Object2ListRel+$12,x
-	jmp CODE_00E943
-CODE_00EA13:
+	jmp UnkBehFunc_00E8D4_Loop
+UnkBehFunc_00E8D4_Sub13_L1:
 	inc.w Object2ListRel+$32,x
-	jmp CODE_00F0A3
-CODE_00EA19:
+	jmp UnkBehFunc_00E8D4_Common
+UnkBehFunc_00E8D4_Sub0F:
 	rep #$20
 	lda.b $0E,x
-	sta.b $3A
+	sta.b TempMiscX
 	lda.w #$FE70
-	jsl CODE_1FD6F0
+	jsl Clamp16Shift16
 	sta.b $0E,x
 	sep #$20
-	bcc CODE_00EA30
-	jml CODE_00E9B0
-	jmp CODE_00F0CB
-CODE_00EA33:
-	jsr CODE_00EE33
+	bcc UnkBehFunc_00E8D4_Sub0F_L1
+	jml UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub0F_L1:
+	jmp UnkBehFunc_00E8D4_Common_L3
+UnkBehFunc_00E8D4_Sub12:
+	jsr UnkFunc_00EE33
 	lda.b #$07
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	cpy.w #$0000
-	beq CODE_00EA45
-	jml CODE_00F0CB
-CODE_00EA45:
+	beq UnkBehFunc_00E8D4_Sub12_L1
+	jml UnkBehFunc_00E8D4_Common_L3
+UnkBehFunc_00E8D4_Sub12_L1:
 	lda.b $1E,x
 	and.b #$7F
 	sta.b $1E,x
-	jmp CODE_00E9B0
-CODE_00EA4E:
+	jmp UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub10:
 	rep #$20
 	lda.w #$BCEC
-	sta.w $14C5
+	sta.w TempMiscW
 	sep #$20
-	jsl CODE_1FD54B
-	bcs CODE_00EA62
-	jml CODE_00EA81
-CODE_00EA62:
+	jsl CreateChildObject
+	bcs UnkBehFunc_00E8D4_Sub10_L1
+	jml UnkBehFunc_00E8D4_Sub10_L2
+UnkBehFunc_00E8D4_Sub10_L1:
 	lda.b #$07
-	jsl CODE_1FD56F
+	jsl LinkChildObject
 	phx
 	tyx
 	ply
 	rep #$20
-	lda.w #$F69E
+	lda.w #UnkFunc_00F69E
 	sta.b $16,x
 	sep #$20
-	lda.b #$00
+	lda.b #BANKOF(UnkFunc_00F69E)
 	sta.b $18,x
 	lda.b $2E,x
 	ora.b #$10
@@ -1818,98 +1820,98 @@ CODE_00EA62:
 	phx
 	tyx
 	ply
-CODE_00EA81:
+UnkBehFunc_00E8D4_Sub10_L2:
 	lda.b #$98
-	jsl CODE_03B7F9
+	jsl PushSoundEffectToQueue
 	lda.b #$07
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	phx
 	tyx
-	jsl CODE_09BBAE
+	jsl UnkFunc_09BBAE
 	plx
-	jmp CODE_00E9B0
-CODE_00EA97:
-	jsr CODE_00EE33
+	jmp UnkBehFunc_00E8D4_Common
+UnkBehFunc_00E8D4_Sub11:
+	jsr UnkFunc_00EE33
 	rep #$20
 	lda.w #$05DC
-	bra CODE_00EAA6
-CODE_00EAA1:
+	bra UnkBehFunc_00E8D4_Sub0E_11
+UnkBehFunc_00E8D4_Sub0E:
 	rep #$20
 	lda.w #$09C4
-CODE_00EAA6:
-	jsr CODE_00E8B0
-	bcc CODE_00EAAF
-	jml CODE_00E9B0
-CODE_00EAAF:
+UnkBehFunc_00E8D4_Sub0E_11:
+	jsr UnkFunc_00E8B0
+	bcc UnkBehFunc_00E8D4_Sub0E_11_L1
+	jml UnkBehFunc_00E8D4_Common
+UnkBehFunc_00E8D4_Sub0E_11_L1:
 	rep #$20
 	lda.b $10,x
 	clc
 	adc.w #$FFCE
 	sta.b $10,x
 	sep #$20
-	jmp CODE_00F0A3
-CODE_00EABE:
+	jmp UnkBehFunc_00E8D4_Common
+UnkBehFunc_00E8D4_Sub03_0B:
 	lda.b #$01
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	rep #$20
 	lda.w #$82ED
-	sta.w $1CEA,y
-CODE_00EACC:
+	sta.w Object2ListRel+$20,y
 	sep #$20
 	lda.b #$03
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	rep #$20
 	lda.w #$82ED
-	sta.w $1CEA,y
+	sta.w Object2ListRel+$20,y
 	sep #$20
 	lda.b #$05
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	rep #$20
 	lda.w #$82ED
-	sta.w $1CEA,y
+	sta.w Object2ListRel+$20,y
 	sep #$20
 	lda.b #$02
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	rep #$20
 	lda.w #$82ED
-	sta.w $1CEA,y
+	sta.w Object2ListRel+$20,y
 	sep #$20
 	lda.b #$04
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	rep #$20
 	lda.w #$82ED
-	sta.w $1CEA,y
+	sta.w Object2ListRel+$20,y
 	sep #$20
-	jmp CODE_00E9B0
+	jmp UnkFunc_00E9AC_L1
+UnkFunc_00EB11:
 	lda.b #$09
-	sta.b $02
-	jsr CODE_00EE57
-	jmp CODE_00E9B0
-CODE_00EB1B:
+	sta.b TempVecXG
+	jsr UnkFunc_00EE57
+	jmp UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub08:
 	rep #$20
 	lda.w #$07D0
-	jsr CODE_00E8B0
-	bcs CODE_00EB29
-	jml CODE_00E8B0
-CODE_00EB29:
+	jsr UnkFunc_00E8B0
+	bcs UnkBehFunc_00E8D4_Sub08_L1
+	jml UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub08_L1:
 	rep #$20
 	lda.b $10,x
 	clc
 	adc.b #$50
 	sta.b $10,x
 	sep #$20
-	jmp CODE_00F065
-CODE_00EB38:
+	jmp UnkBehFunc_00E8D4_Sub09
+UnkBehFunc_00E8D4_Sub07:
 	rep #$20
 	lda.w #$05DC
-	jsr CODE_00E8B0
-	bcc CODE_00EB46
-	jml CODE_00E9B0
-CODE_00EB46:
+	jsr UnkFunc_00E8B0
+	bcc UnkBehFunc_00E8D4_Sub07_L1
+	jml UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub07_L1:
 	lda.b $24,x
-	sta.b $3A
+	sta.b TempMiscX
 	lda.b #$02
-	jsl CODE_1FD8BD
+	jsl Clamp8Shift8
 	sta.b $24,x
 	rep #$20
 	lda.b $10,x
@@ -1917,39 +1919,40 @@ CODE_00EB46:
 	sbc.b #$32
 	sta.b $10,x
 	sep #$20
-	jmp CODE_00F065
+	jmp UnkBehFunc_00E8D4_Sub09
+UnkFunc_00EB61:
 	lda.b #$0A
-	jsr CODE_00EE34
+	jsr UnkFunc_00EE34
 	cmp.b #$05
-	beq CODE_00EB6E
-	jml CODE_00F065
-CODE_00EB6E:
+	beq UnkFunc_00EB61_L1
+	jml UnkBehFunc_00E8D4_Sub09
+UnkFunc_00EB61_L1:
 	lda.b #$0B
 	sta.b $02
-	jsr CODE_00EE57
-	jmp CODE_00E9B0
-CODE_00EB78:
+	jsr UnkFunc_00EE57
+	jmp UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub06:
 	lda.b #$0D
-	jsr CODE_00EE34
+	jsr UnkFunc_00EE34
 	cmp.b #$05
-	beq CODE_00EB85
-	jml CODE_00F065
-CODE_00EB85:
+	beq UnkBehFunc_00E8D4_Sub06_L1
+	jml UnkBehFunc_00E8D4_Sub09
+UnkBehFunc_00E8D4_Sub06_L1:
 	lda.b #$0E
-	sta.b $02
-	jsr CODE_00EE57
-	jmp CODE_00E9B0
-CODE_00EB8F:
+	sta.b TempVecXG
+	jsr UnkFunc_00EE57
+	jmp UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub05:
 	lda.b #$0C
 	sta.b $02
-	jsr CODE_00EE57
-	jmp CODE_00E9B0
-CODE_00EB99:
+	jsr UnkFunc_00EE57
+	jmp UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub04_0D:
 	lda.b $1E,x
 	and.b #$20
-	beq CODE_00EBA3
-	jml CODE_00EC23
-CODE_00EBA3:
+	beq UnkBehFunc_00E8D4_Sub04_0D_L1
+	jml UnkBehFunc_00E8D4_Sub04_0D_L9
+UnkBehFunc_00E8D4_Sub04_0D_L1:
 	rep #$20
 	lda.b $10,x
 	clc
@@ -1958,54 +1961,53 @@ CODE_00EBA3:
 	sep #$20
 	lda.b $1E,x
 	and.b #$40
-CODE_00EBB3:
-	beq CODE_00EBB9
-	jml CODE_00EBE9
-CODE_00EBB9:
+	beq UnkBehFunc_00E8D4_Sub04_0D_L2
+	jml UnkBehFunc_00E8D4_Sub04_0D_L5
+UnkBehFunc_00E8D4_Sub04_0D_L2:
 	rep #$20
 	lda.w #$07D0
-	jsr CODE_00E8B0
-	bcc CODE_00EBF9
+	jsr UnkFunc_00E8B0
+	bcc UnkBehFunc_00E8D4_Sub04_0D_L6
 	lda.b $1E,x
 	ora.b #$40
 	sta.b $1E,x
-	jsl CODE_02FC58
+	jsl UpdatePRNG
 	cmp.b #$7F
-	bcs CODE_00EBD5
-	jml CODE_00EBE0
-CODE_00EBD5:
+	bcs UnkBehFunc_00E8D4_Sub04_0D_L3
+	jml UnkBehFunc_00E8D4_Sub04_0D_L4
+UnkBehFunc_00E8D4_Sub04_0D_L3:
 	rep #$20
 	lda.w #$FED4
 	sta.b $28,x
 	sep #$20
-	bra CODE_00EBE9
-CODE_00EBE0:
+	bra UnkBehFunc_00E8D4_Sub04_0D_L5
+UnkBehFunc_00E8D4_Sub04_0D_L4:
 	rep #$20
 	lda.w #$FFBA
 	sta.b $28,x
 	sep #$20
-CODE_00EBE9:
+UnkBehFunc_00E8D4_Sub04_0D_L5:
 	rep #$20
 	lda.b $0E,x
-	sta.b $3A
+	sta.b TempMiscX
 	lda.b $28,x
-	jsl CODE_1FD6AB
+	jsl Clamp8Shift16
 	sta.b $0E,x
 	sep #$20
-CODE_00EBF9:
+UnkBehFunc_00E8D4_Sub04_0D_L6:
 	rep #$20
 	lda.w #$01F4
-	jsr CODE_00E8B0
-	bcc CODE_00EC52
-CODE_00EC03:
+	jsr UnkFunc_00E8B0
+	bcc UnkBehFunc_00E8D4_Sub04_0D_L12
+UnkBehFunc_00E8D4_Sub04_0D_L7:
 	lda.b $23,x
 	cmp.b #$01
-	bne CODE_00EC13
+	bne UnkBehFunc_00E8D4_Sub04_0D_L8
 	lda.b $1E,x
 	and.b #$DF
 	sta.b $1E,x
-	jml CODE_00E9AC
-CODE_00EC13:
+	jml UnkFunc_00E9AC
+UnkBehFunc_00E8D4_Sub04_0D_L8:
 	inc.b $23,x
 	lda.b $1E,x
 	eor.b #$20
@@ -2013,20 +2015,20 @@ CODE_00EC13:
 	lda.b $1E,x
 	and.b #$BF
 	sta.b $1E,x
-	bra CODE_00EC52
-CODE_00EC23:
+	bra UnkBehFunc_00E8D4_Sub04_0D_L12
+UnkBehFunc_00E8D4_Sub04_0D_L9:
 	rep #$20
 	lda.b $0E,x
 	cmp.w #$FE70
-	beq CODE_00EC38
-	bmi CODE_00EC34
+	beq UnkBehFunc_00E8D4_Sub04_0D_L11
+	bmi UnkBehFunc_00E8D4_Sub04_0D_L10
 	sec
 	sbc.w #$0005
-	bra CODE_00EC38
-CODE_00EC34:
+	bra UnkBehFunc_00E8D4_Sub04_0D_L11
+UnkBehFunc_00E8D4_Sub04_0D_L10:
 	clc
 	adc.w #$0005
-CODE_00EC38:
+UnkBehFunc_00E8D4_Sub04_0D_L11:
 	sta.b $0E,x
 	sep #$20
 	rep #$20
@@ -2037,9 +2039,9 @@ CODE_00EC38:
 	sep #$20
 	rep #$20
 	lda.w #$09C4
-	jsr CODE_00E8B0
-	bcc CODE_00EC03
-CODE_00EC52:
+	jsr UnkFunc_00E8B0
+	bcc UnkBehFunc_00E8D4_Sub04_0D_L7
+UnkBehFunc_00E8D4_Sub04_0D_L12:
 	phx
 	rep #$20
 	lda.b $25,x
@@ -2047,12 +2049,12 @@ CODE_00EC52:
 	tax
 	lda.w SineTable8,x
 	bit.w #$0080
-	beq CODE_00EC69
+	beq UnkBehFunc_00E8D4_Sub04_0D_L13
 	ora.w #$FF00
-	bra CODE_00EC6C
-CODE_00EC69:
+	bra UnkBehFunc_00E8D4_Sub04_0D_L14
+UnkBehFunc_00E8D4_Sub04_0D_L13:
 	and.w #$00FF
-CODE_00EC6C:
+UnkBehFunc_00E8D4_Sub04_0D_L14:
 	plx
 	asl
 	asl
@@ -2062,26 +2064,26 @@ CODE_00EC6C:
 	clc
 	adc.b #$04
 	sta.b $25,x
-	jmp CODE_00F0CB
-CODE_00EC7D:
-	lda.w $15BB
+	jmp UnkBehFunc_00E8D4_Common_L3
+UnkBehFunc_00E8D4_Sub0C:
+	lda.w Unknown_15BB
 	and.b #$03
-	beq CODE_00EC88
-	jml CODE_00EC9A
-CODE_00EC88:
+	beq UnkBehFunc_00E8D4_Sub0C_L1
+	jml UnkBehFunc_00E8D4_Sub0C_L4
+UnkBehFunc_00E8D4_Sub0C_L1:
 	lda.b $24,x
 	cmp.b #$14
-	beq CODE_00EC98
-	bmi CODE_00EC95
+	beq UnkBehFunc_00E8D4_Sub0C_L3
+	bmi UnkBehFunc_00E8D4_Sub0C_L2
 	sec
 	sbc.b #$01
-	bra CODE_00EC98
-CODE_00EC95:
+	bra UnkBehFunc_00E8D4_Sub0C_L3
+UnkBehFunc_00E8D4_Sub0C_L2:
 	clc
 	adc.b #$01
-CODE_00EC98:
+UnkBehFunc_00E8D4_Sub0C_L3:
 	sta.b $24,x
-CODE_00EC9A:
+UnkBehFunc_00E8D4_Sub0C_L4:
 	rep #$20
 	lda.b $0E,x
 	clc
@@ -2092,14 +2094,14 @@ CODE_00EC9A:
 	lda.b $0E,x
 	cmp.w #$FE70
 	sep #$20
-	bpl CODE_00ECB5
-	jml CODE_00E9B0
-CODE_00ECB5:
-	jmp CODE_00F0CB
-CODE_00ECB8:
+	bpl UnkBehFunc_00E8D4_Sub0C_L5
+	jml UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub0C_L5:
+	jmp UnkBehFunc_00E8D4_Common_L3
+UnkBehFunc_00E8D4_Sub02_0A:
 	lda.b #$07
 	sta.b $02
-	jsr CODE_00EE57
+	jsr UnkFunc_00EE57
 	jsl ApplyObjectVelocity
 	rep #$20
 	lda.b $31,x
@@ -2111,9 +2113,9 @@ CODE_00ECB8:
 	lda.b $0E,x
 	cmp.w #$FFB0
 	sep #$20
-	bpl CODE_00ECDE
-	jml CODE_00ED29
-CODE_00ECDE:
+	bpl UnkBehFunc_00E8D4_Sub02_0A_L1
+	jml UnkBehFunc_00E8D4_Sub02_0A_L7
+UnkBehFunc_00E8D4_Sub02_0A_L1:
 	rep #$20
 	lda.w #$FFB0
 	sta.b $0E,x
@@ -2124,233 +2126,236 @@ CODE_00ECDE:
 	inc
 	cmp.w #$8000
 	ror
-	bpl CODE_00ECF8
+	bpl UnkBehFunc_00E8D4_Sub02_0A_L2
 	adc.w #$0000
-CODE_00ECF8:
+UnkBehFunc_00E8D4_Sub02_0A_L2:
 	cmp.w #$8000
 	ror
-	bpl CODE_00ED01
+	bpl UnkBehFunc_00E8D4_Sub02_0A_L3
 	adc.w #$0000
-CODE_00ED01:
+UnkBehFunc_00E8D4_Sub02_0A_L3:
 	cmp.w #$8000
 	ror
-	bpl CODE_00ED0A
+	bpl UnkBehFunc_00E8D4_Sub02_0A_L4
 	adc.w #$0000
-CODE_00ED0A:
+UnkBehFunc_00E8D4_Sub02_0A_L4:
 	cmp.w #$8000
 	ror
-	bpl CODE_00ED13
+	bpl UnkBehFunc_00E8D4_Sub02_0A_L5
 	adc.w #$0000
-CODE_00ED13:
+UnkBehFunc_00E8D4_Sub02_0A_L5:
 	cmp.w #$FFFB
-	bcc CODE_00ED1B
+	bcc UnkBehFunc_00E8D4_Sub02_0A_L6
 	lda.w #$000
-CODE_00ED1B:
+UnkBehFunc_00E8D4_Sub02_0A_L6:
 	sta.b $31,x
 	sep #$20
 	cmp.b #$00
 	sep #$20
-	bne CODE_00ED29
-	jmp CODE_00ED2C
-CODE_00ED29:
-	jmp CODE_00F0CB
-CODE_00ED2C:
+	bne UnkBehFunc_00E8D4_Sub02_0A_L7
+	jmp UnkBehFunc_00E8D4_Sub02_0A_L8
+UnkBehFunc_00E8D4_Sub02_0A_L7:
+	jmp UnkBehFunc_00E8D4_Common_L3
+UnkBehFunc_00E8D4_Sub02_0A_L8:
 	lda.b #$8E
-	jsl CODE_03B7F9
-	lda.w $F0C9
+	jsl PushSoundEffectToQueue
+	lda.w Unknown_7EF0C9
 	sec
 	sbc.b #$05
-	sta.w $F0C9
-	jsr CODE_00ED6A
-	jsr CODE_00ED6A
-	jsr CODE_00ED6A
-	jmp CODE_00E9B0
-CODE_00ED47:
+	sta.w Unknown_7EF0C9
+	jsr UnkFunc_00ED6A
+	jsr UnkFunc_00ED6A
+	jsr UnkFunc_00ED6A
+	jmp UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub15:
 	lda.b #$04
-	sta.b $02
-	jsr CODE_00EE57
-	jmp CODE_00F0CB
-CODE_00ED51:
+	sta.b TempVecXG
+	jsr UnkFunc_00EE57
+	jmp UnkBehFunc_00E8D4_Common_L3
+UnkBehFunc_00E8D4_Sub14:
 	inc.b $23,x
 	lda.b $23,x
 	cmp.b #$0F
-	bne CODE_00ED5D
-	jml CODE_00E9B0
-CODE_00ED5D:
+	bne UnkBehFunc_00E8D4_Sub14_L1
+	jml UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub14_L1:
 	lda.b #$03
-	sta.b $02
-	jsr CODE_00EE57
-	jmp CODE_00F0CB
-CODE_00ED67:
-	jmp CODE_00F065
-CODE_00ED6A:
+	sta.b TempVecXG
+	jsr UnkFunc_00EE57
+	jmp UnkBehFunc_00E8D4_Common_L3
+UnkBehFunc_00E8D4_Sub01:
+	jmp UnkBehFunc_00E8D4_Sub09
+UnkFunc_00ED6A:
 	rep #$20
 	lda.w #$ADF1
-	sta.w $14C5
+	sta.w TempMiscW
 	sep #$20
-	jsl CODE_1FD54B
-	bcs CODE_00ED7E
-	jml CODE_00EDDD
-CODE_00ED7E:
+	jsl CreateChildObject
+	bcs UnkFunc_00ED6A_L1
+	jml UnkFunc_00ED6A_L4
+UnkFunc_00ED6A_L1:
 	rep #$20
-	lda.w #CODE_00EDE0
+	lda.w #UnkFunc_00EDE0
 	sta.w $0016,y
 	sep #$20
-	lda.b #BANKOF(CODE_00EDE0)
+	lda.b #BANKOF(UnkFunc_00EDE0)
 	sta.w $0018,y
 	lda.b #$00
 	ora.b #$80
-	sta.w $1CE6,y
+	sta.w Object2ListRel+$1C,y
 	lda.w $001E,y
 	ora.b #$01
 	sta.w $001E,y
-	jsl CopyPositionIndXToIndY
+	jsl CopyPositionTo
 	lda.w $001D,y
 	ora.b #$20
 	sta.w $001D,y
 	lda.b #$00
-	sta.w $1CF4,y
-	jsl CODE_02FC58
+	sta.w Object2ListRel+$15,y
+	lda.b #$00
+	sta.w Object2ListRel+$2A,y
+	jsl UpdatePRNG
 	and.b #$1F
 	sec
 	sbc.b #$0F
 	clc
-	adc.w $1CF4,y
-	sta.w $1CF4,y
-	jsl CODE_02FC58
+	adc.w Object2ListRel+$2A,y
+	sta.w Object2ListRel+$2A,y
+	jsl UpdatePRNG
 	rep #$20
 	bit.w #$0080
-	beq CODE_00EDD2
+	beq UnkFunc_00ED6A_L2
 	ora.w #$FF00
-	bra CODE_00EDD5
-CODE_00EDD2:
+	bra UnkFunc_00ED6A_L3
+UnkFunc_00ED6A_L2:
 	and.w #$00FF
-CODE_00EDD5:
+UnkFunc_00ED6A_L3:
 	asl
 	clc
 	adc.w $000C,y
 	sta.w $000C,y
+UnkFunc_00ED6A_L4:
 	sep #$20
 	rts
-CODE_00EDE0:
-	lda.w $1CE6,x
+UnkFunc_00EDE0:
+	lda.w Object2ListRel+$1C,x
 	and.b #$7F
 	cmp.b #$07
-	beq CODE_00EE03
-	lda.w $1CE6,x
+	beq UnkFunc_00EDE0_L3
+	lda.w Object2ListRel+$1C,x
 	clc
 	adc.b #$01
-	bmi CODE_00EDF4
+	bmi UnkFunc_00EDE0_L1
 	clc
 	adc.b #$08
-CODE_00EDF4:
+UnkFunc_00EDE0_L1:
 	and.b #$7F
 	cmp.b #$08
-	bcc CODE_00EDFD
+	bcc UnkFunc_00EDE0_L2
 	sec
 	sbc.b #$08
-CODE_00EDFD:
+UnkFunc_00EDE0_L2:
 	ora.b #$80
-	sta.w $1CE6,x
+	sta.w Object2ListRel+$1C,x
 	rtl
-CODE_00EE03:
-	jsl CODE_1FD501
+UnkFunc_00EDE0_L3:
+	jsl UnkFunc_1FD501
 	rtl
-CODE_00EE08:
+UnkBehDestroyFunc_00EE08:
 	lda.b #$06
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	cpy.w #$0000
-	beq CODE_00EE20
+	beq UnkBehDestroyFunc_00EE08_L1
 	lda.w $001E,y
 	ora.b #$01
 	sta.w $001E,y
 	lda.b #$00
 	sta.w $002A,y
-CODE_00EE20:
+UnkBehDestroyFunc_00EE08_L1:
 	lda.b #$07
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	cpy.w #$0000
-	beq CODE_00EE2F
-	jslCODE_1FD540
-CODE_00EE2F:
+	beq UnkBehDestroyFunc_00EE08_L2
+	jsl Calls_UnkFunc_1FD501
+UnkBehDestroyFunc_00EE08_L2:
 	jml CODE_06EAAE
-CODE_00EE33:
+UnkFunc_00EE33:
 	rts
-CODE_00EE34:
-	sta.b $02
-	stz.b $08
+UnkFunc_00EE34:
+	sta.b TempVecXG
+	stz.b TempVecYG
 	lda.b #$01
-	sta.b $90
-CODE_00EE3C:
-	lda.b $90
-	jsl CODE_1FDC40
-	lda.w $1CDC,y
-	cmp.b $02
-	bne CODE_00EE4B
-	inc.b $08
-CODE_00EE4B:
-	lda.b $90
+	sta.b TempVecZG
+UnkFunc_00EE34_L1:
+	lda.b TempVecZG
+	jsl UnkFunc_1FDC40
+	lda.w Object2ListRel+$12,y
+	cmp.b TempVecXG
+	bne UnkFunc_00EE34_L2
+	inc.b TempVecYG
+UnkFunc_00EE34_L2:
+	lda.b TempVecZG
 	inc
-	sta.b $90
+	sta.b TempVecZG
 	cmp #$06
-	bne CODE_00EE3C
-	lda.b $08
+	bne UnkFunc_00EE34_L1
+	lda.b TempVecYG
 	rts
-CODE_00EE57:
+UnkFunc_00EE57:
 	lda.b #$01
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	phx
 	tyx
 	ply
-	lda.b $02
-	sta.w $1CDC,x
+	lda.b TempVecXG
+	sta.w Object2ListRel+$12,x
 	phx
 	tyx
 	ply
 	lda.b #$03
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	phx
 	tyx
 	ply
-	lda.b $02
-	sta.w $1CDC,x
+	lda.b TempVecXG
+	sta.w Object2ListRel+$12,x
 	phx
 	tyx
 	ply
 	lda.b #$05
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	phx
 	tyx
 	ply
-	lda.b $02
-	sta.w $1CDC,x
+	lda.b TempVecXG
+	sta.w Object2ListRel+$12,x
 	phx
 	tyx
 	ply
 	lda.b #$02
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	phx
 	tyx
 	ply
-	lda.b $02
-	sta.w $1CDC,x
+	lda.b TempVecXG
+	sta.w Object2ListRel+$12,x
 	phx
 	tyx
 	ply
 	lda.b #$04
-	jsl CODE_1FDC40
+	jsl UnkFunc_1FDC40
 	phx
 	tyx
 	ply
-	lda.b $02
-	sta.w $1CDC,x
+	lda.b TempVecXG
+	sta.w Object2ListRel+$12,x
 	phx
 	tyx
 	ply
 	rts
-DATA_00EEAD:
+UnkData_00EEAD:
 	DW $FFF1,$FFFB,$0005,$000F
-CODE_00EEB5:
+UnkFunc_00EEB5:
 	lda.b #$00
 	sta.b $22,x
 	rep #$20
@@ -2363,14 +2368,14 @@ CODE_00EEB5:
 	sep #$20
 	rep #$20
 	lda.w #$BC0C
-	sta.w $14C5
+	sta.w TempMiscW
 	sep #$20
-	jsl CODE_1FD54B
-	bcs CODE_00EEDF
-	jml CODE_00EF0D
-CODE_00EEDF:
+	jsl CreateChildObject
+	bcs UnkFunc_00EEB5_L1
+	jml UnkFunc_00EEB5_L2
+UnkFunc_00EEB5_L1:
 	lda.b #$01
-	jsl CODE_1FD56F
+	jsl LinkChildObject
 	phx
 	tyx
 	ply
@@ -2384,25 +2389,25 @@ CODE_00EEDF:
 	ora.b #$10
 	sta.b $2E,x
 	lda.b #$05
-	sta.w $1CED,x
+	sta.w Object2ListRel+$23,x
 	lda.b #$0F
-	sta.w $1CEE,x
+	sta.w Object2ListRel+$24,x
 	lda.b #$80
-	sta.w $1CF0,x
+	sta.w Object2ListRel+$26,x
 	phx
 	tyx
 	ply
-CODE_00EF0D:
+UnkFunc_00EEB5_L2:
 	rep #$20
 	lda.w #$BC0C
-	sta.w $14C5
+	sta.w TempMiscW
 	sep #$20
-	jsl CODE_1FD54B
-	bcs CODE_00EF21
-	jml CODE_00EF54
-CODE_00EF21:
+	jsl CreateChildObject
+	bcs UnkFunc_00EEB5_L3
+	jml UnkFunc_00EEB5_L4
+UnkFunc_00EEB5_L3:
 	lda.b #$03
-	jsl CODE_1FD56F
+	jsl LinkChildObject
 	phx
 	tyx
 	ply
@@ -2416,27 +2421,27 @@ CODE_00EF21:
 	ora.b #$10
 	sta.b $2E,x
 	lda.b #$0E
-	sta.w $1CEC,x
+	sta.w Object2ListRel+$22,x
 	lda.b #$05
-	sta.w $1CED,x
+	sta.w Object2ListRel+$23,x
 	lda.b #$04
-	sta.w $1CEE,x
+	sta.w Object2ListRel+$24,x
 	lda.b #$4D
-	sta.w $1CF0,x
+	sta.w Object2ListRel+$26,x
 	phx
 	tyx
 	ply
-CODE_00EF54:
+UnkFunc_00EEB5_L4:
 	rep #$20
 	lda.w #$BC0C
-	sta.w $14C5
+	sta.w TempMiscW
 	sep #$20
-	jsl CODE_1FD54B
-	bcs CODE_00EF68
-	jml CODE_00EF9B
-CODE_00EF68:
+	jsl CreateChildObject
+	bcs UnkFunc_00EEB5_L5
+	jml UnkFunc_00EEB5_L6
+UnkFunc_00EEB5_L5:
 	lda.b #$05
-	jsl CODE_1FD56F
+	jsl LinkChildObject
 	phx
 	tyx
 	ply
@@ -2450,27 +2455,27 @@ CODE_00EF68:
 	ora.b #$10
 	sta.b $2E,x
 	lda.b #$09
-	sta.w $1CEC,x
+	sta.w Object2ListRel+$22,x
 	lda.b #$05
-	sta.w $1CED,x
+	sta.w Object2ListRel+$23,x
 	lda.b #$F4
-	sta.w $1CEE,x
+	sta.w Object2ListRel+$24,x
 	lda.b #$1A
-	sta.w $1CF0,x
+	sta.w Object2ListRel+$26,x
 	phx
 	tyx
 	ply
-CODE_00EF9B:
+UnkFunc_00EEB5_L6:
 	rep #$20
 	lda.w #$BC0C
-	sta.w $14C5
+	sta.w TempMiscW
 	sep #$20
-	jsl CODE_1FD54B
-	bcs CODE_00EFAF
-	jml CODE_00EFE2
-CODE_00EFAF:
+	jsl CreateChildObject
+	bcs UnkFunc_00EEB5_L7
+	jml UnkFunc_00EEB5_L8
+UnkFunc_00EEB5_L7:
 	lda.b #$02
-	jsl CODE_1FD56F
+	jsl LinkChildObject
 	phx
 	tyx
 	ply
@@ -2484,27 +2489,27 @@ CODE_00EFAF:
 	ora.b #$10
 	sta.b $2E,x
 	lda.b #$F7
-	sta.w $1CEC,x
+	sta.w Object2ListRel+$22,x
 	lda.b #$05
-	sta.w $1CED,x
+	sta.w Object2ListRel+$23,x
 	lda.b #$F4
-	sta.w $1CEE,x
+	sta.w Object2ListRel+$24,x
 	lda.b #$E7
-	sta.w $1CF0,x
+	sta.w Object2ListRel+$26,x
 	phx
 	tyx
 	ply
-CODE_00EFE2:
+UnkFunc_00EEB5_L8:
 	rep #$20
 	lda.w #$BC0C
-	sta.w $14C5
+	sta.w TempMiscW
 	sep #$20
-	jsl CODE_1FD54B
-	bcs CODE_00EFF6
-	jml CODE_00F029
-CODE_00EFF6
+	jsl CreateChildObject
+	bcs UnkFunc_00EEB5_L9
+	jml UnkFunc_00EEB5_L10
+UnkFunc_00EEB5_L9
 	lda.b #$04
-	jsl CODE_1FD56F
+	jsl LinkChildObject
 	phx
 	tyx
 	ply
@@ -2518,35 +2523,35 @@ CODE_00EFF6
 	ora.b #$10
 	sta.b $2E,x
 	lda.b #$F2
-	sta.w $1CEC,x
+	sta.w Object2ListRel+$22,x
 	lda.b #$05
-	sta.w $1CED,x
+	sta.w Object2ListRel+$23,x
 	lda.b #$04
-	sta.w $1CEE,x
+	sta.w Object2ListRel+$24,x
 	lda.b #$B4
-	sta.w $1CF0,x
+	sta.w Object2ListRel+$26,x
 	phx
 	tyx
 	ply
-CODE_00F029:
+UnkFunc_00EEB5_L10:
 	rep #$20
 	lda.w #$BC0C
-	sta.w $14C5
+	sta.w TempMiscW
 	sep #$20
-	jsl CODE_1FD54B
-	bcs CODE_00F03D
-	jml CODE_00F05C
-CODE_00F03D:
+	jsl CreateChildObject
+	bcs UnkFunc_00EEB5_L11
+	jml UnkFunc_00EEB5_L12
+UnkFunc_00EEB5_L11:
 	lda.b #$06
-	jsl CODE_1FD56F
+	jsl LinkChildObject
 	phx
 	tyx
 	ply
 	rep #$20
-	lda.w #$F614
+	lda.w #UnkFunc_00F614
 	sta.b $16,x
 	sep #$20
-	lda.b #$00
+	lda.b #BANKOF(UnkFunc_00F614)
 	sta.b $18,x
 	lda.b $2E,x
 	ora.b #$10
@@ -2554,47 +2559,47 @@ CODE_00F03D:
 	phx
 	tyx
 	ply
-CODE_00F05C:
-	jsr CODE_00F060
+UnkFunc_00EEB5_L12:
+	jsr UnkFunc_00F060
 	rts
-CODE_00F060:
+UnkFunc_00F060:
 	jsl CODE_09DBCF
 	rts
-CODE_00F065:
+UnkBehFunc_00E8D4_Sub09:
 	lda.b #$06
-	jsr CODE_00EE34
+	jsr UnkFunc_00EE34
 	cmp.b #$03
-	bmi CODE_00F072
-	jml CODE_00E9B0
-CODE_00F072:
+	bmi UnkBehFunc_00E8D4_Sub09_L1
+	jml UnkFunc_00E9AC_L1
+UnkBehFunc_00E8D4_Sub09_L1:
 	cmp.b #$02
-	beq CODE_00F07A
-	jml CODE_00F080
-CODE_00F07A:
+	beq UnkBehFunc_00E8D4_Sub09_L2
+	jml UnkBehFunc_00E8D4_Sub09_L3
+UnkBehFunc_00E8D4_Sub09_L2:
 	lda.b #$06
 	sta.b $24,x
-	bra CODE_00F08C
-CODE_00F080:
+	bra UnkBehFunc_00E8D4_Sub09_L5
+UnkBehFunc_00E8D4_Sub09_L3:
 	cmp.b #$01
-	beq CODE_00F088
-	jml CODE_00F08C
-CODE_00F088:
+	beq UnkBehFunc_00E8D4_Sub09_L4
+	jml UnkBehFunc_00E8D4_Sub09_L5
+UnkBehFunc_00E8D4_Sub09_L4:
 	lda.b #$04
 	sta.b $24,x
-CODE_00F08C:
+UnkBehFunc_00E8D4_Sub09_L5:
 	txy
 	rep #$20
-	lda.w $15BB
+	lda.w Unknown_15BB
 	and.w #$0003
 	asl
 	tax
-	lda DATA_00EEAD,x
+	lda UnkData_00EEAD,x
 	tyx
 	clc
 	adc.b $0E,x
 	sta.b $0E,x
 	sep #$20
-CODE_00F0A3:
+UnkBehFunc_00E8D4_Common:
 	phx
 	rep #$20
 	lda.b $25,x
@@ -2602,12 +2607,12 @@ CODE_00F0A3:
 	tax
 	lda.w SineTable8,x
 	bit.w #$0080
-	beq CODE_00F0BA
+	beq UnkBehFunc_00E8D4_Common_L1
 	ora.w #$FF00
-	bra CODE_00F0BD
-CODE_00F0BA:
+	bra UnkBehFunc_00E8D4_Common_L2
+UnkBehFunc_00E8D4_Common_L1:
 	and.w #$00FF
-CODE_00F0BD:
+UnkBehFunc_00E8D4_Common_L2:
 	plx
 	asl
 	asl
@@ -2617,7 +2622,7 @@ CODE_00F0BD:
 	clc
 	adc.b #$02
 	sta.b $25,x
-CODE_00F0CB:
+UnkBehFunc_00E8D4_Common_L3:
 	lda.b $13,x
 	and.b #$80
 	pha
@@ -2627,186 +2632,186 @@ CODE_00F0CB:
 	sta.b $13,x
 	lda.b $13,x
 	and.b #$80
-	sta.b $02
+	sta.b TempVecXG
 	pla
-	eor.b $02
-	beq CODE_00F0F3
+	eor.b TempVecXG
+	beq UnkBehFunc_00E8D4_Common_L5
 	lda.b $24,x
 	cmp.b #$08
-	bpl CODE_00F0ED
-	jml CODE_00F0F3
-CODE_00F0ED:
+	bpl UnkBehFunc_00E8D4_Common_L4
+	jml UnkBehFunc_00E8D4_Common_L5
+UnkBehFunc_00E8D4_Common_L4:
 	lda.b #$4F
-	jsl CODE_03B7F9
-CODE_00F0F3:
-	jsl CODE_1FDC69
+	jsl PushSoundEffectToQueue
+UnkBehFunc_00E8D4_Common_L5:
+	jsl OffsetObjectZPosition
 	phy
 	lda.b #$01
 	dec
-CODE_00F0FB:
+UnkBehFunc_00E8D4_Common_L6:
 	inc
-	sta.w $14C5
+	sta.w TempMiscW
 	pha
-	lda.w $14C5
-	jsl CODE_1FDC40
+	lda.w TempMiscW
+	jsl UnkFunc_1FDC40
 	pla
 	cpy.w #$0000
-	bne CODE_00F116
+	bne UnkBehFunc_00E8D4_Common_L7
 	cmp.b #$05
-	bne CODE_00F0FB
+	bne UnkBehFunc_00E8D4_Common_L6
 	ply
-	jml CODE_00F11D
-CODE_00F116:
+	jml UnkBehFunc_00E8D4_Common_L8
+UnkBehFunc_00E8D4_Common_L7:
 	ply
 	lda.b #$40
 	sta.b $2A,x
-	bra CODE_00F136
-CODE_00F11D:
+	bra UnkBehFunc_00E8D4_Common_L9
+UnkBehFunc_00E8D4_Common_L8:
 	rep #$20
 	lda.w #$82ED
-	sta.w $1CEA,x
+	sta.w Object2ListRel+$20,x
 	sep #$20
 	lda.b $1F,x
 	and.b #$DF
 	sta.b $1F,x
-	lda.w $1CF4,x
+	lda.w Object2ListRel+$2A,x
 	clc
 	adc.b #$0A
-	sta.w $1CF4,x
-CODE_00F136:
-	lda.w $1CF4,x
+	sta.w Object2ListRel+$2A,x
+UnkBehFunc_00E8D4_Common_L9:
+	lda.w Object2ListRel+$2A,x
 	clc
 	adc.b #$05
-	sta.w $1CF4,x
-	jsr CODE_00F060
-	lda.l $70019C
+	sta.w Object2ListRel+$2A,x
+	jsr UnkFunc_00F060
+	lda.l EnemyHPBarCur
 	clc
 	adc.b $2A,x
-	sta.l $70019C
-	lda.l $70019C
+	sta.l EnemyHPBarCur
+	lda.l EnemyHPBarCur
 	clc
-	adc.w $F0C9
-	sta.l $70019C
+	adc.w Unknown_7EF0C9
+	sta.l EnemyHPBarCur
 	rtl
-CODE_00F15A:
+UnkBehFunc_00F15A:
 	rep #$20
-	lda.l #$F1A1
+	lda.w #UnkBehFunc_00F15A_Loop
 	sta.b $16,x
 	sep #$20
-	lda.b #$00
+	lda.b #BANKOF(UnkBehFunc_00F15A_Loop)
 	sta.b $18,x
 	lda.b #$00
-	sta.w $1CD5,x
+	sta.w Object2ListRel+$0B,x
 	lda.b #$00
-	sta.w $1CD2,x
+	sta.w Object2ListRel+$08,x
 	rep #$20
 	lda.w #$F53D
-	sta.w $1CD3,x
+	sta.w Object2ListRel+$09,x
 	lda.w #$F547
-	sta.w $1CD0,x
+	sta.w Object2ListRel+$06,x
 	sep #$20
 	lda.b #$4A
 	sta.b $2A,x
 	lda.b #$04
 	sta.b $2B,x
 	lda.b #$01
-	sta.w $1CDF,x
+	sta.w Object2ListRel+$15,x
 	lda.b $22,x
 	clc
 	adc.b #$FE
-	sta.b $02
-	lda.b $02
+	sta.b TempVecXG
+	lda.b TempVecXG
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
 	lda.b #$00
-	sta.w $1CDC,x
-CODE_00F1A1:
+	sta.w Object2ListRel+$12,x
+UnkBehFunc_00F15A_Loop:
 	rep #$20
-	lda.w #$F1B2
-	sta.b $53
+	lda.w #UnkBehFunc_00F15A_JumpTable
+	sta.b TempJptPtr
 	sep #$20
-	lda.b #$00
-	sta.b $55
+	lda.b #BANKOF(UnkBehFunc_00F15A_JumpTable)
+	sta.b TempJptPtr+2
 	jml DoJumpTable
-DATA_00F1B2:
-	JUMPTABLE(CODE_00F4DD)
-	JUMPTABLE(CODE_00F407)
-	JUMPTABLE(CODE_00F410)
-	JUMPTABLE(CODE_00F37B)
-	JUMPTABLE(CODE_00F357)
-	JUMPTABLE(CODE_00F471)
-	JUMPTABLE(CODE_00F499)
-	JUMPTABLE(CODE_00F2FB)
-	JUMPTABLE(CODE_00F3C2)
-	JUMPTABLE(CODE_00F25E)
-	JUMPTABLE(CODE_00F2F8)
-	JUMPTABLE(CODE_00F226)
-	JUMPTABLE(CODE_00F2AB)
-	JUMPTABLE(CODE_00F2F8)
-	JUMPTABLE(CODE_00F1EE)
-CODE_00F1EE:
+UnkBehFunc_00F15A_JumpTable:
+	JUMPTABLE(UnkBehFunc_00F15A_Sub00)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub01)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub02)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub03)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub04)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub05)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub06)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub07)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub08)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub09)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub0A_0D)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub0B)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub0C)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub0A_0D)
+	JUMPTABLE(UnkBehFunc_00F15A_Sub0D)
+UnkBehFunc_00F15A_Sub0D:
 	lda.b $1E,x
 	and.b #$10
-	beq CODE_00F1F8
-	jml CODE_00F209
-CODE_00F1F8:
+	beq UnkBehFunc_00F15A_Sub0D_L1
+	jml UnkBehFunc_00F15A_Sub0D_L2
+UnkBehFunc_00F15A_Sub0D_L1:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$06
-	beq CODE_00F21D
+	beq UnkBehFunc_00F15A_Sub0D_L4
 	lda.b #$01
-	jsr CODE_00F4BA
-	jmp CODE_00F510
-CODE_00F209:
+	jsr UnkFunc_00F4BA
+	jmp UnkBehFunc_00F15A_Common
+UnkBehFunc_00F15A_Sub0D_L2:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$04
-	beq CODE_00F21A
+	beq UnkBehFunc_00F15A_Sub0D_L3
 	lda.b #$FF
-	jsr CODE_00F4BA
-	jmp CODE_00F510
-CODE_00F21A:
-	jsr CODE_00F4D6
-CODE_00F21D:
+	jsr UnkFunc_00F4BA
+	jmp UnkBehFunc_00F15A_Common
+UnkBehFunc_00F15A_Sub0D_L3:
+	jsr UnkFunc_00F4D6
+UnkBehFunc_00F15A_Sub0D_L4:
 	lda.b $1E,x
 	eor.b #$10
 	sta.b $1E,x
-	jmp CODE_00F510
-CODE_00F226:
+	jmp UnkBehFunc_00F15A_Common
+UnkBehFunc_00F15A_Sub0B:
 	lda.b $1E,x
 	and.b #$10
-	beq CODE_00F230
-	jml CODE_00F241
-CODE_00F230:
+	beq UnkBehFunc_00F15A_Sub0B_L1
+	jml UnkBehFunc_00F15A_Sub0B_L2
+UnkBehFunc_00F15A_Sub0B_L1:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$0B
-	beq CODE_00F225
+	beq UnkBehFunc_00F15A_Sub0B_L4
 	lda.b #$01
-	jsr CODE_00F4BA
-	jmp CODE_00F510
-CODE_00F241:
+	jsr UnkFunc_00F4BA
+	jmp UnkBehFunc_00F15A_Common
+UnkBehFunc_00F15A_Sub0B_L2:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$09
-	beq CODE_00F252
+	beq UnkBehFunc_00F15A_Sub0B_L3
 	lda.b #$FF
-	jsr CODE_00F4BA
-	jmp CODE_00F510
-CODE_00F252:
-	jsr CODE_00F4D6
-CODE_00F255:
+	jsr UnkFunc_00F4BA
+	jmp UnkBehFunc_00F15A_Common
+UnkBehFunc_00F15A_Sub0B_L3:
+	jsr UnkFunc_00F4D6
+UnkBehFunc_00F15A_Sub0B_L4:
 	lda.b $1E,x
 	eor.b #$10
 	sta.b $1E,x
-	jmp CODE_00F510
-CODE_00F25E:
+	jmp UnkBehFunc_00F15A_Common
+UnkBehFunc_00F15A_Sub09:
 	rep #$20
-	lda.w #$F53D
-	sta.w $1CD3,x
+	lda.w #UnkBehColiFunc_00F53D
+	sta.w Object2ListRel+$09,x
 	sep #$20
-	lda.b #$00
-	sta.w $1CD5,x
+	lda.b #BANKOF(UnkBehColiFunc_00F53D)
+	sta.w Object2ListRel+$0B,x
 	lda.b #$4A
 	sta.b $2A,x
 	lda.b $1E,x
@@ -2816,35 +2821,36 @@ CODE_00F25E:
 	and.b #$03
 	clc
 	adc.b #$09
-	sta.b $02
+	sta.b TempVecXG
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
-	cmp.b $02
-	bne CODE_00F28F
-	jml CODE_00F3FE
-CODE_00F28F:
+	cmp.b TempVecXG
+	bne UnkBehFunc_00F15A_Sub09_L1
+	jml UnkFunc_00F3FE
+UnkBehFunc_00F15A_Sub09_L1:
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
-	bmi CODE_00F29A
+	bmi UnkBehFunc_00F15A_Sub09_L2
 	clc
 	adc.b #$10
-CODE_00F29A:
+UnkBehFunc_00F15A_Sub09_L2:
 	and.b #$7F
 	cmp.b #$10
-	bcc CODE_00F2A3
+	bcc UnkBehFunc_00F15A_Sub09_L3
 	sec
 	sbc.b #$10
-CODE_00F2A3:
+UnkBehFunc_00F15A_Sub09_L3:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub0C:
 	rep #$20
-	lda.w #$F53D
-	sta.w $1CD3,x
+	lda.w #UnkBehColiFunc_00F53D
+	sta.w Object2ListRel+$09,x
 	sep #$20
-	lda.b #$00
-	sta.w $1CD5,x
+	lda.b #BANKOF(UnkBehColiFunc_00F53D)
+	sta.w Object2ListRel+$0B,x
 	lda.b #$4A
 	sta.b $2A,x
 	lda.b $1E,x
@@ -2858,391 +2864,390 @@ CODE_00F2A3:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b $02
-	bne CODE_00F2DC
-	jml CODE_00F3FE
-CODE_00F2DC:
+	bne UnkBehFunc_00F15A_Sub0C_L1
+	jml UnkFunc_00F3FE
+UnkBehFunc_00F15A_Sub0C_L1:
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
-	bmi CODE_00F2E7
+	bmi UnkBehFunc_00F15A_Sub0C_L2
 	clc
 	adc.b #$10
-CODE_00F2E7:
+UnkBehFunc_00F15A_Sub0C_L2:
 	and.b #$7F
 	cmp.b #$10
-	bcc CODE_00F2F0
+	bcc UnkBehFunc_00F15A_Sub0C_L3
 	sec
 	sbc.b #$10
-CODE_00F2F0:
+UnkBehFunc_00F15A_Sub0C_L3:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
-CODE_00F2F8:
-	jmp CODE_00F51B
-CODE_00F2FB:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub0A_0D:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub07:
 	rep #$20
-	lda.w $1CEA,x
+	lda.w Object2ListRel+$20,x
 	cmp.w #$82ED
 	sep #$20
-	bne CODE_00F30B
-	jml CODE_00F322
-CODE_00F30B:
+	bne UnkBehFunc_00F15A_Sub07_L1
+	jml UnkBehFunc_00F15A_Sub07_L2
+UnkBehFunc_00F15A_Sub07_L1:
 	lda.b #$4A
 	sta.b $2A,x
 	rep #$20
-	lda.w #$889E
-	sta.w $1CD3,x
+	lda.w #CODE_06889E
+	sta.w Object2ListRel+$09,x
 	sep #$20
-	lda.b #$06
-	sta.w $1CD5,x
-	bra CODE_00F333
-CODE_00F322:
+	lda.b #BANKOF(CODE_06889E)
+	sta.w Object2ListRel+$0B,x
+	bra UnkBehFunc_00F15A_Sub07_L3
+UnkBehFunc_00F15A_Sub07_L2:
 	rep #$20
-	lda.w #$F53D
-	sta.w $1CD3,x
+	lda.w #UnkBehColiFunc_00F53D
+	sta.w Object2ListRel+$09,x
 	sep #$20
-	lda.b #$00
-	sta.w $1CD5,x
-CODE_00F333:
+	lda.b #BANKOF(UnkBehColiFunc_00F53D)
+	sta.w Object2ListRel+$0B,x
+UnkBehFunc_00F15A_Sub07_L3:
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
-	bmi CODE_00F33E
+	bmi UnkBehFunc_00F15A_Sub07_L4
 	clc
 	adc.b #$0F
-CODE_00F33E:
+UnkBehFunc_00F15A_Sub07_L4:
 	and.b #$7F
 	cmp.b #$0F
-	bcc CODE_00F34F
+	bcc UnkBehFunc_00F15A_Sub07_L5
 	lda.b #$0F
 	dec
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
-CODE_00F34F:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub07_L5:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
-CODE_00F357:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub04n:
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
-	bmi CODE_00F362
+	bmi UnkBehFunc_00F15A_Sub04_L1
 	clc
 	adc.b #$08
-CODE_00F362:
+UnkBehFunc_00F15A_Sub04_L1:
 	and.b #$7F
 	cmp.b #$0B
-	bcc CODE_00F373
+	bcc UnkBehFunc_00F15A_Sub04_L2
 	lda.b #$0B
 	dec
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
-CODE_00F373:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub04_L2:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
-CODE_00F37B:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub03:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$00
-	bne CODE_00F388
-	jml CODE_00F51B
-CODE_00F388:
-	bpl CODE_00F3A6
+	bne UnkBehFunc_00F15A_Sub03_L1
+	jml UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub03_L1:
+	bpl UnkBehFunc_00F15A_Sub03_L4
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
-	bmi CODE_00F395
+	bmi UnkBehFunc_00F15A_Sub03_L2
 	clc
 	adc.b #$10
-CODE_00F395:
+UnkBehFunc_00F15A_Sub03_L2:
 	and.b #$7F
 	cmp.b #$10
-	bcc CODE_00F39E
+	bcc UnkBehFunc_00F15A_Sub03_L3
 	sec
 	sbc.b #$10
-CODE_00F39E:
+UnkBehFunc_00F15A_Sub03_L3:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
-CODE_00F3A6:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub03_L4:
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
-	bmi CODE_00F3B1
+	bmi UnkBehFunc_00F15A_Sub03_L5
 	clc
 	adc.b #$10
-CODE_00F3B1:
+UnkBehFunc_00F15A_Sub03_L5:
 	and.b #$7F
 	cmp.b #$10
-	bcc CODE_00F3BA
+	bcc UnkBehFunc_00F15A_Sub03_L6
 	sec
 	sbc.b #$10
-CODE_00F3BA:
+UnkBehFunc_00F15A_Sub03_L6:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
-CODE_00F3C2:
-	lda.w $15BB
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub08:
+	lda.w Unknown_15BB
 	and.b #$0F
-	beq CODE_00F3CD
-	jml CODE_00F51B
-CODE_00F3CD:
+	beq UnkBehFunc_00F15A_Sub08_L1
+	jml UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub08_L1:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$0B
-	bne CODE_00F3DA
-	jml CODE_00F51B
-CODE_00F3DA:
+	bne UnkBehFunc_00F15A_Sub08_L2
+	jml UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub08_L2:
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
-	bmi CODE_00F3E5
+	bmi UnkBehFunc_00F15A_Sub08_L3
 	clc
 	adc.b #$10
-CODE_00F3E5:
+UnkBehFunc_00F15A_Sub08_L3:
 	and.b #$7F
 	cmp.b #$10
-	bcc CODE_00F3EE
+	bcc UnkBehFunc_00F15A_Sub08_L4
 	sec
 	sbc.b #$10
-CODE_00F3EE:
+UnkBehFunc_00F15A_Sub08_L4:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
-CODE_00F3F6:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkFunc_00F3F6:
 	lda.b #$00
-	sta.w $1CDC,x
-	jmp CODE_00F1A1
-CODE_00F3FE:
+	sta.w Object2ListRel+$12,x
+	jmp UnkBehFunc_00F15A_Loop
+UnkFunc_00F3FE:
 	lda.b #$01
-	jsl CODE_09BACE
-	jmp CODE_00F1A1
-CODE_00F407:
+	jsl BehSubAdd
+	jmp UnkBehFunc_00F15A_Loop
+UnkBehFunc_00F15A_Sub01:
 	lda.b $1E,x
 	and.b #$EF
 	sta.b $1E,x
-	jmp CODE_00F3FE
-CODE_00F410:
+	jmp UnkFunc_00F3FE
+UnkBehFunc_00F15A_Sub02:
 	lda.b $1E,x
 	and.b #$10
-	beq CODE_00F41A
-	jml CODE_00F43F
-CODE_00F41A:
+	beq UnkBehFunc_00F15A_Sub02_L1
+	jml UnkBehFunc_00F15A_Sub02_L4
+UnkBehFunc_00F15A_Sub02_L1:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$05
-	beq CODE_00F468
+	beq UnkBehFunc_00F15A_Sub02_L8
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
-	bmi CODE_00F42E
+	bmi UnkBehFunc_00F15A_Sub02_L2
 	clc
 	adc.b #$10
-CODE_00F42E:
+UnkBehFunc_00F15A_Sub02_L2:
 	and.b #$7F
 	cmp.b #$10
-	bcc CODE_00F437
+	bcc UnkBehFunc_00F15A_Sub02_L3
 	sec
 	sbc.b #$10
-CODE_00F437:
+UnkBehFunc_00F15A_Sub02_L3:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
-CODE_00F43F:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub02_L4:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$00
-	bne CODE_00F44C
-	jml CODE_00F3F6
-CODE_00F44C:
+	bne UnkBehFunc_00F15A_Sub02_L5
+	jml UnkFunc_00F3F6
+UnkBehFunc_00F15A_Sub02_L5:
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
-	bmi CODE_00F457
+	bmi UnkBehFunc_00F15A_Sub02_L6
 	clc
 	adc.b #$10
-CODE_00F457:
+UnkBehFunc_00F15A_Sub02_L6:
 	and.b #$7F
 	cmp.b #$10
-	bcc CODE_00F460
+	bcc UnkBehFunc_00F15A_Sub02_L7
 	sec
 	sbc.b #$10
-CODE_00F460:
+UnkBehFunc_00F15A_Sub02_L7:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
-CODE_00F468:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub02_L8:
 	lda.b $1E,x
 	eor.b #$10
 	sta.b $1E,x
-	jmp CODE_00F51B
-CODE_00F471:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub05:
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
-	bmi CODE_00F47C
+	bmi UnkBehFunc_00F15A_Sub05_L1
 	clc
 	adc.b #$0B
-CODE_00F47C:
+UnkBehFunc_00F15A_Sub05_L1:
 	and.b #$7F
 	cmp.b #$0B
-	bcc CODE_00F48D
+	bcc UnkBehFunc_00F15A_Sub05_L2
 	lda.b #$0B
 	dec
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F3FE
-CODE_00F48D:
+	jmp UnkFunc_00F3FE
+UnkBehFunc_00F15A_Sub05_L2:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
 	lda.b #$4A
 	sta.b $2A,x
-	jmp CODE_00F51B
-CODE_00F499:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub06:
 	lda.b #$4A
 	sta.b $2A,x
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$0A
-	beq CODE_00F4B0
+	beq UnkBehFunc_00F15A_Sub06_L1
 	lda.b #$0A
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
-CODE_00F4B0:
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkBehFunc_00F15A_Sub06_L1:
 	lda.b #$09
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F51B
-CODE_00F4BA:
-	sta.b $02
+	jmp UnkBehFunc_00F15A_Common_L1
+UnkFunc_00F4BA:
+	sta.b TempVecXG
 	lda.w Object2ListRel+$1D,x
 	clc
-	adc.b $02
-	bmi CODE_00F4C7
+	adc.b TempVecXG
+	bmi UnkFunc_00F4BA_L1
 	clc
 	adc.b #$10
-CODE_00F4C7:
+UnkFunc_00F4BA_L1:
 	and.b #$7F
 	cmp.b #$10
-	bcc CODE_00F4D0
+	bcc UnkFunc_00F4BA_L2
 	sec
 	sbc.b #$10
-CODE_00F4D0:
+UnkFunc_00F4BA_L2:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
 	rts
-CODE_00F4D6:
+UnkFunc_00F4D6:
 	lda.b #$97
-	jsl CODE_03B7F9
+	jsl PushSoundEffectToQueue
 	rts
-CODE_00F4DD:
+UnkBehFunc_00F15A_Sub00:
 	lda.b $1E,x
 	and.b #$10
-	beq CODE_00F4E7
-	jml CODE_00F4F7
-CODE_00F4E7:
+	beq UnkBehFunc_00F15A_Sub00_L1
+	jml UnkBehFunc_00F15A_Sub00_L2
+UnkBehFunc_00F15A_Sub00_L1:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$03
-	beq CODE_00F50A
-CODE_00F4F0:
+	beq UnkBehFunc_00F15A_Sub00_L4
 	lda.b #$01
-	jsr CODE_00F4BA
-	bra CODE_00F510
-CODE_00F4F7:
+	jsr UnkFunc_00F4BA
+	bra UnkBehFunc_00F15A_Common
+UnkBehFunc_00F15A_Sub00_L2:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$00
-	beq CODE_00F507
+	beq UnkBehFunc_00F15A_Sub00_L3
 	lda.b #$FF
-	jsr CODE_00F4BA
-	bra CODE_00F510
-CODE_00F507:
-	jsr CODE_00F4D6
-CODE_00F50A:
+	jsr UnkFunc_00F4BA
+	bra UnkBehFunc_00F15A_Common
+UnkBehFunc_00F15A_Sub00_L3:
+	jsr UnkFunc_00F4D6
+UnkBehFunc_00F15A_Sub00_L4:
 	lda.b $1E,x
 	eor.b #$10
 	sta.b $1E,x
-CODE_00F510:
+UnkBehFunc_00F15A_Common:
 	lda.b $2A,x
 	cmp.b #$40
-	bpl CODE_00F51B
+	bpl UnkBehFunc_00F15A_Common_L1
 	lda.b #$05
-	sta.w $1CDC,x
-CODE_00F51B:
+	sta.w Object2ListRel+$12,x
+UnkBehFunc_00F15A_Common_L1:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$0D
-	bcs CODE_00F528
-	jml CODE_00F533
-CODE_00F528:
+	bcs UnkBehFunc_00F15A_Common_L2
+	jml UnkBehFunc_00F15A_Common_L3
+UnkBehFunc_00F15A_Common_L2:
 	rep #$20
 	lda.w #$BC28
 	sta.b $04,x
 	sep #$20
-	bra CODE_00F53C
-CODE_00F533:
+	bra UnkBehFunc_00F15A_Common_L4
+UnkBehFunc_00F15A_Common_L3:
 	rep #$20
 	lda.w #$BC0C
 	sta.b $04,x
 	sep #$20
-CODE_00F53C:
+UnkBehFunc_00F15A_Common_L4:
 	rts
-CODE_00F53C:
+UnkBehColiFunc_00F53D:
 	lda.b #$24
-	jsl CODE_03B7F9
-	jml CODE_0689A3
-CODE_00F547:
-	lda.w $F0C9
+	jsl PushSoundEffectToQueue
+	jml ColiCommonEnemy
+UnkBehDestroyFunc_00F547:
+	lda.w Unknown_7EF0C9
 	sec
 	sbc.b #$05
-	sta.w $F0C9
+	sta.w Unknown_7EF0C9
 	rep #$20
-	lda.w #CODE_00F5A2
+	lda.w #UnkBehColiDestroyFunc_00F547_Loop
 	sta.l Object2ListRel+$06,x
 	sep #$20
-	lda.b #BANKOF(CODE_00F5A2)
+	lda.b #BANKOF(UnkBehColiDestroyFunc_00F547_Loop)
 	sta.l Object2ListRel+$08,x
 	ldy.b $06,x
 	lda.b $20,x
 	and.b #$EF
 	sta.b $20,x
 	rep #$20
-	stx.b $3C
+	stx.b TempMiscY
 	phy
-CODE_00F56E:
+UnkBehColiDestroyFunc_00F547_L1:
 	lda.w $0026,y
-	beq CODE_00F57F
-	cmp.b $3C
-	beq CODE_00F57A
+	beq UnkBehColiDestroyFunc_00F547_L3
+	cmp.b TempMiscY
+	beq UnkBehColiDestroyFunc_00F547_L2
 	tay
-	bra CODE_00F56E
-CODE_00F57A:
+	bra UnkBehColiDestroyFunc_00F547_L1
+UnkBehColiDestroyFunc_00F547_L2:
 	lda.b $26,x
 	sta.w $0026,y
-CODE_00F57F:
+UnkBehColiDestroyFunc_00F547_L3:
 	ply
 	sep #$20
 	lda.b #$78
 	sta.b $15,x
 	lda.b $15,x
-	sta.b TempRotZ
+	sta.b TempRotZG
 	lda.b $13,x
 	jsl GetLocalZX8RotateNegRotY
 	rep #$20
-	lda.b TempVecX
+	lda.b TempVecXG
 	sta.b $2F,x
-	lda.b TempVecZ
+	lda.b TempVecZG
 	sta.b $33,x
 	sep #$20
 	lda.b $1E,x
 	ora.b #$01
 	sta.b $1E,x
-CODE_00F5A2:
+UnkBehColiDestroyFunc_00F547_Loop:
 	jsl ApplyObjectVelocity
 	lda.b $13,x
 	clc
@@ -3258,9 +3263,9 @@ CODE_00F5A2:
 	lda.b $0E,x
 	cmp.w #$FFEC
 	sep #$20
-	bpl CODE_00F5C8
-	jml CODE_00F613
-CODE_00F5C8:
+	bpl UnkBehColiDestroyFunc_00F547_L5
+	jml UnkBehColiDestroyFunc_00F547_L11
+UnkBehColiDestroyFunc_00F547_L5:
 	rep #$20
 	lda.w #$FFEC
 	sta.b $0E,x
@@ -3271,45 +3276,45 @@ CODE_00F5C8:
 	inc
 	cmp.w #$8000
 	ror
-	bpl CODE_00F5E2
+	bpl UnkBehColiDestroyFunc_00F547_L6
 	adc.w #$0000
-CODE_00F5E2:
+UnkBehColiDestroyFunc_00F547_L6:
 	cmp.w #$8000
 	ror
-	bpl CODE_00F5EB
+	bpl UnkBehColiDestroyFunc_00F547_L7
 	adc.w #$0000
-CODE_00F5EB:
+UnkBehColiDestroyFunc_00F547_L7:
 	cmp.w #$8000
 	ror
-	bpl CODE_00F5F4
+	bpl UnkBehColiDestroyFunc_00F547_L8
 	adc.w #$0000
-CODE_00F5F4:
+UnkBehColiDestroyFunc_00F547_L8:
 	cmp.w #$8000
 	ror
-	bpl CODE_00F5FD
+	bpl UnkBehColiDestroyFunc_00F547_L9
 	adc.w #$0000
-CODE_00F5FD:
+UnkBehColiDestroyFunc_00F547_L9:
 	cmp.w #$FFFB
-	bcc CODE_00F605
+	bcc UnkBehColiDestroyFunc_00F547_L10
 	lda.w #$0000
-CODE_00F605:
+UnkBehColiDestroyFunc_00F547_L10:
 	sta.b $31,x
 	sep #$20
 	cmp.b #$00
 	sep #$20
-	bne CODE_00F613
+	bne UnkBehColiDestroyFunc_00F547_L11
 	jml DestroyCommonEnemy
-CODE_00F613:
+UnkBehColiDestroyFunc_00F547_L11:
 	rtl
-CODE_00F614:
+UnkFunc_00F614:
 	lda.b $1D,x
 	ora.b #$08
 	sta.b $1D,x
 	rep #$20
-	lda.w #CODE_00F639
+	lda.w #UnkFunc_00F614_L1
 	sta.b $16,x
 	sep #$20
-	lda.b #BANKOF(CODE_00F639)
+	lda.b #BANKOF(UnkFunc_00F614_L1)
 	sta.b $18,x
 	jsl SetDefaultDestroyColiFuncPtrs
 	lda.b #$FF
@@ -3319,41 +3324,41 @@ CODE_00F614:
 	lda.b $1F,x
 	ora.b #$20
 	sta.b $2F,x
-CODE_00F639:
+UnkFunc_00F614_L1:
 	lda.w Object2ListRel+$26,x
 	clc
 	adc.b #$05
 	sta.w Object2ListRel+$26,x
 	lda.b $13,x
 	cmp.b #$F0
-	bcs CODE_00F64E
+	bcs UnkFunc_00F614_L2
 	lda.b $13,x
 	cmp.b #$10
-	bcs CODE_00F69D
-CODE_00F64E:
-	lda.w $15BB
+	bcs UnkFunc_00F614_L5
+UnkFunc_00F614_L2:
+	lda.w Unknown_15BB
 	and.b #$0F
-	beq CODE_00F659
-	jml CODE_00F69D
-CODE_00F659:
+	beq UnkFunc_00F614_L3
+	jml UnkFunc_00F614_L5
+UnkFunc_00F614_L3:
 	lda.b #$00
-	sta.w $1545
+	sta.w Unknown_1545
 	lda.b #$CE
-	sta.w $1547
+	sta.w Unknown_1547
 	lda.b #$00
-	sta.w $1549
+	sta.w Unknown_1549
 	lda.b #$00
-	sta.w $154C
+	sta.w Unknown_154C
 	lda.b #$80
-	sta.w $154B
-	stz.w $154D
-	stz.w $154E
+	sta.w Unknown_154B
+	stz.w Unknown_154D
+	stz.w Unknown_154D+1
 	lda.b #$26
 	jsl ShootProjectile
 	cpy.w #$0000
-	bne CODE_00F686
-	ldy.w $156B
-CODE_00F686:
+	bne UnkFunc_00F614_L4
+	ldy.w Unknown_156B
+UnkFunc_00F614_L4:
 	rep #$20
 	lda.w PlayerObject
 	sta.w $0006,y
@@ -3363,9 +3368,9 @@ CODE_00F686:
 	lda.w $002E,y
 	ora.b #$10
 	sta.w $002E,y
-CODE_00F69D:
+UnkFunc_00F614_L5:
 	rts
-CODE_00F69E:
+UnkFunc_00F69E:
 	lda.b #$00
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
@@ -3377,80 +3382,80 @@ CODE_00F69E:
 	ora.b #$01
 	sta.b $1E,x
 	rep #$20
-	lda.w #CODE_00F6C4
+	lda.w #UnkFunc_00F69E_L1
 	sta.b $16,x
 	sep #$20
-	lda.b #BANKOF(CODE_00F6C4)
+	lda.b #BANKOF(UnkFunc_00F69E_L1)
 	sta.b $18,x
 	lda.b #$32
 	sta.b $23,x
-CODE_00F6C4:
+UnkFunc_00F69E_L1:
 	lda.b $1E,x
 	and.b #$10
-	bne CODE_00F6CE
-	jml CODE_00F6F7
-CODE_00F6CE:
+	bne UnkFunc_00F69E_L2
+	jml UnkFunc_00F69E_L6
+UnkFunc_00F69E_L2:
 	lda.w Object2ListRel+$1D,x
 	and.b #$7F
 	cmp.b #$00
-	bne CODE_00F6DB
-	jml CODE_00F76E
-CODE_00F6DB:
+	bne UnkFunc_00F69E_L3
+	jml UnkFunc_00F74B_L3
+UnkFunc_00F69E_L3:
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$FF
-	bmi CODE_00F6E6
+	bmi UnkFunc_00F69E_L4
 	clc
 	adc.b #$10
-CODE_00F6E6:
+UnkFunc_00F69E_L4:
 	and.b #$7F
 	cmp.b #$10
-	bcc CODE_00F6EF
+	bcc UnkFunc_00F69E_L5
 	sec
 	sbc.b #$10
-CODE_00F6EF:
+UnkFunc_00F69E_L5:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F73A
-CODE_00F6F7:
+	jmp UnkFunc_00F69E_L13
+UnkFunc_00F69E_L6:
 	lda.b $23,x
 	cmp.b #$14
-	beq CODE_00F703
+	beq UnkFunc_00F69E_L7
 	lda.b $23,x
 	cmp.b #$01
-	bne CODE_00F706
-CODE_00F703:
-	jsr CODE_00F773
-CODE_00F706:
+	bne UnkFunc_00F69E_L8
+UnkFunc_00F69E_L7:
+	jsr UnkFunc_00F773
+UnkFunc_00F69E_L8:
 	lda.b $23,x
-	bne CODE_00F70E
-	jml CODE_00F74B
-CODE_00F70E:
+	bne UnkFunc_00F69E_L9
+	jml UnkFunc_00F74B
+UnkFunc_00F69E_L9:
 	dec.b $23,x
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
-	bmi CODE_00F71B
+	bmi UnkFunc_00F69E_L10
 	clc
 	adc.b #$0A
-CODE_00F71B:
+UnkFunc_00F69E_L10:
 	and.b #$7F
 	cmp.b #$0A
-	bcc CODE_00F72C
+	bcc UnkFunc_00F69E_L11
 	lda.b #$0A
 	dec
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F731
-CODE_00F72C:
+	jmp UnkFunc_00F69E_L12
+UnkFunc_00F69E_L11:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-CODE_00F731:
+UnkFunc_00F69E_L12:
 	lda.w Object2ListRel+$2B,x
 	clc
 	adc.b #$FB
 	sta.w Object2ListRel+$2B,x
-CODE_00F73A:
+UnkFunc_00F69E_L13:
 	jsl OffsetObjectZPosition
 	lda.b #$00					;\Clear object rotation
 	sta.b $12,x					;|
@@ -3459,48 +3464,48 @@ CODE_00F73A:
 	lda.b #$00					;|
 	sta.b $14,x					;/
 	rtl
-CODE_00F74B:
+UnkFunc_00F74B:
 	lda.w Object2ListRel+$1D,x
 	clc
 	adc.b #$01
-	bmi CODE_00F756
+	bmi UnkFunc_00F74B_L1
 	clc
 	adc.b #$14
-CODE_00F756:
+UnkFunc_00F74B_L1:
 	and.b #$7F
 	cmp.b #$14
-	bcc CODE_00F767
+	bcc UnkFunc_00F74B_L2
 	lda.b #$14
 	dec
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	jmp CODE_00F76E
-CODE_00F767:
+	jmp UnkFunc_00F74B_L3
+UnkFunc_00F74B_L2:
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-	bra CODE_00F731
-CODE_00F76E:
-	jsl CODE_1FD501
+	bra UnkFunc_00F69E_L12
+UnkFunc_00F74B_L3:
+	jsl UnkFunc_1FD501
 	rtl
-CODE_00F773:
+UnkFunc_00F773:
 	rep #$20
 	lda.w #$AD9D
-	sta.w $14C5
+	sta.w TempMiscW
 	sep #$20
 	jsl CreateChildObject
-	bcs CODE_00F787
-	jml CODE_00F7D8
-CODE_00F787:
+	bcs UnkFunc_00F773_L1
+	jml UnkFunc_00F773_L4
+UnkFunc_00F773_L1:
 	jsl CopyPositionTo
 	rep #$20
 	lda.w #$0000
 	sta.w $000E,y
 	sep #$20
 	rep #$20
-	lda.w #$F7D9
+	lda.w #UnkFunc_00F7D9
 	sta.w $0016,y
 	sep #$20
-	lda.b #$00
+	lda.b #BANKOF(UnkFunc_00F7D9)
 	sta.w $0018,y
 	lda.w $002E,y
 	ora.b #$10
@@ -3510,32 +3515,32 @@ CODE_00F787:
 	phx
 	tyx
 	ldy.w PlayerObject
-	stz.w $1532
-	jsl CODE_1FD03E
+	stz.w Unknown_1532
+	jsl UnkAngleGetterFunc_1FD03E
 	sep #$20
 	xba
 	cmp.b $12,x
-	beq CODE_00F7C5
-CODE_00F7C5:
+	beq UnkFunc_00F773_L2
+UnkFunc_00F773_L2:
 	sta.b $12,x
-	jsl CODE_1FD021
+	jsl FaceTargetObjectY
 	sep #$20
 	xba
 	eor.b #$FF
 	inc
 	cmp.b $13,x
-	beq CODE_00F7D5
-CODE_00F7D5:
+	beq UnkFunc_00F773_L3
+UnkFunc_00F773_L3:
 	sta.b $13,x
 	plx
-CODE_00F7D8:
+UnkFunc_00F773_L4:
 	rts
-CODE_00F7D9:
+UnkFunc_00F7D9:
 	rep #$20
-	lda.w #CODE_00F828
+	lda.w #UnkFunc_00F7D9_L1
 	sta.b $16,x
 	sep #$20
-	lda.b #BANKOF(CODE_00F828)
+	lda.b #BANKOF(UnkFunc_00F7D9_L1)
 	sta.b $18,x
 	jsl SetDefaultDestroyColiFuncPtrs
 	lda.b $1F,x
@@ -3565,30 +3570,30 @@ CODE_00F7D9:
 	lda.b $12,x
 	sta.w TempRotX
 	jsl SetTempVelocity
-CODE_00F828:
+UnkFunc_00F7D9_L1:
 	rep #$20
 	lda.w #$AD9D
-	sta.w $14C5
+	sta.w TempMiscW
 	sep #$20
 	jsl CreateChildObject
-	bcs
-	jml CODE_00F857
-CODE_00F83C:
+	bcs UnkFunc_00F7D9_L2
+	jml UnkFunc_00F7D9_L3
+UnkFunc_00F7D9_L2:
 	jsl CopyPositionTo
 	rep #$20
-	lda.w #$F860
+	lda.w #UnkFunc_00F860
 	sta.w $0016,y
 	sep #$20
-	lda.b #$00
+	lda.b #BANKOF(UnkFunc_00F860)
 	sta.w $0018,y
 	lda.w $001E,y
 	ora.b #$01
 	sta.w $001E,y
-CODE_00F857:
+UnkFunc_00F7D9_L3:
 	jsl ApplyObjectVelocity
 	jsl OffsetObjectZPosition
 	rtl
-CODE_00F860:
+UnkFunc_00F860:
 	lda.b $2E,x
 	ora.b #$10
 	sta.b $2E,x
@@ -3605,23 +3610,25 @@ CODE_00F860:
 	sta.w Object2ListRel+$2A,x
 	lda.b $22,x
 	cmp.b #$0A
-	beq CODE_00F88D
+	beq UnkFunc_00F860_L1
 	inc.b $22,x
 	jsl OffsetObjectZPosition
 	rtl
-CODE_00F88D:
-	jsl CODE_1FD501
+UnkFunc_00F860_L1:
+	jsl UnkFunc_1FD501
 	rtl
-CODE_00F892:
+UnkFunc_00F892:
 	rep #$20
 	lda.w #$AD81
-	sta.w $14C5
+	sta.w TempMiscW
 	sep #$20
 	jsl CreateChildObject
-CODE_00F8A6:
-	bcc CODE_00F8AC
-	jml CODE_00F932
-CODE_00F8AC:
+	bcs UnkFunc_00F892_L1
+	jml UnkFunc_00F892_L5
+UnkFunc_00F892_L1:
+	bcc UnkFunc_00F892_L2
+	jml UnkFunc_00F892_L5
+UnkFunc_00F892_L2:
 	jsl CopyRotationTo
 	jsl CopyRotationTo
 	rep #$20
@@ -3636,38 +3643,38 @@ CODE_00F8AC:
 	phx
 	tyx
 	ldy.w PlayerObject
-	stz.w $1532
-	jsl CODE_1FD03E
+	stz.w Unknown_1532
+	jsl UnkAngleGetterFunc_1FD03E
 	sep #$20
 	xba
 	cmp.b $12,x
-	beq CODE_00F8DE
-CODE_00F8DE:
+	beq UnkFunc_00F892_L3
+UnkFunc_00F892_L3:
 	sta.b $12,x
-	jsl CODE_1FD021
+	jsl FaceTargetObjectY
 	sep #$20
 	xba
 	eor.b #$FF
 	inc
 	cmp.b $13,x
-	beq CODE_00F8EE
-CODE_00F8EE:
+	beq UnkFunc_00F892_L4
+UnkFunc_00F892_L4:
 	sta.b $13,x
 	txy
 	plx
-	jsl CODE_02FC58
+	jsl UpdatePRNG
 	and.b #$0F
-	sta.b TempVecX
-	jsl CODE_02FC58
+	sta.b TempVecXG
+	jsl UpdatePRNG
 	and.b #$3F
-	sta.b TempVecY
-	lda.b TempVecY
+	sta.b TempVecYG
+	lda.b TempVecYG
 	sec
 	sbc.b #$20
-	sta.b TempVecY
+	sta.b TempVecYG
 	lda.w $0012,y
 	clc
-	adc.b TempVecX
+	adc.b TempVecXG
 	sta.w $0012,y
 	lda.w $0012,y
 	clc
@@ -3675,16 +3682,16 @@ CODE_00F8EE:
 	sta.w $0012,y
 	lda.w $0013,y
 	clc
-	adc.b TempVecY
+	adc.b TempVecYG
 	sta.w $0013,y
 	lda.w $001E,y
 	ora.b #$10
 	sta.w $001E,y
 	lda.b #$49
 	jsl PushSoundEffectToQueue
-CODE_00F932:
+UnkFunc_00F892_L5:
 	rts
-CODE_00F933:
+UnkFunc_00F933:
 	lda.b $1D,x
 	ora.b #$20
 	sta.b $1D,x
@@ -3693,41 +3700,41 @@ CODE_00F933:
 	lda.b #$00
 	sta.w Object2ListRel+$2A,x
 	rep #$20
-	lda.w #CODE_00F95C
+	lda.w #UnkFunc_00F933_L1
 	sta.b $16,x
 	sep #$20
-	lda.b #BANKOF(CODE_00F95C)
+	lda.b #BANKOF(UnkFunc_00F933_L1)
 	sta.b $18,x
-	jsl CODE_1FD41A
+	jsl SetDefaultDestroyColiFuncPtrs
 	lda.b #$06
 	sta.b $2A,x
 	lda.b #$10
 	sta.b $2B,x
-CODE_00F95C:
+UnkFunc_00F933_L1:
 	rep #$20
 	lda.w #$03E8
-	jsl CODE_0398A7
-	bcc CODE_00F96B
-	jml CODE_00F96C
-CODE_00F96B:
+	jsl CompareObjectZPos
+	bcc UnkFunc_00F933_L2
+	jml UnkFunc_00F933_L3
+UnkFunc_00F933_L2:
 	rtl
-CODE_00F96C:
+UnkFunc_00F933_L3:
 	rep #$20
-	lda.w #CODE_00F979
+	lda.w #UnkFunc_00F933_L4
 	sta.b $16,x
 	sep #$20
-	lda.b #BANKOF(CODE_00F979)
+	lda.b #BANKOF(UnkFunc_00F933_L4)
 	sta.b $18,x
-CODE_00F979:
-	jsr CODE_00F892
-	jsr CODE_00F892
-	jsr CODE_00F892
-	jsr CODE_00F892
-	jsr CODE_00F892
-	jsr CODE_00F892
-	jsr CODE_00F892
-	jsr CODE_00F892
-	jsr CODE_00F892
+UnkFunc_00F933_L4:
+	jsr UnkFunc_00F892
+	jsr UnkFunc_00F892
+	jsr UnkFunc_00F892
+	jsr UnkFunc_00F892
+	jsr UnkFunc_00F892
+	jsr UnkFunc_00F892
+	jsr UnkFunc_00F892
+	jsr UnkFunc_00F892
+	jsr UnkFunc_00F892
 	lda.b $1E,x
 	ora.b #$01
 	sta.b $1E,x
@@ -3857,17 +3864,17 @@ BehE9_BigAsteroid:
 	sta.b $2A,x					;/
 	lda.b #$0C					;\Set power (damage to player upon impact)
 	sta.b $2B,x					;/
-	lda.w $18C8					;\Calculate Y rotation
+	lda.w Unknown_18C8				;\Calculate Y rotation
 	eor.b #$FF					;|
 	inc						;|
 	clc						;|
 	adc.b #$80					;|
 	clc						;|
-	adc.w $152B					;|
+	adc.w Unknown_152B				;|
 	sta.b $13,x					;/
-	lda.w $18C6					;\Set X rotation
+	lda.w Unknown_18C6				;\Set X rotation
 	sta.b $12,x					;/
-	jsl CODE_02FC58
+	jsl UpdatePRNG
 	and.b #$0F
 	sta.b $22,x
 	lda.b $22,x
@@ -3899,20 +3906,20 @@ BehED_ShootableAsteroid:
 	sta.b $2B,x					;/
 	jml Beh9C
 
-CODE_00FACF:
+UnkFunc_00FACF:
 	lda.b $1E,x
 	ora.b #$01
 	sta.b $1E,x
 	rtl
-CODE_00FAD6:
+UnkFunc_00FAD6:
 	lda.b $2E,x
 	ora.b #$10
 	sta.b $2E,x
 	rep #$20					;\Set object behavior routine pointer to $00FB03
-	lda.w #CODE_00FB03				;|
+	lda.w #UnkFunc_00FAD6_L1			;|
 	sta.b $16,x					;|
 	sep #$20					;|
-	lda.b #BANKOF(CODE_00FB03)			;|
+	lda.b #BANKOF(UnkFunc_00FAD6_L1)		;|
 	sta.b $18,x					;/
 	jsl SetDefaultDestroyColiFuncPtrs
 	lda.b $13,x
@@ -3926,34 +3933,34 @@ CODE_00FAD6:
 	lda.b #$00
 	ora.b #$80
 	sta.w Object2ListRel+$1D,x
-CODE_00FB03:
+UnkFunc_00FAD6_L1:
 	lda.b $1E,x
 	and #$20
-	beq CODE_00FB0D
-	jml CODE_00FC69
-CODE_00FB0D:
-	lda.w $15BB
+	beq UnkFunc_00FAD6_L2
+	jml UnkFunc_00FAD6_L22
+UnkFunc_00FAD6_L2:
+	lda.w Unknown_15BB
 	and.b #$01
-	beq CODE_00FB18
-	jml CODE_00FB2F
-CODE_00FB18:
+	beq UnkFunc_00FAD6_L3
+	jml UnkFunc_00FAD6_L5
+UnkFunc_00FAD6_L3:
 	jsl CODE_068C1A
 	cpy.w #$0000
-	bne CODE_00FB25
-	jml CODE_00FB2F
-CODE_00FB25:
+	bne UnkFunc_00FAD6_L4
+	jml UnkFunc_00FAD6_L5
+UnkFunc_00FAD6_L4:
 	rep #$20
 	lda.w #$0000
 	sta.w $000E,y
 	sep #$20
-CODE_00FB2F:
+UnkFunc_00FAD6_L5:
 	rep #$20
 	lda.b $0E,x
 	cmp.w #$0000
 	sep #$20
-	bmi CODE_00FB3E
-	jml CODE_00FB65
-CODE_00FB3E:
+	bmi UnkFunc_00FAD6_L6
+	jml UnkFunc_00FAD6_L8
+UnkFunc_00FAD6_L6:
 	rep #$20
 	lda.b $31,x					;\Increase object Y velocity by 2
 	clc						;|
@@ -3966,75 +3973,75 @@ CODE_00FB3E:
 	adc.b $31,x					;|
 	sta.b $0E,x					;/
 	sep #$20
-	bpl CODE_00FB5C
-	jml CODE_00FB65
-CODE_00FB5C:
+	bpl UnkFunc_00FAD6_L7
+	jml UnkFunc_00FAD6_L8
+UnkFunc_00FAD6_L7:
 	rep #$20
 	lda.w #$0000					;\Set object Y position to 0
 	sta.b $0E,x					;/
 	sep #$20
-CODE_00FB65:
+UnkFunc_00FAD6_L8:
 	jsl OffsetObjectZPosition
 	lda.b $1E,x
 	and.b #$40
-	beq CODE_00FB73
-	jml CODE_00FB9D
-CODE_00FB73:
+	beq UnkFunc_00FAD6_L9
+	jml UnkFunc_00FAD6_L12
+UnkFunc_00FAD6_L9:
 	rep #$20
 	lda.b $0C,x
-	sta.b $3A
+	sta.b TempMiscX
 	lda.w #$FF38
-	jsl CODE_1FD6AB
+	jsl Clamp8Shift16
 	sta.b $0C,x
 	sep #$20
-	bcc CODE_00FB8A
-	jml CODE_00FBC6
-CODE_00FB8A:
+	bcc UnkFunc_00FAD6_L10
+	jml UnkFunc_00FAD6_L15
+UnkFunc_00FAD6_L10:
 	rep #$20
 	lda.b $0C,x
 	cmp.w #$FF6A
 	sep #$20
-	bpl CODE_00FB99
-	jml CODE_00FBC6
-CODE_00FB99:
-	jml CODE_00FB69
-CODE_00FB9D:
+	bpl UnkFunc_00FAD6_L11
+	jml UnkFunc_00FAD6_L15
+UnkFunc_00FAD6_L11:
+	jml UnkFunc_00FAD6_L22
+UnkFunc_00FAD6_L12:
 	rep #$20
 	lda.b $0C,x
 	sta.b $3A
 	lda.w #$00C8
-	jsl CODE_1FD6AB
+	jsl Clamp8Shift16
 	sta.b $0C,x
 	sep #$20
-	bcc CODE_00FBB4
-	jml CODE_00FBC6
-CODE_00FBB4:
+	bcc UnkFunc_00FAD6_L13
+	jml UnkFunc_00FAD6_L15
+UnkFunc_00FAD6_L13:
 	rep #$20
 	lda.b $0C,x
 	cmp.w #$0096
 	sep #$20
-	bmi CODE_00FBC3
-	jml CODE_00FBC6
-CODE_00FBC3:
-	jmp CODE_00FC69
-CODE_00FBC6:
-	ldy.w $1238
-	jsl CODE_1FD021
+	bmi UnkFunc_00FAD6_L14
+	jml UnkFunc_00FAD6_L15
+UnkFunc_00FAD6_L14:
+	jmp UnkFunc_00FAD6_L22
+UnkFunc_00FAD6_L15:
+	ldy.w PlayerObject
+	jsl FaceTargetObjectY
 	sep #$20
 	xba
 	eor.b #$FF
 	inc
 	cmp.b $13,x
-	beq CODE_00FBD7
-CODE_00FBD7:
+	beq UnkFunc_00FAD6_L16
+UnkFunc_00FAD6_L16:
 	sta.b $13,x
 	lda #$00
 	sta Object2ListRel+$1D,x
 	rep #$20						;\Set object behavior routine pointer to $00FC29
-	lda.w #CODE_00FC29					;|
+	lda.w #UnkFunc_00FAD6_L18B				;|
 	sta.b $16,x						;|
 	sep #$20						;|
-	lda.b #BANKOF(CODE_00FC29)				;|
+	lda.b #BANKOF(UnkFunc_00FAD6_L18B)			;|
 	sta.b $18,x						;/
 	lda.b #$46
 	sta.b $15,x
@@ -4043,9 +4050,9 @@ CODE_00FBD7:
 	lda.b $13,x
 	jsl GetLocalZX8RotateNegRotY
 	rep #$20
-	lda.b TempVecX
+	lda.b TempVecXG
 	sta.b $2F,x
-	lda.b TempVecZ
+	lda.b TempVecZG
 	sta.b $33,x
 	sep #$20
 	rep #$20
@@ -4054,16 +4061,16 @@ CODE_00FBD7:
 	sep #$20
 	jsl CODE_068C31
 	cpy.w #$0000
-	bne CODE_00FC1B
-	jml CODE_00FC25
-CODE_00FC1B:
+	bne UnkFunc_00FAD6_L17
+	jml UnkFunc_00FAD6_L18
+UnkFunc_00FAD6_L17:
 	rep #$20
 	lda.w #$0000
 	sta.w $000E,y
 	sep #$20
-CODE_00FC25:
+UnkFunc_00FAD6_L18:
 	jsl CODE_03B749
-CODE_00FC29:
+UnkFunc_00FAD6_L18B:
 	rep #$20
 	lda.b $31,x
 	clc
@@ -4076,23 +4083,23 @@ CODE_00FC29:
 	lda.b $0E,x
 	cmp.w #$0000
 	sep #$20
-	bpl CODE_00FC4C
-	jml CODE_00FC69
-CODE_00FC4C:
+	bpl UnkFunc_00FAD6_L19
+	jml UnkFunc_00FAD6_L22
+UnkFunc_00FAD6_L19:
 	jsl CODE_068C31
 	cpy.w #$0000
-	bne CODE_00FC59
-	jml CODE_00FC63
-CODE_00FC59:
+	bne UnkFunc_00FAD6_L20
+	jml UnkFunc_00FAD6_L21
+UnkFunc_00FAD6_L20:
 	rep #$20
 	lda.w #$0000
 	sta.w $000E,y
 	sep #$20
-CODE_00FC63:
+UnkFunc_00FAD6_L21:
 	lda.b $1E,x
 	ora.b #$20
 	sta.b $1E,x
-CODE_00FC69:
+UnkFunc_00FAD6_L22:
 	rtl
 
 UnusedBank00SetBRegBank00:

@@ -2,16 +2,230 @@ UnusedBank0ASetBRegWRAM:
 	lda.b #$7E					;\Set data bank to $7E
 	pha						;|(not called, probably was for Nintendo's assembler)
 	plb						;/
-
-
-
-
-
-
-
-
-
-
+Beh66:
+	rep #$20
+	lda.w FirstObject
+	sta.w FirstCandidate
+	sep #$20
+	lda.b #$04
+	sta.b $24,x
+	rep #$20
+	lda.w #$0000
+	sta.b TempMiscZ
+	lda.w #$2710
+	sta.b TempMiscX
+	lda.w #$B84A
+	jsl GetObjectByIDEx3
+	cpy.w #$0000
+	sep #$20
+	bne Beh66_L1
+	jml Beh63_66_End
+Beh66_L1:
+	jml Beh63_66_Common
+Beh63_66_End:
+	rtl
+Beh63:
+	rep #$20
+	lda.w FirstObject
+	sta.w FirstCandidate
+	sep #$20
+	lda.b #$03
+	sta.b $24,x
+	rep #$20
+	lda.w #$0000
+	sta.b TempMiscZ
+	lda.w #$2710
+	sta.b TempMiscX
+	lda.w #$C1F4
+	jsl GetObjectByIDEx3
+	cpy.w #$0000
+	sep #$20
+	bne Beh63_66_Common
+	jml Beh63_66_End
+Beh63_66_Common:
+	lda.b Unknown_01
+	sta.b $1F,x
+	sty.b $06,x
+	rep #$20
+	lda.w #Beh63_66_CommonLoop
+	sta.b $16,x
+	sep #$20
+	lda.b #BANKOF(Beh63_66_CommonLoop)
+	sta.b $18,x
+	lda.b #BANKOF(ColiCommonEnemy)
+	sta.w Object2ListRel+$0B,x
+	lda.b #BANKOF(Beh63_66_OnDestroy)
+	sta.w Object2ListRel+$08,x
+	rep #$20
+	lda.w #ColiCommonEnemy
+	sta.w Object2ListRel+$09,x
+	lda.w #Beh63_66_OnDestroy
+	sta.w Object2ListRel+$06,x
+	sep #$20
+	lda.b #$02
+	sta.b $2A,x
+	lda.b #$08
+	sta.b $2B,x
+	lda.b #$40
+	sta.b $14,x
+	lda.b #$02
+	sta.b $22,x
+	lda.b #$8C
+	sta.b $23,x
+	lda.b $2E,x
+	ora.b #FLAGS2E_UNK10
+	sta.b $2E,x
+	rtl
+Beh63_66_CommonLoop:
+	ldy.b $06,x
+	cpy.w #$0000
+	bne Beh63_66_CommonLoop_L1
+	jml Beh63_66_CommonLoop_L21
+Beh63_66_CommonLoop_L1:
+	stz.w Unknown_1532
+	jsl UnkAngleGetterFunc_1FD03E
+	sep #$20
+	xba
+	cmp.b $12,x
+	beq Beh63_66_CommonLoop_L8
+	sec
+	sbc.b $12,x
+	cmp.b #$00
+	bmi Beh63_66_CommonLoop_L2
+	cmp.b #$10
+	bpl Beh63_66_CommonLoop_L3
+	lda.b #$10
+	bra Beh63_66_CommonLoop_L3
+Beh63_66_CommonLoop_L2:
+	cmp.b #$F0
+	bmi Beh63_66_CommonLoop_L3
+	lda.b #$F0
+Beh63_66_CommonLoop_L3:
+	cmp.b #$80
+	ror
+	bpl Beh63_66_CommonLoop_L4
+	adc.b #$00
+Beh63_66_CommonLoop_L4:
+	cmp.b #$80
+	ror
+	bpl Beh63_66_CommonLoop_L5
+	adc.b #$00
+Beh63_66_CommonLoop_L5:
+	cmp.b #$80
+	ror
+	bpl Beh63_66_CommonLoop_L6
+	adc.b #$00
+Beh63_66_CommonLoop_L6:
+	cmp.b #$80
+	ror
+	bpl Beh63_66_CommonLoop_L7
+	adc.b #$00
+Beh63_66_CommonLoop_L7:
+	clc
+	adc.b $12,x
+Beh63_66_CommonLoop_L8:
+	sta.b $12,x
+	jsl FaceTargetObjectY
+	sep #$20
+	xba
+	eor.b #$FF
+	inc
+	cmp.b $13,x
+	beq Beh63_66_CommonLoop_L15
+	sec
+	sbc.b $13,x
+	cmp.b #$00
+	bmi Beh63_66_CommonLoop_L9
+	cmp.b #$10
+	bpl Beh63_66_CommonLoop_L10
+	lda.b #$10
+	bra Beh63_66_CommonLoop_L10
+Beh63_66_CommonLoop_L9:
+	cmp.b #$F0
+	bmi Beh63_66_CommonLoop_L10
+	lda.b #$F0
+Beh63_66_CommonLoop_L10:
+	cmp.b #$80
+	ror
+	bpl Beh63_66_CommonLoop_L11
+	adc.b #$00
+Beh63_66_CommonLoop_L11:
+	cmp.b #$80
+	ror
+	bpl Beh63_66_CommonLoop_L12
+	adc.b #$00
+Beh63_66_CommonLoop_L12:
+	cmp.b #$80
+	ror
+	bpl Beh63_66_CommonLoop_L13
+	adc.b #$00
+Beh63_66_CommonLoop_L13:
+	cmp.b #$80
+	ror
+	bpl Beh63_66_CommonLoop_L14
+	adc.b #$00
+Beh63_66_CommonLoop_L14:
+	clc
+	adc.b $13,x
+Beh63_66_CommonLoop_L15:
+	sta.b $13,x
+	rep #$20
+	jsl UnkAngleGetterHelperFunc_1FD0AB
+	rep #$20
+	lda.w Unknown_1250
+	cmp.w #$0514
+	sep #$20
+	bpl Beh63_66_CommonLoop_L16
+	jml Beh63_66_CommonLoop_L17
+Beh63_66_CommonLoop_L16:
+	jml Beh63_66_CommonLoop_L20
+Beh63_66_CommonLoop_L17:
+	lda.w Unknown_15BB
+	and.b #$07
+	beq Beh63_66_CommonLoop_L18
+	jml Beh63_66_CommonLoop_L20
+Beh63_66_CommonLoop_L18:
+	lda.b $22,x
+	bne Beh63_66_CommonLoop_L19
+	jml Beh63_66_CommonLoop_L22
+Beh63_66_CommonLoop_L19:
+	dec.b $22,x
+	lda.b #$00
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 Beh80_FlyingEnemy:
 	lda.b #$02					;\Set enemy HP to 2
 	sta.b $2A,x					;/

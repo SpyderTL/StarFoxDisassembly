@@ -2,7 +2,6 @@ UnusedBank04SetBRegWRAM:
 	lda.b #$7E					;\Set data bank to $7E
 	pha						;|(not called, probably was for Nintendo's assembler)
 	plb						;/
-
 ;BEHAVIOR FUNCTION ID $F2
 BehF2:
 	lda.b #$0A					;\Set enemy HP to 10
@@ -48,8 +47,8 @@ Beh9C:
 	sta.b $1D,x					;/
 	lda.b #$00
 	sta.b $25,x
-	stz.w $F0B0
-	stz.w $F0B1
+	stz.w Unknown_7EF0B0
+	stz.w Unknown_7EF0B0+1
 Beh9C_E4_F2_Loop:
 	ldy.b $28,x
 	phx
@@ -59,10 +58,10 @@ Beh9C_E4_F2_Loop:
 	sta.w Object2ListRel+$12,x
 	rep #$20
 	lda.w #BehCommandJumpTable
-	sta.b $53
+	sta.b TempJptPtr
 	sep #$20
 	lda.b #BANKOF(BehCommandJumpTable)
-	sta.b $55
+	sta.b TempJptPtr+1
 	jml DoJumpTable
 BehCommandJumpTable:
 	JUMPTABLE(BehCommand00)
@@ -232,7 +231,6 @@ BehCommandJumpTable:
 	JUMPTABLE(BehCommandA4)
 	JUMPTABLE(BehCommandA5)
 	JUMPTABLE(BehCommandA6)
-	
 CODE_048318:
 	lda.b #$00
 	sta.b $24,x

@@ -544,9 +544,9 @@ TexCoordOffsTable:
 	DL $13E040,$13F040,$13A080,$13A0A0
 	DL $13A0C0,$13A020,$13A030,$13A080
 	DL $13A0A0,$13E8A0,$13E8C0,$13A0C0
-DATA_038A38:
+UnkData_038A38:
 	DL $14CE26,$14CE26
-DATA_038A3E:
+UnkData_038A3E:
 	DB $50,$8A,$5A,$8A,$64,$8A,$6E,$8A
 	DB $78,$8A,$82,$8A,$8C,$8A,$96,$8A
 	DB $A0,$8A,$1F,$1F,$00,$00,$1F,$00
@@ -736,7 +736,7 @@ LitColorTable:
 	DB $59,$59,$59,$59,$59,$59,$59,$5A,$5A,$55
 	DB $15,$15,$15,$15,$15,$25,$25,$26,$26,$36
 	DB $9A,$9A,$9A,$9A,$9A,$9B,$9B,$9F,$9F,$AF
-DATA_038F9A:
+UnkData_038F9A:
 	DB $C0,$B0,$B0,$00,$00,$C0,$B0,$00
 	DB $00,$00,$C0,$00,$00,$00,$00,$00
 	DB $F6,$F3,$F1,$00,$FE,$FD,$FC,$00
@@ -749,61 +749,61 @@ LoadPreset_BlackHole:
 	jsr SetNMITaskInitMode2
 	jsr DecompressTileset
 	DL $16A648
-	DB $00,$5C,$00,$18
+	DW $5C00,$1800
 	jsr DecompressTilemap
 	DL $16ED34
-	DB $00,$70,$00,$20
+	DW $7000,$2000
 	jsr LoadPalette
 	DL $7F0360
-	DB $E0,$00
+	DW $00E0
 	lda.b #$00
 	sta.b CurNMITask
-	lda HDMAENMirror
+	lda.w HDMAENMirror
 	ora.b #$04
-	sta HDMAENMirror
-	lda #$16
-	sta $1785
-	ldx #$822A
-	stx $1786
-	lda #$0B
-	sta $1788
+	sta.w HDMAENMirror
+	lda.b #$16
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_Sea
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_Sea)
+	sta.w TempPlayerBehPtr+2
 	sep #$20
-	lda #$00
-	sta $14DB
-	jsl CODE_06BA91
-	lda #$05
-	sta $14DC
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$05
+	sta.w MaxViewMode
 	rep #$20
-	lda #$0000
-	sta $169C
-	sta $194D
+	lda.w #$0000
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
 	sep #$20
-	lda #$0C
-	sta $1FE2
+	lda.b #$0C
+	sta.w ShearScrollType
 	rep #$20
-	lda #$0000
-	sta $7001A8
-	lda #$00A0
-	sta $7001AA
-	lda #$0001
-	sta $7001AC
+	lda.w #$0000
+	sta.l $7001A8
+	lda.w #$00A0
+	sta.l $7001AA
+	lda.w #$0001
+	sta.l $7001AC
 	sep #$20
 	jsl LoadAudio_BlackHole
-	stz $16C9
-	lda #$01
-	sta $18C2
-	stz $194F
-	stz $1950
-	lda #$8A
-	sta $70004E
-	lda #$8B
-	sta $70004F
-	lda HDMAENMirror
-	sta HDMAEN
+	stz.w EngineSoundFlag
+	lda.b #$01
+	sta.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
 LoadPreset_BlackHole_Wait:
 	lda.b CurNMITask
 	beq LoadPreset_BlackHole_Exit
-	cmp #$20
+	cmp.b #$20
 	bne LoadPreset_BlackHole_Wait
 LoadPreset_BlackHole_Exit:
 	rtl
@@ -812,94 +812,1396 @@ LoadPreset_Scramble:
 	jsr SetNMITaskInitMode2
 	jsr DecompressTileset
 	DL $14DB6E
-	DB $00,$5C,$00,$18
+	DW $5C00,$1800
 	jsr DecompressTilemap
 	DL $14DC0E
-	DB $00,$70,$00,$20
+	DW $7000,$2000
 	jsr LoadPalette
 	DL $7F00E0
-	DB $E0,$00
-	lda #$10
+	DW $00E0
+	lda.b #$10
 	sta.b CurNMITask
-	lda HDMAENMirror
-	ora #$04
-	sta HDMAENMirror
-	lda #$02
-	sta $1785
-	ldx #$8004
-	stx $1786
-	lda #$0B
-	sta $1788
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$02
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_Scramble
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_Scramble)
+	sta.w TempPlayerBehPtr+2
 	sep #$20
-	lda #$00
-	sta $14DB
-	jsl CODE_06BA91
-	lda #$02
-	sta $14DC
-	lda #$08
-	sta $1FE2
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$02
+	sta.w MaxViewMode
+	lda.b #$08
+	sta.w ShearScrollType
 	rep #$20
-	lda #$8FAE
-	sta $700050
+	lda.w #$8FAE
+	sta.l $700050
 	sep #$20
 	rep #$10
 	jsl LoadAudio_Scramble1
-	lda #$00
-	sta $70021C
+	lda.b #$00
+	sta.l RenderHUDFlag
 	rep #$20
-	lda #$0000
-	sta $195F
+	lda.w #$0000
+	sta.w Unknown_195F
 	sep #$20
-	lda #$01
-	sta $16C9
-	lda HDMAENMirror
-	ora #$10
-	sta HDMAENMirror
-	stz $194F
-	stz $1950
-	stz $1862
-	lda #$8A
-	sta $70004E
-	lda #$8B
-	sta $70004F
-	lda HDMAENMirror
-	sta HDMAEN
+	lda.b #$01
+	sta.w EngineSoundFlag
+	lda.w HDMAENMirror
+	ora.b #$10
+	sta.w HDMAENMirror
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	stz.w Unknown_18C2
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
 LoadPreset_Scramble_Wait:
 	lda.b CurNMITask
 	beq LoadPreset_Scramble_Exit
-	cmp #$20
+	cmp.b #$20
 	bne LoadPreset_Scramble_Wait
 LoadPreset_Scramble_Exit:
 	rtl
 LoadPreset_Unk09:
-	jml CODE_1FBDEE
+	jml UnkFunc_1FBDEE
 LoadPreset_Unk0F:
-	jml CODE_1FBDEE
+	jml UnkFunc_1FBDEE
 LoadPreset_Corneria12:
 	sep #$20
 	jsr SetNMITaskInitMode2
 	jsr DecompressTileset
 	DL $14FECE
-	DB $00,$5C,$00,$18
+	DW $5C00,$1800
 	jsr DecompressTilemap
 	DL $1581E4
-	DB $00,$70,$00,$20
+	DW $7000,$2000
 	jsr LoadPalette
 	DL $7F0360
-	DB $E0,$00
-	lda #$03
-	sta $1897
-	jsl CODE_02F492
-	lda #$10
+	DW $00E0
+	lda.b #$03
+	sta.w SuperFXPalette
+	jsl LoadSuperFX4BPPPalette
+	lda.b #$10
 	sta.b CurNMITask
 	rep #$20
-	lda #$8FB6
-	sta $700050
+	lda.w #$8FB6
+	sta.l $700050
 	sep #$20
 	rep #$10
-	lda HDMAENMirror
-	ora #$40
-	sta HDMAENMirror
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$0F
+	sta.w PresetSettings
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	rep #$20
+	lda.w #$00E8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	jsl LoadAudio_Corneria1
+	lda.b #$01
+	sta.l RenderHUDFlag
+	stz.w EngineSoundFlag
+	stz.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_Corneria12_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_Corneria12_Exit
+	cmp.b #$20
+	bne LoadPreset_Corneria12_Wait
+LoadPreset_Corneria12_Exit:
+	rtl
+LoadPreset_Corneria3:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $14FECE
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $1581E4
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0640
+	DW $00E0
+	lda.b #$02
+	sta.w SuperFXPalette
+	lda.b #$10
+	sta.b CurNMITask
+	rep #$20
+	lda.w #$8FB6
+	sta.l $700050
+	sep #$20
+	rep #$10
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$0F
+	sta.w PresetSettings
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	rep #$20
+	lda.w #$00E8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	jsl LoadAudio_Corneria1
+	sta.l RenderHUDFlag
+	stz.w EngineSoundFlag
+	stz.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8D
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_Corneria3_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_Corneria3_Exit
+	cmp.b #$20
+	bne LoadPreset_Corneria3_Wait
+LoadPreset_Corneria3_Exit:
+	rtl
+LoadPreset_Training:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $14FECE
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $1581E4
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0360
+	DW $00E0
+	lda.b #$03
+	sta.w SuperFXPalette
+	jsl LoadSuperFX4BPPPalette
+	lda.b #$10
+	sta.b CurNMITask
+	ldx.w #PlayerBeh_0BBB03
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_0BBB03)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$02
+	sta.w MaxViewMode
+	rep #$20
+	lda.w #$8FB6
+	sta.l $700050
+	sep #$20
+	rep #$10
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$0F
+	sta.w PresetSettings
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	rep #$20
+	lda.w #$00E8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	jsl LoadAudio_Training
+	stz.w EngineSoundFlag
+	stz.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_Training_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_Training_Exit
+	cmp.b #$20
+	bne LoadPreset_Training_Wait
+LoadPreset_Training_Exit:
+	rtl
+LoadPreset_Asteroid1:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $15A408
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16B944
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0D40
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$17
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_Space
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_Space)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$01
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$05
+	sta.w MaxViewMode
+	jsl LoadAudio_Asteroid1
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$00E8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	stz.w EngineSoundFlag
+	lda.b #$01
+	sta.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_Asteroid1_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_Asteroid1_Exit
+	cmp.b #$20
+	bne LoadPreset_Asteroid1_Wait
+LoadPreset_Asteroid1_Exit:
+	rtl
+LoadPreset_OutOfThisDimension:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $17FDCC
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $0EFC62
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0C60
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$17
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_Space
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_Space)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$01
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$05
+	sta.w MaxViewMode
+	jsl LoadAudio_OutOfThisDimension
+	lda.b #$0C
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$0000
+	sta.l $7001A8
+	lda.w #$00A0
+	sta.l $7001AA
+	lda.w #$0001
+	sta.l $7001AC
+	sep #$20
+	rep #$20
+	lda.w #$FFC0
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	stz.w EngineSoundFlag
+	lda.b #$01
+	sta.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_OutOfThisDimension_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_OutOfThisDimension_Exit
+	cmp.b #$20
+	bne LoadPreset_OutOfThisDimension_Wait
+LoadPreset_OutOfThisDimension_Exit:
+	rtl
+LoadPreset_SpaceArmadaBlastIn:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $15FF1C
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16D71C
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0C60
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$17
+	sta.w PresetSettings
+	jsl LoadAudio_SpaceArmadaBlastIn
+	ldx.w #PlayerBeh_SpaceArmadaBlastIn
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_SpaceArmadaBlastIn)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$02
+	sta.w MaxViewMode
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$00E8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	stz.w EngineSoundFlag
+	lda.b #$01
+	sta.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_SpaceArmadaBlastIn_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_SpaceArmadaBlastIn_Exit
+	cmp.b #$20
+	bne LoadPreset_SpaceArmadaBlastIn_Wait
+LoadPreset_SpaceArmadaBlastIn_Exit:
+	rtl
+LoadPreset_SpaceArmada:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $15FF1C
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16D71C
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0C60
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$17
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_SpaceArmada
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_SpaceArmada)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$05
+	sta.w MaxViewMode
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$00E8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	lda.w CurLoaderTasks
+	bit.b #$01
+	beq LoadPreset_SpaceArmada_SkipLoadAudio
+	jsl LoadAudio_SpaceArmada
+LoadPreset_SpaceArmada_SkipLoadAudio:
+	stz.w EngineSoundFlag
+	lda.b #$01
+	sta.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_SpaceArmada_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_SpaceArmada_Exit
+	cmp.b #$20
+	bne LoadPreset_SpaceArmada_Wait
+LoadPreset_SpaceArmada_Exit:
+	rtl
+LoadPreset_SpaceArmadaTunnel:
+	sep #$20
+	jsr SetNMITaskInitMode1
+	jsr DecompressTileset
+	DL $17849C
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16F344
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F08E0
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	lda.b #$02
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_SpaceArmadaTunnel
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_SpaceArmadaTunnel)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$05
+	sta.w MaxViewMode
+	lda.b #$08
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	lda.w CurLoaderTasks
+	bit.b #$01
+	beq LoadPreset_SpaceArmadaTunnel_SkipLoadAudio
+	jsl LoadAudio_SpaceArmada
+LoadPreset_SpaceArmadaTunnel_SkipLoadAudio:
+	lda.b #$01
+	sta.w EngineSoundFlag
+	lda.w HDMAENMirror
+	ora.b #$10
+	sta.w HDMAENMirror
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	sta.w Unknown_18C2
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_SpaceArmadaTunnel_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_SpaceArmadaTunnel_Exit
+	cmp.b #$20
+	bne LoadPreset_SpaceArmadaTunnel_Wait
+LoadPreset_SpaceArmadaTunnel_Exit:
+	rtl
+LoadPreset_SpaceArmadaPart3:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $15FF1C
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16D71C
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0C60
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$17
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_SpaceArmada
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_SpaceArmada)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$05
+	sta.w MaxViewMode
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$00E8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	lda.w CurLoaderTasks
+	bit.b #$01
+	beq LoadPreset_SpaceArmadaPart3_SkipLoadAudio
+	jsl LoadAudio_SpaceArmada
+LoadPreset_SpaceArmadaPart3_SkipLoadAudio:
+	stz.w EngineSoundFlag
+	lda.b #$01
+	sta.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_SpaceArmadaPart3_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_SpaceArmadaPart3_Exit
+	cmp.b #$20
+	bne LoadPreset_SpaceArmadaPart3_Wait
+LoadPreset_SpaceArmadaPart3_Exit:
+	rtl
+LoadPreset_AtomicCoreBoss:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $15A6B0
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16C1B8
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F00E0
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$17
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_AtomicCoreBoss
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_AtomicCoreBoss)
+	sta.w TempPlayerBehPtr+2
+	lda.b #$0A
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$0108
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	rep #$20
+	lda.w #$0190
+	sta.w Unknown_195F
+	sep #$20
+	lda.b #$01
+	sta.w EngineSoundFlag
+	stz.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_AtomicCoreBoss_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_AtomicCoreBoss_Exit
+	cmp.b #$20
+	bne LoadPreset_AtomicCoreBoss_Wait
+LoadPreset_AtomicCoreBoss_Exit:
+	rtl
+LoadPreset_AtomicCoreWavyTunnel:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $15A6B0
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16C1B8
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F00E0
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$07
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_AtomicCoreWavyTunnel
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_AtomicCoreWavyTunnel)
+	sta.w TempPlayerBehPtr+2
+	lda.b #$0A
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$00F8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	rep #$20
+	lda.w #$0190
+	sta.w Unknown_195F
+	sep #$20
+	lda.b #$01
+	sta.w EngineSoundFlag
+	stz.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_AtomicCoreWavyTunnel_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_AtomicCoreWavyTunnel_Exit
+	cmp.b #$20
+	bne LoadPreset_AtomicCoreWavyTunnel_Wait
+LoadPreset_AtomicCoreWavyTunnel_Exit:
+	rtl
+LoadPreset_SpaceArmadaEnd:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $15AF04
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16C5AC
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0C60
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$17
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_AtomicCoreEnd
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_AtomicCoreEnd)
+	sta.w TempPlayerBehPtr+2
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$00E8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	stz.w EngineSoundFlag
+	lda.b #$01
+	sta.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_SpaceArmadaEnd_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_SpaceArmadaEnd_Exit
+	cmp.b #$20
+	bne LoadPreset_SpaceArmadaEnd_Wait
+LoadPreset_SpaceArmadaEnd_Exit:
+	rtl
+LoadPreset_Meteor:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $16D13C
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16CAF4
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0B80
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$0F
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_Meteor
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_Meteor)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$01
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$02
+	sta.w MaxViewMode
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$00E8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	jsl LoadAudio_Meteor
+	rep #$20
+	lda.w #$8FB2
+	sta.l $700050
+	sep #$20
+	rep #$10
+	stz.w EngineSoundFlag
+	stz.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_Meteor_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_Meteor_Exit
+	cmp.b #$20
+	bne LoadPreset_Meteor_Wait
+LoadPreset_Meteor_Exit:
+	rtl
+UnusedPresetLoaderFunc_039877:
+	rep #$20
+	lda.w #$8FAA
+	sta.l $700050
+	sep #$20
+	rep #$10
+	lda.b #$02
+	sta.w SuperFXPalette
+	jsl LoadSuperFX4BPPPalette
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8D
+	sta.l UnknownGSU_04E+1
+	rtl
+LoadPreset_VenomAtmosphere1:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $169150
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16D9F4
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0280
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$17
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_Space
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_Space)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$01
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$05
+	sta.w MaxViewMode
+	lda.b #$01
+	sta.w Unknown_16A2
+	lda.b #$A4
+	sta.w VerticalScrollBase
+	stz.w VerticalScrollBase+1
+	jsl LoadAudio_VenomAtmosphere1
+	stz.w EngineSoundFlag
+	lda.b #$01
+	sta.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_VenomAtmosphere1_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_VenomAtmosphere1_Exit
+	cmp.b #$20
+	bne LoadPreset_VenomAtmosphere1_Wait
+LoadPreset_VenomAtmosphere1_Exit:
+	rtl
+LoadPreset_Venom1:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $15FF1C
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16D71C
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0280
+	DW $00E0
+	lda.b #$02
+	sta.w SuperFXPalette
+	jsl LoadSuperFX4BPPPalette
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$0F
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_Venom13
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_Venom13)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$02
+	sta.w MaxViewMode
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$00E8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	jsl LoadAudio_Venom1
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	inc.w Unknown_1F0B
+	stz.w EngineSoundFlag
+	stz.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_Venom1_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_Venom1_Exit
+	cmp.b #$20
+	bne LoadPreset_Venom1_Wait
+LoadPreset_Venom1_Exit:
+	rtl
+LoadPreset_VenomBossTunnel:
+	jsl DoLoadPreset_VenomBossTunnel
+	lda.b #$12
+	sta.w MusicID
+	stz.w MusicLoaded
+	ldx.w #PlayerBeh_Venom13BossTunnel
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_Venom13BossTunnel)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$02
+	sta.w MaxViewMode
+	lda.b #$01
+	sta.w EngineSoundFlag
+	lda.w HDMAENMirror
+	ora.b #$10
+	sta.w HDMAENMirror
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_VenomBossTunnel_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_VenomBossTunnel_Exit
+	cmp.b #$20
+	bne LoadPreset_VenomBossTunnel_Wait
+LoadPreset_VenomBossTunnel_Exit:
+	rtl
+DoLoadPreset_VenomBossTunnel:
+	sep #$20
+	jsr SetNMITaskInitMode1
+	jsr DecompressTileset
+	DL $0DFBB9
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16FF94
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F08E0
+	DW $00E0
+	lda.b #$01
+	sta.w SuperFXPalette
+	jsl LoadSuperFX4BPPPalette
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$02
+	sta.w PresetSettings
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	lda.b #$08
+	sta.w ShearScrollType
+	rtl
+LoadPreset_VenomBoss:
+	sep #$20
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $16A648
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $15BC14
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0560
+	DW $00E0
+	lda.b #$02
+	sta.w SuperFXPalette
+	jsl LoadSuperFX4BPPPalette
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$06
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_VenomBoss
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_VenomBoss)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$02
+	sta.w MaxViewMode
+	lda.b #$0C
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$0000
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	rep #$20
+	lda.w #$0000
+	sta.l $7001A8
+	lda.w #$00A0
+	sta.l $7001AA
+	lda.w #$0001
+	sta.l $7001AC
+	sep #$20
+	lda.b #$01
+	sta.w EngineSoundFlag
+	lda.b #$01
+	sta.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_VenomBoss_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_VenomBoss_Exit
+	cmp.b #$20
+	bne LoadPreset_VenomBoss_Wait
+LoadPreset_VenomBoss_Exit:
+	rtl
+LoadPreset_VenomBossTunnelEnd:
+	sep #$20
+	jsr SetNMITaskInitMode1
+	jsr DecompressTileset
+	DL $0DFBB9
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16FF94
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F08E0
+	DW $00E0
+	lda.b #$02
+	sta.w SuperFXPalette
+	jsl LoadSuperFX4BPPPalette
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$02
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_Venom13BossTunnelEnd
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_Venom13BossTunnelEnd)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$02
+	sta.w MaxViewMode
+	lda.b #$08
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	rep #$20
+	lda.w #$8FAA
+	sta.l $700050
+	sep #$20
+	rep #$10
+	lda.b #$01
+	sta.w EngineSoundFlag
+	lda.w HDMAENMirror
+	ora.b #$10
+	sta.w HDMAENMirror
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	stz.w Unknown_18C2
+	lda.b #$0A
+	sta.l UnknownGSU_04E
+	lda.b #$8D
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_VenomBossTunnelEnd_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_VenomBossTunnelEnd_Exit
+	cmp.b #$20
+	bne LoadPreset_VenomBossTunnelEnd_Wait
+LoadPreset_VenomBossTunnelEnd_Exit:
+	rtl
+LoadPreset_VenomBossEnd:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $16A014
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $1FF963
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0000
+	DW $00E0
+	lda.b #$02
+	sta.w SuperFXPalette
+	jsl LoadSuperFX4BPPPalette
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	ldx.w #PlayerBeh_VenomBossEnd
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_VenomBossEnd)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$02
+	sta.w MaxViewMode
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	rep #$20
+	lda.w #$00E0
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	stz.w EngineSoundFlag
+	stz.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_VenomBossEnd_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_VenomBossEnd_Exit
+	cmp.b #$20
+	bne LoadPreset_VenomBossEnd_Wait
+LoadPreset_VenomBossEnd_Exit:
+	rtl
+LoadPreset_Ending:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $169150
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16D9F4
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0280
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	ldx.w #PlayerBeh_Ending
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_Ending)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$02
+	sta.w MaxViewMode
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	rep #$20
+	lda.w #$00AC
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	jsl LoadAudio_Ending
+	stz.w EngineSoundFlag
+	lda.b #$01
+	sta.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_Ending_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_Ending_Exit
+	cmp.b #$20
+	bne LoadPreset_Ending_Wait
+LoadPreset_Ending_Exit:
+	rtl
+LoadPreset_SectorX:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $158C50
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $1683C8
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0C60
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$17
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_Space
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_Space)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$01
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$05
+	sta.w MaxViewMode
+	lda.b #$00
+	sta.w ShearScrollType
+	rep #$20
+	lda.w #$00E8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	jsl LoadAudio_SectorX
+	stz.w EngineSoundFlag
+	lda.b #$01
+	sta.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_SectorX_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_SectorX_Exit
+	cmp.b #$20
+	bne LoadPreset_SectorX_Wait
+LoadPreset_SectorX_Exit:
+	rtl
+LoadPreset_Titania:
+	sep #$20
+	jsr SetNMITaskInitMode2
+	jsr DecompressTileset
+	DL $159B48
+	DW $5C00,$1800
+	jsr DecompressTilemap
+	DL $16AC44
+	DW $7000,$2000
+	jsr LoadPalette
+	DL $7F0000
+	DW $00E0
+	lda.b #$10
+	sta.b CurNMITask
+	lda.b #$03
+	sta.w SuperFXPalette
+	jsl LoadSuperFX4BPPPalette
+	lda.w HDMAENMirror
+	ora.b #$04
+	sta.w HDMAENMirror
+	lda.b #$27
+	sta.w PresetSettings
+	ldx.w #PlayerBeh_0BBB03
+	stx.w TempPlayerBehPtr
+	lda.b #BANKOF(PlayerBeh_0BBB03)
+	sta.w TempPlayerBehPtr+2
+	sep #$20
+	lda.b #$00
+	sta.w CurViewMode
+	jsl UpdateViewMode
+	lda.b #$02
+	sta.w MaxViewMode
+	jsl LoadAudio_Titania
+	rep #$20
+	lda.w #$00E8
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	rep #$20
+	lda.w #$8FB2
+	sta.l UnknownGSU_050
+	sep #$20
+	rep #$10
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	lda.b #$00
+	sta.w ShearScrollType
+	stz.w EngineSoundFlag
+	stz.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$0A
+	sta.l UnknownGSU_04E
+	lda.b #$8C
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_Titania_Wait:
+	lda.b CurNMITask
+	beq LoadPreset_Titania_Exit
+	cmp.b #$20
+	bne LoadPreset_Titania_Wait
+LoadPreset_Titania_Exit:
+	rtl
+UnusedPresetLoaderFunc_039E27:
+	rep #$20
+	lda.w #$8FAA
+	sta.w UnknownGSU_050
+	sep #$20
+	rep #$10
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_195F
+	sep #$20
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	rtl
+LoadPreset_TitaniaBoss:
+	sep #$20
+	jsr SetNMITaskInitMode1
 	
 	
 	
@@ -931,19 +2233,32 @@ LoadPreset_Corneria12:
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	rep #$20
+	lda.w #$0101
+	sta.w VerticalScrollBase
+	sta.w VerticalScroll
+	sep #$20
+	jsl LoadAudio_Title
+	lda.b #$07
+	sta.w TM
+	stz.w EngineSoundFlag
+	lda.b #$01
+	sta.w Unknown_18C2
+	stz.w PrevTiltScrollIndex
+	stz.w PrevTiltScrollIndex+1
+	lda.b #$8A
+	sta.l UnknownGSU_04E
+	lda.b #$8B
+	sta.l UnknownGSU_04E+1
+	lda.w HDMAENMirror
+	sta.w HDMAEN
+LoadPreset_Title_Wait2:
+	lda.b CurNMITask
+	beq LoadPreset_Title_Exit2
+	cmp.b #$20
+	bne LoadPreset_Title_Wait2
+LoadPreset_Title_Exit2:
+	rtl
 SetNMITaskInitMode1:
 	sep #$20
 	rep #$10
@@ -1008,10 +2323,10 @@ DoDecompressTilemap:
 DoDecompressTilemap2:
 	php
 	rep #$20
-	lda #$0000
-	sta $700090
-	lda #$4000
-	sta $70002C
+	lda.w #$0000
+	sta.l $700090
+	lda.w #$4000
+	sta.l $70002C
 	sep #$20
 	lda.b #BANKOF(DecompressGraphics)
 	ldx.w #DecompressGraphics
@@ -1021,8 +2336,8 @@ DoDecompressTilemap2:
 DoDecompressTileset2:
 	php
 	rep #$20
-	lda #$2800
-	sta $70002C
+	lda.w #$2800
+	sta.l $70002C
 	sep #$20
 	lda.b #BANKOF(DecompressGraphics)
 	ldx.w #DecompressGraphics
@@ -1034,19 +2349,19 @@ DecompressTileset:
 	pla
 	tax
 	clc
-	adc #$0007
+	adc.w #$0007
 	pha
-	lda #$0000
-	sta $700090
-	lda $030003,x
-	and #$00FF
-	sta $700064
-	lda $030001,x
-	sta $700062
-	lda $030004,x
-	sta $188A
-	lda $030006,x
-	sta $188C
+	lda.w #$0000
+	sta.l $700090
+	lda.l $030003,x
+	and.w #$00FF
+	sta.l $700064
+	lda.l $030001,x
+	sta.l $700062
+	lda.l $030004,x
+	sta.w Unknown_188A
+	lda.l $030006,x
+	sta.w Unknown_188C
 	sep #$20
 	jsl DoDecompressTileset
 	rts
@@ -1055,17 +2370,17 @@ DoDecompressTilemap:
 	pla
 	tax
 	clc
-	adc #$0007
+	adc.w #$0007
 	pha
-	lda $030001,x
-	sta $700062
-	lda $030003,x
-	and #$00FF
-	sta $700064
-	lda $030004,x
-	sta $188E
-	lda $030006,x
-	sta $1890
+	lda.l $030001,x
+	sta.l $700062
+	lda.l $030003,x
+	and.w #$00FF
+	sta.l $700064
+	lda.l $030004,x
+	sta.w Unknown_188E
+	lda.l $030006,x
+	sta.w Unknown_1890
 	sep #$20
 	jsl DoDecompressTilemap
 	rts
@@ -1077,14 +2392,14 @@ LoadPalette:
 	adc.w #$0005
 	pha
 	lda.l $030001,x
-	sta.w $1892
+	sta.w Unknown_1892
 	sep #$20
 	lda.l $030003,x
-	sta.w $1894
+	sta.w Unknown_1892+2
 	rep #$20
 	lda.l $030004
-	sta.w $1895
-	lda.w $1892
+	sta.w Unknown_1895
+	lda.w Unknown_1892
 	clc
 	adc.w #$00DF
 	tay
@@ -1138,7 +2453,7 @@ PresetFunctionTable:
 	PRESETFUNCPTR(LoadPreset_Venom2BossTunnel2)
 	PRESETFUNCPTR(LoadPreset_Asteroid3)
 	PRESETFUNCPTR(LoadPreset_Fortuna)
-	PRESETFUNCPTR(LoadPreset_ToMap)
+	PRESETFUNCPTR(LoadPreset_UnkC3)
 	PRESETFUNCPTR(LoadPreset_SectorZ)
 	PRESETFUNCPTR(LoadPreset_BossTunnel)
 	PRESETFUNCPTR(LoadPreset_SectorZEnd)
@@ -1161,252 +2476,252 @@ PresetFunctionTable:
 LoadAudio_InitData:
 	php
 	rep #$10
-	ldx #$0000
+	ldx.w #$0000
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Title:
 	php
 	rep #$10
-	ldx #$001C
+	ldx.w #$001C
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Controls:
 	php
 	rep #$10
-	ldx #$0025
+	ldx.w #$0025
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Training:
 	php
 	rep #$10
-	ldx #$0033
+	ldx.w #$0033
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Map:
 	php
 	rep #$10
-	ldx #$0041
+	ldx.w #$0041
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Scramble1:
 	php
 	rep #$10
-	ldx #$0061
+	ldx.w #$0061
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Corneria1:
 	php
 	rep #$10
-	ldx #$0074
+	ldx.w #$0074
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Asteroid1:
 	php
 	rep #$10
-	ldx #$008C
+	ldx.w #$008C
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_SpaceArmadaBlastIn:
 	php
 	rep #$10
-	ldx #$009A
+	ldx.w #$009A
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_SpaceArmada:
 	php
 	rep #$10
-	ldx #$00A8
+	ldx.w #$00A8
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Meteor:
 	php
 	rep #$10
-	ldx #$00B6
+	ldx.w #$00B6
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_VenomAtmosphere1:
 	php
 	rep #$10
-	ldx #$00CE
+	ldx.w #$00CE
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Venom1:
 	php
 	rep #$10
-	ldx #$00DC
+	ldx.w #$00DC
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Scramble2:
 	php
 	rep #$10
-	ldx #$00EF
+	ldx.w #$00EF
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Silence2:
 	php
 	rep #$10
-	ldx #$0102
+	ldx.w #$0102
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_SectorX:
 	php
 	rep #$10
-	ldx #$0110
+	ldx.w #$0110
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Titania:
 	php
 	rep #$10
-	ldx #$011E
+	ldx.w #$011E
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_SectorY:
 	php
 	rep #$10
-	ldx #$0136
+	ldx.w #$0136
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_VenomAtmosphere2:
 	php
 	rep #$10
-	ldx #$0144
+	ldx.w #$0144
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Highway:
 	php
 	rep #$10
-	ldx #$0152
+	ldx.w #$0152
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Scramble3:
 	php
 	rep #$10
-	ldx #$0165
+	ldx.w #$0165
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Silence3:
 	php
 	rep #$10
-	ldx #$0178
+	ldx.w #$0178
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Asteroid3:
 	php
 	rep #$10
-	ldx #$0186
+	ldx.w #$0186
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Fortuna:
 	php
 	rep #$10
-	ldx #$0194
+	ldx.w #$0194
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_SectorZ:
 	php
 	rep #$10
-	ldx #$01AC
+	ldx.w #$01AC
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Macbeth:
 	php
 	rep #$10
-	ldx #$01BA
+	ldx.w #$01BA
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_VenomAtmosphere3:
 	php
 	rep #$10
-	ldx #$01CD
+	ldx.w #$01CD
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Venom3:
 	php
 	rep #$10
-	ldx #$01DB
+	ldx.w #$01DB
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Continue:
 	php
 	rep #$10
-	ldx #$004F
+	ldx.w #$004F
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_BlackHole:
 	php
 	rep #$10
-	ldx #$0058
+	ldx.w #$0058
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Intro:
 	php
 	rep #$10
-	ldx #$0009
+	ldx.w #$0009
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Ending:
 	php
 	rep #$10
-	ldx #$01EE
+	ldx.w #$01EE
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_Credits:
 	php
 	rep #$10
-	ldx #$01F7
+	ldx.w #$01F7
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_GameOver:
 	php
 	rep #$10
-	ldx #$0200
+	ldx.w #$0200
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_OutOfThisDimension:
 	php
 	rep #$10
-	ldx #$0209
+	ldx.w #$0209
 	jsr LoadAudio
 	plp
 	rtl
 LoadAudio_BossTunnel:
 	php
 	rep #$10
-	ldx #$0217
+	ldx.w #$0217
 	jsr LoadAudio
 	plp
 	rtl
@@ -1454,24 +2769,24 @@ LoadAudio:
 	sep #$20
 	sei
 	lda.l AudioPacketData,x				;\Set MusicID
-	sta MusicID					;/
+	sta.w MusicID					;/
 	inx
-	stx TempLdAudioPktOffs
-	lda InitDataSentFlag				;\If initialization data hasn't been set yet...
+	stx.w TempLdAudioPktOffs
+	lda.w InitDataSentFlag				;\If initialization data hasn't been set yet...
 	beq LoadAudio_SkipSetBlockID			;|branch to skip this, otherwise...
-	lda #$FF					;|set the block ID to $FF
-	sta APUI00					;/
+	lda.b #$FF					;|set the block ID to $FF
+	sta.w APUI00					;/
 LoadAudio_SkipSetBlockID:
-	lda #$01					;\Set flag
-	sta InitDataSentFlag				;/
+	lda.b #$01					;\Set flag
+	sta.w InitDataSentFlag				;/
 	rep #$20
-	ldy #$0000
-	lda #$BBAA					;\Wait until SPC700 is ready to receive data
+	ldy.w #$0000
+	lda.w #$BBAA					;\Wait until SPC700 is ready to receive data
 LoadAudio_WaitSPCReady:					;|
-	cmp APUI00					;|
+	cmp.w APUI00					;|
 	bne LoadAudio_WaitSPCReady			;/
 	sep #$20					;\Send transfer signal/block ID to SPC700
-	lda #$CC					;|
+	lda.b #$CC					;|
 	pha						;|
 	jmp LoadAudio_L17				;/
 LoadAudio_L3:
@@ -1481,10 +2796,10 @@ LoadAudio_L3:
 	inc.b TempLdAudPtr+2
 	stz.b TempLdAudPtr+1
 	stz.b TempLdAudPtr
-	ldy #$8000
+	ldy.w #$8000
 LoadAudio_L4:
 	xba
-	lda #$00
+	lda.b #$00
 	bra LoadAudio_L8
 LoadAudio_L5:
 	xba
@@ -1494,24 +2809,24 @@ LoadAudio_L5:
 	inc.b TempLdAudPtr+2
 	stz.b TempLdAudPtr+1
 	stz.b TempLdAudPtr
-	ldy #$8000
+	ldy.w #$8000
 LoadAudio_L6:
 	xba
 LoadAudio_L7:
-	cmp APUI00
+	cmp.w APUI00
 	bne LoadAudio_L7
 	inc
 LoadAudio_L8:
 	rep #$20
-	sta APUI00
+	sta.w APUI00
 	sep #$20
 	dex
 	bne LoadAudio_L5
 LoadAudio_L9:
-	cmp APUI00
+	cmp.w APUI00
 	bne LoadAudio_L9
 LoadAudio_L10:
-	adc #$03
+	adc.b #$03
 	beq LoadAudio_L10
 	pha
 LoadAudio_L11:
@@ -1520,32 +2835,32 @@ LoadAudio_L11:
 	beq LoadAudio_L17
 	iny
 	bne LoadAudio_L12
-	jml CODE_1FBDEE
+	jml UnkFunc_1FBDEE
 LoadAudio_L12:
 	iny
 	bne LoadAudio_L13
-	jml CODE_1FBDEE
+	jml UnkFunc_1FBDEE
 LoadAudio_L13:
 	tax
 	lda [D,TempLdAudPtr],y
 	iny
 	bne LoadAudio_L14
-	jml CODE_1FBDEE
+	jml UnkFunc_1FBDEE
 LoadAudio_L14:
 	iny
 	bne LoadAudio_L15
-	jml CODE_1FBDEE
+	jml UnkFunc_1FBDEE
 LoadAudio_L15:
-	sta APUI02
+	sta.w APUI02
 	sep #$20
-	dpx #$0001
-	lda #$00
+	cpx.w #$0001
+	lda.b #$00
 	rol
-	sta APUI01
+	sta.w APUI01
 	pla
-	sta APUI00
+	sta.w APUI00
 LoadAudio_L16:
-	cmp APUI00
+	cmp.w APUI00
 	bne LoadAudio_L16
 	jmp LoadAudio_L3
 LoadAudio_L17:
@@ -1576,29 +2891,29 @@ LoadAudio_L17:
 LoadAudio_Finish:
 	rep #$20					;\Set SPC700 PC register
 	lda.w #$0400					;|
-	sta APUI02					;/
+	sta.w APUI02					;/
 	sep #$30
 	lda.b #$00
 	xba
 	pla
 	rep #$20
-	sta APUI00
+	sta.w APUI00
 	sep #$20
 LoadAudio_WaitReturn:
-	cmp APUI00
+	cmp.w APUI00
 	bne LoadAudio_WaitReturn
-	stz APUI01
-	stz APUI02
-	stz APUI03
-	stz MusicLoaded
-	lda TIMEUP
+	stz.w APUI01
+	stz.w APUI02
+	stz.w APUI03
+	stz.w MusicLoaded
+	lda.w TIMEUP
 	cli
 	rts
 LoadAudio_L20:
 	lda [D,TempLdAudPtr],y
 	iny
 	xba
-	lda #$00
+	lda.b #$00
 	bra LoadAudio_L23
 LoadAudio_L21:
 	xba
@@ -1606,20 +2921,20 @@ LoadAudio_L21:
 	iny
 	xba
 LoadAudio_L22:
-	cmp APUI00
+	cmp.w APUI00
 	bne LoadAudio_L22
 	inc
 LoadAudio_L23:
 	rep #$20
-	sta APUI00
+	sta.w APUI00
 	sep #$20
 	dex
 	bne LoadAudio_L21
 LoadAudio_L24:
-	cmp APUI00
+	cmp.w APUI00
 	bne LoadAudio_L24
 LoadAudio_L25:
-	adc #$03
+	adc.b #$03
 	beq LoadAudio_L25
 	pha
 LoadAudio_L26:
@@ -1634,22 +2949,22 @@ LoadAudio_L27:
 	lda [D,TempLdAudPtr],y
 	iny
 	iny
-	sta APUI02
+	sta.w APUI02
 	sep #$20
-	cpx #$0001
-	lda #$00
+	cpx.w #$0001
+	lda.b #$00
 	rol
-	sta APUI01
+	sta.w APUI01
 	pla
-	sta APUI01
+	sta.w APUI01
 LoadAudio_L28:
-	cmp APUI00
+	cmp.w APUI00
 	bne LoadAudio_L28
 	bra LoadAudio_L20
 CODE_03B269:
 	sep #$20
-	lda $14D1
-	and #$08
+	lda.w $14D1
+	and.b #$08
 	beq CODE_03B279
 	lda $14D7
 	and #$80
@@ -3149,7 +4464,7 @@ PreShadedPalette:
 	;...plus 16 colors for sprites
 	DW $2DAF,$03E5,$673A,$5295,$3DF0,$35AE,$252A,$6DA5
 	DW $7EED,$7FFF,$7A1F,$707F,$301A,$0000,$0000,$0000
-DATA_03D66C:
+UnkData_03D66C:
 	DB $FF,$03,$FF,$03,$FF,$03,$FF,$03
 	DB $FF,$03,$FF,$03,$FF,$03,$FF,$03
 	DB $FF,$03,$FF,$03,$FF,$03,$FF,$03
@@ -3606,7 +4921,7 @@ InitPresetSettings:
 	sta.b $17,x
 	bra CODE_03F04A
 CODE_03F046:
-	jml CODE_1FBDEE
+	jml UnkFunc_1FBDEE
 CODE_03F04A:
 	sep #$20
 	stz Unknown_1F05
@@ -4873,7 +6188,7 @@ LevelCommand04_LoopSection_L3:
 	inx
 	jmp RunLevelScriptCommands
 LevelCommand06:
-	jml CODE_1FBDEE
+	jml UnkFunc_1FBDEE
 LevelCommand08_Nop:
 	inx
 	jmp RunLevelScriptCommands

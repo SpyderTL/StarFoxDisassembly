@@ -13,7 +13,7 @@
 	nop
 	iwt r15,#EndVertexList			;8A4B
 	nop
-	iwt r15,#CODE_018C31
+	iwt r15,#UnkFuncGSU_018C31
 	nop
 	iwt r15,#StartFaceGroup			;8D14
 	nop
@@ -45,20 +45,20 @@
 	nop
 	iwt r15,#LoadVertices16Bit		;8709
 	nop
-	iwt r15,#CODE_018CA2
+	iwt r15,#UnkFuncGSU_018CA2
 	nop
-	iwt r15,#CODE_018C8F
+	iwt r15,#UnkFuncGSU_018C8F
 	nop
 ;;;;;;;;;;;;;;;;;;;
 ;UTILITY FUNCTIONS;
 ;;;;;;;;;;;;;;;;;;;
-CODE_018058:
+UnkFuncGSU_018058:
 	ibt r6,#$00
 	ibt r4,#$00
 	ibt r12,#$08
-	iwt r13,#CODE_018062
+	iwt r13,#UnkFuncGSU_018058_L1
 	with r3
-CODE_018062:
+UnkFuncGSU_018058_L1:
 	add r3
 	with r4
 	rol
@@ -72,30 +72,31 @@ CODE_018062:
 	add r6
 	alt3
 	cmp r4
-	bcs CODE_018075
+	bcs UnkFuncGSU_018058_L2
 	with r4
 	alt1
 	sbc r0
 	inc r6
-CODE_018075:
+UnkFuncGSU_018058_L2:
 	loop
 	with r3
 	jmp r11						;\Return from link
 	nop						;/
-CODE_018079:
+UnkFuncGSU_018079:
 	iwt r5,#$FFFF
 	iwt r4,#$7FFF
 	link #4
-	iwt r15,#CODE_018086
+	iwt r15,#UnkFuncGSU_018086
 	nop
 	stop						;\End SuperFX task
 	nop						;/
-CODE_018086:
+UnkFuncGSU_018086:
 	ibt r6,#$00
 	ibt r8,#$00
 	ibt r12,#$10
-	iwt r13,#CODE_018090
+	iwt r13,#UnkFuncGSU_018086_L1
 	with r5
+UnkFuncGSU_018086_L1:
 	add r5
 	with r4
 	rol
@@ -114,26 +115,26 @@ CODE_018086:
 	add r6
 	from r7
 	sub r8
-	bcs CODE_0180A8
+	bcs UnkFuncGSU_018086_L2
 	with r8
 	alt1
 	sbc r7
 	inc r6
-CODE_0180A8:
+UnkFuncGSU_018086_L2:
 	loop
 	with r5
 	jmp r11						;\Return from link
 	nop						;/
-CODE_0180AC:
+UnkFuncGSU_0180AC:
 	iwt r1,#$0100
 	iwt r2,#$0100
 	iwt r3,#$7D00
 	link #4
-	iwt r15,#CODE_0180C5
+	iwt r15,#UnkFunc_0180C5
 	nop
 	stop						;\End SuperFX task
 	nop						;/
-CODE_0180BC:
+UnkFuncGSU_0180BC:
 	from r4
 	to r1
 	sub r1
@@ -143,6 +144,7 @@ CODE_0180BC:
 	from r6
 	to r3
 	sub r3
+UnkFunc_0180C5:
 	from r11					;\Push r11 (link) to stack
 	stw r10						;|
 	inc r10						;|
@@ -171,10 +173,10 @@ CODE_0180BC:
 	alt1
 	adc r6
 	moves r0,r0
-	bne CODE_0180F9
+	bne UnkFunc_0180C5_L1
 	nop
 	moves r5,r5
-	bne CODE_0180F9
+	bne UnkFunc_0180C5_L1
 	ibt r1,#$00
 	ibt r2,#$00
 	ibt r3,#$00
@@ -183,35 +185,35 @@ CODE_0180BC:
 	to r15						;|
 	ldw r10						;|
 	nop						;/
-CODE_0180F9:
+UnkFunc_0180C5_L1:
 	move r4,r0
 	link #4
-	iwt r15,#CODE_018086
+	iwt r15,#UnkFuncGSU_018086
 	nop
 	with r6
 	to r0
 	ibt r9,#$00
-CODE_018104:
+UnkFunc_0180C5_L2:
 	lsr
-	beq CODE_01810B
+	beq UnkFunc_0180C5_L3
 	nop
-	bra CODE_018104
+	bra UnkFunc_0180C5_L2
 	inc r9
-CODE_01810B:
+UnkFunc_0180C5_L3:
 	sub r0
 	iwt r4,#$7FFF
 	moves r12,r9
-	beq CODE_01811A
+	beq UnkFunc_0180C5_L4
 	nop
 	move r13,r15					; Set loop point
 	with r4
 	add r4
 	loop
 	rol
-CODE_01811A:
+UnkFunc_0180C5_L4:
 	move r6,r6
 	link #4
-	iwt r15,#CODE_018183
+	iwt r15,#UnkFunc_018183
 	nop
 	move r6,r4
 	from r1
@@ -229,7 +231,7 @@ CODE_01811A:
 	lmult
 	move r3,r4
 	moves r12,r9
-	beq CODE_018148
+	beq UnkFunc_0180C5_L5
 	nop
 	move r13,r15					; Set loop point
 	with r7
@@ -245,13 +247,13 @@ CODE_01811A:
 	ror
 	loop
 	nop
-CODE_018148:
+UnkFunc_0180C5_L5:
 	dec r10						;\Pop r15 (pc) from stack and return
 	dec r10						;|
 	to r15						;|
 	ldw r10						;|
 	nop						;/
-CODE_01814D:
+UnkFunc_01814D:
 	cache
 	from r5
 	to r7
@@ -259,18 +261,18 @@ CODE_01814D:
 	xor r6
 	sub r0
 	moves r6,r6
-	bpl CODE_018159
+	bpl UnkFunc_01814D_L1
 	to r6
 	sub r6
-CODE_018159:
+UnkFunc_01814D_L1:
 	moves r5,r5
-	bpl CODE_018162
+	bpl UnkFunc_01814D_L2
 	to r4
 	sub r4
 	to r5
 	alt1
 	sbc r5
-CODE_018162:
+UnkFunc_01814D_L2:
 	with r4
 	add r4
 	from r5
@@ -278,37 +280,37 @@ CODE_018162:
 	ibt r12,#$10
 	move r13,r15					; Set loop point
 	sub r6
-	bcc CODE_018175
+	bcc UnkFunc_01814D_L3
 	nop
 	with r4
 	rol
 	loop
 	rol
-	bra CODE_01817A
+	bra UnkFunc_01814D_L4
 	nop
-CODE_018175:
+UnkFunc_01814D_L3:
 	add r6
 	with r4
 	add r4
 	loop
 	rol
-CODE_01817A:
+UnkFunc_01814D_L4:
 	moves r7,r7
-	bpl CODE_018181
+	bpl UnkFunc_01814D_L5
 	with r4
 	not
 	inc r4
-CODE_018181:
+UnkFunc_01814D_L5:
 	jmp r11						;\Return from link
 	nop						;/
-CODE_018183:
+UnkFunc_018183:
 	moves r0,r0
-	bmi CODE_01818D
+	bmi UnkFunc_018183_L1
 	nop
 	moves r6,r6
 	bpl Divide
 	nop
-CODE_01818D:
+UnkFunc_018183_L1:
 	with r6
 	lsr
 	lsr
@@ -347,7 +349,7 @@ CalculateAtan2:
 	iwt r15,#DoCalculateAtan2
 	nop
 	alt2						;\Store result
-	sms ($0040),r0					;|
+	sms (UnknownGSU_040),r0				;|
 	nop						;/
 	stop						;\End SuperFX task
 	nop						;/
@@ -806,7 +808,7 @@ Unknown_DrawHorizLine32GreenPixels:
 	plot						;/
 	stop						;\End SuperFX task
 	nop						;/
-CODE_0183CF:
+UnkFunc_0183CF:
 	sub r0
 	alt2
 	ramb
@@ -861,7 +863,7 @@ CODE_01840A:
 	romb
 	iwt r10,#SuperFXStack
 	alt1
-	lm r4,($001A)
+	lm r4,(UnknownGSU_01A)
 	ibt r14,#$12
 	from r4
 	to r14
@@ -871,14 +873,14 @@ CODE_01840A:
 	alt1
 	getbh
 	alt2
-	sms ($004A),r0
+	sms (UnknownGSU_04A),r0
 	ibt r14,#$07
 	from r4
 	to r14
 	add r14
 	getb
 	alt2
-	sms ($0032),r0
+	sms (UnknownGSU_032),r0
 	ibt r14,#$00
 	from r4
 	to r14
@@ -888,14 +890,14 @@ CODE_01840A:
 	alt1
 	getbh
 	alt2
-	sms ($0016),r0
+	sms (UnknownGSU_016),r0
 	ibt r14,#$02
 	from r4
 	to r14
 	add r14
 	getb
 	alt2
-	sms ($001C),r0
+	sms (UnknownGSU_01C),r0
 	ibt r14,#$03
 	from r4
 	to r14
@@ -905,7 +907,7 @@ CODE_01840A:
 	alt1
 	getbh
 	alt2
-	sms ($0018),r0
+	sms (UnknownGSU_018),r0
 	iwt r0,#$8000
 	link #4
 	iwt r15,#CODE_018484
@@ -914,7 +916,7 @@ CODE_01840A:
 	nop						;/
 CODE_018456:
 	alt1
-	lms r0,($01A2)
+	lms r0,(UnknownGSU_1A2)
 	lob
 	beq CODE_018479
 	nop
@@ -934,7 +936,7 @@ CODE_01846B:
 	iwt r2,#$1000
 	iwt r1,#$2000
 	alt1
-	lms r0,($0054)
+	lms r0,(UnknownGSU_054)
 	and r2
 	or r1
 	bra CODE_018484
@@ -951,7 +953,7 @@ CODE_018479:
 	iwt r0,#$8000
 CODE_018484:
 	alt2
-	sms ($0054),r0
+	sms (UnknownGSU_054),r0
 	from r11
 	stw r10
 	inc r10
@@ -963,9 +965,9 @@ CODE_018484:
 	alt3
 	romb
 	alt1
-	lms r14,($0050)
+	lms r14,(UnknownGSU_050)
 	alt1
-	lms r0,($01A4)
+	lms r0,(UnknownGSU_1A4)
 	lob
 	beq CODE_0184A5
 	nop
@@ -977,7 +979,7 @@ CODE_018484:
 	add r2
 CODE_0184A5:
 	alt1
-	lms r1,($002A)
+	lms r1,(OutputVecZ)
 	sub r0
 	alt1
 	getbh
@@ -1018,16 +1020,16 @@ CODE_0184DE:
 	iwt r2,#$0060
 CODE_0184E4:
 	alt2
-	sms ($004C),r0
+	sms (UnknownGSU_04C),r0
 	alt1
-	lms r0,($004E)
+	lms r0,(UnknownGSU_04E)
 	add r2
 	alt2
-	sms ($0032),r0
+	sms (UnknownGSU_032),r0
 	cache
 	ibt r0,#$01
 	alt1
-	lms r12,($0032)
+	lms r12,(UnknownGSU_032)
 	moves r12,r12
 	beq CODE_0184FD
 	nop
@@ -1036,9 +1038,9 @@ CODE_0184E4:
 	add r0
 CODE_0184FD:
 	alt2
-	sms ($0030),r0
+	sms (UnknownGSU_030),r0
 	alt1
-	lms r1,($0020)
+	lms r1,(DesiredXRot)
 	from r1
 	lob
 	swap
@@ -1046,7 +1048,7 @@ CODE_0184FD:
 	inc r0
 	sbk
 	alt1
-	lms r2,($0022)
+	lms r2,(DesiredYRot)
 	from r2
 	lob
 	swap
@@ -1054,7 +1056,7 @@ CODE_0184FD:
 	inc r0
 	sbk
 	alt1
-	lms r3,($0024)
+	lms r3,(DesiredZRot)
 	from r3
 	lob
 	swap
@@ -1108,7 +1110,7 @@ CODE_018524:
 	alt2						;|
 	sms (TransformMatrix.ZZ),r0			;/
 	alt1
-	lms r0,($0054)
+	lms r0,(UnknownGSU_054)
 	iwt r1,#$2000
 	and r1
 	beq CODE_018571
@@ -1182,7 +1184,7 @@ CODE_018581:
 	alt2						;|
 	sms (TransformMatrix.ZZ),r0			;/
 	alt1
-	lms r0,($0054)
+	lms r0,(UnknownGSU_054)
 	iwt r1,#$2000
 	and r1
 	beq CODE_0185DA
@@ -1206,17 +1208,17 @@ CODE_0185DE:
 	iwt r15,#CODE_0194FE
 	nop
 	alt1
-	lms r0,($0054)
+	lms r0,(UnknownGSU_054)
 	iwt r1,#$2000
 	and r1
 	beq CODE_01860D
 	sub r0
 	alt2
-	sms ($0106),r0
+	sms (UnknownGSU_106),r0
 	alt2
-	sms ($010C),r0
+	sms (UnknownGSU_10C),r0
 	alt2
-	sms ($0112),r0
+	sms (UnknownGSU_112),r0
 	iwt r9,#$0120
 	link #4
 	iwt r15,#CODE_01952E
@@ -1230,34 +1232,34 @@ CODE_01860D:
 	nop
 	iwt r0,#$49E5
 	alt2
-	sms ($00EE),r0
+	sms (UnknownGSU_0EE),r0
 	iwt r0,#$49E5
 	alt2
-	sms ($00F0),r0
+	sms (UnknownGSU_0F0),r0
 	iwt r0,#$49E5
 	alt2
-	sms ($00F2),r0
+	sms (UnknownGSU_0F2),r0
 	alt1
-	lms r1,($00EE)
+	lms r1,(UnknownGSU_0EE)
 	alt1
-	lms r2,($00F0)
+	lms r2,(UnknownGSU_0F0)
 	alt1
-	lms r3,($00F2)
+	lms r3,(UnknownGSU_0F2)
 	alt1
-	lms r6,($0120)
+	lms r6,(TransformMatrix.XX)
 	from r1
 	fmult
 	to r5
 	rol
 	alt1
-	lms r6,($0122)
+	lms r6,(TransformMatrix.YX)
 	from r2
 	fmult
 	rol
 	with r5
 	add r0
 	alt1
-	lms r6,($0124)
+	lms r6,(TransformMatrix.ZX)
 	from r3
 	fmult
 	rol
@@ -1265,22 +1267,22 @@ CODE_01860D:
 	hib
 	sex
 	alt2
-	sms ($00F4),r0
+	sms (UnknownGSU_0F4),r0
 	alt1
-	lms r6,($0126)
+	lms r6,(TransformMatrix.XY)
 	from r1
 	fmult
 	to r5
 	rol
 	alt1
-	lms r6,($0128)
+	lms r6,(TransformMatrix.YY)
 	from r2
 	fmult
 	rol
 	with r5
 	add r0
 	alt1
-	lms r6,($012A)
+	lms r6,(TransformMatrix.ZY)
 	from r3
 	fmult
 	rol
@@ -1288,22 +1290,22 @@ CODE_01860D:
 	hib
 	sex
 	alt2
-	sms ($00F6),r0
+	sms (UnknownGSU_0F6),r0
 	alt1
-	lms r6,($012C)
+	lms r6,(TransformMatrix.XZ)
 	from r1
 	fmult
 	to r5
 	rol
 	alt1
-	lms r6,($012E)
+	lms r6,(TransformMatrix.YZ)
 	from r2
 	fmult
 	rol
 	with r5
 	add r0
 	alt1
-	lms r6,($0130)
+	lms r6,(TransformMatrix.ZZ)
 	from r3
 	fmult
 	rol
@@ -1311,9 +1313,9 @@ CODE_01860D:
 	hib
 	sex
 	alt2
-	sms ($00F8),r0
+	sms (UnknownGSU_0F8),r0
 	lt1
-	lms r0,($0032)
+	lms r0,(UnknownGSU_032)
 	alt2
 	sub #$03
 	bpl CODE_0186C9
@@ -1329,7 +1331,7 @@ CODE_01860D:
 	swap
 	or r1
 	alt2
-	sms ($0116),r0
+	sms (UnknownGSU_116),r0
 	inc r2
 	inc r2
 	to r1
@@ -1342,7 +1344,7 @@ CODE_01860D:
 	swap
 	or r1
 	alt2
-	sms ($0118),r0
+	sms (UnknownGSU_118),r0
 	inc r2
 	inc r2
 	to r1
@@ -1355,7 +1357,7 @@ CODE_01860D:
 	swap
 	or r1
 	alt2
-	sms ($011A),r0
+	sms (UnknownGSU_11A),r0
 	inc r2
 	inc r2
 	to r1
@@ -1368,27 +1370,27 @@ CODE_01860D:
 	swap
 	or r1
 	alt2
-	sms ($011C),r0
+	sms (UnknownGSU_11C),r0
 	inc r2
 	inc r2
 	alt1
 	ldb r2
-	sms ($011E),r0
+	sms (UnknownGSU_11E),r0
 CODE_0186C9:
 	sub r0
 	alt2
-	sms ($0132),r0
+	sms (TotalVtxCnt),r0
 	iwt r0,#$05C2
 	alt2
-	sms ($001E),r0
+	sms (CurVtxPtr),r0
 	alt1
-	lms r0,($001C)
+	lms r0,(UnknownGSU_01C)
 	alt3
 	romb
 	alt1
-	lms r14,($0016)
+	lms r14,(UnknownGSU_016)
 	alt2
-	sms ($001A),r14
+	sms (UnknownGSU_01A),r14
 	iwt r0,#FinishModel				;\Push `FinishModel` function pointer to stack
 	stw r10						;|
 	inc r10						;|
@@ -1411,7 +1413,7 @@ LoadAnimatedVertices:
 	getb						;|
 	inc r14						;/
 	alt1						;\Get timer in r0...
-	lms r0,($0044)					;|
+	lms r0,(VertexAnimFrame)			;|
 	ibt r2,#$3F					;|...and mask out the 6 LSBs
 	and r2						;/
 LoadAnimatedVertices_L1:
@@ -1446,7 +1448,7 @@ LoadVertices16Bit:
 	alt1						;\Load r9 with current vertex pointer
 	lms r9,(CurVtxPtr)				;/
 	alt2						;\Save r10
-	sms ($0012),r10					;/
+	sms (UnknownGSU_012),r10				;/
 	alt1						;\Get XX matrix element in r10
 	lms r10,(TransformMatrix.XX)			;/
 	alt1						;\Get XY matrix element in r11
@@ -1547,7 +1549,7 @@ LoadVertices16Bit_Loop:
 	alt2						;\Save current vertex pointer
 	sms (CurVtxPtr),r9				;/
 	alt1						;\Restore r10
-	lms r10,($0012)					;/
+	lms r10,(UnknownGSU_012)			;/
 	to r15						;\Get next command byte and jump
 	getb						;|
 	inc r14						;/
@@ -1694,7 +1696,7 @@ LoadVertices8Bit_M1:
 	alt1						;\Load r9 with current vertex pointer
 	lms r9,(CurVtxPtr)				;/
 	alt1
-	lms r8,($0030)
+	lms r8,(UnknownGSU_030)
 	cache
 	move r13,r15					; Set loop point
 	getb
@@ -1710,13 +1712,13 @@ LoadVertices8Bit_M1:
 	to r3
 	mult r8
 	alt1
-	lms r6,($0120)
+	lms r6,(TransformMatrix.XX)
 	from r1
 	alt1
 	lmult
 	move r7,r4
 	alt1
-	lms r6,($0126)
+	lms r6,(TransformMatrix.XY)
 	from r2
 	to r5
 	alt1
@@ -1726,7 +1728,7 @@ LoadVertices8Bit_M1:
 	alt1
 	adc r5
 	alt1
-	lms r6,($012C)
+	lms r6,(TransformMatrix.XZ)
 	from r3
 	to r5
 	alt1
@@ -1742,13 +1744,13 @@ LoadVertices8Bit_M1:
 	inc r9
 	inc r9
 	alt1
-	lms r6,($0122)
+	lms r6,(TransformMatrix.YX)
 	from r1
 	alt1
 	lmult
 	move r7,r4
 	alt1
-	lms r6,($0128)
+	lms r6,(TransformMatrix.YY)
 	from r2
 	to r5
 	alt1
@@ -1758,7 +1760,7 @@ LoadVertices8Bit_M1:
 	alt1
 	adc r5
 	alt1
-	lms r6,($012E)
+	lms r6,(TransformMatrix.YZ)
 	from r3
 	to r5
 	alt1
@@ -1774,13 +1776,13 @@ LoadVertices8Bit_M1:
 	inc r9
 	inc r9
 	alt1
-	lms r6,($0124)
+	lms r6,(TransformMatrix.ZX)
 	from r1
 	alt1
 	lmult
 	move r7,r4
 	alt1
-	lms r6,($012A)
+	lms r6,(TransformMatrix.ZY)
 	from r2
 	to r5
 	alt1
@@ -1790,7 +1792,7 @@ LoadVertices8Bit_M1:
 	alt1
 	adc r5
 	alt1
-	lms r6,($0130)
+	lms r6,(TransformMatrix.ZZ)
 	from r3
 	to r5
 	alt1
@@ -1825,7 +1827,7 @@ LoadMirroredVertices8Bit_M1:
 	cache
 	move r13,r15					; Set loop point
 	alt1
-	lms r8,($0030)
+	lms r8,(UnknownGSU_030)
 	getb
 	inc r14
 	to r1
@@ -1839,19 +1841,19 @@ LoadMirroredVertices8Bit_M1:
 	to r3
 	mult r8
 	alt1
-	lms r6,($0120)
+	lms r6,(TransformMatrix.XX)
 	from r1
 	fmult
 	to r8
 	rol
 	alt1
-	lms r6,($0126)
+	lms r6,(TransformMatrix.XY)
 	from r2
 	fmult
 	to r5
 	rol
 	alt1
-	lms r6,($012C)
+	lms r6,(TransformMatrix.XZ)
 	from r3
 	fmult
 	rol
@@ -1868,19 +1870,19 @@ LoadMirroredVertices8Bit_M1:
 	alt2
 	sub #$04
 	alt1
-	lms r6,($0122)
+	lms r6,(TransformMatrix.YX)
 	from r1
 	fmult
 	to r8
 	rol
 	alt1
-	lms r6,($0128)
+	lms r6,(TransformMatrix.YY)
 	from r2
 	fmult
 	to r5
 	rol
 	alt1
-	lms r6,($012E)
+	lms r6,(TransformMatrix.YZ)
 	from r3
 	fmult
 	rol
@@ -1897,19 +1899,19 @@ LoadMirroredVertices8Bit_M1:
 	alt2
 	sub #$04
 	alt1
-	lms r6,($0124)
+	lms r6,(TransformMatrix.ZX)
 	from r1
 	fmult
 	to r8
 	rol
 	alt1
-	lms r6,($012A)
+	lms r6,(TransformMatrix.ZY)
 	from r2
 	fmult
 	to r5
 	rol
 	alt1
-	lms r6,($0130)
+	lms r6,(TransformMatrix.ZZ)
 	from r3
 	fmult
 	rol
@@ -1937,7 +1939,7 @@ LoadMirroredVertices8Bit_M1:
 	inc r14						;/
 LoadVertices8Bit:
 	alt1
-	lms r0,($0032)
+	lms r0,(UnknownGSU_032)
 	alt2
 	sub #$03
 	bmi LoadVertices8Bit_L1
@@ -1949,17 +1951,17 @@ LoadVertices8Bit_L1:
 	alt1
 	lms r11,(CurVtxPtr)
 	alt1
-	lms r5,($0116)
+	lms r5,(UnknownGSU_116)
 	alt1
-	lms r6,($0118)
+	lms r6,(UnknownGSU_118)
 	alt1
-	lms r7,($011A)
+	lms r7,(UnknownGSU_11A)
 	alt1
-	lms r8,($011C)
+	lms r8,(UnknownGSU_11C)
 	alt1
-	lms r9,($011E)
+	lms r9,(UnknownGSU_11E)
 	alt1
-	lms r1,($0030)
+	lms r1,(UnknownGSU_030)
 	from r9
 	lob
 	swap
@@ -1969,7 +1971,7 @@ LoadVertices8Bit_L1:
 	getb						;|
 	inc r14						;/
 	alt1
-	lms r0,($0132)
+	lms r0,(TotalVtxCnt)
 	add r12
 	sbk
 	cache
@@ -2044,7 +2046,7 @@ LoadVertices8Bit_L1:
 	inc r14						;/
 LoadMirroredVertices8Bit:
 	alt1
-	lms r0,($0032)
+	lms r0,(UnknownGSU_032)
 	alt2
 	sub #$03
 	bmi LoadMirroredVertices8Bit_L1
@@ -2066,7 +2068,7 @@ LoadMirroredVertices8Bit_L1:
 	alt1
 	lms r9,($011E)
 	alt1
-	lms r1,($0030)
+	lms r1,(UnknownGSU_030)
 	from r9
 	lob
 	swap
@@ -2167,11 +2169,11 @@ LoadMirroredVertices8Bit_L2:
 	inc r14						;/
 EndVertexList:
 	alt1
-	lms r3,($0026)
+	lms r3,(OutputVecX)
 	alt1
-	lms r11,($0028)
+	lms r11,(OutputVecY)
 	alt1
-	lms r8,($002A)
+	lms r8,(OutputVecZ)
 	ibt r0,#$14
 	alt3
 	romb
