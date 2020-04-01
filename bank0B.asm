@@ -236,7 +236,7 @@ PlayerBeh_Scramble_L16:
 	adc.w #$0073
 	sta.b $10,x
 	rtl
-PlayerBeh_Sea:
+PlayerBeh_Space:
 	lda.w Unknown_14D6
 	ora.b #$60
 	sta.w Unknown_14D6

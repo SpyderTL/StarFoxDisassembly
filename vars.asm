@@ -55,6 +55,8 @@ ContinueArwingXRotSpd	= $18	;word
 MapScrollYSpeed		= $1A	;word
 ContinueArwingYRotSpd	= $1A	;word
 Unknown_1C		= $1C	;word
+Unknown_1E		= $1E	;word
+Unknown_20		= $20	;word
 Unknown_22		= $22	;word
 Unknown_24		= $24	;word
 Unknown_2A		= $2A	;word
@@ -187,6 +189,7 @@ FLAGS1E_UNK20		= $20
 FLAGS1E_UNK10		= $10
 FLAGS1E_UNK02		= $02
 FLAGS1E_UNK01		= $01
+FLAGS1F_UNK80		= $80
 FLAGS1F_UNK20		= $20
 FLAGS1F_UNK10		= $10
 FLAGS1F_UNK08		= $08
@@ -432,12 +435,12 @@ struct UnkMatrix_161B $161B	;Matrix
 	.YZ: skip 2
 	.ZZ: skip 2
 endstruct
-Unk2DMtx_162D		= $162D	;word
-Unk2DMtx_162F		= $162F	;word
-Unk2DMtx_1631		= $1631	;word
-Unk2DMtx_1633		= $1633	;word
-Unk2DMtx_1635		= $1635	;word
-Unk2DMtx_1637		= $1637	;word
+Unknown_162D		= $162D	;word
+Unknown_162F		= $162F	;word
+Unknown_1631		= $1631	;word
+Unknown_1633		= $1633	;word
+Unknown_1635		= $1635	;word
+Unknown_1637		= $1637	;word
 struct UnkMatrix_1639 $1639	;Matrix
 	.XX: skip 2
 	.YX: skip 2
@@ -489,7 +492,8 @@ Unknown_16D0		= $16D0	;word
 Unknown_16D2		= $16D2	;word
 Unknown_16D4		= $16D4	;word
 StageID			= $16D6	;word
-TempLevelID		= $16D8	;word
+TempLevelID		= $16D8	;byte
+Unknown_16D9		= $16D9	;byte
 ScanlineToWaitFor	= $16DB	;word
 Unknown_16DD		= $16DD	;word
 Unknown_16DF		= $16DF	;word
@@ -499,7 +503,7 @@ Unknown_16E6		= $16E6	;word
 Unknown_16E8		= $16E8	;word
 Unknown_16EA		= $16EA	;word
 Lives			= $16EC	;byte
-Unused_16ED		= $16ED	;byte
+Unknown_16ED		= $16ED	;byte
 FGTiltFlag		= $16F1	;byte
 CrosshairX		= $16F2	;word
 CrosshairY		= $16F4	;word
@@ -740,7 +744,7 @@ UnknownGSU_03A		= $70003A	;word
 UnknownGSU_03C		= $70003C	;word
 UnknownGSU_03E		= $70003E	;word
 UnknownGSU_040		= $700040	;word
-
+UnknownGSU_042		= $700042	;word
 VertexAnimFrame		= $700044	;word
 UnknownGSU_046		= $700046	;word
 
@@ -759,6 +763,8 @@ InputPtr		= $700062	;long
 
 UnknownGSU_06C		= $70006C	;word
 			
+UnknownGSU_082		= $700082	;word	
+			
 UnknownGSU_090		= $700090	;word
 			
 UnknownGSU_098		= $700098	;word
@@ -766,6 +772,16 @@ UnknownGSU_09A		= $70009A	;word
 			
 TextPointer		= $7000A6	;word
 UnknownGSU_0A8		= $7000A8	;word
+UnknownGSU_0AA		= $7000AA	;word
+
+UnknownGSU_0B6		= $7000B6	;word
+
+UnknownGSU_0BC		= $7000BC	;word
+UnknownGSU_0BE		= $7000BE	;word
+
+UnknownGSU_0C6		= $7000C6	;word
+UnknownGSU_0C8		= $7000C8	;word
+UnknownGSU_0CA		= $7000CA	;word
 			
 			
 struct ObjectMatrix $7000D2	;Matrix
@@ -810,6 +826,12 @@ struct TransformMatrix $700120	;Matrix
 	.ZZ: skip 2
 endstruct
 TotalVtxCnt		= $700132	;word
+UnknownGSU_134		= $700134	;word
+UnknownGSU_136		= $700136	;word
+UnknownGSU_138		= $700138	;word
+
+UnknownGSU_13C		= $70013C	;word
+UnknownGSU_13E		= $70013E	;word
 
 UnknownGSU_142		= $700142	;word
 UnknownGSU_144		= $700144	;word
@@ -817,7 +839,7 @@ UnknownGSU_146		= $700146	;word
 UnknownGSU_148		= $700148	;word
 UnknownGSU_14A		= $70014A	;word
 UnknownGSU_14C		= $70014C	;word
-
+UnknownGSU_14E		= $70014E	;word
 UnknownGSU_150		= $700150	;byte
 UnknownGSU_152		= $700152	;byte
 
@@ -847,8 +869,15 @@ UnknownGSU_1FA		= $7001FA	;word
 UnknownGSU_1FE		= $7001FE	;word
 
 ;Bank $70 high
+
+UnknownGSU_0206		= $700206	;word
+
 RenderHUDFlag		= $70021C	;word
+
+UnknownGSU_0220		= $700220	;word
+
 SuperFXStack		= $7004C2	;word array of size ???
+
 CurPolyVerts2D		= $700982	;word array of size $40
 CurPolyVerts3D		= $700A02	;word array of size $80
 BSPTreeStack		= $700B02	;??? array of size ???

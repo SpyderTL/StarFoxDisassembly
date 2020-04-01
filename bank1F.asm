@@ -1,11 +1,187 @@
-
-
+	;Continuation of data to transfer
+	;Music data
+	INCBIN "audio/songs/outofthisdimension.mus":$0790-$1602
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $001A bytes to SPC address $FDC8
+	DW $001A,$FDC8
+	;Data to transfer
+	;Music pointers
+	DW $E000,$E000,$F8FE,$0000,$0000,$0000,$0000,$0000
+	DW $0000,$0000,$0000,$0000,$FCCE
+	;Transfer $05A4 bytes to SPC address $E000
+	DW $05A4,$E000
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/unk1F8E99.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $001A bytes to SPC address $FDC8
+	DW $001A,$FDC8
+	;Data to transfer
+	;Music pointers
+	DW $E600,$E600,$F8FE,$0000,$0000,$0000,$0000,$0000
+	DW $0000,$0000,$0000,$0000,$FCCE
+	;Transfer $05D1 bytes to SPC address $E600
+	DW $05D1,$E600
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/titaniaboss.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $001A bytes to SPC address $FDC8
+	DW $001A,$FDC8
+	;Data to transfer
+	;Music pointers
+	DW $E600,$E600,$F8FE,$0000,$0000,$0000,$0000,$0000
+	DW $0000,$0000,$0000,$0000,$FCCE
+	;Transfer $04EC bytes to SPC address $E600
+	DW $04EC,$E600
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/meteorboss.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $0004 bytes to SPC address $FDC8
+	DW $0004,$FDC8
+	;Data to transfer
+	;Music pointers
+	DW $EC00,$EC0E
+	;Transfer $042E bytes to SPC address $EC00
+	DW $042E,$EC00
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/atomiccoreboss.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $0004 bytes to SPC address $FDC8
+	DW $0004,$FDC8
+	;Data to transfer
+	;Music pointers
+	DW $EC04,$EC00
+	;Transfer $03EB bytes to SPC address $EC00
+	DW $03EB,$EC00
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/venom12boss.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $0004 bytes to SPC address $FDC8
+	DW $0004,$FDC8
+	;Data to transfer
+	;Music pointers
+	DW $EAC8,$EAC8
+	;Transfer $081D bytes to SPC address $EAC8
+	DW $081D,$EAC8
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/venom3boss.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $0004 bytes to SPC address $FDC8
+	DW $0004,$FDCC
+	;Data to transfer
+	;Music pointers
+	DW $F98E,$0000
+	;Transfer $0004 bytes to SPC address $FDC8
+	DW $0004,$FDE2
+	;Data to transfer
+	;Music pointers
+	DW $F2E5,$F2F3
+	;Transfer $081D bytes to SPC address $F2E5
+	DW $081D,$F2E5
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/androssboss.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Compressed tileset
+	INCBIN "graphics/compressed/controlsoam.4bpp.chrz"
+	
+	;Unknown data
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;RESET AND INTERRUPT ROUTINES;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	ORG $1FBDB0
-CODE_1FBDB0:
+UnkFunc_1FBDB0:
 	rtl
 DoReset:
 	sei						; Disable interrupts
@@ -76,7 +252,7 @@ DoResetPart2:
 ClearRAM:
 	php						; Save processor status
 	sep #$20
-	lda.b #$7E					;\Set DBR to TempRotZ
+	lda.b #$7E					;\Set DBR to $7E
 	pha						;|
 	plb						;/
 	rep #$30

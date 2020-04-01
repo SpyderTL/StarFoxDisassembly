@@ -144,7 +144,7 @@ UnkFuncGSU_0180BC:
 	from r6
 	to r3
 	sub r3
-UnkFunc_0180C5:
+UnkFuncGSU_0180C5:
 	from r11					;\Push r11 (link) to stack
 	stw r10						;|
 	inc r10						;|
@@ -173,10 +173,10 @@ UnkFunc_0180C5:
 	alt1
 	adc r6
 	moves r0,r0
-	bne UnkFunc_0180C5_L1
+	bne UnkFuncGSU_0180C5_L1
 	nop
 	moves r5,r5
-	bne UnkFunc_0180C5_L1
+	bne UnkFuncGSU_0180C5_L1
 	ibt r1,#$00
 	ibt r2,#$00
 	ibt r3,#$00
@@ -185,7 +185,7 @@ UnkFunc_0180C5:
 	to r15						;|
 	ldw r10						;|
 	nop						;/
-UnkFunc_0180C5_L1:
+UnkFuncGSU_0180C5_L1:
 	move r4,r0
 	link #4
 	iwt r15,#UnkFuncGSU_018086
@@ -193,27 +193,27 @@ UnkFunc_0180C5_L1:
 	with r6
 	to r0
 	ibt r9,#$00
-UnkFunc_0180C5_L2:
+UnkFuncGSU_0180C5_L2:
 	lsr
-	beq UnkFunc_0180C5_L3
+	beq UnkFuncGSU_0180C5_L3
 	nop
-	bra UnkFunc_0180C5_L2
+	bra UnkFuncGSU_0180C5_L2
 	inc r9
-UnkFunc_0180C5_L3:
+UnkFuncGSU_0180C5_L3:
 	sub r0
 	iwt r4,#$7FFF
 	moves r12,r9
-	beq UnkFunc_0180C5_L4
+	beq UnkFuncGSU_0180C5_L4
 	nop
 	move r13,r15					; Set loop point
 	with r4
 	add r4
 	loop
 	rol
-UnkFunc_0180C5_L4:
+UnkFuncGSU_0180C5_L4:
 	move r6,r6
 	link #4
-	iwt r15,#UnkFunc_018183
+	iwt r15,#UnkFuncGSU_018183
 	nop
 	move r6,r4
 	from r1
@@ -231,7 +231,7 @@ UnkFunc_0180C5_L4:
 	lmult
 	move r3,r4
 	moves r12,r9
-	beq UnkFunc_0180C5_L5
+	beq UnkFuncGSU_0180C5_L5
 	nop
 	move r13,r15					; Set loop point
 	with r7
@@ -247,13 +247,13 @@ UnkFunc_0180C5_L4:
 	ror
 	loop
 	nop
-UnkFunc_0180C5_L5:
+UnkFuncGSU_0180C5_L5:
 	dec r10						;\Pop r15 (pc) from stack and return
 	dec r10						;|
 	to r15						;|
 	ldw r10						;|
 	nop						;/
-UnkFunc_01814D:
+UnkFuncGSU_01814D:
 	cache
 	from r5
 	to r7
@@ -261,18 +261,18 @@ UnkFunc_01814D:
 	xor r6
 	sub r0
 	moves r6,r6
-	bpl UnkFunc_01814D_L1
+	bpl UnkFuncGSU_01814D_L1
 	to r6
 	sub r6
-UnkFunc_01814D_L1:
+UnkFuncGSU_01814D_L1:
 	moves r5,r5
-	bpl UnkFunc_01814D_L2
+	bpl UnkFuncGSU_01814D_L2
 	to r4
 	sub r4
 	to r5
 	alt1
 	sbc r5
-UnkFunc_01814D_L2:
+UnkFuncGSU_01814D_L2:
 	with r4
 	add r4
 	from r5
@@ -280,37 +280,37 @@ UnkFunc_01814D_L2:
 	ibt r12,#$10
 	move r13,r15					; Set loop point
 	sub r6
-	bcc UnkFunc_01814D_L3
+	bcc UnkFuncGSU_01814D_L3
 	nop
 	with r4
 	rol
 	loop
 	rol
-	bra UnkFunc_01814D_L4
+	bra UnkFuncGSU_01814D_L4
 	nop
-UnkFunc_01814D_L3:
+UnkFuncGSU_01814D_L3:
 	add r6
 	with r4
 	add r4
 	loop
 	rol
-UnkFunc_01814D_L4:
+UnkFuncGSU_01814D_L4:
 	moves r7,r7
-	bpl UnkFunc_01814D_L5
+	bpl UnkFuncGSU_01814D_L5
 	with r4
 	not
 	inc r4
-UnkFunc_01814D_L5:
+UnkFuncGSU_01814D_L5:
 	jmp r11						;\Return from link
 	nop						;/
-UnkFunc_018183:
+UnkFuncGSU_018183:
 	moves r0,r0
-	bmi UnkFunc_018183_L1
+	bmi UnkFuncGSU_018183_L1
 	nop
 	moves r6,r6
 	bpl Divide
 	nop
-UnkFunc_018183_L1:
+UnkFuncGSU_018183_L1:
 	with r6
 	lsr
 	lsr
@@ -808,7 +808,7 @@ Unknown_DrawHorizLine32GreenPixels:
 	plot						;/
 	stop						;\End SuperFX task
 	nop						;/
-UnkFunc_0183CF:
+UnkFuncGSU_0183CF:
 	sub r0
 	alt2
 	ramb
@@ -1448,7 +1448,7 @@ LoadVertices16Bit:
 	alt1						;\Load r9 with current vertex pointer
 	lms r9,(CurVtxPtr)				;/
 	alt2						;\Save r10
-	sms (UnknownGSU_012),r10				;/
+	sms (UnknownGSU_012),r10			;/
 	alt1						;\Get XX matrix element in r10
 	lms r10,(TransformMatrix.XX)			;/
 	alt1						;\Get XY matrix element in r11
@@ -2179,13 +2179,13 @@ EndVertexList:
 	romb
 	sub r0
 	alt2
-	sms ($0138),r0
+	sms (UnknownGSU_138),r0
 	iwt r7,#$05C2
 	iwt r8,#$07A2
 	alt2
-	sms ($001A),r14
+	sms (UnknownGSU_01A),r14
 	alt1
-	lms r12,($0132)
+	lms r12,(TotalVtxCnt)
 	cache
 	with r15
 	to r13
@@ -2235,7 +2235,7 @@ CODE_018A91:
 	fmult
 	rol
 	alt1
-	lms r1,($0034)
+	lms r1,(UnknownGSU_034)
 	add r1
 	with r0
 	to r1
@@ -2246,7 +2246,7 @@ CODE_018A91:
 	fmult
 	rol
 	alt1
-	lms r2,($0036)
+	lms r2,(UnknownGSU_036)
 	add r2
 	with r0
 	to r2
@@ -2260,7 +2260,7 @@ CODE_018A91:
 	bmi CODE_018AC8
 	nop
 	alt1
-	lms r5,($003A)
+	lms r5,(UnknownGSU_03A)
 	sub r5
 	bmi CODE_018AC9
 	nop
@@ -2276,7 +2276,7 @@ CODE_018AC9:
 	bmi CODE_018AD9
 	nop
 	alt1
-	lms r5,($003E)
+	lms r5,(UnknownGSU_03E)
 	sub r5
 	bmi CODE_018ADA
 	nop
@@ -2293,7 +2293,7 @@ CODE_018ADA:
 	inc r8
 	inc r8
 	alt1
-	lms r6,($0138)
+	lms r6,(UnknownGSU_138)
 	or r6
 	loop
 	sbk
@@ -2377,7 +2377,7 @@ CODE_018B47:
 	nop
 CODE_018B57:
 	alt1
-	lms r0,($0138)
+	lms r0,(UnknownGSU_138)
 	iwt r1,#$1F00
 	and r1
 	alt3
@@ -2388,7 +2388,7 @@ CODE_018B57:
 	nop
 CODE_018B67:
 	alt1
-	lms r1,($0138)
+	lms r1,(UnknownGSU_138)
 	ibt r0,#$1F
 	and r1
 	bne CODE_018B78
@@ -6589,6 +6589,26 @@ CODE_01B4DF:
 	
 	
 	
+	
+	
+	
+;01B54B
+DrawDialogText:
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 DATA_01BBF6:
 	DB $00,$01,$00,$01,$00,$01,$00,$01,$00,$01,$00,$01,$00,$01,$00,$01
 	DB $00,$01,$00,$01,$00,$01,$00,$01,$00,$01,$00,$01,$00,$01,$00,$01
@@ -6881,11 +6901,10 @@ DATA_01BBF6:
 	
 	
 	;01D996
-	;Main font
-b00p8Char2BPP_Font:
+	;Main dialog font
+DialogFont:
 	INCBIN "graphics/font.2bpp.chr"
-	;ASCII table?
-DATA_01E6B6:
+DialogCharMap:
 	DB $27,$46,$00,$43,$00,$25,$00,$44,$85,$86,$47,$88,$83,$42,$26,$24
 	DB $00,$01,$02,$03,$04,$05,$06,$07,$08,$09,$89,$84,$00,$8A,$00,$45
 	DB $8B,$0A,$0B,$0C,$0D,$0E,$0F,$10,$11,$12,$13,$14,$15,$16,$17,$18

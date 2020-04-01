@@ -1509,7 +1509,7 @@ SPCValPtrs:
 SPCPitchTable:
 	DW $085F,$08DE,$0965,$09F4,$0A8C,$0B2C,$0BD6,$0C8B
 	DW $0D4A,$0E14,$0EEA,$0FCD,$10BE
-SPC_0ECA:
+UnkDataSPC_0ECA:
 	DB $2A,$56,$65,$72,$20,$53,$31,$2E,$32,$30,$2A
 SPCLoadNewPacket:
 	mov a,#$AA					;\Send magic value to SNES
@@ -1549,7 +1549,7 @@ SPCProcData:
 	mov x,#$31					;\Init flags...
 	mov $00F1,x					;|
 	ret						;/...and return to execution
-SPC_0F21:
+UnkDataSPC_0F21:
 	
 	
 	
