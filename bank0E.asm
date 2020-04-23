@@ -97,5 +97,6 @@
 	INCBIN "graphics/models/beveledtunnel.mdl"
 	INCBIN "graphics/models/tunnelpiece.mdl"
 	INCBIN "graphics/models/letterd.mdl"
+	
 	;Compressed tilemap
 	INCBIN "graphics/compressed/outoufthisdimension.mapz"

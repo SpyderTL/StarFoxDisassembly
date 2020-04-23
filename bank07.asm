@@ -2,7 +2,6 @@ UnusedBank07SetBRegWRAM:
 	lda.b #$7E					;\Set data bank to $7E
 	pha						;|(not called, probably was for Nintendo's assembler)
 	plb						;/
-
 Beh79:
 	rep #$20
 	lda.w #Beh79_Loop1

@@ -1,11 +1,187 @@
-
-
+	;Continuation of data to transfer
+	;Music data
+	INCBIN "audio/songs/outofthisdimension.mus":$0790-$1602
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $001A bytes to SPC address $FDC8
+	DW $001A,$FDC8
+	;Data to transfer
+	;Music pointers
+	DW $E000,$E000,$F8FE,$0000,$0000,$0000,$0000,$0000
+	DW $0000,$0000,$0000,$0000,$FCCE
+	;Transfer $05A4 bytes to SPC address $E000
+	DW $05A4,$E000
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/unk1F8E99.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $001A bytes to SPC address $FDC8
+	DW $001A,$FDC8
+	;Data to transfer
+	;Music pointers
+	DW $E600,$E600,$F8FE,$0000,$0000,$0000,$0000,$0000
+	DW $0000,$0000,$0000,$0000,$FCCE
+	;Transfer $05D1 bytes to SPC address $E600
+	DW $05D1,$E600
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/titaniaboss.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $001A bytes to SPC address $FDC8
+	DW $001A,$FDC8
+	;Data to transfer
+	;Music pointers
+	DW $E600,$E600,$F8FE,$0000,$0000,$0000,$0000,$0000
+	DW $0000,$0000,$0000,$0000,$FCCE
+	;Transfer $04EC bytes to SPC address $E600
+	DW $04EC,$E600
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/meteorboss.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $0004 bytes to SPC address $FDC8
+	DW $0004,$FDC8
+	;Data to transfer
+	;Music pointers
+	DW $EC00,$EC0E
+	;Transfer $042E bytes to SPC address $EC00
+	DW $042E,$EC00
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/atomiccoreboss.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $0004 bytes to SPC address $FDC8
+	DW $0004,$FDC8
+	;Data to transfer
+	;Music pointers
+	DW $EC04,$EC00
+	;Transfer $03EB bytes to SPC address $EC00
+	DW $03EB,$EC00
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/venom12boss.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $0004 bytes to SPC address $FDC8
+	DW $0004,$FDC8
+	;Data to transfer
+	;Music pointers
+	DW $EAC8,$EAC8
+	;Transfer $081D bytes to SPC address $EAC8
+	DW $081D,$EAC8
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/venom3boss.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Transfer $0004 bytes to SPC address $FDC8
+	DW $0004,$FDCC
+	;Data to transfer
+	;Music pointers
+	DW $F98E,$0000
+	;Transfer $0004 bytes to SPC address $FDC8
+	DW $0004,$FDE2
+	;Data to transfer
+	;Music pointers
+	DW $F2E5,$F2F3
+	;Transfer $081D bytes to SPC address $F2E5
+	DW $081D,$F2E5
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/androssboss.mus"
+	;End of transfer
+	DW $0000,$0400
+	
+	;Compressed tileset
+	INCBIN "graphics/compressed/controlsoam.4bpp.chrz"
+	
+	;Unknown data
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+	DB $FF,$FF,$FF,$FF,$FF,$FF,$FF
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;RESET AND INTERRUPT ROUTINES;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	ORG $1FBDB0
-CODE_1FBDB0:
+UnkFunc_1FBDB0:
 	rtl
 DoReset:
 	sei						; Disable interrupts
@@ -26,16 +202,16 @@ DoReset:
 	ldx.w #$02FF					;\Set stack pointer to $02FF (again?)
 	txs						;/
 	sep #$30
-	jsl InitPlayerStateEx				; Init player
+	jsl InitPlayerStateEx				; Init player state
 	jsl Intro					;\Do intro and title
 	jsl Title					;/
 	sep #$20
 	lda.b #$00
-	sta.l $7EA05A
+	sta.l Unknown_7EA05A
 	lda.b #$00
-	sta.w $1FDF
+	sta.w Unknown_1FDF
 	bra DoResetPart2
-CODE_1FBDEE:
+UnkFunc_1FBDEE:
 	rep #$30
 	clc						;\Disable emulation mode
 	xce						;/
@@ -49,34 +225,34 @@ CODE_1FBDEE:
 	
 	lda.w LevelID					;\Save some values on the stack before calling
 	pha						;|
-	lda.w $1FDF					;|
+	lda.w Unknown_1FDF				;|
 	pha						;|
-	lda.l $7EA05A					;|
+	lda.l Unknown_7EA05A				;|
 	pha						;|
-	lda.w $1F0F					;|
+	lda.w ControlStyle				;|
 	pha						;/
 	jsr ClearRAM					; Clear out the rest of RAM
 	pla						;\Restore our saved values
-	sta.w $1F0F					;|
+	sta.w ControlStyle				;|
 	pla						;|
-	sta.l $7EA05A					;|
+	sta.l Unknown_7EA05A				;|
 	pla						;|
-	sta.w $1FDF					;|
+	sta.w Unknown_1FDF				;|
 	pla						;|
 	sta.w LevelID					;/
 	
 	lda.b #$01
-	sta.w $1F65
+	sta.w InitDataSentFlag
 	sta.l $7EF0B3
-	jsl InitPlayerStateEx				; Init player
+	jsl InitPlayerStateEx				; Init player state
 DoResetPart2:
 	jsl Controls					; Do controls
-	jsl InitPlayerStateEx				; Init player
+	jsl InitPlayerStateEx				; Init player state
 	jmp Map						; Do map
 ClearRAM:
 	php						; Save processor status
 	sep #$20
-	lda.b #$7E					;\Set DBR to TempRotZ
+	lda.b #$7E					;\Set DBR to $7E
 	pha						;|
 	plb						;/
 	rep #$30
@@ -207,51 +383,51 @@ InitRegisters:
 	sta.w M7X					;|
 	sta.w M7Y					;|
 	sta.w M7Y					;/
-	sta.w CGADD
-	sta.w CGDATA
-	sta.w W12SEL
-	sta.w W34SEL
-	sta.w WOBJSEL
-	sta.w WH0
-	sta.w WH1
-	sta.w WH2
-	sta.w WH3
-	sta.w WBGLOG
-	sta.w WOBJLOG
-	sta.w TM
-	sta.w TS
-	sta.w TMW
-	ldy.b #$30
-	sty.w CGWSEL
-	sta.w CGADSUB
-	ldx.b #$E0
-	stx.w COLDATA
+	sta.w CGADD					;\Clear more registers
+	sta.w CGDATA					;|
+	sta.w W12SEL					;|
+	sta.w W34SEL					;|
+	sta.w WOBJSEL					;|
+	sta.w WH0					;|
+	sta.w WH1					;|
+	sta.w WH2					;|
+	sta.w WH3					;|
+	sta.w WBGLOG					;|
+	sta.w WOBJLOG					;|
+	sta.w TM					;|
+	sta.w TS					;|
+	sta.w TMW					;/
+	ldy.b #$30					;\Init some color math registers
+	sty.w CGWSEL					;|
+	sta.w CGADSUB					;|
+	ldx.b #$E0					;|
+	stx.w COLDATA					;/
 	sta.w SETINI
 	sta.w NMITIMEN
 	ldx.b #$FF
 	stx.w WRIO
-	sta.w WRMPYA
-	sta.w WRMPYB
-	sta.w WRDIVL
-	sta.w WRDIVH
-	sta.w WRDIVB
-	sta.w HTIMEL
-	sta.w HTIMEH
-	sta.w VTIMEL
-	sta.w VTIMEH
-	sta.w MDMAEN
-	sta.w HDMAEN
-	sta.w MEMSEL
+	sta.w WRMPYA					;\Clear even more registers
+	sta.w WRMPYB					;|
+	sta.w WRDIVL					;|
+	sta.w WRDIVH					;|
+	sta.w WRDIVB					;|
+	sta.w HTIMEL					;|
+	sta.w HTIMEH					;|
+	sta.w VTIMEL					;|
+	sta.w VTIMEH					;|
+	sta.w MDMAEN					;|
+	sta.w HDMAEN					;|
+	sta.w MEMSEL					;/
 	rtl
-CODE_1FBFDB:
+UnkFunc_1FBFDB:
 	rtl
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;OBJECT MANAGEMENT ROUTINES;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-CODE_1FBFDC:
-	jsr CODE_1FBFE0
+Calls_UnkFunc_1FBFE0:
+	jsr UnkFunc_1FBFE0
 	rtl
-CODE_1FBFE0:
+UnkFunc_1FBFE0:
 	phx
 	phy
 	php
@@ -260,46 +436,46 @@ CODE_1FBFE0:
 	phx
 	txa
 	ldx.w FirstObject
-CODE_1FBFEE:
+UnkFunc_1FBFE0_L1:
 	cmp.b $19,x
-	bne CODE_1FBFF4
+	bne UnkFunc_1FBFE0_L2
 	stz.b $19,x
-CODE_1FBFF4:
+UnkFunc_1FBFE0_L2:
 	cmp.b $06,x
-	bne CODE_1FBFFA
+	bne UnkFunc_1FBFE0_L3
 	stz.b $06,x
-CODE_1FBFFA:
+UnkFunc_1FBFE0_L3:
 	cmp.w Object2ListRel+$13,x
-	bne CODE_1FC002
+	bne UnkFunc_1FBFE0_L4
 	stz.w Object2ListRel+$13,x
-CODE_1FC002:
+UnkFunc_1FBFE0_L4:
 	cmp.b $1B,x
-	bne CODE_1FC008
+	bne UnkFunc_1FBFE0_L5
 	stz.b $1B,x
-CODE_1FC002:
+UnkFunc_1FBFE0_L5:
 	ldy.b $00,x
 	tyx
-	bne CODE_1FBFEE
+	bne UnkFunc_1FBFE0_L1
 	plx
 	jsl CODE_0AFB8E
 	ldy.b $02,x
-	bne CODE_1FC023
+	bne UnkFunc_1FBFE0_L6
 	ldy.b $00,x
 	sty.w FirstObject
 	lda.w #$0000
 	sta.w $0002,y
-	bra CODE_1FC031
-CODE_1FC023:
+	bra UnkFunc_1FBFE0_L8
+UnkFunc_1FBFE0_L6:
 	phx
 	lda.b $00,x
 	tax
 	stx.b $00,y
 	cmp.w #$0000
-	beq CODE_1FC030
+	beq UnkFunc_1FBFE0_L7
 	sty.b $02,x
-CODE_1FC030:
+UnkFunc_1FBFE0_L7:
 	plx
-CODE_1FC031:
+UnkFunc_1FBFE0_L8:
 	lda.w FirstFreeObject
 	sta.b $00,x
 	stx.w FirstFreeObject
@@ -307,51 +483,52 @@ CODE_1FC031:
 	ply
 	plx
 	rts
-CODE_1FC03D:
+UpdateModelInfoBuffer:
 	php
 	rep.b #$30
-	stz.w $1EFB
+	stz.w Unknown_1EFB
 	ldx.w FirstObject
-	beq CODE_1FC09D
+	beq UpdateModelInfoBuffer_Exit
 	ldy.w #$0000
-CODE_1FC04B:
+UpdateModelInfoBuffer_Loop:
 	phx
 	lda.b $2E,x
 	and.w #$0004
-	bne CODE_1FC097
+	bne UpdateModelInfoBuffer_Next
 	lda.b $1E,x
 	and.w #$0001
-	bne CODE_1FC097
+	bne UpdateModelInfoBuffer_Next
 	lda.b $2A,x
 	and.w #$00FF
-	beq CODE_1FC097
+	beq UpdateModelInfoBuffer_Next
 	lda.b $08,x
 	bit.w #$0001
-	bne CODE_1FC097
+	bne UpdateModelInfoBuffer_Next
 	phx
 	lda.b $04,x
 	tyx
 	tay
 	pla
-	sta.l $7E2EC4,x
+	sta.l ModelInfo+$00,x
 	lda.w $0008,y
-	sta.l $7E2EC6,x
+	sta.l ModelInfo+$02,x
 	lda.w $000A,y
-	sta.l $7E2EC8,x
+	sta.l ModelInfo+$04,x
 	lda.w $000C,y
-	sta.l $7E2ECA,x
+	sta.l ModelInfo+$06,x
 	lda.w $000E,y
-	sta.l $7E2ECC,x
-	inc
-	xce
-	asl.l $188A,x
-	adc.l #$000A
+	sta.l ModelInfo+$08,x
+	inc Unknown_1EFB
+	txa
+	clc
+	adc.w #$000A
 	tay
-CODE_1FC097:
+UpdateModelInfoBuffer_Next:
 	plx
 	lda.b $00,x
 	tax
-	bne CODE_1FC04B
+	bne UpdateModelInfoBuffer_Loop
+UpdateModelInfoBuffer_Exit:
 	plp
 	rtl
 GetLocalZXBParam15RotateRotY:
@@ -373,29 +550,29 @@ GetLocalZXBParam15RotateRotY:
 	lda.w SineTable8+$40,x
 	sta.b TempCos
 	lda.b TempRotZ
-	bmi CODE_1FC0D8
+	bmi GetLocalZXBParam15RotateRotY_L1
 	asl
 	sta.w WRMPYA
 	lda.b TempSin
-	bmi CODE_1FC0FA
+	bmi GetLocalZXBParam15RotateRotY_L3
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC108
-CODE_1FC0D8:
+	jmp GetLocalZXBParam15RotateRotY_L5
+GetLocalZXBParam15RotateRotY_L1:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempSin
-	bmi CODE_1FC0EA
+	bmi GetLocalZXBParam15RotateRotY_L2
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC102
-CODE_1FC0EA:
+	jmp GetLocalZXBParam15RotateRotY_L4
+GetLocalZXBParam15RotateRotY_L2:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -404,44 +581,50 @@ CODE_1FC0EA:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC108
-CODE_1FC0F8:
+	jmp GetLocalZXBParam15RotateRotY_L5
+GetLocalZXBParam15RotateRotY_L3:
+	eor.b #$FF
+	inc
+	sta.w WRMPYB
+	nop
+	nop
+GetLocalZXBParam15RotateRotY_L4:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC108:
+GetLocalZXBParam15RotateRotY_L5:
 	tax
 	ldx.b #$00
-	sta.b $02
+	sta.b TempVecXG
 	cmp.b #$00
-	bpl CODE_1FC112
+	bpl GetLocalZXBParam15RotateRotY_L6
 	dex
-CODE_1FC112:
-	stx.b $03
+GetLocalZXBParam15RotateRotY_L6:
+	stx.b TempVecXG+1
 	lda.b TempRotZ
-	bmi CODE_1FC12D
+	bmi GetLocalZXBParam15RotateRotY_L7
 	asl
 	sta.w WRMPYA
 	lda.b TempCos
-	bmi CODE_1FC14F
+	bmi GetLocalZXBParam15RotateRotY_L9
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC15D
-CODE_1FC12D:
+	jmp GetLocalZXBParam15RotateRotY_L11
+GetLocalZXBParam15RotateRotY_L7:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempCos
-	bmi CODE_1FC13F
+	bmi GetLocalZXBParam15RotateRotY_L8
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC157
-CODE_1FC13F:
+	jmp GetLocalZXBParam15RotateRotY_L10
+GetLocalZXBParam15RotateRotY_L8:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -450,26 +633,26 @@ CODE_1FC13F:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC15D
-CODE_1FC14F:
+	jmp GetLocalZXBParam15RotateRotY_L11
+GetLocalZXBParam15RotateRotY_L9:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC157:
+GetLocalZXBParam15RotateRotY_L10:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC15D:
+GetLocalZXBParam15RotateRotY_L11:
 	tax
 	ldx.b #$00
-	sta.b $90
+	sta.b TempVecZG
 	cmp.b #$00
-	bpl CODE_1FC167
+	bpl GetLocalZXBParam15RotateRotY_L12
 	dex
-CODE_1FC167:
-	stx.b $91
+GetLocalZXBParam15RotateRotY_L12:
+	stx.b TempVecZG+1
 	rep #$10
 	ldx.b TempRegY
 	ldy.b TempRegY
@@ -498,31 +681,30 @@ GetLocalZX8RotateNegRotY:
 	sta.b TempSin
 	lda.w SineTable8+$40,x
 	sta.b TempCos
-CODE_1FC196:
 	lda.b TempRotZ
-	bmi CODE_1FC1AF
+	bmi GetLocalZXRotateNegRotY_L1
 	asl
 	sta.w WRMPYA
 	lda.b TempSin
-	bmi CODE_1FC1D1
+	bmi GetLocalZXRotateNegRotY_L3
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC1DF
-CODE_1FC1AF:
+	jmp GetLocalZXRotateNegRotY_L5
+GetLocalZXRotateNegRotY_L1:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempSin
-	bmi CODE_1FC1C1
+	bmi GetLocalZXRotateNegRotY_L2
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC1D9
-CODE_1FC1C1:
+	jmp GetLocalZXRotateNegRotY_L4
+GetLocalZXRotateNegRotY_L2:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -531,50 +713,50 @@ CODE_1FC1C1:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC1DF
-CODE_1FC1D1:
+	jmp GetLocalZXRotateNegRotY_L5
+GetLocalZXRotateNegRotY_L3:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC1D9:
+GetLocalZXRotateNegRotY_L4:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC1DF:
+GetLocalZXRotateNegRotY_L5:
 	tax
 	ldx.b #$00
-	sta.b $02
+	sta.b TempVecXG
 	cmp.b #$00
-	bpl CODE_1FC1E9
+	bpl GetLocalZXRotateNegRotY_L6
 	dex
-CODE_1FC1E9:
-	stx.b $03
+GetLocalZXRotateNegRotY_L6:
+	stx.b TempVecXG+1
 	lda.b TempRotZ
-	bmi CODE_1FC204
+	bmi GetLocalZXRotateNegRotY_L7
 	asl
 	sta.w WRMPYA
 	lda.b TempCos
-	bmi CODE_1FC226
+	bmi GetLocalZXRotateNegRotY_L9
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC234
-CODE_1FC204:
+	jmp GetLocalZXRotateNegRotY_L11
+GetLocalZXRotateNegRotY_L7:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempCos
-	bmi CODE_1FC216
+	bmi GetLocalZXRotateNegRotY_L8
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC22E
-CODE_1FC216:
+	jmp GetLocalZXRotateNegRotY_L10
+GetLocalZXRotateNegRotY_L8:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -583,26 +765,26 @@ CODE_1FC216:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC234
-CODE_1FC226:
+	jmp GetLocalZXRotateNegRotY_L11
+GetLocalZXRotateNegRotY_L9:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC22E:
+GetLocalZXRotateNegRotY_L10:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC234:
+GetLocalZXRotateNegRotY_L11:
 	tax
 	ldx.b #$00
-	sta.b $90
+	sta.b TempVecZG
 	cmp.b #$00
-	bpl CODE_1FC23E
+	bpl GetLocalZXRotateNegRotY_L12
 	dex
-CODE_1FC23E:
-	stx.b $91
+GetLocalZXRotateNegRotY_L12:
+	stx.b TempVecZG+1
 	rep #$10
 	ldx.b TempRegX
 	ldy.b TempRegY
@@ -636,29 +818,29 @@ GetLocalXYZBParam15RotateNegRotXRotY:
 	lda.w SineTable8+$40,x
 	sta.b TempCosB
 	lda.b TempRotZ
-	bmi CODE_1FC293
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L1
 	asl
 	sta.w WRMPYA
 	lda.b TempSin
-	bmi CODE_1FC2B5
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L3
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC2C3
-CODE_1FC293:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L5
+GetLocalXYZBParam15RotateNegRotXRotY_L1:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempSin
-	bmi CODE_1FC2A5
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L2
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC2BD
-CODE_1FC2A5:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L4
+GetLocalXYZBParam15RotateNegRotXRotY_L2:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -667,44 +849,44 @@ CODE_1FC2A5:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC2C3
-CODE_1FC2B5:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L5
+GetLocalXYZBParam15RotateNegRotXRotY_L3:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC2BD:
+GetLocalXYZBParam15RotateNegRotXRotY_L4:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC2C3:
+GetLocalXYZBParam15RotateNegRotXRotY_L5:
 	tax
-	sta.b $02
-	lda.b $02
-	bmi CODE_1FC2DF
+	sta.b TempVecXG
+	lda.b TempVecXG
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L6
 	asl
 	sta.w WRMPYA
 	lda.b TempCosB
-	bmi CODE_1FC301
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L8
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC30F
-CODE_1FC2DF:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L10
+GetLocalXYZBParam15RotateNegRotXRotY_L6:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempCosB
-	bmi CODE_1FC2F1
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L7
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC309
-CODE_1FC2F1:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L9
+GetLocalXYZBParam15RotateNegRotXRotY_L7:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -713,48 +895,48 @@ CODE_1FC2F1:
 	nop
 	nop
 	sta.w RDMPYH
-	jmp CODE_1FC30F
-CODE_1FC301:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L10
+GetLocalXYZBParam15RotateNegRotXRotY_L8:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC309:
+GetLocalXYZBParam15RotateNegRotXRotY_L9:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC30F:
+GetLocalXYZBParam15RotateNegRotXRotY_L10:
 	tax
-	sta.b $02
+	sta.b TempVecXG
 	cmp.b #$00
-	bpl CODE_1FC318
-	dec.b $03
-CODE_1FC318:
+	bpl GetLocalXYZBParam15RotateNegRotXRotY_L11
+	dec.b TempVecXG+1
+GetLocalXYZBParam15RotateNegRotXRotY_L11:
 	lda.b TempRotZ
-	bmi CODE_1FC331
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L12
 	asl
 	sta.w WRMPYA
 	lda.b TempCos
-	bmi CODE_1FC353
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L14
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC361
-CODE_1FC331:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L16
+GetLocalXYZBParam15RotateNegRotXRotY_L12:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempCos
-	bmi CODE_1FC343
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L13
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC35B
-CODE_1FC343:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L15
+GetLocalXYZBParam15RotateNegRotXRotY_L13:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -763,44 +945,44 @@ CODE_1FC343:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC361
-CODE_1FC353:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L16
+GetLocalXYZBParam15RotateNegRotXRotY_L14:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC35B:
+GetLocalXYZBParam15RotateNegRotXRotY_L15:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC361:
+GetLocalXYZBParam15RotateNegRotXRotY_L16:
 	tax
-	sta.b $90
-	lda.b $90
-	bmi CODE_1FC37D
+	sta.b TempVecZG
+	lda.b TempVecZG
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L17
 	asl
 	sta.w WRMPYA
 	lda.b TempCosB
-	bmi CODE_1FC39F
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L19
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC3AD
-CODE_1FC37D:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L21
+GetLocalXYZBParam15RotateNegRotXRotY_L17:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempCosB
-	bmi CODE_1FC38F
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L18
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC3A7
-CODE_1FC38F:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L20
+GetLocalXYZBParam15RotateNegRotXRotY_L18:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -809,48 +991,48 @@ CODE_1FC38F:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC3AD
-CODE_1FC39F:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L21
+GetLocalXYZBParam15RotateNegRotXRotY_L19:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC3A7:
+GetLocalXYZBParam15RotateNegRotXRotY_L20:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC3AD:
+GetLocalXYZBParam15RotateNegRotXRotY_L21:
 	tax
-	sta.b $90
+	sta.b TempVecZG
 	cmp.b #$00
-	bpl CODE_1FC3B6
-	dec.b $91
-CODE_1FC3B6:
+	bpl GetLocalXYZBParam15RotateNegRotXRotY_L22
+	dec.b TempVecZG+1
+GetLocalXYZBParam15RotateNegRotXRotY_L22:
 	lda.b TempRotZ
-	bmi CODE_1FC3CF
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L23
 	asl
 	sta.w WRMPYA
 	lda.b TempSinB
-	bmi CODE_1FC3F1
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L25
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC3FF
-CODE_1FC3CF:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L27
+GetLocalXYZBParam15RotateNegRotXRotY_L23:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempSinB
-	bmi CODE_1FC3E1
+	bmi GetLocalXYZBParam15RotateNegRotXRotY_L24
 	sta.w WRMPYA
 	nop
-	jmp CODE_1FC3F9
-CODE_1FC3E1:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L26
+GetLocalXYZBParam15RotateNegRotXRotY_L24:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -859,24 +1041,24 @@ CODE_1FC3E1:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC3FF
-CODE_1FC3F1:
+	jmp GetLocalXYZBParam15RotateNegRotXRotY_L27
+GetLocalXYZBParam15RotateNegRotXRotY_L25:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC3F9:
+GetLocalXYZBParam15RotateNegRotXRotY_L26:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC3FF:
+GetLocalXYZBParam15RotateNegRotXRotY_L27:
 	tax
-	sta.b $08
+	sta.b TempVecYG
 	cmp.b #$00
-	bpl CODE_1FC408
-	dec.b $09
-CODE_1FC408:
+	bpl GetLocalXYZBParam15RotateNegRotXRotY_L28
+	dec.b TempVecYG+1
+GetLocalXYZBParam15RotateNegRotXRotY_L28:
 	rep #$10
 	ldx.b TempRegX
 	ldy.b TempRegY
@@ -915,29 +1097,29 @@ GetLocalXYZ8RotateRotXNegRotY:
 	lda.w SineTable8+$40,x
 	sta.b TempCosB
 	lda.b TempRotZ
-	bmi CODE_1FC467
+	bmi GetLocalXYZ8RotateRotXNegRotY_L1
 	asl
 	sta.w WRMPYA
 	lda.b TempSin
-	bmi CODE_1FC489
+	bmi GetLocalXYZ8RotateRotXNegRotY_L3
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC497
-CODE_1FC467:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L5
+GetLocalXYZ8RotateRotXNegRotY_L1:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempSin
-	bmi CODE_1FC479
+	bmi GetLocalXYZ8RotateRotXNegRotY_L2
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC491
-CODE_1FC479:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L4
+GetLocalXYZ8RotateRotXNegRotY_L2:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -946,44 +1128,44 @@ CODE_1FC479:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC497
-CODE_1FC489:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L5
+GetLocalXYZ8RotateRotXNegRotY_L3:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC491:
+GetLocalXYZ8RotateRotXNegRotY_L4:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC497:
+GetLocalXYZ8RotateRotXNegRotY_L5:
 	tax
-	sta.b $02
-	lda.b $02
-	bmi CODE_1FC4B3
+	sta.b TempVecXG
+	lda.b TempVecXG
+	bmi GetLocalXYZ8RotateRotXNegRotY_L6
 	asl
 	sta.w WRMPYA
 	lda.b TempCosB
-	bmi CODE_1FC4D5
+	bmi GetLocalXYZ8RotateRotXNegRotY_L8
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC4E3
-CODE_1FC4B3:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L10
+GetLocalXYZ8RotateRotXNegRotY_L6:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempCosB
-	bmi CODE_1FC4C5
+	bmi GetLocalXYZ8RotateRotXNegRotY_L7
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC4DD
-CODE_1FC4C5:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L9
+GetLocalXYZ8RotateRotXNegRotY_L7:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -992,48 +1174,48 @@ CODE_1FC4C5:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC4E3
-CODE_1FC4D5:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L10
+GetLocalXYZ8RotateRotXNegRotY_L8:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC4DD:
+GetLocalXYZ8RotateRotXNegRotY_L9:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC4E3:
+GetLocalXYZ8RotateRotXNegRotY_L10:
 	tax
-	sta.b $02
+	sta.b TempVecXG
 	cmp.b #$00
-	bpl CODE_1FC4EC
-	dec.b $03
-CODE_1FC4EC:
+	bpl GetLocalXYZ8RotateRotXNegRotY_L11
+	dec.b TempVecXG+1
+GetLocalXYZ8RotateRotXNegRotY_L11:
 	lda.b TempRotZ
-	bmi CODE_1FC505
+	bmi GetLocalXYZ8RotateRotXNegRotY_L12
 	asl
 	sta.w WRMPYA
 	lda.b TempCos
-	bmi CODE_1FC527
+	bmi GetLocalXYZ8RotateRotXNegRotY_L14
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC535
-CODE_1FC505:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L16
+GetLocalXYZ8RotateRotXNegRotY_L12:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempCos
-	bmi CODE_1FC517
+	bmi GetLocalXYZ8RotateRotXNegRotY_L13
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC52F:
-CODE_1FC517:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L15
+GetLocalXYZ8RotateRotXNegRotY_L13:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -1042,44 +1224,44 @@ CODE_1FC517:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC535
-CODE_1FC527:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L16
+GetLocalXYZ8RotateRotXNegRotY_L14:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC52F:
+GetLocalXYZ8RotateRotXNegRotY_L15:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC535:
+GetLocalXYZ8RotateRotXNegRotY_L16:
 	tax
-	sta.b $90
-	lda.b $90
-	bmi CODE_1FC551
+	sta.b TempVecZG
+	lda.b TempVecZG
+	bmi GetLocalXYZ8RotateRotXNegRotY_L17
 	asl
 	sta.w WRMPYA
 	lda.b TempCosB
-	bmi CODE_1FC573
+	bmi GetLocalXYZ8RotateRotXNegRotY_L19
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC581
-CODE_1FC551:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L21
+GetLocalXYZ8RotateRotXNegRotY_L17:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempCosB
-	bmi CODE_1FC563
+	bmi GetLocalXYZ8RotateRotXNegRotY_L18
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC57B
-CODE_1FC563:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L20
+GetLocalXYZ8RotateRotXNegRotY_L18:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -1088,48 +1270,48 @@ CODE_1FC563:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC581
-CODE_1FC573:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L21
+GetLocalXYZ8RotateRotXNegRotY_L19:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC57B:
+GetLocalXYZ8RotateRotXNegRotY_L20:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC581:
+GetLocalXYZ8RotateRotXNegRotY_L21:
 	tax
-	sta.b $90
+	sta.b TempVecZG
 	cmp.b #$00
-	bpl CODE_1FC58A
-	dec.b $91
-CODE_1FC58A:
+	bpl GetLocalXYZ8RotateRotXNegRotY_L22
+	dec.b TempVecZG+1
+GetLocalXYZ8RotateRotXNegRotY_L22:
 	lda.b TempRotZ
-	bmi CODE_1FC5A3
+	bmi GetLocalXYZ8RotateRotXNegRotY_L23
 	asl
 	sta.w WRMPYA
 	lda.b TempSinB
-	bmi CODE_1FC5C5
+	bmi GetLocalXYZ8RotateRotXNegRotY_L25
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC5D3
-CODE_1FC5A3:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L27
+GetLocalXYZ8RotateRotXNegRotY_L23:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempSinB
-	bmi CODE_1FC5B5
+	bmi GetLocalXYZ8RotateRotXNegRotY_L24
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC5CD
-CODE_1FC5B5:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L26
+GetLocalXYZ8RotateRotXNegRotY_L24:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -1138,30 +1320,30 @@ CODE_1FC5B5:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC5D3
-CODE_1FC5C5:
+	jmp GetLocalXYZ8RotateRotXNegRotY_L27
+GetLocalXYZ8RotateRotXNegRotY_L25:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC5CD:
+GetLocalXYZ8RotateRotXNegRotY_L26:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC5D3:
+GetLocalXYZ8RotateRotXNegRotY_L27:
 	tax
 	sta.b $08
 	cmp.b #$00
-	bpl CODE_1FC5DC
+	bpl GetLocalXYZ8RotateRotXNegRotY_L28
 	dec.b $09
-CODE_1FC5DC:
+GetLocalXYZ8RotateRotXNegRotY_L28:
 	rep #$10
 	ldx.b TempIndX
 	ldy.b TempIndY
 	plb
 	rtl
-CODE_1FC5E4:
+UnkGetLocalFunc_1FC5E4:
 	sta.b TempRotZ
 	stx.b TempRegX
 	sty.b TempRegY
@@ -1182,29 +1364,29 @@ CODE_1FC5E4:
 	lda.w SineTable8+$40,x
 	sta.b TempCos
 	lda.b TempRotZ
-	bmi CODE_1FC61F
+	bmi UnkGetLocalFunc_1FC5E4_L1
 	asl
 	sta.w WRMPYA
 	lda.b TempSin
-	bmi CODE_1FC641
+	bmi UnkGetLocalFunc_1FC5E4_L3
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC64F
-CODE_1FC61F:
+	jmp UnkGetLocalFunc_1FC5E4_L5
+UnkGetLocalFunc_1FC5E4_L1:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempSin
-	bmi CODE_1FC631
+	bmi UnkGetLocalFunc_1FC5E4_L2
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC649
-CODE_1FC631:
+	jmp UnkGetLocalFunc_1FC5E4_L4
+UnkGetLocalFunc_1FC5E4_L2:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -1213,50 +1395,50 @@ CODE_1FC631:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC64F
-CODE_1FC641:
+	jmp UnkGetLocalFunc_1FC5E4_L5
+UnkGetLocalFunc_1FC5E4_L3:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC649:
+UnkGetLocalFunc_1FC5E4_L4:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC64F:
+UnkGetLocalFunc_1FC5E4_L5:
 	tax
 	ldx.b #$00
 	sta.b TempVecXG
 	cmp.b #$00
-	bpl CODE_1FC659
+	bpl UnkGetLocalFunc_1FC5E4_L6
 	dex
-CODE_1FC659:
+UnkGetLocalFunc_1FC5E4_L6:
 	stx.b TempVecXG+1
 	lda.b TempRotZ
-	bmi CODE_1FC674
+	bmi UnkGetLocalFunc_1FC5E4_L7
 	asl
 	sta.w WRMPYA
 	lda.b TempCos
-	bmi CODE_1FC696
+	bmi UnkGetLocalFunc_1FC5E4_L9
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC6A4
-CODE_1FC674:
+	jmp UnkGetLocalFunc_1FC5E4_L11
+UnkGetLocalFunc_1FC5E4_L7:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempCos
-	bmi CODE_1FC686
+	bmi UnkGetLocalFunc_1FC5E4_L8
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC69E
-CODE_1FC686:
+	jmp UnkGetLocalFunc_1FC5E4_L10
+UnkGetLocalFunc_1FC5E4_L8:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -1265,32 +1447,32 @@ CODE_1FC686:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC6A4
-CODE_1FC696:
+	jmp UnkGetLocalFunc_1FC5E4_L11
+UnkGetLocalFunc_1FC5E4_L9:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC69E:
+UnkGetLocalFunc_1FC5E4_L10:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC6A4:
+UnkGetLocalFunc_1FC5E4_L11:
 	tax
 	lda.b #$00
 	sta.b TempVecZG
 	cmp.b #$00
-	bpl CODE_1FC6AE
+	bpl UnkGetLocalFunc_1FC5E4_L12
 	dex
-CODE_1FC6AE:
+UnkGetLocalFunc_1FC5E4_L12:
 	stx.b TempVecZG+1
 	rep #$10
 	ldx.b TempRegX
 	ldy.b TempRegY
 	plb
 	rtl
-CODE_1FC6B8:
+UnkGetLocalFunc_1FC6B8:
 	sta.b TempRotZ
 	stx.b TempIndX
 	sty.b TempIndY
@@ -1309,29 +1491,29 @@ CODE_1FC6B8:
 	lda.w SineTable8+$40,x
 	sta.b TempCosB
 	lda.b TempRotZ
-	bmi CODE_1FC6F0
+	bmi UnkGetLocalFunc_1FC6B8_L1
 	asl
 	sta.w WRMPYA
 	lda.b TempSinB
-	bmi CODE_1FC712
+	bmi UnkGetLocalFunc_1FC6B8_L3
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC720
-CODE_1FC6F0:
+	jmp UnkGetLocalFunc_1FC6B8_L5
+UnkGetLocalFunc_1FC6B8_L1:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempSinB
-	bmi CODE_1FC702
+	bmi UnkGetLocalFunc_1FC6B8_L2
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC71A
-CODE_1FC702:
+	jmp UnkGetLocalFunc_1FC6B8_L4
+UnkGetLocalFunc_1FC6B8_L2:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -1340,50 +1522,50 @@ CODE_1FC702:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC720
-CODE_1FC712:
+	jmp UnkGetLocalFunc_1FC6B8_L5
+UnkGetLocalFunc_1FC6B8_L3:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC71A:
+UnkGetLocalFunc_1FC6B8_L4:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC720:
+UnkGetLocalFunc_1FC6B8_L5:
 	tax
 	ldx.b #$00
 	sta.b TempVecXG
 	cmp.b #$00
-	bpl CODE_1FC72A
+	bpl UnkGetLocalFunc_1FC6B8_L6
 	dex
-CODE_1FC72A:
+UnkGetLocalFunc_1FC6B8_L6:
 	stx.b TempVecXG+1
 	lda.b TempRotZ
-	bmi CODE_1FC745
+	bmi UnkGetLocalFunc_1FC6B8_L7
 	asl
 	sta.w WRMPYA
 	lda.b TempCosB
-	bmi CODE_1FC767
+	bmi UnkGetLocalFunc_1FC6B8_L9
 	sta.w WRMPYB
 	nop
 	nop
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC775
-CODE_1FC745:
+	jmp UnkGetLocalFunc_1FC6B8_L11
+UnkGetLocalFunc_1FC6B8_L7:
 	eor.b #$FF
 	inc
 	asl
 	sta.w WRMPYA
 	lda.b TempCosB
-	bmi CODE_1FC757
+	bmi UnkGetLocalFunc_1FC6B8_L8
 	sta.w WRMPYB
 	nop
-	jmp CODE_1FC76F
-CODE_1FC757:
+	jmp UnkGetLocalFunc_1FC6B8_L10
+UnkGetLocalFunc_1FC6B8_L8:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
@@ -1392,25 +1574,25 @@ CODE_1FC757:
 	nop
 	nop
 	lda.w RDMPYH
-	jmp CODE_1FC775
-CODE_1FC767:
+	jmp UnkGetLocalFunc_1FC6B8_L11
+UnkGetLocalFunc_1FC6B8_L9:
 	eor.b #$FF
 	inc
 	sta.w WRMPYB
 	nop
 	nop
-CODE_1FC76F:
+UnkGetLocalFunc_1FC6B8_L10:
 	lda.b #$00
 	sec
 	sbc.w RDMPYH
-CODE_1FC775:
+UnkGetLocalFunc_1FC6B8_L11:
 	tax
 	ldx.b #$00
 	sta.b TempVecZG
 	cmp.b #$00
-	bpl CODE_1FC77F
+	bpl UnkGetLocalFunc_1FC6B8_L12
 	dex
-CODE_1FC77F:
+UnkGetLocalFunc_1FC6B8_L12:
 	stx.b TempVecZG+1
 	rep #$20
 	ldx TempIndX
@@ -1520,13 +1702,13 @@ GetObjectByIDEx2_NextCand:
 GetObjectByIDEx2_Match:
 	cpx.b TempMiscX
 	beq GetObjectByIDEx2_NextCand
-	sta.w $14C5
+	sta.w TempMiscW
 	sep #$20
 	lda.b $1D,x
 	and.b $02
 	rep #$20
 	bne GetObjectByIDEx2_L4
-	lda.w $14C5
+	lda.w TempMiscW
 	bra GetObjectByIDEx2_NextCand
 GetObjectByIDEx2_L4:
 	ldy.b $00,x
@@ -1574,9 +1756,9 @@ GetObjectByIDEx3_L2:
 	cmp.b $0A
 	bne GetObjectByIDEx3_L3
 	ldy.b $04
-	jsl CODE_1FD0AB
+	jsl UnkAngleGetterHelperFunc_1FD0AB
 	rep #$20
-	lda.w $1250
+	lda.w Unknown_1250
 	cmp.b TempMiscX
 	bpl GetObjectByIDEx3_L3
 	cmp.b $3E
@@ -1607,7 +1789,7 @@ GetObjectByIDEx3_L6:
 	ldy.b TempVecXL
 	jsl CODE_1FD0AB
 	rep #$20
-	lda.w $1250
+	lda.w Unknown_1250
 	cmp.b TempMiscX
 	bpl GetObjectByIDEx3_L7
 	cmp.b $3E
@@ -1639,7 +1821,7 @@ GetObjectByIDEx4_L1:
 	ldy.b TempVecXL
 	jsl CODE_1FD0AB
 	rep #$20
-	lda.w $1250
+	lda.w Unknown_1250
 	cmp.b TempMiscX
 	bpl GetObjectByIDEx4_L2
 	cmp.b $3E
@@ -1661,7 +1843,7 @@ GetObjectByIDEx4_L4:
 	and.w #$0008
 	beq GetObjectByIDEx4_L5
 	ldy.b TempVecXL
-	jsl CODE_1FD0AB
+	jsl UnkAngleGetterHelperFunc_1FD0AB
 	rep #$20
 	lda.w $1250
 	cmp.b TempMiscX
@@ -1694,16 +1876,16 @@ GetObjectByID_Match:
 CountObjectsWithID:
 	php
 	ldy.w FirstObject
-	stz $14C5
+	stz TempMiscW
 CountObjectsWithID_Next:
 	tyx
 	cmp.b $04,x
 	bne CountObjectsWithID_SkInc
-	inc.w $14C5
+	inc.w TempMiscW
 CountObjectsWithID_SkInc:
 	ldy.b $00,x
 	bne CountObjectsWithID_Next
-	lda.w $14C5
+	lda.w TempMiscW
 	plp
 	rtl
 GetLocalZX8RotateNegY:
@@ -2531,10 +2713,10 @@ GetLocalYZ16RotateNegX:
 	ldy.b TempMiscY
 	ldx.b TempMiscX
 	rtl
-CODE_1FCF1B:
+UnkAngleGetterFunc_1FCF1B:
 	phx
 	phy
-	jsl CODE_1FD0AB
+	jsl UnkAngleGetterHelperFunc_1FD0AB
 	rep #$20
 	lda.b TempVecXG
 	clc
@@ -2579,7 +2761,7 @@ CalcLatXZEx:
 	sec
 	sbc.b TempVecXG
 CalcLatXZEx_L1:
-	sta.w $1250
+	sta.w Unknown_1250
 	lda.w $0010,y
 	clc
 	adc.w TempVecZL
@@ -2588,14 +2770,14 @@ CalcLatXZEx_L1:
 	sta.b TempVecYG
 	bmi CalcLatXZEx_L2
 	clc
-	adc.w $1250
+	adc.w Unknown_1250
 	bra CalcLatXZEx_L3
 CalcLatXZEx_L2:
 	sec
-	lda.w $1250
+	lda.w Unknown_1250
 	sbc.b TempVecYG
 CalcLatXZEx_L3:
-	sta.w $1250
+	sta.w Unknown_1250
 	sep #$20
 	rtl
 CalcLatXZ:
@@ -2609,21 +2791,21 @@ CalcLatXZ:
 	sec
 	sbc.b TempVecXG
 CalcLatXZ_L1:
-	sta.w $1250
+	sta.w Unknown_1250
 	lda.w TempVecZL
 	sec
 	sbc.b $10,x
 	sta.b TempVecYG
 	bmi CalcLatXZ_L2
 	clc
-	adc.w $1250
+	adc.w Unknown_1250
 	bra CalcLatXZ_L3
 CalcLatXZ_L2:
 	sec
-	lda.w $1250
+	lda.w Unknown_1250
 	sbc.b TempVecYG
 CalcLatXZ_L3:
-	sta.w $1250
+	sta.w Unknown_1250
 	sep #$20
 	rtl
 CalcLatXY:
@@ -2637,21 +2819,21 @@ CalcLatXY:
 	sec
 	sbc.b TempVecXG
 CalcLatXY_L1:
-	sta.w $1250
+	sta.w Unknown_1250
 	lda.b TempVecYL
 	sec
 	sbc.b $0E,x
 	sta.b TempVecYG
 	bmi CalcLatXY_L2
 	clc
-	adc.w $1250
+	adc.w Unknown_1250
 	bra CalcLatXY_L3
 CalcLatXY_L2:
 	sec
-	lda.w $1250
+	lda.w Unknown_1250
 	sbc.b TempVecYG
 CalcLatXY_L3:
-	sta.w $1250
+	sta.w Unknown_1250
 	sep #$20
 	rtl
 AddAuxVelocity:
@@ -2699,12 +2881,28 @@ FaceTargetObjectY:
 	ply
 	plx
 	rtl
+UnkAngleGetterFunc_1FD03E:
+	phx
+	phy
+	jsl UnkAngleGetterHelperFunc_1FD0AB
+	rep #$20
+	lda.w Unknown_1250
+	sta.b TempVecYG
+	lda.w $000E,y
+	sec
+	sbc.b $0E,x
+	sta.b TempVecXG
+	jsl RunSuperFXCalculateAtan2
+	rep #$30
+	ply
+	plx
+	rtl
 FaceTargetLocalPtExLat:
 	phx
 	phy
 	jsl CalcLatXZ
 	rep #$20
-	lda.w $1250
+	lda.w Unknown_1250
 	sta.b TempVecYG
 	lda.w TempVecYL
 	sec
@@ -2742,23 +2940,23 @@ FaceTargetLocalPtY:
 	ply
 	plx
 	rtl
-CODE_1FD0AB:
+UnkAngleGetterHelperFunc_1FD0AB:
 	rep #$20
 	lda.w $000C,y
 	sec
 	sbc.b $0C,x
-	bpl CODE_1FD0B9
+	bpl UnkAngleGetterHelperFunc_1FD0AB_L1
 	eor.w #$FFFF
 	inc
-CODE_1FD0B9:
+UnkAngleGetterHelperFunc_1FD0AB_L1:
 	sta.b TempVecXG
 	lda.w $0010,y
 	sec
 	sbc.b $10,x
-	bpl CODE_1FD0D7
+	bpl UnkAngleGetterHelperFunc_1FD0AB_L2
 	eor.w #$FFFF
 	inc
-CODE_1FD0C7:
+UnkAngleGetterHelperFunc_1FD0AB_L2:
 	sta.b TempVecYG
 	rep #$20
 	lda.b TempVecXG
@@ -2773,17 +2971,17 @@ CODE_1FD0C7:
 	clc
 	adc.b TempVecXG
 	asl
-	sta.w $1250
+	sta.w Unknown_1250
 	lda.b TempVecYG
 	cmp.b TempVecXG
-	bmi CODE_1FD0EE
+	bmi UnkAngleGetterHelperFunc_1FD0AB_L3
 	lda.b TempVecYG
-	bra CODE_1FD0F0
-CODE_1FD0EE:
+	bra UnkAngleGetterHelperFunc_1FD0AB_L4
+UnkAngleGetterHelperFunc_1FD0AB_L3:
 	lda.b TempVecXG
-CODE_1FD0F0:
+UnkAngleGetterHelperFunc_1FD0AB_L4:
 	clc
-	adc.w $1250
+	adc.w Unknown_1250
 	sta.b TempVecXG
 	asl
 	asl
@@ -2799,7 +2997,7 @@ CODE_1FD0F0:
 	ror
 	cmp.w #$8000
 	ror
-	sta.w $1250
+	sta.w Unknown_1250
 	sep #$20
 	rtl
 GetXYManhattanDistanceToObject:
@@ -2832,17 +3030,17 @@ GetXYDistToObj_StRet:
 	rtl
 ShootProjectile:
 	pha
-	lda.w $14D2
+	lda.w Unknown_14D2
 	and.b #$01
 	bne ShootProjectile_L2
 	pla
 ShootProjectile_L1:
 	stx.b TempMiscX
 	sep #$30
-	sta.w $14C5
+	sta.w TempMiscW
 	asl
 	clc
-	adc.w $14C5
+	adc.w TempMiscW
 	tax
 	lda.l ProjectileFunctionTable+4,x
 	pha
@@ -2898,35 +3096,35 @@ DamageObject:
 	beq DamageObject_L1
 	jml DamageObject_L6
 DamageObject_L1:
-	lda.w $14D8
+	lda.w Unknown_14D8
 	and.b #$01
 	bne DamageObject_L2
 	jml DamageObject_L3
 DamageObject_L2:
-	lda.b $02
+	lda.b TempVecXG
 	cmp.b #$08
 	bne DamageObject_L3
 	cmp.b #$80
 	ror
-	sta.b $02
+	sta.b TempVecXG
 DamageObject_L3:
 	lda.b $2A,x
 	bmi DamageObject_L5
 	sec
-	sbc.b $02
+	sbc.b TempVecXG
 	bpl DamageObject_L4
 	lda.b #$00
 DamageObject_L4:
 	sta.b $2A,x
 DamageObject_L5:
-	lda.w $14C5
+	lda.w TempMiscW
 	sta.b $2D,x
 DamageObject_L6:
 	rtl
 ProcObject:
 	php
 	rep #$30
-	cpx.w $156B
+	cpx.w Unknown_156B
 	bne ProcObject_L1
 	brl ProcObject_Return
 ProcObject_L1:
@@ -3012,7 +3210,7 @@ ProcObject_L8:
 	lda.w BehFuncPtrTemp+2
 	pha
 	rep #$20
-	stz.w $1521
+	stz.w Unused_1521
 	lda.w BehFuncPtrTemp
 	dec
 	pha
@@ -3020,7 +3218,7 @@ ProcObject_L8:
 	rtl
 ProcObject_Return:
 	sep #$20
-	lda.w $14C9
+	lda.w Unknown_14C9
 ProcObject_Exit:
 	plp
 	rtl
@@ -3126,44 +3324,44 @@ FindFreeObject_L4:
 FindFreeObject_L5:
 	clc
 	rtl
-CODE_1FD3E0:
+UnkObjUtilFunc_1FD3E0:
 	rep #$10
 	phx
 	ldx.w FirstObject
-	beq CODE_1FD3FB
-CODE_1FD3E8:
+	beq UnkObjUtilFunc_1FD3E0_L3
+UnkObjUtilFunc_1FD3E0_L1:
 	ldy.b $00,x
 	sep #$20
 	lda.b $20,x
 	and.b #$01
-	bne CODE_1FD3F8
+	bne UnkObjUtilFunc_1FD3E0_L2
 	phy
-	jsl CODE_1FBFDC
+	jsl Calls_UnkFunc_1FBFE0
 	ply
-CODE_1FD3F8:
+UnkObjUtilFunc_1FD3E0_L2:
 	tyx
-	bne CODE_1FD3E8
-CODE_1FD3FB:
+	bne UnkObjUtilFunc_1FD3E0_L1
+UnkObjUtilFunc_1FD3E0_L3:
 	plx
 	rtl
-CODE_1FD3FD:
+UnkObjUtilFunc_1FD3FD:
 	rep #$10
 	phx
 	ldx.w FirstObject
-	beq CODE_1FD418
-CODE_1FD405:
+	beq UnkObjUtilFunc_1FD3FD_L3
+UnkObjUtilFunc_1FD3FD_L1:
 	ldy.b $00,x
 	sep #$20
 	lda.b $1F,x
 	and.b #$08
-	beq CODE_1FD415
+	beq UnkObjUtilFunc_1FD3FD_L2
 	phy
-	jsl CODE_1FBFDC
+	jsl Calls_UnkFunc_1FBFE0
 	ply
-CODE_1FD415:
+UnkObjUtilFunc_1FD3FD_L2:
 	tyx
-	bne CODE_1FD405
-CODE_1FD418:
+	bne UnkObjUtilFunc_1FD3FD_L1
+UnkObjUtilFunc_1FD3FD_L3:
 	plx
 	rtl
 SetDefaultDestroyColiFuncPtrs:
@@ -3288,16 +3486,16 @@ MultiplyBy15_16:
 	clc
 	adc.b TempMiscY
 	rtl
-CODE_1FD501:
+UnkFunc_1FD501:
 	lda.b $08,x
 	and.b #$40
-	bne CODE_1FD50B
-	jml CODE_1FD531
-CODE_1FD50B:
+	bne UnkFunc_1FD501_L1
+	jml UnkFunc_1FD501_L3
+UnkFunc_1FD501_L1:
 	phy
 	rep #$20
 	lda.w Object2ListRel+$13,x
-	beq CODE_1FD52E
+	beq UnkFunc_1FD501_L2
 	tay
 	lda.w #$0000
 	sta.w Object2ListRel+$13,x
@@ -3308,27 +3506,27 @@ CODE_1FD50B:
 	phx
 	tyx
 	ply
-	jsl CODE_1FBFDC
+	jsl Calls_UnkFunc_1FBFE0
 	phx
 	tyx
 	ply
-CODE_1FD52E:
+UnkFunc_1FD501_L2:
 	sep #$20
 	ply
-CODE_1FD531:
+UnkFunc_1FD501_L3:
 	cpx CurProcObject
-	bne CODE_1FD53B
-	inc.w $1248
-	bra CODE_1FD53F
-CODE_1FD53B:
-	jsl CODE_1FBFDC
-CODE_1FD53F:
+	bne UnkFunc_1FD501_L4
+	inc.w Unknown_1248
+	bra UnkFunc_1FD501_L5
+UnkFunc_1FD501_L4:
+	jsl Calls_UnkFunc_1FBFE0
+UnkFunc_1FD501_L5:
 	rtl
-CODE_1FD540:
+Calls_UnkFunc_1FD501:
 	phx
 	tyx
 	ply
-	jsl CODE_1FD501
+	jsl UnkFunc_1FD501
 	phx
 	tyx
 	ply
@@ -3347,14 +3545,14 @@ CreateChildObject_L1:
 	sep #$20
 	jsl ClearObject
 	rep #$20
-	lda.w $14C5
+	lda.w TempMiscW
 	sta.w $0004,y
 	sep #$20
 	sec
 	rtl
 LinkChildObject:
-	sta.w $14C5
-	lda.w $14C5
+	sta.w TempMiscW
+	lda.w TempMiscW
 	sta.w $0022,y
 	stx.b $06,y
 	rep #$20
@@ -3441,49 +3639,592 @@ SetTempVelocityShift3:
 	sta.b $33,x
 	sep #$20
 	rtl
-CODE_1FD60D:
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+UnkFunc_1FD60D:
+	sta.b TempMiscX
+	lda.b $15,x
+	sec
+	sbc.w TempMiscW
+	beq UnkFunc_1FD60D_L5
+	bpl UnkFunc_1FD60D_L1
+	eor.b #$FF
+	inc
+UnkFunc_1FD60D_L1:
+	cmp.b TempMiscX
+	bpl UnkFunc_1FD60D_L2
+	lda.w TempMiscW
+	bra UnkFunc_1FD60D_L4
+UnkFunc_1FD60D_L2:
+	lda.b $15,x
+	cmp.w TempMiscW
+	beq UnkFunc_1FD60D_L4
+	bmi UnkFunc_1FD60D_L3
+	sec
+	sbc.b TempMiscX
+	bra UnkFunc_1FD60D_L4
+UnkFunc_1FD60D_L3:
+	clc
+	adc.b TempMiscX
+UnkFunc_1FD60D_L4:
+	sta.b $15,x
+	clc
+	rtl
+UnkFunc_1FD60D_L5:
+	sec
+	rtl
+Clamp2Shift16:
+	cmp.b TempMiscX
+	bne Clamp2Shift16_Ne
+	jml ClampShiftEq
+Clamp2Shift16_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.w #$0000
+	bmi Clamp2Shift16_Neg
+	cmp.w #$0002
+	bpl Clamp2Shift16_Sh
+	lda.w #$0002
+	bra Clamp2Shift16_Sh
+Clamp2Shift16_Neg:
+	cmp.w #$FFFE
+	bmi Clamp2Shift16_Sh
+	lda.w #$FFFE
+Clamp2Shift16_Sh:
+	cmp.w #$8000
+	ror
+	bpl Clamp2Shift16_SkC
+	adc.w #$0000
+Clamp2Shift16_SkC:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+Clamp4Shift16:
+	cmp.b TempMiscX
+	bme Clamp4Shift16_Ne
+	jml ClampShiftEq
+Clamp4Shift16_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.w #$0000
+	bmi Clamp4Shift16_Neg
+	cmp.w #$0004
+	bpl Clamp4Shift16_Sh
+	lda.w #$0004
+	bra Clamp4Shift16_Sh
+Clamp4Shift16_Neg:
+	cmp.w #$FFFC
+	bmi Clamp4Shift16_Sh
+	lda.w #$FFFC
+Clamp4Shift16_Sh:
+	cmp.w #$8000
+	ror
+	bpl Clamp4Shift16_SkC1
+	adc.w #$0000
+Clamp4Shift16_SkC1:
+	cmp.w #$8000
+	ror
+	bpl Clamp4Shift16_SkC2
+	adc.w #$0000
+Clamp4Shift16_SkC2:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+Clamp8Shift16:
+	cmp.b TempMiscX
+	bne Clamp8Shift16_Ne
+	jml ClampShiftEq
+Clamp8Shift16_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.w #$0000
+	bmi Clamp8Shift16_Neg
+	cmp.w #$0008
+	bpl Clamp8Shift16_Sh
+	lda.w #$0008
+	bra Clamp8Shift16_Sh
+Clamp8Shift16_Neg:
+	cmp.w #$FFF8
+	bmi Clamp8Shift16_Sh
+	lda.w #$FFF8
+Clamp8Shift16_Sh:
+	cmp.w #$8000
+	ror
+	bpl Clamp8Shift16_SkC1
+	adc.w #$0000
+Clamp8Shift16_SkC1:
+	cmp.w #$8000
+	ror
+	bpl Clamp8Shift16_SkC2
+	adc.w #$0000
+Clamp8Shift16_SkC2:
+	cmp.w #$8000
+	ror
+	bpl Clamp8Shift16_SkC3
+	adc.w #$0000
+Clamp8Shift16_SkC3:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+Clamp16Shift16:
+	cmp.b TempMiscX
+	bne Clamp16Shift16_Ne
+	jml ClampShiftEq
+Clamp16Shift16_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.w #$0000
+	bmi Clamp16Shift16_Neg
+	cmp.w #$0010
+	bpl Clamp16Shift16_Sh
+	lda.w #$0010
+	bra Clamp16Shift16_Sh
+Clamp16Shift16_Neg:
+	cmp.w #$FFF0
+	bmi Clamp16Shift16_Sh
+	lda.w #$FFF0
+Clamp16Shift16_Sh:
+	cmp.w #$8000
+	ror
+	bpl Clamp16Shift16_SkC1
+	adc.w #$0000
+Clamp16Shift16_SkC1:
+	cmp.w #$8000
+	ror
+	bpl Clamp16Shift16_SkC2
+	adc.w #$0000
+Clamp16Shift16_SkC2:
+	cmp.w #$8000
+	ror
+	bpl Clamp16Shift16_SkC3
+	adc.w #$0000
+Clamp16Shift16_SkC3:
+	cmp.w #$8000
+	ror
+	bpl Clamp16Shift16_SkC4
+	adc.w #$0000
+Clamp16Shift16_SkC4:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+Clamp32Shift16:
+	cmp.b TempMiscX
+	bne Clamp32Shift16_Ne
+	jml ClampShiftEq
+Clamp32Shift16_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.w #$0000
+	bmi Clamp32Shift16_Neg
+	cmp.w #$0020
+	bpl Clamp32Shift16_Sh
+	lda.w #$0020
+	bra Clamp32Shift16_Sh
+Clamp32Shift16_Neg:
+	cmp.w #$FFE0
+	bmi Clamp32Shift16_Sh
+	lda.w #$FFE0
+Clamp32Shift16_Sh:
+	cmp.w #$8000
+	ror
+	bpl Clamp32Shift16_SkC1
+	adc.w #$0000
+Clamp32Shift16_SkC1:
+	cmp.w #$8000
+	ror
+	bpl Clamp32Shift16_SkC2
+	adc.w #$0000
+Clamp32Shift16_SkC2:
+	cmp.w #$8000
+	ror
+	bpl Clamp32Shift16_SkC3
+	adc.w #$0000
+Clamp32Shift16_SkC4:
+	cmp.w #$8000
+	ror
+	bpl Clamp32Shift16_SkC5
+	adc.w #$0000
+Clamp32Shift16_SkC5:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+Clamp64Shift16:
+	cmp.b TempMiscX
+	bne Clamp64Shift16_Ne
+	jml ClampShiftEq
+Clamp64Shift16_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.w #$0000
+	bmi Clamp64Shift16_Neg
+	cmp.w #$0040
+	bpl Clamp64Shift16_Sh
+	lda.w #$0040
+	bra Clamp64Shift16_Sh
+Clamp64Shift16_Neg:
+	cmp.w #$FFC0
+	bmi Clamp64Shift16_Sh
+	lda.w #$FFC0
+Clamp64Shift16_Sh:
+	cmp.w #$8000
+	ror
+	bpl Clamp64Shift16_SkC1
+	adc.w #$0000
+Clamp64Shift16_SkC1:
+	cmp.w #$8000
+	ror
+	bpl Clamp64Shift16_SkC2
+	adc.w #$0000
+Clamp64Shift16_SkC2:
+	cmp.w #$8000
+	ror
+	bpl Clamp64Shift16_SkC3
+	adc.w #$0000
+Clamp64Shift16_SkC3:
+	cmp.w #$8000
+	ror
+	bpl Clamp64Shift16_SkC4
+	adc.w #$0000
+Clamp64Shift16_SkC4:
+	cmp.w #$8000
+	ror
+	bpl Clamp64Shift16_SkC5
+	adc.w #$0000
+Clamp64Shift16_SkC5:
+	cmp.w #$8000
+	ror
+	bpl Clamp64Shift16_SkC6
+	adc.w #$0000
+Clamp64Shift16_SkC6:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+Clamp128Shift16:
+	cmp.b TempMiscX
+	bne Clamp128Shift16_Ne
+	jml ClampShiftEq
+Clamp128Shift16_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.w #$0000
+	bmi Clamp128Shift16_Neg
+	cmp.w #$0080
+	bpl Clamp128Shift16_Sh
+	lda.w #$0080
+	bra Clamp128Shift16_Sh
+Clamp128Shift16_Neg:
+	cmp.w #$FF80
+	bmi Clamp128Shift16_Sh
+	lda.w #$FF80
+Clamp128Shift16_Sh:
+	cmp.w #$8000
+	ror
+	bpl Clamp128Shift16_SkC1
+	adc.w #$0000
+Clamp128Shift16_SkC1:
+	cmp.w #$8000
+	ror
+	bpl Clamp128Shift16_SkC2
+	adc.w #$0000
+Clamp128Shift16_SkC2:
+	cmp.w #$8000
+	ror
+	bpl Clamp128Shift16_SkC3
+	adc.w #$0000
+Clamp128Shift16_SkC3:
+	cmp.w #$8000
+	ror
+	bpl Clamp128Shift16_SkC4
+	adc.w #$0000
+Clamp128Shift16_SkC4:
+	cmp.w #$8000
+	ror
+	bpl Clamp128Shift16_SkC5
+	adc.w #$0000
+Clamp128Shift16_SkC5:
+	cmp.w #$8000
+	ror
+	bpl Clamp128Shift16_SkC6
+	adc.w #$0000
+Clamp128Shift16_SkC6:
+	cmp.w #$8000
+	ror
+	bpl Clamp128Shift16_SkC7
+	adc.w #$0000
+Clamp128Shift16_SkC7:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+Clamp2Shift8:
+	cmp.b TempMiscX
+	bne Clamp2Shift8_Ne
+	jml ClampShiftEq
+Clamp2Shift8_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.b #$00
+	bmi Clamp2Shift8_Neg
+	cmp.b #$02
+	bpl Clamp2Shift8_Sh
+	lda.b #$02
+	bra Clamp2Shift8_Sh
+Clamp2Shift8_Neg:
+	cmp.b #$FE
+	bmi Clamp2Shift8_Sh
+	lda.b #$FE
+Clamp2Shift8_Sh:
+	cmp.b #$80
+	ror
+	bpl Clamp2Shift8_SkC
+	adc.b #$00
+Clamp2Shift8_SkC:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+Clamp4Shift8:
+	cmp.b TempMiscX
+	bne Clamp4Shift8_Ne
+	jml ClampShiftEq
+Clamp4Shift8_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.b #$00
+	bmi Clamp4Shift8_Neg
+	cmp.b #$04
+	bpl Clamp4Shift8_Sh
+	lda.b #$04
+	bra Clamp4Shift8_Sh
+Clamp4Shift8_Neg:
+	cmp.b #$FC
+	bmi Clamp4Shift8_Sh
+	lda.b #$FC
+Clamp4Shift8_Sh:
+	cmp.b #$80
+	ror
+	bpl Clamp4Shift8_SkC1
+	adc.b #$00
+Clamp4Shift8_SkC1:
+	cmp.b #$80
+	ror
+	bpl Clamp4Shift8_SkC2
+	adc.b #$00
+Clamp4Shift8_SkC2:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+Clamp8Shift8:
+	cmp.b TempMiscX
+	bne Clamp16Shift8_Ne
+	jml ClampShiftEq
+Clamp16Shift8_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.b #$00
+	bmi Clamp16Shift8_Neg
+	cmp.b #$10
+	bpl Clamp16Shift8_Sh
+	lda.b #$10
+	bra Clamp16Shift8_Sh
+Clamp16Shift8_Neg:
+	cmp.b #$F0
+	bmi Clamp16Shift8_Sh
+	lda.b #$F0
+Clamp16Shift8_Sh:
+	cmp.b #$80
+	ror
+	bpl Clamp16Shift8_SkC1
+	adc.b #$00
+Clamp16Shift8_SkC1:
+	cmp.b #$80
+	ror
+	bpl Clamp16Shift8_SkC2
+	adc.b #$00
+Clamp16Shift8_SkC2:
+	cmp.b #$80
+	ror
+	bpl Clamp16Shift8_SkC3
+	adc.b #$00
+Clamp16Shift8_SkC3:
+	cmp.b #$80
+	ror
+	bpl Clamp16Shift8_SkC4
+	adc.b #$00
+Clamp16Shift8_SkC4:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+Clamp32Shift8:
+	cmp.b TempMiscX
+	bne Clamp32Shift8_Ne
+	jml ClampShiftEq
+Clamp32Shift8_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.b #$00
+	bmi Clamp32Shift8_Neg
+	cmp.b #$20
+	bpl Clamp32Shift8_Sh
+	lda.b #$20
+	bra Clamp32Shift8_Sh
+Clamp32Shift8_Neg:
+	cmp.b #$E0
+	bmi Clamp32Shift8_Sh
+	lda.b #$E0
+Clamp32Shift8_Sh:
+	cmp.b #$80
+	ror
+	bpl Clamp32Shift8_SkC1
+	adc.b #$00
+Clamp32Shift8_SkC1:
+	cmp.b #$80
+	ror
+	bpl Clamp32Shift8_SkC2
+	adc.b #$00
+Clamp32Shift8_SkC2:
+	cmp.b #$80
+	ror
+	bpl Clamp32Shift8_SkC3
+	adc.b #$00
+Clamp32Shift8_SkC3:
+	cmp.b #$80
+	ror
+	bpl Clamp32Shift8_SkC4
+	adc.b #$00
+Clamp32Shift8_SkC4:
+	cmp.b #$80
+	ror
+	bpl Clamp32Shift8_SkC5
+	adc.b #$00
+Clamp32Shift8_SkC5:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+Clamp64Shift8:
+	cmp.b TempMiscX
+	bne Clamp64Shift8_Ne
+	jml ClampShiftEq
+Clamp64Shift8_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.b #$00
+	bmi Clamp64Shift8_Neg
+	cmp.b #$40
+	bpl Clamp64Shift8_Sh
+	lda.b #$40
+	bra Clamp64Shift8_Sh
+Clamp64Shift8_Neg:
+	cmp.b #$C0
+	bmi Clamp64Shift8_Sh
+	lda.b #$C0
+Clamp64Shift8_Sh:
+	cmp.b #$80
+	ror
+	bpl Clamp64Shift8_SkC1
+	adc.b #$00
+Clamp64Shift8_SkC1:
+	cmp.b #$80
+	ror
+	bpl Clamp64Shift8_SkC2
+	adc.b #$00
+Clamp64Shift8_SkC2:
+	cmp.b #$80
+	ror
+	bpl Clamp64Shift8_SkC3
+	adc.b #$00
+Clamp64Shift8_SkC3:
+	cmp.b #$80
+	ror
+	bpl Clamp64Shift8_SkC4
+	adc.b #$00
+Clamp64Shift8_SkC4:
+	cmp.b #$80
+	ror
+	bpl Clamp64Shift8_SkC5
+	adc.b #$00
+Clamp64Shift8_SkC5:
+	cmp.b #$80
+	ror
+	bpl Clamp64Shift8_SkC6
+	adc.b #$00
+Clamp64Shift8_SkC6:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+Clamp128Shift8:
+	cmp.b TempMiscX
+	bne Clamp128Shift8_Ne
+	jml ClampShiftEq
+Clamp128Shift8_Ne:
+	sec
+	sbc.b TempMiscX
+	cmp.b #$00
+	bmi Clamp128Shift8_Neg
+	cmp.b #$80
+	bpl Clamp128Shift8_Sh
+	lda.b #$80
+	bra Clamp128Shift8_Sh
+Clamp128Shift8_Neg:
+	cmp.b #$80
+	bmi Clamp128Shift8_Sh
+	lda.b #$80
+Clamp128Shift8_Sh:
+	cmp.b #$80
+	ror
+	bpl Clamp128Shift8_SkC1
+	adc.b #$00
+Clamp128Shift8_SkC1:
+	cmp.b #$80
+	ror
+	bpl Clamp128Shift8_SkC2
+	adc.b #$00
+Clamp128Shift8_SkC2:
+	cmp.b #$80
+	ror
+	bpl Clamp128Shift8_SkC3
+	adc.b #$00
+Clamp128Shift8_SkC3:
+	cmp.b #$80
+	ror
+	bpl Clamp128Shift8_SkC4
+	adc.b #$00
+Clamp128Shift8_SkC4:
+	cmp.b #$80
+	ror
+	bpl Clamp128Shift8_SkC5
+	adc.b #$00
+Clamp128Shift8_SkC5:
+	cmp.b #$80
+	ror
+	bpl Clamp128Shift8_SkC6
+	adc.b #$00
+Clamp128Shift8_SkC6:
+	cmp.b #$80
+	ror
+	bpl Clamp128Shift8_SkC7
+	adc.b #$00
+Clamp128Shift8_SkC7:
+	clc
+	adc.b TempMiscX
+	sta.b TempMiscX
+	brl ClampShiftNe
+ClampShiftNe:
+	lda.b TempMiscX
+	clc
+	rtl
+ClampShiftEq:
+	lda.b TempMiscX
+	sec
+	rtl
 SetDefaultDestroyFuncPtr:
 	rep #$20
 	lda.w #DestroyCommonEnemy
@@ -3506,12 +4247,12 @@ SetDefaultDestroyFuncPtrS:
 	tyx
 	ply
 	rtl
-CODE_1FDA57:
+UnkFunc_1FDA57:
 	rep #$20
 	lda.b $0C,x
 	sec
-	sbc.w $150D
-	sta.w $14C5
+	sbc.w Unknown_150D
+	sta.w TempMiscW
 	cmp.w #$8000
 	ror
 	cmp.w #$8000
@@ -3528,46 +4269,46 @@ CODE_1FDA57:
 	clc
 	adc.b $14,x
 	sta.b $14,x
-	lda.w $15BB
+	lda.w Unknown_15BB
 	clc
-	adc.w $123A
+	adc.w CurProcObject
 	and.b #$03
-	beq
-	jml CODE_1FDAB7
-CODE_1FDA90:
-	lda.w $14C6
-	bmi CODE_1FDA99
+	beq UnkFunc_1FDA57_L1
+	jml UnkFunc_1FDA57_L5
+UnkFunc_1FDA57_L1:
+	lda.w TempMiscW+1
+	bmi UnkFunc_1FDA57_L2
 	inc.b $14,x
-	bra CODE_1FDA9B
-CODE_1FDA99:
+	bra UnkFunc_1FDA57_L3
+UnkFunc_1FDA57_L2:
 	dec.b $14,x
-CODE_1FDA9B:
+UnkFunc_1FDA57_L3:
 	rep #$20
 	lda.b $0E,x
 	sec
-	sbc.w $150F
+	sbc.w Unknown_150F
 	sep #$20
-	bmi CODE_1FDAB0
+	bmi UnkFunc_1FDA57_L4
 	lda.b $13,x
 	clc
 	adc.b #$01
 	sta.b $13,x
-	bra CODE_1FDAB7
-CODE_1FDAB0:
+	bra UnkFunc_1FDA57_L5
+UnkFunc_1FDA57_L4:
 	lda.b $13,x
 	sec
 	sbc.b #$01
 	sta.b $13,x
-CODE_1FDAB7:
+UnkFunc_1FDA57_L5:
 	rtl
-CODE_1FDAB8:
+UnkFunc_1FDAB8:
 	lda.b TempVecXG
 	sta.w TempRotX
 	lda.b TempVecZG
 	sta.b TempRotZ
 	lda.b #$40
 	sta.w TempRotY
-	jsl CODE_1FC41E
+	jsl GetLocalXYZ8RotateRotXNegRotY
 	rep #$20
 	lda.b TempVecXG
 	sta.b $2F,x
@@ -3649,95 +4390,95 @@ ClearVelocityAux:
 	sep #$20					;|
 	sta.w $0015,y					;|...and store zero in unknown object property $15
 	rtl						;/
-CODE_1FDB66:
+UnkFunc_1FDB66:
 	lda.w Object2ListRel+$12,x
 	inc
 	sta.w Object2ListRel+$12,x
-	brl CODE_1FDBA0
-CODE_1FDB70:
+	brl UnkFunc_1FDBA0
+UnkFunc_1FDB70:
 	lda.b #$00
 	sta.w Object2ListRel+$12,x
-	brl CODE_1FDBA0
-CODE_1FDB78:
+	brl UnkFunc_1FDBA0
+UnkFunc_1FDB78:
 	lda.b #$01
 	sta.w Object2ListRel+$12,x
-	brl CODE_1FDBA0
-CODE_1FDB80:
+	brl UnkFunc_1FDBA0
+UnkFunc_1FDB80:
 	lda.b #$02
 	sta.w Object2ListRel+$12,x
-	brl CODE_1FDBA0
-CODE_1FDB88:
+	brl UnkFunc_1FDBA0
+UnkFunc_1FDB88:
 	lda.b #$03
 	sta.w Object2ListRel+$12,x
-	brl CODE_1FDBA0
-CODE_1FDB90:
+	brl UnkFunc_1FDBA0
+UnkFunc_1FDB90:
 	lda.b #$04
 	sta.w Object2ListRel+$12,x
-	brl CODE_1FDBA0
-CODE_1FDB98:
+	brl UnkFunc_1FDBA0
+UnkFunc_1FDB98:
 	lda.b #$05
 	sta.w Object2ListRel+$12,x
-	brl CODE_1FDBA0
-CODE_1FDBA0:
-	jml CODE_1FDC25
-CODE_1FDBA4:
+	brl UnkFunc_1FDBA0
+UnkFunc_1FDBA0:
+	jml RunObjectBehFunc
+UnkFunc_1FDBA4:
 	sep #$20
 	lda.b $20,x
 	and.b #$10
-	bne CODE_1FDBB0
-	jml CODE_1FDBD1
-CODE_1FDBB0:
+	bne UnkFunc_1FDBA4_L1
+	jml UnkFunc_1FDBA4_L5
+UnkFunc_1FDBA4_L1:
 	ldy.b $06,x
 	lda.b $20,x
 	and.b #$3F
 	sta.b $20,x
 	rep #$20
-	stx.b $3C
+	stx.b TempMiscY
 	phy
-CODE_1FDBBD:
+UnkFunc_1FDBA4_L2:
 	lda.w $0026,y
-	beq CODE_1FDBCE
-	cmp.b $3C
-	beq CODE_1FDBC9
+	beq UnkFunc_1FDBA4_L4
+	cmp.b TempMiscY
+	beq UnkFunc_1FDBA4_L3
 	tay
-	bra CODE_1FDBBD
-CODE_1FDBC9:
+	bra UnkFunc_1FDBA4_L2
+UnkFunc_1FDBA4_L3:
 	lda.b $26,x
 	sta.w $0026,y
-CODE_1FDBCE:
+UnkFunc_1FDBA4_L4:
 	ply
 	sep #$20
-CODE_1FDBD1:
+UnkFunc_1FDBA4_L5:
 	lda.b $20,x
 	and.b #$40
-	bne CODE_1FDBDB
-	jml CODE_1FDC24
-CODE_1FDBDB:
+	bne UnkFunc_1FDBA4_L6
+	jml UnkFunc_1FDBA4_L12
+UnkFunc_1FDBA4_L6:
 	lda.w $0020,y
 	and.b #$FB
 	sta.w $0020,y
-	stz.w $14C5
+	stz.w TempMiscW
 	phy
 	phx
-CODE_1FDBE8:
+UnkFunc_1FDBA4_L7:
 	ldy.b $26,x
-	beq CODE_1FDBF2
-	inc.w $14C5
+	beq UnkFunc_1FDBA4_L8
+	inc.w TempMiscW
 	tyx
-	bra CODE_1FDBE8
-CODE_1FDBF2:
+	bra UnkFunc_1FDBA4_L7
+UnkFunc_1FDBA4_L8:
 	plx
 	ply
-	lda.w $14C5
-	beq CODE_1FDC24
-CODE_1FDBF9:
-	sta.w $14C5
-	lda.w $14C5
-	jsl CODE_1FDC40
+	lda.w TempMiscW
+	beq UnkFunc_1FDBA4_L12
+UnkFunc_1FDBA4_L9:
+	sta.w TempMiscW
+	lda.w TempMiscW
+	jsl UnkFunc_1FDC40
 	cpy.w #$0000
-	bne CODE_1FDC0C
-	jml CODE_1FDC1E
-CODE_1FDC0C:
+	bne UnkFunc_1FDBA4_L10
+	jml UnkFunc_1FDBA4_L11
+UnkFunc_1FDBA4_L10:
 	lda.w $0020,y
 	and.b #$EF
 	sta.w $0020,y
@@ -3745,11 +4486,11 @@ CODE_1FDC0C:
 	lda.w #$0000
 	sta.w $0006,y
 	sep #$20
-CODE_1FDC1E:
+UnkFunc_1FDBA4_L11:
 	lda.w $14C5
 	dec
 	bne CODE_1FDBF9
-CODE_1FDC24:
+UnkFunc_1FDBA4_L12:
 	rtl
 RunObjectBehFunc:
 	lda.b $18,x
@@ -3772,32 +4513,32 @@ RunObjectBehFunc_L2:
 	sep #$20
 	pla
 	rtl
-CODE_1FDC40:
-	sta.w $1FE6
+UnkFunc_1FDC40:
+	sta.w Unknown_1FE6
 	phx
-CODE_1FDC44:
+UnkFunc_1FDC40_L1:
 	ldy.b $26,x
-	beq CODE_1FDC53
+	beq UnkFunc_1FDC40_L2
 	lda.w $0022,y
-	cmp.w $1FE6
-	beq CODE_1FDC53
+	cmp.w Unknown_1FE6
+	beq UnkFunc_1FDC40_L2
 	tyx
-	bra CODE_1FDC44
-CODE_1FDC53:
+	bra UnkFunc_1FDC40_L1
+UnkFunc_1FDC40_L2:
 	plx
 	rtl
-CODE_1FDC55:
-	sta.w $1FE6
+UnkFunc_1FDC55:
+	sta.w Unknown_1FE6
 	phy
-CODE_1FDC59:
+UnkFunc_1FDC55_L1:
 	ldx.b $26,y
 	beq CODE_1FDC67
 	lda.b $22,x
-	cmp.w $1FE6
+	cmp.w Unknown_1FE6
 	beq CODE_1FDC67
 	txy
 	bra CODE_1FDC59
-CODE_1FDC67:
+UnkFunc_1FDC55_L2:
 	ply
 	rtl
 OffsetObjectZPosition:
@@ -3849,7 +4590,7 @@ CreditsBossPreview:
 	lda.b #$12
 	sta.w MusicID
 	stz.w MusicLoaded
-	stz.w $15A8
+	stz.w Unknown_15A8
 	sep #$20
 	rep #$10
 	stz.w Pad1HiPrev
@@ -3858,39 +4599,39 @@ CreditsBossPreview:
 	stz.w Pad2Down
 	rep #$20
 	lda.w #$0000
-	sta.w $1F2F
-	sta.w $1F3B
+	sta.w Unknown_1F2F
+	sta.w Unknown_1F3B
 	lda.w #$0000
-	sta.w $1F2D
-	sta.w $1F39
+	sta.w Unknown_1F2D
+	sta.w Unknown_1F39
 	lda.w #$0000
-	sta.w $1F2B
-	sta.w $1F37
+	sta.w Unknown_1F2B
+	sta.w Unknown_1F37
 	lda.w #$0100
-	sta.w $1F29
-	sta.w $1F35
+	sta.w Unknown_1F29
+	sta.w Unknown_1F35
 	lda.w #$0080
-	sta.w $1F27
-	sta.w $1F33
+	sta.w Unknown_1F27
+	sta.w Unknown_1F33
 	lda.w #$FFEF
-	sta.w $1F25
-	sta.w $1F31
-	stz.w $1F21
-	ldx.w $1F69
+	sta.w Unknown_1F25
+	sta.w Unknown_1F31
+	stz.w Unknown_1F21
+	ldx.w Unknown_1F69
 	lda.w #$FFFF
-	sta.w $1F6B,x
+	sta.w Unknown_1F6B,x
 	ldx.w #$0000
-	stx.w $1F69
+	stx.w Unknown_1F69
 	stz.w PointEffect
-	stz.w $16AB
+	stz.w WipePointer
 	sep #$20
 	rep #$10
-	stz.w $15BB
+	stz.w Unknown_15BB
 	lda.b #$09
 	sta.w BGMODE
 	lda.b #$07
 	sta.w TM
-	stz.w $14C1
+	stz.w Unknown_14C1
 	lda.b #$06
 	sta.w BG34NBA
 	lda.b #$71
@@ -3902,6 +4643,83 @@ CreditsBossPreview:
 	sta.l InputPtr+2
 	lda.w #$E362
 	sta.l InputPtr
+	lda.w #$5C00
+	sta.w Unknown_188A
+	lda.w #$1800
+	sta.w Unknown_188C
+	sep #$20
+	jsl DoDecompressTileset
+	jsl NMITask14
+	rep #$20
+	lda.w #$00C0
+	sta.l $700090
+	lda.w #$0014
+	sta.l InputPtr+2
+	lda.w #$E43E
+	sta.l InputPtr
+	sep #$20
+	jsl DoDecompressTileset
+	jsl NMITask14
+	rep #$20
+	lda.w #$0000
+	sta.l $700090
+	lda.w #$0014
+	sta.l InputPtr+2
+	lda.w #$E272
+	sta.l InputPtr
+	lda.w #$6800
+	sta.w Unknown_188A
+	lda.w #$1000
+	sta.w Unknown_188C
+	sep #$20
+	jsl DoDecompressTileset
+	jsl NMITask14
+	lda.b #$20
+	sta.b CurNMITask
+	lda.b #$01
+	sta.w Unknown_1FCF
+	lda.w TIMEUP
+	cli
+CreditsBossPreview_L1:
+	jsr UnkCreditsBossPrevFunc_1FDF19
+	jsr UnkCreditsBossPrevFunc_1FE167
+	jsr UnkCreditsBossPrevFunc_1FDE13
+	sep #$20
+	lda.w Unknown_1962
+	bne CreditsBossPreview_L2
+	lda.b #$0E
+	sta.w FadeTimer
+	lda.b #$01
+	sta.w FadeMode
+	bra CreditsBossPreview_L1
+CreditsBossPreview_L2:
+	cmp.b #$01
+	beq CreditsBossPreview_L3
+	dec.w Unknown_1962
+	bra CreditsBossPreview_L1
+CreditsBossPreview_L3:
+	rep #$20
+	lda.w #$0113
+	sta.w WipePointer
+	sep #$20
+	dec.w Unknown_1962
+	bra CreditsBossPreview_L1
+Calls_UnkCreditsBossPrevFunc_1FDE13:
+	jsr UnkCreditsBossPrevFunc_1FDE13
+	rtl
+UnkCreditsBossPrevFunc_1FDE13:
+	sep #$20
+	rep #$10
+UnkCreditsBossPrevFunc_1FDE13_L1:
+	lda.b CurNMITask
+	cmp.b #$20
+	bne UnkCreditsBossPrevFunc_1FDE13_L1
+	stz.w Unknown_1F10
+	lda.b #$1A
+	sta.b CurNMITask
+	jsl ProcWipes
+	
+	
 	
 	
 	
@@ -3949,9 +4767,9 @@ LoadCreditsBossPreviewBG:
 	lda.w #$E2C2
 	sta.l InputPtr
 	lda.w #$7000
-	sta.w $188A
+	sta.w Unknown_188A
 	lda.w #$1000
-	sta.w $188C
+	sta.w Unknown_188C
 	sep #$20
 	jsl DoDecompressTileset
 LoadCreditsBossPreviewBG_Wait:
@@ -4008,7 +4826,7 @@ PrintCreditsBossPreviewText_LoadData:
 	and.w #$00FF
 	txy
 	tax
-	lda.l CreditsBossPreviewFont,x
+	lda.l CreditsBossPreviewFont-$20,x
 	and.w #$00FF
 	ora.w #$2000
 	clc
@@ -4019,6 +4837,57 @@ PrintCreditsBossPreviewText_LoadData:
 PrintCreditsBossPreviewText_Exit:
 	plp
 	rts
+UnkCreditsBossPrevFunc_1FE167:
+	rep #$30
+	jmp (Unknown_1F1B)
+UnkCreditsBossPrevFunc_1FE16C:
+	php
+	rep #$20
+	lda.w #$0030
+	sta.w Unknown_1F3B
+	lda.w #$0018
+	sta.w Unknown_1F39
+	lda.w #$0118
+	sta.w Unknown_1F35
+	lda.w #$00E0
+	sta.w Unknown_1F33
+	lda.w #$001F
+	sta.w Unknown_1F31
+	plp
+	rts
+UnkCreditsBossPrevFunc_1FE18F:
+	php
+	rep #$20
+	lda.w #$0000
+	sta.w Unknown_1F3B
+	lda.w #$0000
+	sta.w Unknown_1F39
+	lda.w #$0100
+	sta.w Unknown_1F35
+	lda.w #$0080
+	sta.w Unknown_1F33
+	lda.w #$FFEF
+	sta.w Unknown_1F31
+	plp
+	rts
+UnkCreditsBossPrevFunc_1FE1B2:
+	php
+	rep #$20
+	lda.w #$FFD0
+	sta.w Unknown_1F3B
+	lda.w #$0018
+	sta.w Unknown_1F39
+	lda.w #$0118
+	sta.w Unknown_1F35
+	lda.w #$0020
+	sta.w Unknown_1F33
+	lda.w #$001F
+	sta.w Unknown_1F31
+	plp
+	rts
+UnkCreditsBossPrevFunc_1FE1D5:
+	
+	
 	
 	
 	
@@ -4202,7 +5071,7 @@ Controls:
 	rep #$10
 	sep #$20
 	lda.b #$01
-	sta.l $7EF0B3
+	sta.l Unknown_7EF0B3
 	lda.b #$0D					;\Set level script pointer
 	ldx.w #$7962					;|
 	sta.w LevelScriptBank				;|
@@ -4213,16 +5082,16 @@ Controls:
 	lda.w #$0000
 	sta.l $700090
 	lda.w #$001F
-	sta.l $700064
+	sta.l InputPtr+2
 	lda.w #$B999
-	sta.l $700062
+	sta.l InputPtr
 	lda.w #$6800
 	sta.w $188A
 	lda.w #$1000
 	sta.w $188C
 	sep #$20
 	jsl DoDecompressTileset
-	jsl CODE_7E33BA
+	jsl NMITask14
 	lda.b #$22
 	sta.w BBAD0
 	lda.b #$80
@@ -4247,48 +5116,48 @@ Controls:
 	lda.w #$0000
 	sta.l RenderHUDFlag
 	lda.w #$0040
-	sta.l $700034
+	sta.l UnknownGSU_034
 	lda.w #$0030
-	sta.l $700036
+	sta.l UnknownGSU_036
 	sep #$20
 	lda.b #$01
-	sta.w $1F0D
-	stz.w $15BB
-	stz.w $15BC
+	sta.w Unknown_1F0D
+	stz.w Unknown_15BB
+	stz.w Unknown_15BB+1
 	stz.w Pad1HiCur
 	stz.w Pad1HiPrev
-	lda.w $1FDF
+	lda.w Unknown_1FDF
 	beq Controls_L1
 	brl Controls_L5
 Controls_L1:
-	lda.l $7EA05A
+	lda.l Unknown_7EA05A
 	beq Controls_L2
 	brl Controls_L5
 Controls_L2:
 	sep #$20
-	lda.w $14D6
+	lda.w Unknown_14D6
 	and.b #$1F
-	sta.w $14D6
+	sta.w Unknown_14D6
 Controls_L3:
 	jsl CODE_02FD84
 	rep #$20
-	stz.w $15AF
-	jsl CODE_03DBD0
-	jsr CODE_1FFD54
+	stz.w OAMBufferPtr
+	jsl ClearOAMBuffer
+	jsr UnkControlsFunc_1FFD54
 	sep #$20
 	lda.w Pad1Down+1
 	bit.b #$20
-	beq Controls_L4
-	lda.w $1F0F
+	beq Controls_NextStyle
+	lda.w ControlStyle
 	inc
 	and.b #$03
-	sta.w $1F0F
+	sta.w ControlStyle
 	lda.b #$11
 	jsl PushSoundEffectToQueue
-Controls_L4:
-	jsr CODE_1FFDAC
+Controls_NextStyle:
+	jsr Controls_SetLayer2Scroll
 	rep #$20
-	lda.w $15BB
+	lda.w Unknown_15BB
 	cmp.w #$0010
 	bcc Controls_L3
 	sep #$20
@@ -4304,38 +5173,38 @@ Controls_L5:
 Controls_L6:
 	jsl CODE_02FD84
 	jsr ControlsOAM
-	jsr CODE_1FFD54
-	jsr CODE_1FFDAC
+	jsr UnkControlsFunc_1FFD54
+	jsr Controls_SetLayer2Scroll
 	sep #$20
-	lda.w $14D6
+	lda.w Unknown_14D6
 	ora.b #$60
-	sta.w $14D6
+	sta.w Unknown_14D6
 	lda.w Pad1Down+1
 	bit.b #$20
 	beq Controls_L7
-	lda.l $7EA05A
+	lda.l Unknown_7EA05A
 	eor.b #$01
-	sta.l $7EA05A
+	sta.l Unknown_7EA05A
 	lda.b #$11
 	jsl PushSoundEffectToQueue
 Controls_L7:
-	lda.l $7EA05A
+	lda.l Unknown_7EA05A
 	beq Controls_L8
 	lda.w PadDown+1
 	bit.b #$08
 	beq Controls_L8
 	lda.b #$00
-	sta.l $7EA05A
+	sta.l Unknown_7EA05A
 	lda.w #$11
 	jsl PushSoundEffectToQueue
 Controls_L8:
-	lda.l $7EA05A
+	lda.l Unknown_7EA05A
 	bne Controls_L9
 	lda.w Pad1Down+1
 	bit.b #$04
 	beq Controls_L9
 	lda.b #$01
-	sta.l $7EA05A
+	sta.l Unknown_7EA05A
 	lda.b #$11
 	jsl PushSoundEffectToQueue
 Controls_L9:
@@ -4371,13 +5240,13 @@ Controls_L12:
 Controls_L13:
 	jsl CODE_02FD84
 	jsr ControlsOAM
-	jsr CODE_1FFD54
+	jsr UnkControlsFunc_1FFD54
 	sep #$20
 	lda.w FadeMode
 	and.b #$FF
 	bne Controls_L13
-	stz.w $1F0D
-	lda.l $7EA05A
+	stz.w Unknown_1F0D
+	lda.l Unknown_7EA05A
 	beq Controls_L14
 	brl Controls_L20
 Controls_L14:
@@ -4392,24 +5261,24 @@ Controls_L14:
 	sep #$20
 	lda.b #$01
 	sta.w Lives
-	stz.w $15BB
-	stz.w $15BC
+	stz.w Unknown_15BB
+	stz.w Unknown_15BB+1
 Controls_L15:
 	jsl CODE_02FD84
 	jsl MainLoop
 	jsl CODE_03EA26
 	rep #$20
-	lda.w $15BB
+	lda.w Unknown_15BB
 	cmp.w #$0014
 	bcc Controls_L15
 	sep #$20
-	lda.w $1FD2
+	lda.w Unknown_1FD2
 	cmp.b #$0A
 	beq Controls_L18
-	lda.w $14D1
+	lda.w Unknown_14D1
 	and.b #$08
 	beq Controls_L16
-	lda.w $14D7
+	lda.w Unknown_14D7
 	bit.b #$80
 	bne Controls_L15
 Controls_L16:
@@ -4432,18 +5301,18 @@ Controls_L17:
 	jsl InitPlayerStateEx				; Init player
 	sep #$20
 	lda.b #$01
-	sta.l $7EA05A
-	sta.w $1FDF
+	sta.l Unknown_7EA05A
+	sta.w Unknown_1FDF
 	bra Controls_L19
 Controls_L18:
 	jsl InitPlayerStateEx				; Init player
 	sep #$20
 	lda.b #$00
-	sta.l $7EA05A
+	sta.l Unknown_7EA05A
 	lda.b #$01
-	sta.w $1FDF
+	sta.w Unknown_1FDF
 Controls_L19:
-	stz.w $1FD2
+	stz.w Unknown_1FD2
 	plp
 	jmp Controls
 Controls_L20:
@@ -4454,15 +5323,15 @@ ControlsOAM:
 	ldx.w #$0000
 	stx.w OAMBufferPtr
 	ldx.w #$0000
-	lda.l $7EA05A
+	lda.l Unknown_7EA05A
 	beq ControlsOAM_L1
 	ldx.w #$0078
 ControlsOAM_L1:
 	ldy.w OAMBufferPtr
 	ldx.w #$97A8
-	sta $14C5
+	sta TempMiscW
 ControlsOAM_L2:
-	lda.w $14C5
+	lda.w TempMiscW
 	sta.w OAMBuffer,y
 	lda.w ControlsOAMData,x
 	clc
@@ -4474,21 +5343,21 @@ ControlsOAM_L2:
 	iny
 	inx
 	inx
-	lda.w $14C5
+	lda.w TempMiscW
 	clc
 	adc.w #$0008
-	sta.w $14C5
+	sta.w TempMiscW
 	and.w #$00FF
 	cmp.w #$00F8
 	bne ControlsOAM_L2
-	lda.w $14C5
+	lda.w TempMiscW
 	and.w #$FF00
 	clc
 	adc.w #$0800
 	cmp.w #$C700
 	beq.w ControlsOAM_L3
 	ora.w #$00A8
-	sta.w $14C5
+	sta.w TempMiscW
 	bra ControlsOAM_L2
 ControlsOAM_L3:
 	sty.w OAMBufferPtr
@@ -4510,21 +5379,21 @@ ControlsOAMData:
 	DW $0016,$0017,$0018,$4002,$0002,$8020,$0019,$001A
 	DW $001B,$001C,$001D,$001E,$001F,$4002,$8000,$8001
 	DW $8001,$8001,$8001,$8001,$8001,$8001,$8001,$C000
-CODE_1FFD54:
+UnkControlsFunc_1FFD54:
 	jsl MainLoop
-CODE_1FFD58:
+UnkControlsFunc_1FFD54_Wait:
 	lda.b CurNMITask
-	bne CODE_1FFD58
+	bne UnkControlsFunc_1FFD54_Wait
 	sep #$20
 	rep #$10
 	ldx.w $16AB
 	cpx.w #$0039
-	bne CODE_1FFD73
+	bne UnkControlsFunc_1FFD54_L2
 	lda.b #$28
 	sta.w $1FDA
 	stz.w $16AB
 	stz.w $16AC
-CODE_1FFD73:
+UnkControlsFunc_1FFD54_L2:
 	lda.b #$03
 	sta.w NovaBombs
 	ldx.w PlayerObject
@@ -4535,57 +5404,57 @@ CODE_1FFD73:
 	sta.w TempRotX
 	lda.b $13,x
 	sta.w TempRotY
-	jsl CODE_1FC41E
+	jsl GetLocalXYZ8RotateRotXNegRotY
 	rep #$20
-	lda.w $1FD4
+	lda.w Unknown_1FD4
 	clc
 	adc.b TempVecXG
-	sta.w $1FD4
-	lda.w $1FD6
+	sta.w Unknown_1FD4
+	lda.w Unknown_1FD6
 	clc
 	adc.b TempVecYG
-	sta.w $1FD6
-	lda.w $1FD8
+	sta.w Unknown_1FD6
+	lda.w Unknown_1FD8
 	clc
 	adc.b TempVecZG
-	sta.w $1FD8
+	sta.w Unknown_1FD8
 	rts
-CODE_1FFDAC:
+Controls_SetLayer2Scroll:
 	sep #$20
 	rep #$20
-	lda.w $1F0F
+	lda.w ControlStyle
 	cmp.b #$01
-	beq CODE_1FFDCE
+	beq Controls_SetLayer2Scroll_StyleB
 	cmp.b #$02
-	beq CODE_1FFDDD
+	beq Controls_SetLayer2Scroll_StyleC
 	cmp.b #$03
-	beq CODE_1FFDEC
+	beq Controls_SetLayer2Scroll_StyleD
 	rep #$20
 	lda.w #$0000
-	sta.w $1F35
+	sta.w Unknown_1F35
 	lda.w #$0000
-	sta.w $1F37
+	sta.w Unknown_1F37
 	rts
-CODE_1FFDCE:
+Controls_SetLayer2Scroll_StyleB:
 	rep #$20
 	lda.w #$0000
-	sta.w $1F35
+	sta.w Unknown_1F35
 	lda.w #$0100
-	sta.w $1F37
+	sta.w Unknown_1F37
 	rts
-CODE_1FFDDD:
+Controls_SetLayer2Scroll_StyleC:
 	rep #$20
 	lda.w #$0100
-	sta.w $1F35
+	sta.w Unknown_1F35
 	lda.w #$0000
-	sta.w $1F37
+	sta.w Unknown_1F37
 	rts
-CODE_1FFDEC:
+Controls_SetLayer2Scroll_StyleD:
 	rep #$20
 	lda.w #$0100
-	sta.w $1F35
+	sta.w Unknown_1F35
 	lda.w #$0100
-	sta.w $1F37
+	sta.w Unknown_1F37
 	rts
 	
 ;Copying code to RAM

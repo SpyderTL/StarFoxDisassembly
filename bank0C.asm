@@ -93,5 +93,34 @@
 	INCBIN "graphics/models/lettert.mdl"
 	INCBIN "graphics/models/lettern.mdl"
 	INCBIN "graphics/models/letterh.mdl"
-	;0CFA33
 	
+	;Transfer $00F0 bytes to SPC address $3D00
+	DW $00F0,$3D00
+	;Data to transfer
+	DB $00,$FF,$E0,$B8,$03,$40,$01,$FF,$E0,$B8,$03,$10,$02,$FF,$E0,$B8
+	DB $02,$B0,$03,$FF,$E0,$B8,$02,$F0,$04,$FF,$E0,$B8,$06,$40,$05,$FF
+	DB $E0,$B8,$06,$B0,$06,$FF,$E0,$B8,$03,$B0,$07,$FF,$E0,$B8,$02,$00
+	DB $08,$FF,$E0,$B8,$02,$00,$09,$FF,$E0,$B8,$04,$70,$0A,$FF,$E0,$B8
+	DB $00,$80,$0B,$FF,$E0,$B8,$03,$C0,$0C,$FF,$E0,$B8,$07,$A0,$0D,$FF
+	DB $E0,$B8,$03,$D0,$0E,$FF,$E0,$B8,$05,$B0,$0F,$FF,$E0,$B8,$07,$A0
+	DB $10,$FF,$E0,$B8,$07,$A0,$11,$FF,$EC,$B8,$02,$A0,$12,$FF,$E0,$B8
+	DB $07,$A0,$13,$FF,$E0,$B8,$03,$C0,$14,$DF,$34,$B8,$02,$00,$15,$F6
+	DB $F1,$B8,$02,$00,$16,$FF,$EE,$B8,$02,$00,$17,$FF,$E0,$B8,$05,$B0
+	DB $18,$FF,$E0,$B8,$03,$00,$19,$FF,$E0,$B8,$03,$00,$1A,$FF,$E0,$B8
+	DB $04,$90,$1B,$FF,$E0,$B8,$07,$A0,$1C,$FF,$ED,$B8,$03,$00,$1D,$FF
+	DB $F0,$B8,$03,$00,$1E,$FF,$F6,$B8,$03,$00,$1F,$FF,$E0,$B8,$03,$00
+	DB $20,$FE,$E0,$B8,$03,$A0,$21,$FF,$ED,$B8,$03,$C0,$22,$FF,$F3,$B8
+	DB $03,$C0,$23,$FF,$F6,$B8,$03,$C0,$24,$FF,$E0,$B8,$03,$C0,$25,$FF
+	DB $E0,$B8,$03,$C0,$26,$FF,$E0,$B8,$03,$00,$27,$FF,$E0,$B8,$01,$00
+	;Transfer $0458 bytes to SPC address $E000
+	DW $0458,$E000
+	;Data to transfer
+	;Music data
+	INCBIN "audio/songs/intro.mus"
+	;Transfer $0004 bytes to SPC address $FDC8
+	DW $0004,$FDE2
+	;Data to transfer
+	;Music pointers
+	DW $E000,$E000
+	;End of transfer
+	DW $0000,$0400
