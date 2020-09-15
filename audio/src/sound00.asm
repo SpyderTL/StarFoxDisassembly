@@ -1,0 +1,2359 @@
+
+0400:
+	CLRP
+	MOV X, #00CF
+	MOV SP, X
+	MOV A, #0000
+	MOV X, A
+
+0407:
+	MOV (X)+, A
+	CMP X, #00E0
+	BNE 0407
+	MOV X, #0000
+
+040E:
+	MOV +X, A0200
+	INC X
+	BNE 040E
+
+0414:
+	MOV +X, A0300
+	INC X
+	BNE 0414
+	INC A
+	CALL 0B14
+	SET1.5 0048
+	MOV A, #0096
+	MOV , A03C6
+	MOV A, #00BB
+	MOV , A03CB
+	CALL 0648
+	MOV A, #0060
+	MOV Y, #000C
+	CALL 060D
+	MOV Y, #001C
+	CALL 060D
+	MOV A, #003C
+	MOV Y, #005D
+	CALL 060D
+	MOV A, #00F0
+	MOV , A00F1
+	MOV A, #0010
+	MOV , A00FA
+	MOV , A53
+	MOV A, #0001
+	MOV , A00F1
+
+0451:
+	MOV Y, #000A
+
+0453:
+	CMP Y, #0005
+	BEQ 045E
+	BCS 0461
+	CMP 4D, 4C
+	BNE 046F
+
+045E:
+	BBS.7 4C, 046F
+
+0461:
+	MOV A, +Y0E9B
+	MOV , A00F2
+	MOV A, +Y0EA5
+	MOV X, A
+	MOV A, (X)
+	MOV , A00F3
+
+046F:
+	DBNZ Y, 0453
+	MOV (direct), Y0045
+	MOV (direct), Y0046
+	MOV A, 18
+	EOR A, 19
+	LSR A
+	LSR A
+	NOTC
+	ROR 18
+	ROR 19
+
+0480:
+	MOV Y, 00FD
+	BEQ 0480
+	PUSH Y
+	MOV A, #0038
+	MUL YA
+	CLRC
+	ADC A, (direct)0043
+	MOV , A(direct)0043
+	BCC 04B6
+	CALL 257C
+	MOV X, #0001
+	CALL 04ED
+	CALL 2749
+	MOV X, #0002
+	CALL 04ED
+	CALL 2A1A
+	CALL 2981
+	CMP 4D, 4C
+	BEQ 04B6
+	INC 03C7
+	MOV A, 03C7
+	LSR A
+	BCS 04B6
+	INC (direct)004C
+
+04B6:
+	MOV A, (direct)0053
+	POP Y
+	MUL YA
+	CLRC
+	ADC A, (direct)0051
+	MOV , A(direct)0051
+	BCC 04D1
+	MOV A, 03F8
+	BNE 04CE
+	CALL 07D5
+	MOV X, #0000
+	CALL 04FE
+
+04CE:
+	JMP 0451
+
+04D1:
+	MOV A, (direct)0004
+	BEQ 04E7
+	MOV X, #0000
+	MOV (swap)#01, 47
+
+04DA:
+	MOV A, (direct)+X0031
+	BEQ 04E1
+	CALL 0DC4
+
+04E1:
+	INC X
+	INC X
+	ASL (direct)0047
+	BNE 04DA
+
+04E7:
+	CALL 0614
+	JMP 0451
+
+04ED:
+	MOV A, (direct)+X0004
+	MOV +X, A00F4
+
+04F2:
+	MOV A, +X00F4
+	CMP A, +X00F4
+	BNE 04F2
+	MOV Y, A
+	MOV (direct)+X, Y0000
+
+04FD:
+	RET
+
+04FE:
+	MOV A, (direct)+X0004
+	MOV +X, A00F4
+
+0503:
+	MOV A, +X00F4
+	CMP A, +X00F4
+	BNE 0503
+	MOV Y, A
+	MOV A, (direct)+X0008
+	MOV (direct)+X, Y0008
+	CBNE (direct)+X, A0008
+	SET1.0 (direct)008D
+	NOP
+	MOV (direct)+X, Y0000
+	RET
+
+0518:
+	CMP Y, #00CA
+	BCC 0521
+	CALL 0932
+	MOV Y, #00A4
+
+0521:
+	CMP Y, #00C8
+	BCS 04FD
+	MOV A, (direct)001A
+	AND A, (direct)0047
+	BNE 04FD
+	MOV A, Y
+	AND A, #(byte)007F
+	CLRC
+	ADC A, (direct)0050
+	CLRC
+	ADC A, +X02F0
+	MOV +X, A0361
+	MOV A, +X0381
+	MOV +X, A0360
+	MOV A, +X02B1
+	LSR A
+	MOV A, #0000
+	ROR A
+	MOV +X, A02A0
+	MOV A, #0000
+	MOV (direct)+X, A00B0
+	MOV +X, A0100
+	MOV +X, A02D0
+	MOV (direct)+X, A00C0
+	OR (direct), (direct)5E47
+	OR (direct), (direct)4547
+	MOV A, +X0280
+	MOV (direct)+X, A00A0
+	BEQ 057F
+	MOV A, +X0281
+	MOV (direct)+X, A00A1
+	MOV A, +X0290
+	BNE 0575
+	MOV A, +X0361
+	SETC
+	SBC A, +X0291
+	MOV +X, A0361
+
+0575:
+	MOV A, +X0291
+	CLRC
+	ADC A, +X0361
+	CALL 0B9B
+
+057F:
+	CALL 0BB3
+
+0582:
+	MOV Y, #0000
+	MOV (direct), A0011
+	SETC
+	SBC A, #0034
+	BCS 0594
+	MOV (direct), A0011
+	SETC
+	SBC A, #0013
+	BCS 0598
+	DEC Y
+	ASL A
+
+0594:
+	ADDW YA, (direct)0010
+	MOVW (direct), YA0010
+
+0598:
+	PUSH X
+	MOV (direct), A0011
+	ASL A
+	MOV Y, #0000
+	MOV X, #0018
+	DIV YA, X
+	MOV X, A
+	MOV A, +Y0EB1
+	MOV (direct), A0015
+	MOV A, +Y0EB0
+	MOV (direct), A0014
+	MOV A, +Y0EB3
+	PUSH A
+	MOV A, +Y0EB2
+	POP Y
+	SUBW YA, (direct)0014
+	MOV Y, (direct)0010
+	MUL YA
+	MOV A, Y
+	MOV Y, #0000
+	ADDW YA, (direct)0014
+	MOV (direct), Y0015
+	ASL A
+	ROL (direct)0015
+	MOV (direct), A0014
+	BRA 05CB
+
+0605:
+	PUSH A
+	MOV A, (direct)0047
+	AND A, (direct)001A
+	POP A
+	BNE 0613
+
+060D:
+	MOV , Y00F2
+	MOV , A00F3
+
+0613:
+	RET
+
+060D:
+	MOV , Y00F2
+	MOV , A00F3
+
+0613:
+	RET
+
+0614:
+	DEC (direct)00D0
+	MOV A, (direct)00D0
+	AND A, #(byte)0003
+	MOV Y, #003F
+	MUL YA
+	MOV Y, A
+	MOV (swap)#07, 12
+	INC Y
+	MOV X, #0004
+
+0624:
+	MOV1 C, (direct)C019
+	EOR C, (direct)A019
+	ROL (direct)0018
+	ROL (direct)0019
+	MOV A, (direct)0019
+	AND A, 03CB
+	OR A, #0011
+	MOV +Y, AFE00
+	INC Y
+	MOV A, (direct)0018
+	OR A, #0011
+	MOV +Y, AFE00
+	INC Y
+	DEC X
+	BNE 0624
+	DBNZ (direct)12, DA
+	RET
+
+0648:
+	MOV Y, #0000
+	MOV X, #001B
+	MOV A, 03C6
+
+064F:
+	MOV +Y, AFE00
+	INC Y
+	INC Y
+	INC Y
+	INC Y
+	INC Y
+	INC Y
+	INC Y
+
+0659:
+	INC Y
+	INC Y
+	DEC X
+	BNE 064F
+	INC A
+	MOV +Y, AFE00
+	MOV Y, #00FE
+	MOV A, #0000
+	MOV , A3C80
+	MOV , Y3C81
+	MOV , A3C82
+	MOV , Y3C83
+	MOV A, (direct)0018
+	OR A, (direct)0019
+	BNE 067A
+	INC (direct)0018
+
+067A:
+	RET
+
+067B:
+	MOV A, #0000
+	MOV Y, #002C
+	CALL 060D
+	MOV Y, #003C
+	CALL 060D
+	MOV A, #00FF
+	MOV Y, #005C
+	CALL 060D
+	CALL 0ED5
+	MOV A, #0000
+	MOV , A03CA
+	MOV , A(direct)0004
+	MOV , A0005
+	MOV , A0006
+	MOV , A0007
+	MOV , A(direct)001A
+	MOV Y, #0010
+
+06A5:
+	MOV +Y, A039F
+	DBNZ Y, 06A5
+	MOV A, #0096
+	MOV , A03C6
+	MOV A, #00BB
+	MOV , A03CB
+	CALL 0648
+
+06B7:
+	CMP (direct) #11, 04
+	BEQ 06CF
+	MOV X, #00A0
+	MOV (direct), X005A
+	MOV , X03CA
+	MOV A, #0000
+	MOV , A(direct)005B
+	SETC
+	SBC A, (direct)0059
+	CALL 0BBE
+	MOVW (direct), YA005C
+
+06CF:
+	JMP 07DC
+
+06D2:
+	MOV A, 03F1
+	BNE 06F5
+	MOV A, (direct)0059
+	MOV , A03F1
+	MOV A, #0070
+	MOV , A(direct)0059
+	JMP 07DC
+
+06E3:
+	MOV A, 03F1
+	BEQ 06F5
+	MOV A, 03F1
+	MOV , A(direct)0059
+	MOV A, #0000
+	MOV , A03F1
+	JMP 07DC
+
+06F5:
+	RET
+
+06F6:
+	CMP A, (direct)00FF
+	BEQ 067B
+	CMP A, (direct)00F1
+	BEQ 06B7
+	CMP A, (direct)00F2
+	BEQ 06D2
+	CMP A, (direct)00F3
+	BEQ 06E3
+	CMP A, (direct)00F4
+	BEQ 071D
+	CMP A, (direct)00F5
+	BEQ 0717
+	CMP A, (direct)00F0
+	BEQ 0744
+	CMP A, (direct)0014
+	BCC 0766
+	RET
+
+0717:
+	MOV X, #0003
+	MOV A, #0030
+	BNE 0721
+
+071D:
+	MOV X, #00FE
+	MOV A, #0009
+
+0721:
+	MOV (swap)#8F, 54
+	MOV , X02F0
+	MOV , X02F2
+	MOV , X02F4
+	MOV , A(direct)0055
+	SETC
+	SBC A, (direct)0053
+	MOV X, (direct)0054
+	CALL 0BBE
+	MOVW (direct), YA0056
+	JMP 07DC
+
+073C:
+	8C DecrementImmediate16Address 03CA
+	BEQ 0744
+	JMP 07E8
+
+0744:
+	MOV A, (direct)001A
+	EOR A, #00FF
+	TSET1 0046
+	MOV (swap)#00, 04
+	MOV (swap)#00, 47
+	MOV (swap)#C0, 59
+	MOV (swap)#20, 53
+	RET
+
+0758:
+	MOV Y, #0000
+	MOV A, [(direct)]+Y0040
+	INC 0040
+	PUSH A
+	MOV A, [(direct)]+Y0040
+	INC 0040
+	MOV Y, A
+	POP A
+	RET
+
+0766:
+	CLRC
+	MOV X, #0000
+	MOV , X03CA
+	MOV , X03F1
+	MOV , A(direct)0004
+	ASL A
+	MOV X, A
+	MOV A, +XFDBF
+	MOV Y, A
+	BNE 077C
+	MOV , A(direct)0004
+	RET
+
+077C:
+	MOV A, +XFDBE
+	MOVW (direct), YA0040
+	MOV (swap)#02, 0C
+	MOV A, (direct)001A
+	EOR A, #00FF
+	TSET1 0046
+	RET
+
+07D4:
+	RET
+
+07D5:
+	MOV A, (direct)0000
+	BEQ 07DC
+	JMP 06F6
+
+07DC:
+	MOV A, (direct)0004
+	BEQ 07D4
+	MOV A, 03CA
+	BEQ 07E8
+	JMP 073C
+
+07E8:
+	MOV A, (direct)000C
+	BEQ 0845
+	DBNZ (direct)0C, 9D
+
+07EF:
+	CALL 0758
+	BNE 080B
+	MOV Y, A
+	BNE 07FA
+	JMP 0744
+
+07FA:
+	DEC (direct)0042
+	BPL 0800
+	MOV , A(direct)0042
+
+0800:
+	CALL 0758
+	MOV X, (direct)0042
+	BEQ 07EF
+	MOVW (direct), YA0040
+	BRA 07EF
+
+080B:
+	MOVW (direct), YA0016
+	MOV Y, #000F
+
+080F:
+	MOV A, [(direct)]+Y0016
+	MOV +Y, A0030
+	DEC Y
+	BPL 080F
+	MOV X, #0000
+	MOV (swap)#01, 47
+
+081C:
+	MOV A, (direct)+X0031
+	BEQ 082A
+	MOV A, +X0211
+	BNE 082A
+	MOV A, #0000
+	CALL 0932
+
+082A:
+	MOV A, #0000
+	MOV (direct)+X, A0080
+	PUSH A
+	MOV A, (direct)0047
+	AND A, (direct)001A
+	AND A, #(byte)00C0
+	POP A
+	BNE 083C
+	MOV (direct)+X, A0091
+	MOV (direct)+X, A0090
+
+083C:
+	INC A
+	MOV (direct)+X, A0070
+	INC X
+	INC X
+	ASL (direct)0047
+	BNE 081C
+
+0845:
+	MOV X, #0000
+	MOV (direct), X005E
+	MOV (swap)#01, 47
+
+084C:
+	MOV (direct), X0044
+	MOV A, (direct)+X0031
+	BEQ 08C0
+	DEC +X0070
+	BNE 08BA
+
+0856:
+	CALL 0928
+	BNE 0872
+	MOV A, (direct)+X0080
+	BEQ 07EF
+	CALL 0AA9
+	DEC +X0080
+	BNE 0856
+	MOV A, +X0230
+	MOV (direct)+X, A0030
+	MOV A, +X0231
+	MOV (direct)+X, A0031
+	BRA 0856
+
+0872:
+	BMI 0894
+	MOV +X, A0200
+	CALL 0928
+	BMI 0894
+	PUSH A
+	XCN A
+	AND A, #(byte)0007
+	MOV Y, A
+	MOV A, +Y3EE8
+	MOV +X, A0201
+	POP A
+	AND A, #(byte)000F
+	MOV Y, A
+	MOV A, +Y3EF0
+	MOV +X, A0210
+	CALL 0928
+
+0894:
+	CMP A, (direct)00E0
+	BCC 089D
+	CALL 0916
+	BRA 0856
+
+089D:
+	PUSH A
+	MOV A, (direct)0047
+	AND A, (direct)001A
+	POP A
+	BNE 08A8
+	CALL 0518
+
+08A8:
+	MOV A, +X0200
+	MOV (direct)+X, A0070
+	MOV Y, A
+	MOV A, +X0201
+	MUL YA
+	MOV A, Y
+	BNE 08B6
+	INC A
+
+08B6:
+	MOV (direct)+X, A0071
+	BRA 08BD
+
+08BA:
+	CALL 0CE5
+	CALL 0B6A
+
+08C0:
+	INC X
+	INC X
+	ASL (direct)0047
+	BEQ 08C9
+	JMP 084C
+
+08C9:
+	MOV A, (direct)0054
+	BEQ 08D8
+	MOVW YA, (direct)0056
+	ADDW YA, (direct)0052
+	DBNZ (direct)54, 02
+	MOVW YA, (direct)0054
+	MOVW (direct), YA0052
+
+08D8:
+	MOV A, (direct)0068
+	BEQ 08F1
+	MOVW YA, (direct)0064
+	ADDW YA, (direct)0060
+	MOVW (direct), YA0060
+	MOVW YA, (direct)0066
+	ADDW YA, (direct)0062
+	DBNZ (direct)68, 06
+	MOVW YA, (direct)0068
+	MOVW (direct), YA0060
+	MOV Y, (direct)006A
+	MOVW (direct), YA0062
+
+08F1:
+	MOV A, (direct)005A
+	BEQ 0903
+	MOVW YA, (direct)005C
+	ADDW YA, (direct)0058
+	DBNZ (direct)5A, 02
+	MOVW YA, (direct)005A
+	MOVW (direct), YA0058
+	MOV (swap)#FF, 5E
+
+0903:
+	MOV X, #0000
+	MOV (swap)#01, 47
+
+0908:
+	MOV A, (direct)+X0031
+	BEQ 090F
+	CALL 0C2B
+
+090F:
+	INC X
+	INC X
+	ASL (direct)0047
+	BNE 0908
+	RET
+
+0916:
+	ASL A
+	MOV Y, A
+	MOV A, +Y0B1B
+	PUSH A
+	MOV A, +Y0B1A
+	PUSH A
+	MOV A, Y
+	LSR A
+	MOV Y, A
+	MOV A, +Y0BB0
+	BEQ 0930
+
+0928:
+	MOV A, [(direct)+X]0030
+
+092A:
+	INC (direct)+X0030
+	BNE 0930
+	INC (direct)+X0031
+
+0930:
+	MOV Y, A
+	RET
+
+0928:
+	MOV A, [(direct)+X]0030
+
+092A:
+	INC (direct)+X0030
+	BNE 0930
+	INC (direct)+X0031
+
+0930:
+	MOV Y, A
+	RET
+
+0932:
+	MOV +X, A0211
+	MOV Y, A
+	BPL 093E
+	SETC
+	SBC A, #00CA
+	CLRC
+	ADC A, (direct)005F
+
+093E:
+	MOV Y, #0006
+	MUL YA
+	MOVW (direct), YA0014
+	CLRC
+	ADC (direct) #00, 14
+	ADC (direct) #3D, 15
+	MOV A, (direct)001A
+	AND A, (direct)0047
+	BNE 098A
+	PUSH X
+
+0951:
+	MOV A, X
+	XCN A
+	LSR A
+	OR A, #0004
+
+0956:
+	MOV X, A
+	MOV Y, #0000
+	MOV A, [(direct)]+Y0014
+	BPL 096B
+	AND A, #(byte)001F
+	AND (direct), #20, 48
+	TSET1 0048
+	OR (direct), (direct)4947
+	MOV A, Y
+	BRA 0972
+
+096B:
+	MOV A, (direct)0047
+	TCLR 0049
+
+0970:
+	MOV A, [(direct)]+Y0014
+	MOV , X00F2
+	MOV , A00F3
+	INC X
+	INC Y
+	CMP Y, #0004
+	BNE 0970
+	POP X
+	MOV A, [(direct)]+Y0014
+	MOV +X, A0221
+	INC Y
+	MOV A, [(direct)]+Y0014
+	MOV +X, A0220
+
+098A:
+	RET
+
+0AA9:
+	MOV A, +X0240
+	MOV (direct)+X, A0030
+	MOV A, +X0241
+	MOV (direct)+X, A0031
+	RET
+
+0B14:
+	MOV , A(direct)004D
+	MOV Y, #007D
+	MOV , Y00F2
+	MOV A, 00F3
+	CMP A, (direct)004D
+	BEQ 0B4D
+	AND A, #(byte)000F
+	EOR A, #00FF
+	BBC.7 (direct)4C, 03
+	CLRC
+	ADC A, (direct)004C
+
+0B2C:
+	MOV , A(direct)004C
+	MOV Y, #0004
+
+0B30:
+	MOV A, +Y0E9B
+	MOV , A00F2
+	MOV A, #0000
+	MOV , A00F3
+	DBNZ Y, 0B30
+	MOV A, (direct)0048
+	OR A, #0020
+	MOV Y, #006C
+	CALL 060D
+	MOV A, (direct)004D
+	MOV Y, #007D
+	CALL 060D
+
+0B4D:
+	ASL A
+	ASL A
+	ASL A
+	EOR A, #00FF
+	SETC
+	ADC #003C
+	MOV Y, #0000
+	JMP 060D
+
+0B6A:
+	MOV A, (direct)+X00A0
+	BNE 0BB2
+	MOV A, [(direct)+X]0030
+	CMP A, (direct)00F9
+	BNE 0BB2
+	MOV A, (direct)0047
+	AND A, (direct)001A
+	BEQ 0B85
+	MOV (swap)#04, 10
+	CALL 092A
+	DBNZ (direct)10, FA
+	BRA 0BB2
+
+0B85:
+	CALL 092A
+	CALL 0928
+	MOV (direct)+X, A00A1
+	CALL 0928
+	MOV (direct)+X, A00A0
+	CALL 0928
+	CLRC
+	ADC A, (direct)0050
+	ADC A, +X02F0
+
+0B9B:
+	AND A, #(byte)007F
+	MOV +X, A0380
+	SETC
+	SBC A, +X0361
+	MOV Y, (direct)+X00A0
+	PUSH Y
+	POP X
+	CALL 0BBE
+	MOV +X, A0370
+	MOV A, Y
+	MOV +X, A0371
+
+0BB2:
+	RET
+
+0B9B:
+	AND A, #(byte)007F
+	MOV +X, A0380
+	SETC
+	SBC A, +X0361
+	MOV Y, (direct)+X00A0
+	PUSH Y
+	POP X
+	CALL 0BBE
+	MOV +X, A0370
+	MOV A, Y
+	MOV +X, A0371
+
+0BB2:
+	RET
+
+0BB3:
+	MOV A, +X0361
+	MOV , A(direct)0011
+	MOV A, +X0360
+	MOV , A(direct)0010
+	RET
+
+0BBE:
+	NOTC
+	ROR (direct)0012
+	BPL 0BC6
+	EOR A, #00FF
+	INC A
+
+0BC6:
+	MOV Y, #0000
+	DIV YA, X
+	PUSH A
+	MOV A, #0000
+	DIV YA, X
+	POP Y
+	MOV X, (direct)0044
+
+0BD0:
+	BBC.7 (direct)12, 06
+	MOVW (direct), YA0014
+	MOVW YA, (direct)000E
+	SUBW YA, (direct)0014
+
+0BD9:
+	RET
+
+0C2B:
+	MOV A, (direct)+X0090
+	BEQ 0C38
+	MOV A, #0000
+	MOV Y, #0003
+	DEC +X0090
+	CALL 0CC1
+
+0C38:
+	MOV Y, (direct)+X00C1
+	BEQ 0C5F
+	MOV A, +X02E0
+	CBNE (direct)+X, A00C0
+	ASL (direct)+X0009
+	EOR A, (direct)+X005E
+	MOV A, +X02D0
+	BPL 0C51
+	INC Y
+	BNE 0C51
+	MOV A, #0080
+	BRA 0C55
+
+0C51:
+	CLRC
+	ADC A, +X02D1
+	MOV +X, A02D0
+	CALL 0E4A
+	BRA 0C64
+
+0C5F:
+	MOV A, #00FF
+	CALL 0E55
+	MOV A, (direct)+X0091
+	BEQ 0C71
+	MOV A, #0030
+	MOV Y, #0003
+	DEC +X0091
+	CALL 0CC1
+
+0C71:
+	MOV A, (direct)0047
+	AND A, (direct)005E
+	BEQ 0CC0
+	MOV A, +X0331
+	MOV Y, A
+	MOV A, +X0330
+	MOVW (direct), YA0010
+
+0C80:
+	MOV A, X
+	XCN A
+	LSR A
+	MOV , A(direct)0012
+
+0C85:
+	MOV Y, (direct)0011
+	MOV A, +Y0E68
+	SETC
+	SBC A, +Y 0E67
+	MOV Y, (direct)0010
+	MUL YA
+	MOV A, Y
+	MOV Y, (direct)0011
+	CLRC
+	ADC A, +Y0E67
+	MOV Y, A
+	MOV +X, A0250
+	MOV A, +X0321
+	MUL YA
+	MOV A, +X0351
+	ASL A
+	BBC.0 (direct)12, 01
+	ASL A
+
+0CA8:
+	MOV A, Y
+	BCC 0CAE
+	EOR A, #00FF
+	INC A
+
+0CAE:
+	MOV Y, (direct)0012
+	CALL 0605
+	MOV Y, #0014
+	MOV A, #0000
+	SUBW YA, (direct)0010
+	MOVW (direct), YA0010
+	INC (direct)0012
+	BBC.1 (direct)12, C5
+
+0CC0:
+	RET
+
+0C80:
+	MOV A, X
+	XCN A
+	LSR A
+	MOV , A(direct)0012
+
+0C85:
+	MOV Y, (direct)0011
+	MOV A, +Y0E68
+	SETC
+	SBC A, +Y 0E67
+	MOV Y, (direct)0010
+	MUL YA
+	MOV A, Y
+	MOV Y, (direct)0011
+	CLRC
+	ADC A, +Y0E67
+	MOV Y, A
+	MOV +X, A0250
+	MOV A, +X0321
+	MUL YA
+	MOV A, +X0351
+	ASL A
+	BBC.0 (direct)12, 01
+	ASL A
+
+0CA8:
+	MOV A, Y
+	BCC 0CAE
+	EOR A, #00FF
+	INC A
+
+0CAE:
+	MOV Y, (direct)0012
+	CALL 0605
+	MOV Y, #0014
+	MOV A, #0000
+	SUBW YA, (direct)0010
+	MOVW (direct), YA0010
+	INC (direct)0012
+	BBC.1 (direct)12, C5
+
+0CC0:
+	RET
+
+0CC1:
+	OR (direct), (direct)5E47
+
+0CC4:
+	MOVW (direct), YA0014
+	MOVW (direct), YA0016
+	PUSH X
+	POP Y
+	CLRC
+	BNE 0CD7
+	ADC (direct) #1F, 16
+	MOV A, #0000
+	MOV [(direct)}+Y, A0014
+	INC Y
+	BRA 0CE0
+
+0CC4:
+	MOVW (direct), YA0014
+	MOVW (direct), YA0016
+	PUSH X
+	POP Y
+	CLRC
+	BNE 0CD7
+	ADC (direct) #1F, 16
+	MOV A, #0000
+	MOV [(direct)}+Y, A0014
+	INC Y
+	BRA 0CE0
+
+0CD7:
+	ADC (direct) #10, 16
+	CALL 0CDE
+	INC Y
+
+0CDE:
+	MOV A, [(direct)]+Y0014
+	ADC A, [(direct)]+Y0016
+	MOV [(direct)]+Y, A0014
+	RET
+
+0CE5:
+	MOV A, (direct)+X0071
+	BEQ 0D4E
+	DEC +X0071
+	BEQ 0CF2
+	MOV A, #0002
+	CBNE (direct)+X, A0070
+	LSR A
+
+0CF2:
+	MOV A, (direct)+X0080
+	MOV , A(direct)0017
+	MOV A, (direct)+X0030
+	MOV Y, (direct)+X0031
+	MOVW (direct), YA0014
+	MOV Y, #0000
+	MOV A, [(direct)]+Y0014
+	BEQ 0D20
+	BMI 0D0B
+
+0D04:
+	INC Y
+	BMI 0D47
+	MOV A, [(direct)]+Y0014
+	BPL 0D04
+
+0D0B:
+	CMP A, (direct)00C8
+	BEQ 0D4E
+	CMP A, (direct)00EF
+	BEQ 0D3C
+	CMP A, (direct)00E0
+	BCC 0D47
+	PUSH Y
+	MOV Y, A
+	POP A
+	ADC A, +Y0B30
+	MOV Y, A
+	BRA 0CFE
+
+0D20:
+	MOV A, (direct)0017
+	BEQ 0D47
+	DEC (direct)0017
+	BNE 0D32
+	MOV A, +X0231
+	PUSH A
+	MOV A, +X0230
+	POP Y
+	BRA 0CFA
+
+0D32:
+	MOV A, +X0241
+	PUSH A
+	MOV A, +X0240
+	POP Y
+	BRA 0CFA
+
+0D3C:
+	INC Y
+	MOV A, [(direct)]+Y0014
+	PUSH A
+	INC Y
+	MOV A, [(direct)]+Y0014
+	MOV Y, A
+	POP A
+	BRA 0CFA
+
+0D47:
+	MOV A, (direct)0047
+	MOV Y, #005C
+	CALL 0605
+
+0D4E:
+	CLR1.7 (direct)0013
+	MOV A, (direct)+X00A0
+	BEQ 0D6D
+	MOV A, (direct)+X00A1
+	BEQ 0D5C
+	DEC +X00A1
+	BRA 0D6D
+
+0D5C:
+	MOV A, (direct)001A
+	AND A, (direct)0047
+	BNE 0D6D
+	SET1.7 (direct)0013
+	MOV A, #0060
+	MOV Y, #0003
+	DEC +X00A0
+	CALL 0CC4
+
+0D6D:
+	CALL 0BB3
+	MOV A, (direct)+X00B1
+	BEQ 0DC0
+	MOV A, +X02B0
+	CBNE (direct)+X, A00B0
+	EOR A, (direct)00F5
+	NOP
+	TCALL 0
+	CMP A, +X02B1
+	BNE 0D87
+	MOV A, +X02C1
+	BRA 0D94
+
+0D87:
+	SETP
+	INC (direct)+X0000
+	CLRP
+	MOV Y, A
+	BEQ 0D90
+	MOV A, (direct)+X00B1
+
+0D90:
+	CLRC
+	ADC A, +X02C0
+	MOV (direct)+X, A00B1
+	MOV A, +X02A0
+	CLRC
+	ADC A, +X02A1
+	MOV +X, A02A0
+
+0DA0:
+	MOV , A(direct)0012
+	ASL A
+	ASL A
+	BCC 0DA8
+	EOR A, #00FF
+
+0DA8:
+	MOV Y, A
+	MOV A, (direct)+X00B1
+	CMP A, (direct)00F1
+	BCC 0DB4
+	AND A, #(byte)000F
+	MUL YA
+	BRA 0DB8
+
+0DA0:
+	MOV , A(direct)0012
+	ASL A
+	ASL A
+	BCC 0DA8
+	EOR A, #00FF
+
+0DA8:
+	MOV Y, A
+	MOV A, (direct)+X00B1
+	CMP A, (direct)00F1
+	BCC 0DB4
+	AND A, #(byte)000F
+	MUL YA
+	BRA 0DB8
+
+0DB4:
+	MUL YA
+	MOV A, Y
+	MOV Y, #0000
+	CALL 0E35
+
+0DBB:
+	JMP 0582
+
+0DC0:
+	BBS.7 13, F8
+	RET
+
+0DC4:
+	CLR1.7 (direct)0013
+	MOV A, (direct)+X00C1
+	BEQ 0DD3
+	MOV A, +X02E0
+
+0DCD:
+	CBNE (direct)+X, A00C0
+	BBS.0 (direct)3F, 3D
+	TSET1 31F5
+	BBS.0 (direct)FD, F5
+	BMI 0DDD
+	MOVW (direct), YA0010
+	MOV A, (direct)+X0091
+	BEQ 0DEA
+	MOV A, +X0341
+	MOV Y, A
+	MOV A, +X0340
+	CALL 0E1F
+
+0DEA:
+	BBC.7 (direct)13, 03
+	CALL 0C80
+
+0DF0:
+	CLR1.7 (direct)0013
+	CALL 0BB3
+	MOV A, (direct)+X00A0
+	BEQ 0E07
+	MOV A, (direct)+X00A1
+	BNE 0E07
+	MOV A, +X0371
+	MOV Y, A
+	MOV A, +X0370
+	CALL 0E1F
+
+0E07:
+	MOV A, (direct)+X00B1
+	BEQ 0DC0
+	MOV A, +X02B0
+	CBNE (direct)+X, A00B0
+	MOV (X)+, A
+	MOV Y, (direct)0051
+	MOV A, +X02A1
+	MUL YA
+	MOV A, Y
+	CLRC
+	ADC A, +X02A0
+	JMP 0DA0
+
+0E1F:
+	SET1.7 (direct)0013
+	MOV (direct), Y0012
+	CALL 0BD0
+	PUSH Y
+	MOV Y, (direct)0051
+	MUL YA
+	MOV (direct), Y0014
+	MOV (swap)#00, 15
+	MOV Y, (direct)0051
+	POP A
+	MUL YA
+	ADDW YA, (direct)0014
+
+0E35:
+	CALL 0BD0
+	ADDW YA, (direct)0010
+	MOVW (direct), YA0010
+	RET
+
+0E4A:
+	ASL A
+	BCC 0E4F
+	EOR A, #00FF
+
+0E4F:
+	MOV Y, (direct)+X00C1
+	MUL YA
+	MOV A, Y
+	EOR A, #00FF
+
+0E55:
+	MOV Y, (direct)0059
+	MUL YA
+	MOV A, +X0210
+	MUL YA
+	MOV A, +X0301
+	MUL YA
+	MOV A, Y
+	MUL YA
+	MOV A, Y
+	MOV +X, A0321
+	RET
+
+0ED5:
+	MOV A, #00AA
+	MOV , A00F4
+	MOV A, #00BB
+	MOV , A00F5
+
+0EDF:
+	MOV A, 00F4
+	CMP A, (direct)00CC
+	BNE 0EDF
+	BRA 0F08
+
+24FD:
+	MOV A, #0080
+	MOV Y, #005C
+	CALL 060D
+	MOV A, 03C3
+	AND A, #(byte)0080
+	BEQ 2512
+	SET1.7 (direct)004A
+	MOV Y, #004D
+	CALL 060D
+
+2512:
+	MOV (swap)#00, 05
+	CLR1.7 (direct)001A
+	MOV X, #000E
+	MOV A, 021F
+	CALL 0932
+	MOV A, #0000
+	MOV , A03C9
+	MOV , A(direct)00D1
+	MOV , A(direct)00AE
+	MOV , A(direct)009E
+	MOV A, 03EE
+	MOV , A038F
+	MOV A, 03EF
+	MOV , A028E
+	RET
+
+2537:
+	MOV X, #0060
+	MOV (direct), X009E
+	MOV , X03C9
+	MOV A, #0000
+	MOV , A032E
+	MOV X, (direct)009E
+	SETC
+	SBC A, 030F
+	CALL 0BBE
+	MOV , A031E
+	MOV A, Y
+	MOV , A031F
+	MOV A, (direct)009E
+	BEQ 24FD
+	CMP A, (direct)0001
+	BEQ 24FD
+	MOV A, #0000
+	MOV Y, #0003
+	MOV X, #000E
+	DEC (direct)009E
+	CALL 0CC4
+	MOV A, 030F
+	MOV , A032F
+	MOV A, #000A
+	MOV , A035F
+	MOV , A(direct)0011
+	MOV (swap)#00, 10
+	MOV X, #000E
+	CALL 0C80
+	RET
+
+257C:
+	MOV A, 03F8
+	BEQ 2584
+	MOV (swap)#00, 01
+
+2584:
+	MOV Y, (direct)0009
+	CMP Y, (direct)0001
+	BEQ 25A1
+	MOV A, (direct)0001
+	MOV , A(direct)0005
+	MOV , A(direct)0009
+	BEQ 2537
+	MOV A, Y
+	BEQ 25B5
+	EOR A, (direct)0001
+	AND A, #(byte)00C0
+	BNE 25B5
+	MOV A, (direct)00D1
+	BNE 25CC
+	BRA 2618
+
+25A0:
+	CMP A, (direct)+Y00E4
+	TCALL 0
+	BNE 25AC
+	MOV X, 03C9
+	BEQ 25B4
+	BRA 2553
+
+25A1:
+	MOV A, (direct)0001
+	BNE 25AC
+	MOV X, 03C9
+	BEQ 25B4
+	BRA 2553
+
+25AC:
+	MOV A, (direct)00D1
+	BNE 25CC
+	MOV A, (direct)0005
+	BNE 262F
+
+25B4:
+	RET
+
+25B5:
+	MOV (swap)#02, D1
+	MOV A, #0080
+	MOV Y, #005C
+	CALL 060D
+	SET1.7 (direct)001A
+	MOV A, #0000
+	MOV , A028E
+	MOV , A(direct)00AE
+	MOV , A038F
+	RET
+
+25CC:
+	DBNZ (direct)D1, FC
+	CALL 2671
+	MOV A, #0080
+	CALL 3E79
+	MOV A, (direct)0005
+	BMI 25EE
+	BBS.6 (direct)05, 08
+	MOV Y, #0070
+	MOV X, #0096
+	MOV A, #00A0
+	BRA 25FF
+
+25E6:
+	MOV Y, #00F7
+	MOV X, #00B2
+	MOV A, #00FF
+	BRA 25FF
+
+25EE:
+	BBS.6 (direct)05, 08
+	MOV Y, #00FF
+	MOV X, #00B2
+	MOV A, #00FF
+	BRA 25FF
+
+25F9:
+	MOV Y, #00BB
+	MOV X, #0096
+	MOV A, #00E0
+	MOV , Y03CB
+	MOV , X03C6
+	MOV , A03FC
+	CALL 0648
+	CLR1.7 (direct)004A
+	MOV A, (direct)004A
+	MOV Y, #004D
+	CALL 060D
+	MOV A, #0001
+	BNE 261A
+	MOV A, #0030
+
+261A:
+	MOV , A(direct)00AE
+	MOV (swap)#00, AF
+	MOV A, (direct)0005
+	AND A, #(byte)003F
+	MOV X, A
+	MOV A, +X26B4
+	MOV X, #000E
+	MOV (direct), X0044
+	CALL 0B9B
+	RET
+
+262F:
+	CLR1.7 (direct)0013
+	MOV A, (direct)00AE
+	BEQ 265C
+	MOV X, #000E
+	CALL 3E5F
+	MOV A, 03FC
+	MOV , A032F
+	MOV , A030F
+	MOV A, #000A
+	MOV , A035F
+	MOV , A033F
+	MOV X, #000E
+	MOV A, +X0331
+	MOV Y, A
+	MOV A, +X0330
+	MOVW (direct), YA0010
+	MOV A, #000E
+	CALL 0C80
+	RET
+
+265C:
+	MOV A, #0070
+	MOV , A(direct)00AE
+	MOV (swap)#00, AF
+	MOV A, (direct)0018
+	AND A, #(byte)0003
+	OR A, #00A4
+	MOV X, #000E
+	MOV (direct), X0044
+	CALL 0B9B
+
+2670:
+	RET
+
+2671:
+	MOV A, (direct)0005
+	AND A, #(byte)00C0
+	CLRC
+	3C RollALeft
+	3C RollALeft
+	3C RollALeft
+	MOV X, A
+	MOV Y, #0006
+	MUL YA
+	MOV X, A
+	MOV Y, #0074
+	MOV (swap)#04, 12
+	MOV A, +X269C
+	CALL 060D
+	INC X
+	INC Y
+	DBNZ (direct)12, F5
+	MOV A, +X269C
+	MOV , A022F
+	INC X
+	MOV A, +X269C
+	MOV , A022E
+	RET
+
+26A0:
+	OR A, (direct)0000
+	CLRP
+	NOP
+	NOP
+	SLEEP
+	NOP
+	CLRC
+	CLRP
+	NOP
+	NOP
+	MOV A, 8000
+	CLRP
+	NOP
+	NOP
+	MOV A, #0001
+	DI
+	SBC A, (direct)00A6
+	SBC A, [(direct)+X]00A8
+	SBC A, (X)
+	SBC A, [(direct)+X]00A8
+	SBC (direct), (direct)B0, B0
+	BCS 2670
+	ADC (direct) #98, 98
+	ADC (direct) #E8, 00
+	MOV , A(direct)0006
+	MOV , A(direct)000D
+	MOV , A03F6
+	MOV , A(direct)00AC
+	MOV , A(direct)009C
+	MOV , A(direct)009D
+	MOV , A032D
+	MOV , A030D
+	MOV A, 03EC
+	MOV , A038D
+	MOV A, 03ED
+	MOV , A028C
+	CLR1.6, (direct)001A
+	MOV X, #000C
+	MOV A, 021D
+	CALL 0932
+	MOV A, 03C3
+	AND A, #(byte)0040
+	BEQ 26FD
+	SET1.6, (direct)004A
+	MOV Y, #004D
+	CALL 060D
+
+26FD:
+	MOV A, #0040
+	MOV Y, #005C
+	JMP 060D
+
+2704:
+	MOV X, 03F6
+	MOV (direct), X009C
+	MOV A, #0000
+	MOV , A032C
+	MOV X, (direct)009C
+	SETC
+	SBC A, 030D
+	CALL 0BBE
+	MOV , A031C
+	MOV A, Y
+	MOV , A031D
+
+271E:
+	MOV A, (direct)009C
+	BNE 2723
+	RET
+
+2723:
+	CMP A, (direct)0001
+	BEQ 26C4
+	MOV A, #0000
+	MOV Y, #0003
+	MOV X, #000C
+	DEC (direct)009C
+	CALL 0CC4
+	MOV A, 030D
+	MOV , A032D
+	MOV A, 03FB
+	MOV , A035D
+	MOV , A(direct)0011
+	MOV (swap)#00, 10
+	MOV X, #000C
+	CALL 0C80
+	RET
+
+2749:
+	MOV A, 03F8
+	BEQ 2751
+	MOV (swap)#00, 02
+
+2751:
+	MOV Y, (direct)000A
+	CMP Y, (direct)0002
+	BEQ 277D
+	MOV A, (direct)0002
+	MOV , A(direct)0006
+	MOV , A(direct)000A
+	AND A, #(byte)00C0
+	BEQ 2704
+	MOV A, Y
+	EOR A, (direct)0002
+	AND A, #(byte)000F
+	BNE 2779
+	MOV A, (direct)000D
+	BNE 27A4
+	MOV A, Y
+	EOR A, (direct)0002
+	AND A, #(byte)0030
+	BEQ 2776
+	JMP 27FF
+
+2776:
+	JMP 2839
+
+2779:
+	MOV A, (direct)0002
+	BNE 278D
+
+277D:
+	MOV A, (direct)0002
+	BEQ 271E
+	MOV A, (direct)000D
+	BNE 27A4
+	MOV A, (direct)0006
+	BEQ 278C
+	JMP 285F
+
+278C:
+	RET
+
+278D:
+	MOV (swap)#02, 0D
+	MOV A, #0040
+	MOV Y, #005C
+	CALL 060D
+	SET1.6, (direct)001A
+	MOV A, #0000
+	MOV , A028C
+	MOV , A(direct)00AC
+	MOV , A038D
+	RET
+
+27A4:
+	DBNZ (direct)0D, E5
+	MOV (direct), A0006
+	AND A, #000F
+	SETC
+	SBC A, #0001
+	MOV X, A
+	MOV A, +X2921
+	MOV , A03F6
+	MOV A, +X2930
+	MOV , A03F9
+	MOV A, X
+	CALL 289D
+	MOV (direct), A0006
+	AND A, #0030
+	BNE 27CA
+	MOV Y, 03F9
+	BNE 27CC
+
+27CA:
+	MOV Y, #00AD
+
+27CC:
+	MOV (swap)#0C, 44
+	MOV X, #000C
+	CALL 0518
+	MOV A, #0040
+	CALL 3E79
+	CLR1.6, (direct)004A
+	MOV A, (direct)004A
+	MOV Y, #004D
+	CALL 060D
+	MOV A, (direct)0006
+	AND A, #(byte)0030
+	XCN A
+	MOV X, A
+	MOV A, +X291D
+	MOV , A032D
+	MOV , A030D
+	MOV A, (direct)0006
+	AND A, #(byte)00C0
+	XCN A
+	LSR A
+	LSR A
+	MOV X, A
+	MOV A, +X2919
+	MOV , A033D
+
+27FF:
+	MOV X, 03F6
+	MOV (direct), X009C
+	MOV A, (direct)0006
+	AND A, #(byte)0030
+	BNE 280F
+	MOV A, 03F9
+	BNE 2811
+
+280F:
+	MOV A, #00AD
+
+2811:
+	MOV (direct), X00AC
+	MOV (swap)#00, AD
+	MOV X, #000C
+	MOV (direct), X0044
+	CALL 0B9B
+	MOV A, (direct)0006
+	AND A, #(byte)0030
+	XCN A
+	MOV X, A
+	MOV A, +X291D
+	MOV , A032C
+	MOV X, (direct)009C
+	SETC
+	SBC A, 030D
+	CALL 0BBE
+	MOV , A031C
+	MOV A, Y
+	MOV , A031D
+
+2839:
+	MOV A, (direct)0006
+	AND A, #(byte)00C0
+	XCN A
+	LSR A
+	LSR A
+	MOV X, A
+	MOV A, +X2919
+	MOV , A03FB
+	MOV , A035C
+	SETC
+	SBC A, 033D
+	MOV X, 03F6
+	MOV (direct), X009D
+	CALL 0BBE
+	MOVW (direct), YA0010
+	MOV , A034C
+	MOV A, Y
+	MOV , A034D
+
+285F:
+	MOV A, (direct)009C
+	BEQ 2874
+	MOV A, #0000
+	MOV Y, #0003
+	MOV X, #000C
+	DEC (direct)009C
+	CALL 0CC4
+	MOV A, 030D
+	MOV , A032D
+
+2874:
+	CLR1.7 (direct)0013
+	MOV A, (direct)00AC
+	BEQ 287F
+	MOV X, #000C
+	CALL 3E5F
+
+287F:
+	MOV A, (direct)009D
+	BEQ 289C
+	MOV A, #0030
+	MOV Y, #0003
+	MOV X, #000C
+	DEC (direct)009D
+	CALL 0CC4
+	MOV A, 033D
+	MOV Y, A
+	MOV A, 033C
+	MOVW (direct), YA0010
+	MOV X, #000C
+	CALL 0C80
+
+289C:
+	RET
+
+289D:
+	MOV Y, #0006
+	MUL YA
+	MOV X, A
+	MOV Y, #0064
+	MOV (swap)#04, 12
+	MOV A, +X28BF
+	CALL 060D
+	INC X
+	INC Y
+	DBNZ (direct)12, F5
+	MOV A, +X28BF
+	MOV , A022D
+	INC X
+	MOV A, +X28BF
+	MOV , A022C
+	RET
+
+28C3:
+	SET1.0 (direct)0080
+	CLRP
+	ASL 60E0
+	OR A, [(direct)+X]0000
+	NOP
+
+28CC:
+	TSET1 70E0
+	BBS.0 (direct)00, 0A
+	TSET1 70E0
+	TCALL 0
+	SETC
+	TCALL 0
+	TSET1 7FE0
+	TCALL 0
+
+28DC:
+	NOP
+	TCALL 0
+	TSET1 28E0
+	OR A, [(direct)+X]0000
+	PUSH A
+	TSET1 70E0
+	TCALL 0
+	NOP
+	BBS.0 (direct)0E, E0
+	RETI
+
+293F:
+	MOV X, (direct)0003
+	MOV (direct), X0011
+	MOV A, +X0FDF
+	MOV , A(direct)0010
+	XCN A
+	AND A, #(byte)000F
+	ASL A
+	MOV Y, A
+	MOV A, +Y03A0
+	BEQ 2960
+	MOV X, A
+	MOV A, +X0FDF
+	SETC
+	CMP A, (direct)0010
+	BEQ 2960
+	BCC 2960
+	JMP 3EBA
+
+2960:
+	MOV A, (direct)0011
+	MOV +Y, A03A0
+	MOV (direct), Y0010
+	MOV A, #0001
+	LSR (direct)0010
+	BEQ 2971
+	ASL A
+	DBNZ (direct)10, FC
+
+2971:
+	MOV , A03C1
+	MOV , Y03C0
+	MOV A, 03C1
+	OR A, (direct)001A
+	MOV , A(direct)001A
+	JMP 29C5
+
+2981:
+	MOV A, 00F7
+	CMP A, 00F7
+	BNE 2981
+	MOV , A00F7
+	MOV Y, A
+	MOV A, (direct)000B
+	MOV (direct), Y000B
+	BNE A, (direct)000B
+	SET1.0 (direct)008D
+	NOP
+	MOV (direct), Y0003
+	MOV A, (direct)0003
+	BEQ 29A0
+	CMP A, (direct)00B0
+	BCC 29C2
+
+29A0:
+	RET
+
+29A1:
+	MOV A, 03F8
+	BEQ 29BE
+	MOV A, #0000
+	MOV , A03F8
+	CALL 3E96
+	BRA 29BE
+
+29B0:
+	MOV A, (direct)001A
+	AND A, #(byte)00C0
+	EOR A, #00FF
+	MOV , A03F8
+	MOV Y, #005C
+	CALL 060D
+
+29BE:
+	MOV A, (direct)0003
+	BRA 29D5
+
+29C2:
+	JMP 293F
+
+29C5:
+	CALL 3EA6
+	MOV X, 03C0
+	MOV A, (direct)0003
+	CMP A, (direct)0001
+	BEQ 29A1
+	CMP A, (direct)0002
+	BEQ 29B0
+	MOV +X, A03A0
+	CMP A, (direct)000B
+	BCC 29EB
+	CMP A, (direct)000E
+	BCC 29E8
+	CMP A, (direct)0015
+	BCC 29EB
+	CMP A, (direct)0018
+	BCS 29EB
+
+29E8:
+	CALL 3E87
+
+29EB:
+	MOV A, #0003
+	MOV +X, A03A1
+	MOV A, #0000
+	MOV +X, A0280
+	MOV (direct)+X, A00A0
+	MOV +X, A0381
+	MOV +X, A02F0
+	MOV A, 03C1
+	OR A, 0007
+	MOV , A0007
+	MOV A, 03C1
+	MOV Y, #005C
+	CALL 060D
+	MOV A, +X03A0
+	MOV X, A
+	MOV A, +X0F20
+	MOV , A(direct)0003
+	BNE 29C2
+	RET
+
+2A1A:
+	MOV A, 0007
+	MOV , A03CE
+	BEQ 2A51
+	MOV X, #000A
+	MOV A, #0020
+	MOV , A03C1
+	ASL 03CE
+	ASL 03CE
+
+2A2F:
+	ASL 03CE
+	BCC 2A4A
+	MOV , X03C0
+	MOV A, X
+	XCN A
+	LSR A
+	MOV , A03C2
+	MOV A, +X03A1
+	BNE 2A52
+	MOV A, +X03A0
+	BEQ 2A4A
+	JMP 2B0C
+
+2A4A:
+	LSR 03C1
+	DEC X
+	DEC X
+	BPL 2A2F
+
+2A51:
+	RET
+
+2A52:
+	MOV , X03C0
+	MOV A, +X03A1
+	DEC A
+	MOV +X, A03A1
+	BEQ 2A61
+	JMP 2A4A
+
+2A61:
+	MOV A, +X03A0
+	ASL A
+	MOV Y, A
+	BCS 2A7B
+	MOV A, +Y109E
+	MOV +X, A0391
+	MOV , A(direct)002D
+	MOV A, +Y109D
+	MOV +X, A0390
+	MOV , A(direct)002C
+	JMP 2B29
+
+2A7B:
+	MOV A, +Y119E
+	MOV +X, A0391
+	MOV , A(direct)002D
+	MOV A, +Y119D
+	MOV +X, A0390
+	MOV , A(direct)002C
+	JMP 2B29
+
+2A8E:
+	MOV X, 03C0
+	MOV A, +X03A0
+	CMP A, (direct)000B
+	BCC 2AAC
+	CMP A, (direct)000E
+	BCC 2AA4
+	CMP A, (direct)0015
+	BCC 2AAC
+	CMP A, (direct)0018
+	BCS 2AAC
+
+2AA4:
+	MOV A, 03CA
+	BNE 2AAC
+	CALL 3E96
+
+2AAC:
+	MOV A, #0000
+	MOV +X, A03A0
+	MOV (direct)+X, A00A0
+	MOV A, +X03D0
+	MOV +X, A02F0
+	MOV A, +X03E0
+	MOV +X, A0381
+	MOV A, +X03E1
+	MOV +X, A0280
+	MOV A, (direct)001A
+	SETC
+	SBC A, 03C1
+	MOV , A(direct)001A
+	MOV A, 0007
+	SETC
+	SBC A, 03C1
+	MOV , A0007
+	MOV (direct), X0044
+	MOV A, +X0211
+	CALL 0932
+	MOV A, 03C1
+	AND A, 03C3
+	BEQ 2B02
+	AND A, (direct)004A
+	BNE 2B02
+	MOV A, (direct)004A
+	CLRC
+	ADC A, 03C1
+	MOV , A(direct)004A
+	MOV Y, #004D
+	CALL 060D
+	MOV A, 03F3
+	SETC
+	SBC A, 03C1
+	MOV , A03F3
+
+2B02:
+	MOV X, 03C0
+	RET
+
+2B06:
+	CALL 2A8E
+	JMP 2A4A
+
+2B0C:
+	CALL 3EA6
+	MOV , X03C0
+	MOV A, +X0391
+	MOV Y, A
+	MOV A, +X0390
+	MOVW (direct), YA002C
+	MOV A, +X03B0
+	DEC A
+	MOV +X, A03B0
+	BEQ 2B27
+	JMP 2B94
+
+2B27:
+	INC 002C
+
+2B29:
+	MOV A, 03C0
+	XCN A
+	LSR A
+	MOV , A03C2
+	MOV X, #0000
+	MOV A, [(direct)+X]002C
+	BEQ 2B06
+	BMI 2B6F
+	MOV Y, 03C0
+	MOV +Y, A03B1
+	INC 002C
+	MOV A, [(direct)+X]002C
+	MOV , A(direct)0010
+	BMI 2B6F
+	MOV Y, 03C2
+	CALL 060D
+	MOV X, #0000
+	INC 002C
+	MOV A, [(direct)+X]002C
+	BPL 2B62
+	MOV X, A
+	MOV A, (direct)0010
+	MOV Y, 03C2
+	INC Y
+	CALL 060D
+	MOV A, X
+	BRA 2B6F
+
+2B62:
+	MOV Y, 03C2
+	INC Y
+	CALL 060D
+	MOV X, #0000
+	INC 002C
+	MOV A, [(direct)+X]002C
+
+2B6F:
+	CMP A, (direct)00E0
+	BNE 2B76
+	JMP 3E20
+
+2B76:
+	CMP A, (direct)00F9
+	BEQ 2BC1
+	CMP A, (direct)00F1
+	BEQ 2BD6
+	MOV X, 03C0
+	MOV Y, A
+	CALL 0518
+	MOV A, 03C1
+	CALL 3E79
+
+2B8B:
+	MOV X, 03C0
+	MOV A, +X03B1
+	MOV +X, A03B0
+
+2B94:
+	CLR1.7 (direct)0013
+	MOV X, 03C0
+	MOV A, (direct)+X00A0
+	BEQ 2BA2
+	CALL 3E5F
+	BRA 2BB1
+
+2B94:
+	CLR1.7 (direct)0013
+	MOV X, 03C0
+	MOV A, (direct)+X00A0
+	BEQ 2BA2
+	CALL 3E5F
+	BRA 2BB1
+
+2BA2:
+	MOV A, #0002
+	CMP A, +X03B0
+	BNE 2BB1
+	MOV A, 03C1
+	MOV Y, #005C
+	CALL 060D
+
+2BB1:
+	MOV X, 03C0
+	MOV A, (direct)002D
+	MOV +X, A0391
+	MOV A, (direct)002C
+	MOV +X, A0390
+	JMP 2A4A
+
+2BC1:
+	MOV X, #0000
+	INC 002C
+	MOV A, [(direct)+X]002C
+	MOV X, 03C0
+	MOV (direct), X0044
+	MOV Y, A
+	CALL 0518
+	MOV A, 03C1
+	CALL 3E79
+
+2BD6:
+	MOV X, #0000
+	INC 002C
+	MOV A, [(direct)+X]002C
+	MOV X, 03C0
+	MOV (direct)+X, A00A1
+	MOV X, #0000
+	INC 002C
+	MOV A, [(direct)+X]002C
+	MOV X, 03C0
+	MOV (direct)+X, A00A0
+	PUSH A
+	MOV X, #0000
+	INC 002C
+	MOV A, [(direct)+X]002C
+	POP Y
+	MOV X, 03C0
+	MOV (direct), X0044
+	CALL 0B9B
+	JMP 2B8B
