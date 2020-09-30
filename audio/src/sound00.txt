@@ -16,13 +16,24 @@
 	BranchToRelative8IfNotEqual 0407
 	CopyImmediate8ToX 0000
 
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ClearTables()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 040E:																			; Clear 0x0200-0x0400
 	CopyAToImmediate16PlusXAddress 0200											; Table200[X] = A
 	IncrementX
 	BranchToRelative8IfNotEqual 040E
 
 0414:
-	CopyAToImmediate16PlusXAddress 0300
+	CopyAToImmediate16PlusXAddress 0300											; Table300
 	IncrementX
 	BranchToRelative8IfNotEqual 0414
 	IncrementA
@@ -32,7 +43,7 @@
 	CopyAToImmediate16Address 03C6
 	CopyImmediate8ToA 00BB
 	CopyAToImmediate16Address 03CB												; DSP Mask
-	CallImmediate16 0648
+	CallImmediate16 0648														; LoadDSPMaskTable()
 	CopyImmediate8ToA 0060
 	CopyImmediate8ToY 000C														; DSP Main Volume Left
 	CallImmediate16 060D														; SetDSPRegister(Y, A)
@@ -87,13 +98,13 @@
 
 	CopyYToImmediate8Address 0045												; Key On = 0
 	CopyYToImmediate8Address 0046												; Flags46 = 0
-	CopyImmediate8AddressToA 0018												; Update Random Value
-	ExclusiveOrAWithImmediate8Address 0019
-	ShiftARight
-	ShiftARight
-	ToggleCarryFlag
-	RollImmediate8AddressRight 0018
-	RollImmediate8AddressRight 0019
+	CopyImmediate8AddressToA 0018												; A = Value18
+	ExclusiveOrAWithImmediate8Address 0019										; A ^= Value19
+	ShiftARight																	; A /= 4
+	ShiftARight																	;
+	ToggleCarryFlag																; C = !C
+	RollImmediate8AddressRight 0018												; Value18 /= 2
+	RollImmediate8AddressRight 0019												; Value19 /= 2
 
 0480:
 	CopyImmediate16AddressToY 00FD												; Y = Counter 0
@@ -129,11 +140,11 @@
 	AddImmediate8AddressPlusCarryToA 0051										; Current Time
 	CopyAToImmediate8Address 0051												; Current Time
 	BranchToRelative8IfNotCarry 04D1
-	CopyImmediate16AddressToA 03F8
-	BranchToRelative8IfNotEqual 04CE
-	CallImmediate16 07D5														; CheckForEvent()
-	CopyImmediate8ToX 0000
-	CallImmediate16 04FE														; UpdateCurrentEventTable()
+	CopyImmediate16AddressToA 03F8												; A = Value3F8
+	BranchToRelative8IfNotEqual 04CE											; If (A == 0)
+	CallImmediate16 07D5															; CheckForEvent()
+	CopyImmediate8ToX 0000															; X = 0
+	CallImmediate16 04FE															; UpdatePort(X)
 
 04CE:
 	JumpToAbsolute16 0451														; Main()
@@ -147,7 +158,7 @@
 04DA:																			; Do
 	CopyImmediate8PlusXAddressToA 0031												;	A = Table30[X] (high)
 	BranchToRelative8IfEqual 04E1													;	If (A != 0)
-	CallImmediate16 0DC4
+	CallImmediate16 0DC4																; 0DC4()
 
 04E1:
 	IncrementX																		;	X += 2
@@ -156,7 +167,7 @@
 	BranchToRelative8IfNotEqual 04DA											; While (Value47 != 0)
 
 04E7:
-	CallImmediate16 0614
+	CallImmediate16 0614														; FillDSPMaskTable()
 	JumpToAbsolute16 0451														; Main()
 
 
@@ -200,126 +211,153 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; UpdateCurrentEventTable()
-;	Updates the current event table
+; UpdatePort(X)
+;	Updates the specified port.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 04FE:
-	CopyImmediate8PlusXAddressToA 0004											; Current Event Table
-	CopyAToImmediate16PlusXAddress 00F4											; 65816 Port 0
+	CopyImmediate8PlusXAddressToA 0004											; A = Output[X]
+	CopyAToImmediate16PlusXAddress 00F4											; 65816 Port 0 = A
 
 0503:																			; Do
-	CopyImmediate16PlusXAddressToA 00F4											; 65816 Port 0
-	CompareAToImmediate16PlusXAddress 00F4										; 65816 Port 0
+	CopyImmediate16PlusXAddressToA 00F4												;
+	CompareAToImmediate16PlusXAddress 00F4											;
 	BranchToRelative8IfNotEqual 0503											; While (Port 0 != Port 0)
 
 	CopyAToY																	; Y = A
 	CopyImmediate8PlusXAddressToA 0008											; A = Table8[X]
 	CopyYToImmediate8PlusXAddress 0008											; Table8[X] = Y
 	BranchToRelative8IfANotEqualToImmediate8PlusXAddress 08, 02					; If (A == Table8[X])
-	CopyImmediate8ToY 0000														; Y = 0
+	CopyImmediate8ToY 0000															; Y = 0
 	CopyYToImmediate8PlusXAddress 0000											; Input[X] = Y
-	ReturnFromSubroutine
+	ReturnFromSubroutine														; Return
+
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; SendAndUpdate(A, X, Y)
+;	In:
+;		A = Event
+;		X = Channel
+;		Y = Event (copy)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 0518:
-	CompareYToImmediate8 00CA
-	BranchToRelative8IfNotCarry 0521
-	CallImmediate16 0932														; SendEvent(A, X)
-	CopyImmediate8ToY 00A4
+	CompareYToImmediate8 00CA													; If (Y < 0xCA)
+	BranchToRelative8IfNotCarry 0521												;
+	CallImmediate16 0932															; SendEvent(A, X)
+	CopyImmediate8ToY 00A4															; Y = 0xA4
 
 0521:
-	CompareYToImmediate8 00C8
-	BranchToRelative8IfCarry 04FD
-	CopyImmediate8AddressToA 001A												; Value1A/Flags
+	CompareYToImmediate8 00C8													; If (Y < 0xC8) Return;
+	BranchToRelative8IfCarry 04FD												;
+	CopyImmediate8AddressToA 001A												; A = Value1A/Flags
 	AndAWithImmediate8Address 0047												; A &= Value47
-	BranchToRelative8IfNotEqual 04FD
-	CopyYToA
-	AndAWithImmediate8 007F
-	ClearCarryFlag
-	AddImmediate8AddressPlusCarryToA 0050										; Value50
-	ClearCarryFlag
-	AddImmediate16PlusXAddressPlusCarryToA 02F0
-	CopyAToImmediate16PlusXAddress 0361											; Timers
-	CopyImmediate16PlusXAddressToA 0381
-	CopyAToImmediate16PlusXAddress 0360
-	CopyImmediate16PlusXAddressToA 02B1
-	ShiftARight
-	CopyImmediate8ToA 0000
-	RollARight
-	CopyAToImmediate16PlusXAddress 02A0
-	CopyImmediate8ToA 0000
-	CopyAToImmediate8PlusXAddress 00B0
-	CopyAToImmediate16PlusXAddress 0100
-	CopyAToImmediate16PlusXAddress 02D0
-	CopyAToImmediate8PlusXAddress 00C0
+	BranchToRelative8IfNotEqual 04FD											; If (A != 0) Return;
+	CopyYToA																	; A = Y
+	AndAWithImmediate8 007F														; A &= 0x7F
+	ClearCarryFlag																;
+	AddImmediate8AddressPlusCarryToA 0050										; A += Value50
+	ClearCarryFlag																;
+	AddImmediate16PlusXAddressPlusCarryToA 02F0									; A += Table2F0[X]
+	CopyAToImmediate16PlusXAddress 0361											; Timers[X] = A
+	CopyImmediate16PlusXAddressToA 0381											; A = Table381[X]
+	CopyAToImmediate16PlusXAddress 0360											; Table360[X] = A
+	CopyImmediate16PlusXAddressToA 02B1											; A = Table2B1[X]
+	ShiftARight																	; A /= 2
+	CopyImmediate8ToA 0000														; A = 0
+	RollARight																	; A /= 2
+	CopyAToImmediate16PlusXAddress 02A0											; Table2A0[X] = A
+	CopyImmediate8ToA 0000														; A = 0
+	CopyAToImmediate8PlusXAddress 00B0											; TableB0[X] = A
+	CopyAToImmediate16PlusXAddress 0100											; Table100[X] = A
+	CopyAToImmediate16PlusXAddress 02D0											; Table2D0[X] = A
+	CopyAToImmediate8PlusXAddress 00C0											; TableC0[X] = A
 	OrImmediate8AddressWithImmediate8Address 5E, 47								; Value5E |= Value47
 	OrImmediate8AddressWithImmediate8Address 45, 47								; Key On |= Value47
-	CopyImmediate16PlusXAddressToA 0280
-	CopyAToImmediate8PlusXAddress 00A0
-	BranchToRelative8IfEqual 057F
-	CopyImmediate16PlusXAddressToA 0281
-	CopyAToImmediate8PlusXAddress 00A1
-	CopyImmediate16PlusXAddressToA 0290
-	BranchToRelative8IfNotEqual 0575
-	CopyImmediate16PlusXAddressToA 0361											; Timers
+	CopyImmediate16PlusXAddressToA 0280											; A = Table280[X]
+	CopyAToImmediate8PlusXAddress 00A0											; WordTableA0[X] = A
+	BranchToRelative8IfEqual 057F												; If (A != 0)
+	CopyImmediate16PlusXAddressToA 0281												; A = Table280[X] (high)
+	CopyAToImmediate8PlusXAddress 00A1												; TableA1[X] = A
+	CopyImmediate16PlusXAddressToA 0290												; A = Table290[X]
+	BranchToRelative8IfNotEqual 0575												; If (A == 0)
+	CopyImmediate16PlusXAddressToA 0361													; A = Timers[X]
 	SetCarryFlag
-	SubtractImmediate16PlusXAddressPlusBorrowFromA 0291
-	CopyAToImmediate16PlusXAddress 0361											; Timers
+	SubtractImmediate16PlusXAddressPlusBorrowFromA 0291									; A -= Table291[X]
+	CopyAToImmediate16PlusXAddress 0361													; Timers[X] = A
 
 0575:
-	CopyImmediate16PlusXAddressToA 0291
+	CopyImmediate16PlusXAddressToA 0291												; A = Table291[X]
 	ClearCarryFlag
-	AddImmediate16PlusXAddressPlusCarryToA 0361									; Timers
-	CallImmediate16 0B9B
+	AddImmediate16PlusXAddressPlusCarryToA 0361										; A = Timers[X]
+	CallImmediate16 0B9B															; 0B9B(A, X)
 
 057F:
-	CallImmediate16 0BB3														; LoadWord10(X)
+	CallImmediate16 0BB3														; LoadWord10FromTable360(X)
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 0582()
+;	??
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 0582:
-	CopyImmediate8ToY 0000
-	CopyImmediate8AddressToA 0011
+	CopyImmediate8ToY 0000														; Y = 0
+	CopyImmediate8AddressToA 0011												; A = Word10 (high)
 	SetCarryFlag
-	SubtractImmediate8PlusBorrowFromA 0034
-	BranchToRelative8IfCarry 0594
-	CopyImmediate8AddressToA 0011
+	SubtractImmediate8PlusBorrowFromA 0034										; Value34 -= A
+	BranchToRelative8IfCarry 0594												; If (Value34 >= 0)
+	CopyImmediate8AddressToA 0011													; A = Word10 (high)
 	SetCarryFlag
-	SubtractImmediate8PlusBorrowFromA 0013
-	BranchToRelative8IfCarry 0598
-	DecrementY
-	ShiftALeft
+	SubtractImmediate8PlusBorrowFromA 0013											; A -= Value13
+	BranchToRelative8IfCarry 0598													; If (A >= 0)
+	DecrementY																			; Y -= 1
+	ShiftALeft																			; A *= 2
 
 0594:
-	AddImmediate8AddressToYA 0010												; Word10
-	CopyYAToImmediate8Address 0010												; Word10
+	AddImmediate8AddressToYA 0010													; Word10
+	CopyYAToImmediate8Address 0010													; Word10
 
 0598:
-	PushXToStack
-	CopyImmediate8AddressToA 0011
-	ShiftALeft
-	CopyImmediate8ToY 0000
-	CopyImmediate8ToX 0018
-	DivideYAByX
-	CopyAToX
-	CopyImmediate16PlusYAddressToA 0EB1
-	CopyAToImmediate8Address 0015
-	CopyImmediate16PlusYAddressToA 0EB0											; Song Event Table?
+	PushXToStack																; X -> Stack
+	CopyImmediate8AddressToA 0011												; A = Word10 (high)
+	ShiftALeft																	; A *= 2
+	CopyImmediate8ToY 0000														; Y = 0
+	CopyImmediate8ToX 0018														; X = 24
+	DivideYAByX																	; YA /= X
+	CopyAToX																	; X = A
+	CopyImmediate16PlusYAddressToA 0EB1											; A = Song Event Table[Y] (+1)
+	CopyAToImmediate8Address 0015												; Current Track Address 2 (+1) = A
+	CopyImmediate16PlusYAddressToA 0EB0											; A = Song Event Table[Y]
 	CopyAToImmediate8Address 0014												; Current Track Address 2
-	CopyImmediate16PlusYAddressToA 0EB3
-	PushAToStack
-	CopyImmediate16PlusYAddressToA 0EB2
-	PullYFromStack
-	SubtractImmediate8AddressFromYA 0014										; Current Track Address 2
-	CopyImmediate8AddressToY 0010												; Word10
-	MultiplyAByY
-	CopyYToA
-	CopyImmediate8ToY 0000
-	AddImmediate8AddressToYA 0014												; Current Track Address 2
-	CopyYToImmediate8Address 0015
-	ShiftALeft
-	RollImmediate8AddressLeft 0015
-	CopyAToImmediate8Address 0014												; Current Track Address 2
-	JumpToRelative8 05CB
+	CopyImmediate16PlusYAddressToA 0EB3											; YA = Song Event Table[Y] (+2)
+	PushAToStack																;
+	CopyImmediate16PlusYAddressToA 0EB2											;
+	PullYFromStack																;
+	SubtractImmediate8AddressFromYA 0014										; YA -= Current Track Address 2
+	CopyImmediate8AddressToY 0010												; Y = Word10
+	MultiplyAByY																; YA = A * Y
+	CopyYToA																	; A = Y
+	CopyImmediate8ToY 0000														; Y = 0
+	AddImmediate8AddressToYA 0014												; YA += Current Track Address 2
+	CopyYToImmediate8Address 0015												; Current Track Address 2 (high) = Y
+	ShiftALeft																	; Word14 *= 2
+	RollImmediate8AddressLeft 0015												;
+	CopyAToImmediate8Address 0014												;
+	JumpToRelative8 05CB														; Shift Word14 Right X - 6 Times
 
 05C7:																			; Do
 	ShiftImmediate8AddressRight 0015												; Value15 /= 2
@@ -327,53 +365,86 @@
 	IncrementX																		; X += 1
 
 05CB:
-	CompareXToImmediate8 0006												
+	CompareXToImmediate8 0006													;
 	BranchToRelative8IfNotEqual 05C7											; While (X != 6)
 	CopyAToImmediate8Address 0014												; Value14 = A
-	PullXFromStack
-	CopyImmediate16PlusXAddressToA 0220
-	CopyImmediate8AddressToY 0015
-	MultiplyAByY
-	CopyYAToImmediate8Address 0016
-	CopyImmediate16PlusXAddressToA 0220
-	CopyImmediate8AddressToY 0014
-	MultiplyAByY
-	PushYToStack
-	CopyImmediate16PlusXAddressToA 0221
-	CopyImmediate8AddressToY 0014
-	MultiplyAByY
-	AddImmediate8AddressToYA 0016
-	CopyYAToImmediate8Address 0016
-	CopyImmediate16PlusXAddressToA 0221
-	CopyImmediate8AddressToY 0015
-	MultiplyAByY
+	PullXFromStack																; Stack -> X
+	CopyImmediate16PlusXAddressToA 0220											; Table220
+	CopyImmediate8AddressToY 0015												; Y = Value14 (high)
+	MultiplyAByY																; YA = A * Y
+	CopyYAToImmediate8Address 0016												; Current Track Address = YA
+	CopyImmediate16PlusXAddressToA 0220											; A = Table220[X]
+	CopyImmediate8AddressToY 0014												; Y = Word14
+	MultiplyAByY																; YA = A * Y
+	PushYToStack																; Y -> Stack
+	CopyImmediate16PlusXAddressToA 0221											; A = Table220 (high)
+	CopyImmediate8AddressToY 0014												; Y = Word14
+	MultiplyAByY																; YA = A * Y
+	AddImmediate8AddressToYA 0016												;
+	CopyYAToImmediate8Address 0016												; Current Track Address += YA
+	CopyImmediate16PlusXAddressToA 0221											; A = Table220 (high)
+	CopyImmediate8AddressToY 0015												; Y = Word14 (high)
+	MultiplyAByY																; YA = A * Y
 	CopyAToY																	; Y = A
-	PullAFromStack
-	AddImmediate8AddressToYA 0016
+	PullAFromStack																; Stack -> A
+	AddImmediate8AddressToYA 0016												; Current Track Address += YA
 	CopyYAToImmediate8Address 0016
-	CopyXToA
-	ExchangeANibbles
-	ShiftARight
-	OrAWithImmediate8 0002
+	CopyXToA																	; A = X
+	ExchangeANibbles															; A <-> B
+	ShiftARight																	; A /= 2
+	OrAWithImmediate8 0002														; A |= 2
 	CopyAToY																	; Y = A
-	CopyImmediate8AddressToA 0016
-	CallImmediate16 0605
-	IncrementY
-	CopyImmediate8AddressToA 0017
+	CopyImmediate8AddressToA 0016												; A = Current Track Address
+	CallImmediate16 0605														; SetDSPRegisterIfPointerMask(Y, A)
+	IncrementY																	; Y += 1
+	CopyImmediate8AddressToA 0017												; A = Current Track Address (high)
 
-0605:																			; SetDSPRegisterIfPointerMask(Y, A)
-	PushAToStack
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; SetDSPRegisterIfPointerMask(Y, A)
+;	Sets the specified DSP register to the specified value, sometimes.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+0605:
+	PushAToStack																; A -> Stack
 	CopyImmediate8AddressToA 0047												; Value47
 	AndAWithImmediate8Address 001A												; Value1A
-	PullAFromStack
-	BranchToRelative8IfNotEqual 0613											; If ((Value47 & Value1A) == 0)
+	PullAFromStack																; Stack -> A
+	BranchToRelative8IfNotEqual 0613											; If ((Value47 & Value1A) != 0) Return;
 
-060D:																				; SetDSPRegister(Y, A)
-	CopyYToImmediate16Address 00F2													; DSP Address
-	CopyAToImmediate16Address 00F3													; DSP Data
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; SetDSPRegister(Y, A)
+;	Sets the specified DSP register to the specified value.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+060D:																			; SetDSPRegister(Y, A)
+	CopyYToImmediate16Address 00F2												; DSP Address
+	CopyAToImmediate16Address 00F3												; DSP Data
 
 0613:
-	ReturnFromSubroutine
+	ReturnFromSubroutine														; Return
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; FillDSPMaskTable()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 0614:
 	DecrementImmediate8Address 00D0												; ValueD0 -= 1
@@ -384,39 +455,49 @@
 	CopyAToY																	; Y = A
 	CopyImmediate8ToImmediate8Address 07, 12									; Random = 7
 
-0621:																										; Do
-	IncrementY
-	CopyImmediate8ToX 0004
+0621:																			; Do
+	IncrementY																		; Y += 1
+	CopyImmediate8ToX 0004															; X = 4
 
-0624:
-	CopyImmediate8AddressBitToCarryFlag 0019
-	ClearInterruptFlag
-	ExclusiveOrCarryFlagWithImmediate8AddressBit A019
-	RollImmediate8AddressLeft 0018
-	RollImmediate8AddressLeft 0019
-	CopyImmediate8AddressToA 0019
-	AndAWithImmediate16Address 03CB													; DSP Mask
-	OrAWithImmediate8 0011
-	CopyAToImmediate16PlusYAddress FE00												; DSP Mask Table
-	IncrementY
-	CopyImmediate8AddressToA 0018
-	OrAWithImmediate8 0011
-	CopyAToImmediate16PlusYAddress FE00												; DSP Mask Table
-	IncrementY
-	DecrementX
-	BranchToRelative8IfNotEqual 0624
-	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 12, 0621			; While (Random-- != 0)
+0624:																				; Do
+	CopyImmediate8AddressBitToCarryFlag C0, 19											; C = Value19 & C0
+	ExclusiveOrCarryFlagWithImmediate8AddressBit A0, 19									; C ^= Value19 & A0
+	RollImmediate8AddressLeft 0018														; Value18 = Value18 * 2 + C
+	RollImmediate8AddressLeft 0019														; Value19 = Value19 * 2 + C
+	CopyImmediate8AddressToA 0019														; A = Value19
+	AndAWithImmediate16Address 03CB														; A &= DSP Mask
+	OrAWithImmediate8 0011																; A |= 0x11
+	CopyAToImmediate16PlusYAddress FE00													; DSP Mask Table[Y] = A
+	IncrementY																			; Y += 1
+	CopyImmediate8AddressToA 0018														; A = Value18
+	OrAWithImmediate8 0011																; A |= 0x11
+	CopyAToImmediate16PlusYAddress FE00													; DSP Mask Table[Y] = A
+	IncrementY																			; Y += 1
+	DecrementX																			; X -= 1
+	BranchToRelative8IfNotEqual 0624												; While (X != 0(
+	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 12, 0621				; While (Random-- != 0)
 
-	ReturnFromSubroutine
+	ReturnFromSubroutine														; Return
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; LoadDSPMaskTable()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 0648:
-	CopyImmediate8ToY 0000
-	CopyImmediate8ToX 001B
-	CopyImmediate16AddressToA 03C6
+	CopyImmediate8ToY 0000														; Y = 0
+	CopyImmediate8ToX 001B														; X = 27
+	CopyImmediate16AddressToA 03C6												; A = Value3C6
 
-064F:
-	CopyAToImmediate16PlusYAddress FE00										; DSP Mask Table
-	IncrementY
+064F:																			; Do
+	CopyAToImmediate16PlusYAddress FE00												; DSP Mask Table[Y] = A
+	IncrementY																		; Y += 9
 	IncrementY
 	IncrementY
 	IncrementY
@@ -427,10 +508,10 @@
 0659:
 	IncrementY
 	IncrementY
-	DecrementX
-	BranchToRelative8IfNotEqual 064F
+	DecrementX																		; X -= 1
+	BranchToRelative8IfNotEqual 064F											; While (X != 0)
 	IncrementA
-	CopyAToImmediate16PlusYAddress FE00										; DSP Mask Table
+	CopyAToImmediate16PlusYAddress FE00											; DSP Mask Table
 	CopyImmediate8ToY 00FE
 	CopyImmediate8ToA 0000
 	CopyAToImmediate16Address 3C80												; Directory Sample 32 Start Low
@@ -468,47 +549,79 @@
 	CallImmediate16 0ED5
 	CopyImmediate8ToA 0000
 	CopyAToImmediate16Address 03CA												; Counter3CA
-	CopyAToImmediate8Address 0004												; Current Track
-	CopyAToImmediate16Address 0005												; Current Event 2
-	CopyAToImmediate16Address 0006												; Current Event 3
-	CopyAToImmediate16Address 0007												; Value7
+	CopyAToImmediate8Address 0004												; Output[0]
+	CopyAToImmediate16Address 0005												; Output[1]
+	CopyAToImmediate16Address 0006												; Output[2]
+	CopyAToImmediate16Address 0007												; Output[3]
 	CopyAToImmediate8Address 001A												; Value1A/Flags
 	CopyImmediate8ToY 0010														; Y = 16
 
 06A5:																			; Do
-	CopyAToImmediate16PlusYAddress 039F
+	CopyAToImmediate16PlusYAddress 039F												; Table3A0[Y-1] = A
 	DecrementYAndBranchToRelative8IfNotZero 06A5								; While(Y-- != 0)
 
-	CopyImmediate8ToA 0096
-	CopyAToImmediate16Address 03C6
-	CopyImmediate8ToA 00BB
-	CopyAToImmediate16Address 03CB													; DSP Mask
-	CallImmediate16 0648
+	CopyImmediate8ToA 0096														; A = 0x96
+	CopyAToImmediate16Address 03C6												; Value3C6 = A
+	CopyImmediate8ToA 00BB														; A = 0xBB
+	CopyAToImmediate16Address 03CB												; DSP Mask = A
+	CallImmediate16 0648														; LoadDSPMaskTable()
+	
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; HandleCommandF1()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 06B7:
 	CompareImmediate8AddressToImmediate8 11, 04
-	BranchToRelative8IfEqual 06CF														; If ((0x11) != 4)
-	CopyImmediate8ToX 00A0																; X = 0xA0
+	BranchToRelative8IfEqual 06CF												; If (Word10 (high) != 4)
+	CopyImmediate8ToX 00A0															; X = 0xA0
 	CopyXToImmediate8Address 005A													; Word5A = X
-	CopyXToImmediate16Address 03CA												; Counter3CA = X
-	CopyImmediate8ToA 0000																; A = 0
+	CopyXToImmediate16Address 03CA													; Counter3CA = X
+	CopyImmediate8ToA 0000															; A = 0
 	CopyAToImmediate8Address 005B													; Word5A (high) = A
 	SetCarryFlag
-	SubtractImmediate8AddressPlusBorrowFromA 0059
-	CallImmediate16 0BBE																	; Randomize()
+	SubtractImmediate8AddressPlusBorrowFromA 0059									; A -= Value59
+	CallImmediate16 0BBE															; Randomize()
 	CopyYAToImmediate8Address 005C													; Word5C = YA
 
 06CF:
-	JumpToAbsolute16 07DC																; CheckForEvent()
+	JumpToAbsolute16 07DC														; Return CheckForEvent()
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; HandleCommandF2()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 06D2:
-	CopyImmediate16AddressToA 03F1
-	BranchToRelative8IfNotEqual 06F5
-	CopyImmediate8AddressToA 0059
-	CopyAToImmediate16Address 03F1
-	CopyImmediate8ToA 0070
-	CopyAToImmediate8Address 0059
-	JumpToAbsolute16 07DC																; CheckForEvent()
+	CopyImmediate16AddressToA 03F1												; A = Value3F1
+	BranchToRelative8IfNotEqual 06F5											; If (A == 0)
+	CopyImmediate8AddressToA 0059													; A = Value59
+	CopyAToImmediate16Address 03F1													; Value3F1 = A
+	CopyImmediate8ToA 0070															; A = 0x70
+	CopyAToImmediate8Address 0059													; Value59 = A
+	JumpToAbsolute16 07DC															; Return CheckForEvent()
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; HandleCommandF3()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 06E3:
 	CopyImmediate16AddressToA 03F1
@@ -517,10 +630,10 @@
 	CopyAToImmediate8Address 0059
 	CopyImmediate8ToA 0000
 	CopyAToImmediate16Address 03F1
-	JumpToAbsolute16 07DC																; CheckForEvent()
+	JumpToAbsolute16 07DC															; Return CheckForEvent()
 
 06F5:
-	ReturnFromSubroutine
+	ReturnFromSubroutine															; Return
 
 
 
@@ -534,60 +647,104 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 06F6:
-	CompareAToImmediate8 00FF																	; If (A == 0xFF)
-	BranchToRelative8IfEqual 067B																	; Reset DSP
-	CompareAToImmediate8 00F1																	; If (A == 0xF1)
-	BranchToRelative8IfEqual 06B7
-	CompareAToImmediate8 00F2																	; If (A == 0xF2)
-	BranchToRelative8IfEqual 06D2
-	CompareAToImmediate8 00F3																	; If (A == 0xF3)
-	BranchToRelative8IfEqual 06E3
-	CompareAToImmediate8 00F4																	; If (A == 0xF4)
-	BranchToRelative8IfEqual 071D
-	CompareAToImmediate8 00F5																	; If (A == 0xF5)
-	BranchToRelative8IfEqual 0717
-	CompareAToImmediate8 00F0																	; If (A == 0xF0)
-	BranchToRelative8IfEqual 0744																	; Stop()
-	CompareAToImmediate8 0014																	; If (A >= 20)
-	BranchToRelative8IfNotCarry 0766																; PlaySong(A)
+	CompareAToImmediate8 00FF													; If (A == 0xFF)
+	BranchToRelative8IfEqual 067B													; Reset DSP
+	CompareAToImmediate8 00F1													; If (A == 0xF1)
+	BranchToRelative8IfEqual 06B7													; HandleCommandF1()
+	CompareAToImmediate8 00F2													; If (A == 0xF2)
+	BranchToRelative8IfEqual 06D2													; HandleCommandF2()
+	CompareAToImmediate8 00F3													; If (A == 0xF3)
+	BranchToRelative8IfEqual 06E3													; HandleCommandF3()
+	CompareAToImmediate8 00F4													; If (A == 0xF4)
+	BranchToRelative8IfEqual 071D													; HandleCommandF4()
+	CompareAToImmediate8 00F5													; If (A == 0xF5)
+	BranchToRelative8IfEqual 0717													; HandleCommandF5()
+	CompareAToImmediate8 00F0													; If (A == 0xF0)
+	BranchToRelative8IfEqual 0744													; Stop()
+	CompareAToImmediate8 0014													; If (A >= 20)
+	BranchToRelative8IfNotCarry 0766												; PlaySong(A)
 	ReturnFromSubroutine
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; HandleCommandF5()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 0717:
 	CopyImmediate8ToX 0003
 	CopyImmediate8ToA 0030
 	BranchToRelative8IfNotEqual 0721
 
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; HandleCommandF4()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 071D:
 	CopyImmediate8ToX 00FE
 	CopyImmediate8ToA 0009
 
 0721:
-	CopyImmediate8ToImmediate8Address 8F, 54													; Word54 = 0x8f
+	CopyImmediate8ToImmediate8Address 8F, 54									; Word54 = 0x8f
 	CopyXToImmediate16Address 02F0
 	CopyXToImmediate16Address 02F2
 	CopyXToImmediate16Address 02F4
 	CopyAToImmediate8Address 0055
 	SetCarryFlag
-	SubtractImmediate8AddressPlusBorrowFromA 0053												; A -= Last Timer 0
-	CopyImmediate8AddressToX 0054																; X = Word54
-	CallImmediate16 0BBE																		; Randomize()
+	SubtractImmediate8AddressPlusBorrowFromA 0053								; A -= Last Timer 0
+	CopyImmediate8AddressToX 0054												; X = Word54
+	CallImmediate16 0BBE														; Randomize()
 	CopyYAToImmediate8Address 0056
-	JumpToAbsolute16 07DC																		; CheckForEvent()
+	JumpToAbsolute16 07DC														; Return CheckForEvent()
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; DecrementCounterAndStopIfZero()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 073C:
-	DecrementImmediate16Address 03CA															; Counter3CA
-	BranchToRelative8IfEqual 0744																; Stop()
-	JumpToAbsolute16 07E8
+	DecrementImmediate16Address 03CA											; Counter3CA
+	BranchToRelative8IfEqual 0744												; Return Stop()
+	JumpToAbsolute16 07E8														; Return CheckForEvent()
 
-0744:																							; Stop()
-	CopyImmediate8AddressToA 001A																; Value1A/Flags
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Stop()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+0744:
+	CopyImmediate8AddressToA 001A												; Value1A/Flags
 	ExclusiveOrAWithImmediate8 00FF
-	TestAndSetBits 0046																			; Flags46
-	CopyImmediate8ToImmediate8Address 00, 04													; Current Song = 0
-	CopyImmediate8ToImmediate8Address 00, 47													; Value47 = 0
+	TestAndSetBits 0046															; Flags46
+	CopyImmediate8ToImmediate8Address 00, 04									; Current Song = 0
+	CopyImmediate8ToImmediate8Address 00, 47									; Value47 = 0
 	CopyImmediate8ToImmediate8Address C0, 59
-	CopyImmediate8ToImmediate8Address 20, 53													; Last Timer
-	ReturnFromSubroutine
+	CopyImmediate8ToImmediate8Address 20, 53									; Last Timer
+	ReturnFromSubroutine														; Return
 
 
 
@@ -601,15 +758,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 0758:
-	CopyImmediate8ToY 0000
-	CopyImmediate8PointerPlusYToA 0040															; Next Track Address
-	IncrementImmediate8Address16 0040
-	PushAToStack
-	CopyImmediate8PointerPlusYToA 0040															; Next Track Address
-	IncrementImmediate8Address16 0040
-	CopyAToY																	; Y = A
-	PullAFromStack
-	ReturnFromSubroutine
+	CopyImmediate8ToY 0000														; Y = 0
+	CopyImmediate8PointerPlusYToA 0040											; YA = [Track Pointer]
+	IncrementImmediate8Address16 0040											; Track Pointer += 2
+	PushAToStack																;
+	CopyImmediate8PointerPlusYToA 0040											;
+	IncrementImmediate8Address16 0040											;
+	CopyAToY																	;
+	PullAFromStack																;
+	ReturnFromSubroutine														; Return
 
 
 
@@ -622,28 +779,39 @@
 ; PlaySong(A)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-0766
+0766:
 	ClearCarryFlag
 	CopyImmediate8ToX 0000														; X = 0
 	CopyXToImmediate16Address 03CA												; Counter3CA = X
 	CopyXToImmediate16Address 03F1												; Counter3F1 = X
-	CopyAToImmediate8Address 0004												; Current Song = A
+	CopyAToImmediate8Address 0004												; Output[0] = A
 	ShiftALeft																	; A *= 2
 	CopyAToX																	; X = A
-	CopyImmediate16PlusXAddressToA FDBF											; A = Song Address Table[X]
-	CopyAToY																	; Y = Song Address High
-	BranchToRelative8IfNotEqual 077C											; PlaySong2(X, Y)
-	CopyAToImmediate8Address 0004												; Current Song = 0
-	ReturnFromSubroutine
+	CopyImmediate16PlusXAddressToA FDBF											; A = Song Address Table[X] (high)
+	CopyAToY																	; Y = A
+	BranchToRelative8IfNotEqual 077C											; If (A == 0)
+	CopyAToImmediate8Address 0004													; Current Song = 0
+	ReturnFromSubroutine															; Return
 
-077C:																			; PlaySong2(X, Y)
+077C:
 	CopyImmediate16PlusXAddressToA FDBE											; A = Song Address Table[X]
-	CopyYAToImmediate8Address 0040												; Next Track Address = Track Address
+	CopyYAToImmediate8Address 0040												; Track Pointer = Track Address
 	CopyImmediate8ToImmediate8Address 02, 0C									; Counter0C = 2
 	CopyImmediate8AddressToA 001A												; A = Value1A/Flags
 	ExclusiveOrAWithImmediate8 00FF												; A ^= 0xFF
 	TestAndSetBits 0046															; Flags46
-	ReturnFromSubroutine
+	ReturnFromSubroutine														; Return
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Reset()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 078C:
 	CopyImmediate8ToX 000E														; X = 14
@@ -680,12 +848,12 @@
 	CopyAToImmediate8Address 0050												; Value50 = A
 	CopyAToImmediate8Address 0042												; Track Count = A
 	CopyAToImmediate8Address 005F												; Value5E (high) = A
-	CopyImmediate8ToImmediate8Address C0, 59
-	CopyImmediate8ToImmediate8Address 20, 53
-	ReturnFromSubroutine
+	CopyImmediate8ToImmediate8Address C0, 59									; Value59 = 0xC0
+	CopyImmediate8ToImmediate8Address 20, 53									; Value53 = 0x20
+	ReturnFromSubroutine														; Return
 
 07D4:
-	ReturnFromSubroutine
+	ReturnFromSubroutine														; Return
 
 
 
@@ -721,33 +889,33 @@
 
 07DC:
 	CopyImmediate8AddressToA 0004												; If (Current Song == 0)
-	BranchToRelative8IfEqual 07D4												; Return
+	BranchToRelative8IfEqual 07D4													; Return
 	CopyImmediate16AddressToA 03CA												; A = Counter3CA
-	BranchToRelative8IfEqual 07E8
-	JumpToAbsolute16 073C
+	BranchToRelative8IfEqual 07E8												; If (A != 0)
+	JumpToAbsolute16 073C															; Return DecrementCounterAndStopIfZero()
 
 07E8:
 	CopyImmediate8AddressToA 000C												; A = Counter0C
-	BranchToRelative8IfEqual 0845												; If (A != 0)
-	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero Counter0C, 078C				
+	BranchToRelative8IfEqual 0845												; If (A != 0) Skip;
+	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero Counter0C, 078C		; If (Counter0C-- != 0) Return Reset();
 
 07EF:																			; Do
 	CallImmediate16 0758															; YA = ReadTrack()
-	BranchToRelative8IfNotEqual 080B												; PlayTrack(YA)
+	BranchToRelative8IfNotEqual 080B												; If (A != 0) Return PlayTrack(YA)
 	CopyAToY																		; Y = A
-	BranchToRelative8IfNotEqual 07FA												; SetTrackCount(A)
-	JumpToAbsolute16 0744															; Stop()
+	BranchToRelative8IfNotEqual 07FA												; If (A == 0)
+	JumpToAbsolute16 0744																; Return Stop()
 
-07FA:																				; SetTrackCount(A)
+07FA:
 	DecrementImmediate8Address 0042													; TrackCount -= 1
-	BranchToRelative8IfNotNegative 0800												; if (TrackCount < 0)
-	CopyAToImmediate8Address 0042													; TrackCount = A
+	BranchToRelative8IfNotNegative 0800												; If (TrackCount < 0)
+	CopyAToImmediate8Address 0042														; TrackCount = A
 
 0800:
 	CallImmediate16 0758															; YA = ReadTrack()
 	CopyImmediate8AddressToX 0042													; X = TrackCount
 	BranchToRelative8IfEqual 07EF													; If (TrackCount != 0)
-	CopyYAToImmediate8Address 0040													; Next Track Address = YA
+	CopyYAToImmediate8Address 0040														; Track Pointer = YA
 	JumpToRelative8 07EF														; While(true)
 
 080B:
@@ -757,7 +925,7 @@
 080F:																			; Do
 	CopyImmediate8PointerPlusYToA 0016												; Current Track Address
 	CopyAToImmediate16PlusYAddress 0030												; Channel Position Table
-	DecrementY																	; While(Y-- >= 0)
+	DecrementY																	; While(--Y >= 0)
 	BranchToRelative8IfNotNegative 080F
 
 	CopyImmediate8ToX 0000														; X = 0
@@ -768,123 +936,123 @@
 	BranchToRelative8IfEqual 082A												; If (A != 0)
 	CopyImmediate16PlusXAddressToA 0211												; A = Table211[X]
 	BranchToRelative8IfNotEqual 082A												; If (A == 0)
-	CopyImmediate8ToA 0000
-	CallImmediate16 0932															; SendEvent(A, X)
+	CopyImmediate8ToA 0000																; A = 0
+	CallImmediate16 0932																; SendEvent(A, X)
 
 082A:
 	CopyImmediate8ToA 0000														; A = 0
 	CopyAToImmediate8PlusXAddress 0080											; Table80[X] = A
-	PushAToStack
+	PushAToStack																; A -> Stack
 	CopyImmediate8AddressToA 0047												; A = Value47
 	AndAWithImmediate8Address 001A												; Value1A
-	AndAWithImmediate8 00C0
-	PullAFromStack
-	BranchToRelative8IfNotEqual 083C
-	CopyAToImmediate8PlusXAddress 0091
-	CopyAToImmediate8PlusXAddress 0090
+	AndAWithImmediate8 00C0														; A &= 0xC0
+	PullAFromStack																; Stack -> A
+	BranchToRelative8IfNotEqual 083C											; If ((Value47 & Value1A & 0xC0) == 0)
+	CopyAToImmediate8PlusXAddress 0091												; WordTable90[X] = 0
+	CopyAToImmediate8PlusXAddress 0090												;
 
 083C:
 	IncrementA																	; A += 1
-	CopyAToImmediate8PlusXAddress 0070											; Table70[X] = A
+	CopyAToImmediate8PlusXAddress 0070											; WordTable70[X] = A
 	IncrementX																	; X += 2
-	IncrementX
-	ShiftImmediate8AddressLeft 0047												; Pointer42 *= 2
-	BranchToRelative8IfNotEqual 081C
+	IncrementX																	;
+	ShiftImmediate8AddressLeft 0047												; Value47 *= 2
+	BranchToRelative8IfNotEqual 081C											; While(Value47 != 0)
 
 0845:
-	CopyImmediate8ToX 0000
-	CopyXToImmediate8Address 005E												; Value5E
+	CopyImmediate8ToX 0000														; X = 0
+	CopyXToImmediate8Address 005E												; Value5E = X
 	CopyImmediate8ToImmediate8Address 01, 47									; Value47 = 1
 
 084C:
 	CopyXToImmediate8Address 0044												; Value44 = X
-	CopyImmediate8PlusXAddressToA 0031
-	BranchToRelative8IfEqual 08C0
-	DecrementImmediate8PlusXAddress 0070										; Table70[X] -= 1
-	BranchToRelative8IfNotEqual 08BA											; If (Table70[X] == 0)
+	CopyImmediate8PlusXAddressToA 0031											; A = Table31[X]
+	BranchToRelative8IfEqual 08C0												; If (A == 0) Return 08C0();
+	DecrementImmediate8PlusXAddress 0070										; WordTable70[X] -= 1
+	BranchToRelative8IfNotEqual 08BA											; If (Table70[X] != 0) Return 08BA();
 
 0856:																			; Do
 	CallImmediate16 0928															; A = ReadChannel(X)
 	BranchToRelative8IfNotEqual 0872												; If (A == 0)
-	CopyImmediate8PlusXAddressToA 0080												; A = Table80[X]
-	BranchToRelative8IfEqual 07EF													; If (A == 0) NextTrack()
-	CallImmediate16 0AA9															; UpdateChannelPosition(X)
-	DecrementImmediate8PlusXAddress 0080											; Table80[X] -= 1
+	CopyImmediate8PlusXAddressToA 0080													; A = Table80[X]
+	BranchToRelative8IfEqual 07EF														; If (A == 0) Return NextTrack()
+	CallImmediate16 0AA9																; UpdateChannelPosition(X)
+	DecrementImmediate8PlusXAddress 0080												; Table80[X] -= 1
 	BranchToRelative8IfNotEqual 0856											; While (Table80[X] != 0)
 
-	CopyImmediate16PlusXAddressToA 0230											; Channel Position Table[X] = Table230[X]
+	CopyImmediate16PlusXAddressToA 0230											; Channel Position Table[X] = WordTable230[X]
 	CopyAToImmediate8PlusXAddress 0030	
 	CopyImmediate16PlusXAddressToA 0231
 	CopyAToImmediate8PlusXAddress 0031
 	JumpToRelative8 0856
 
 0872:
-	BranchToRelative8IfNegative 0894
-	CopyAToImmediate16PlusXAddress 0200											; Table200[X] = A
-	CallImmediate16 0928														; A = ReadChannel(X)
-	BranchToRelative8IfNegative 0894											; If(A >= 0)
+	BranchToRelative8IfNegative 0894											; If ((A & 0x80) == 0)
+	CopyAToImmediate16PlusXAddress 0200												; Table200[X] = A
+	CallImmediate16 0928															; A = ReadChannel(X)
+	BranchToRelative8IfNegative 0894												; If(A >= 0)
 	PushAToStack
 	ExchangeANibbles
 	AndAWithImmediate8 0007
-	CopyAToY																		; Y = A
-	CopyImmediate16PlusYAddressToA 3EE8												; A = Table3EE8[Y]
-	CopyAToImmediate16PlusXAddress 0201												; Table201[X] = A
+	CopyAToY																			; Y = A
+	CopyImmediate16PlusYAddressToA 3EE8													; A = Table3EE8[Y]
+	CopyAToImmediate16PlusXAddress 0201													; Table201[X] = A
 	PullAFromStack
 	AndAWithImmediate8 000F
-	CopyAToY																		; Y = A
-	CopyImmediate16PlusYAddressToA 3EF0												; A = Table3EF0[Y]
-	CopyAToImmediate16PlusXAddress 0210												; Table210[X] = A
-	CallImmediate16 0928															; A = ReadChannel(X)
+	CopyAToY																			; Y = A
+	CopyImmediate16PlusYAddressToA 3EF0													; A = Table3EF0[Y]
+	CopyAToImmediate16PlusXAddress 0210													; Table210[X] = A
+	CallImmediate16 0928																; A = ReadChannel(X)
 
 0894:
-	CompareAToImmediate8 00E0													; Start/Reset
-	BranchToRelative8IfNotCarry 089D
-	CallImmediate16 0916
-	JumpToRelative8 0856
+	CompareAToImmediate8 00E0													; If (A < 0xE0) (Start/Reset)
+	BranchToRelative8IfNotCarry 089D												; 
+	CallImmediate16 0916															; LookupTableBDA(A)
+	JumpToRelative8 0856															; Continue
 
 089D:
-	PushAToStack
+	PushAToStack																; A -> Stack
 	CopyImmediate8AddressToA 0047												; A = Value47
 	AndAWithImmediate8Address 001A												; Value1A
-	PullAFromStack
-	BranchToRelative8IfNotEqual 08A8
-	CallImmediate16 0518
+	PullAFromStack																; Stack -> A
+	BranchToRelative8IfNotEqual 08A8											; If (Value47 & Value1A == 0)
+	CallImmediate16 0518															; SendAndUpdate(A, X, Y)
 
 08A8:
 	CopyImmediate16PlusXAddressToA 0200											; A = Table200[X]
-	CopyAToImmediate8PlusXAddress 0070
+	CopyAToImmediate8PlusXAddress 0070											; WordTable70[X] = A
 	CopyAToY																	; Y = A
-	CopyImmediate16PlusXAddressToA 0201
-	MultiplyAByY
-	CopyYToA
-	BranchToRelative8IfNotEqual 08B6
-	IncrementA
+	CopyImmediate16PlusXAddressToA 0201											; A = Table200[X] (high)
+	MultiplyAByY																; YA = A * Y
+	CopyYToA																	; A = Y
+	BranchToRelative8IfNotEqual 08B6											; If (A == 0)
+	IncrementA																		; A += 1
 
 08B6:
-	CopyAToImmediate8PlusXAddress 0071
-	JumpToRelative8 08BD
+	CopyAToImmediate8PlusXAddress 0071											; WordTable70[X] (high) = A
+	JumpToRelative8 08BD														; Skip
 
 08BA:
-	CallImmediate16 0CE5
+	CallImmediate16 0CE5														; 0CE5()
 
 08BD:
-	CallImmediate16 0B6A
+	CallImmediate16 0B6A														; 0B6A()
 
 08C0:
-	IncrementX
+	IncrementX																	; X += 2
 	IncrementX
 	ShiftImmediate8AddressLeft 0047												; Value47 *= 2
-	BranchToRelative8IfEqual 08C9
-	JumpToAbsolute16 084C
+	BranchToRelative8IfEqual 08C9												; If (Value47 != 0)
+	JumpToAbsolute16 084C															; Continue
 
 08C9:
 	CopyImmediate8AddressToA 0054												; A = Word54 (low)
-	BranchToRelative8IfEqual 08D8
-	CopyImmediate8AddressToYA 0056
-	AddImmediate8AddressToYA 0052
-	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 54, 08D8				; Word54 (low)
-	CopyImmediate8AddressToYA 0054												; Word54
-	CopyYAToImmediate8Address 0052
+	BranchToRelative8IfEqual 08D8												; If (A != 0)
+	CopyImmediate8AddressToYA 0056													; YA = Word56
+	AddImmediate8AddressToYA 0052													; YA += Word52
+	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 54, 08D8					; If (Word54 (low)-- == 0)
+	CopyImmediate8AddressToYA 0054														; YA = Word54
+	CopyYAToImmediate8Address 0052														; Word52 = YA
 
 08D8:
 	CopyImmediate8AddressToA 0068												; Word68
@@ -924,11 +1092,11 @@
 	CallImmediate16 0C2B														: UpdateRandom(X)
 
 090F:
-	IncrementX
+	IncrementX																	; X += 2
 	IncrementX
 	ShiftImmediate8AddressLeft 0047												; Value47 *= 2
-	BranchToRelative8IfNotEqual 0908
-	ReturnFromSubroutine
+	BranchToRelative8IfNotEqual 0908											; If (Value47 != 0) Continue;
+	ReturnFromSubroutine														; Return
 
 
 
@@ -937,22 +1105,22 @@
 
 
 
-
-
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; LookupTableBDA(A)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 0916:
-	ShiftALeft
+	ShiftALeft																	; A *= 2
+	CopyAToY																	; Y = A						(Y = C0+)
+	CopyImmediate16PlusYAddressToA 0B1B											; A = TableB1A[Y] (high)	(Table starts at 0BDA)
+	PushAToStack																; A -> Stack
+	CopyImmediate16PlusYAddressToA 0B1A											; A = TableB1A[Y]
+	PushAToStack																; A -> Stack
+	CopyYToA																	; A = Y
+	ShiftARight																	; A /= 2
 	CopyAToY																	; Y = A
-	CopyImmediate16PlusYAddressToA 0B1B
-	PushAToStack
-	CopyImmediate16PlusYAddressToA 0B1A
-	PushAToStack
-	CopyYToA
-	ShiftARight
-	CopyAToY																	; Y = A
-	CopyImmediate16PlusYAddressToA 0BB0
-	BranchToRelative8IfEqual 0930
+	CopyImmediate16PlusYAddressToA 0BB0											; A = TableBB0[Y]			(Table starts at 0C10)
+	BranchToRelative8IfEqual 0930												; If (A == 0) Skip;
 
 
 
@@ -990,14 +1158,26 @@
 	CopyAToY																	; Y = A
 	ReturnFromSubroutine
 
-0932:																			; SendEvent(A, X)
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; SendEvent(A, X)
+;	Sends the specified event to the specified channel.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+0932:
 	CopyAToImmediate16PlusXAddress 0211											; Table211[X] = A
 	CopyAToY																	; Y = A
-	BranchToRelative8IfNotNegative 093E											; If (A < 0)
-	SetCarryFlag
-	SubtractImmediate8PlusBorrowFromA 00CA										; A -= 202
-	ClearCarryFlag
-	AddImmediate8AddressPlusCarryToA 005F										; Value5E (high) += A
+	BranchToRelative8IfNotNegative 093E											; If (A & 0x80 == 0)
+	SetCarryFlag																	; A -= 0xCA
+	SubtractImmediate8PlusBorrowFromA 00CA											;
+	ClearCarryFlag																	; A += Value5E (high)
+	AddImmediate8AddressPlusCarryToA 005F											;
 
 093E:
 	CopyImmediate8ToY 0006														; Y = 6
@@ -1011,23 +1191,23 @@
 	BranchToRelative8IfNotEqual 098A											; If (A == 0)
 	PushXToStack																	; ChannelX2 -> Stack
 	CopyXToA																		; A = X
-	ExchangeANibbles																; AL <-> AH
+	ExchangeANibbles																; A <-> B
 	ShiftARight																		; A /= 2
 	OrAWithImmediate8 0004															; A |= 4
 	CopyAToX																		; X = A
 	CopyImmediate8ToY 0000															; Y = 0
 	CopyImmediate8PointerPlusYToA 0014												; A = ([Current Track Address 2] + Y)
 	BranchToRelative8IfNotNegative 096B												; If (A < 0)
-	AndAWithImmediate8 001F															; A &= 31
-	AndImmediate8AddressWithImmediate8 20, 48										; Audio Flags &= Echo Disable
-	TestAndSetBits 0048																; Audio Flags
-	OrImmediate8AddressWithImmediate8Address 49, 47									; Noise Enable, Value47
-	CopyYToA																		; A = 0
-	JumpToRelative8 0972
+	AndAWithImmediate8 001F																; A &= 31
+	AndImmediate8AddressWithImmediate8 20, 48											; Audio Flags &= Echo Disable
+	TestAndSetBits 0048																	; Audio Flags
+	OrImmediate8AddressWithImmediate8Address 49, 47										; Noise Enable, Value47
+	CopyYToA																			; A = 0
+	JumpToRelative8 0972															; Else
 
 096B:
-	CopyImmediate8AddressToA 0047													; Value47
-	TestAndClearBits 0049															; Noise Enable
+	CopyImmediate8AddressToA 0047														; Value47
+	TestAndClearBits 0049																; Noise Enable
 
 0970:																				; Do
 	CopyImmediate8PointerPlusYToA 0014													; A = ([Current Track Address 2] + Y)
@@ -1059,7 +1239,7 @@
 	ReturnFromSubroutine
 
 0AA9:																			; UpdateChannelPosition(X)
-	CopyImmediate16PlusXAddressToA 0240											; Channel Position Table[X] = Table240[X]
+	CopyImmediate16PlusXAddressToA 0240											; Channel Position Table[X] = WordTable240[X]
 	CopyAToImmediate8PlusXAddress 0030
 	CopyImmediate16PlusXAddressToA 0241
 	CopyAToImmediate8PlusXAddress 0031
@@ -1072,29 +1252,29 @@
 	CopyImmediate16AddressToA 00F3												; DSP Data
 	CompareAToImmediate8Address 004D											; Echo Delay
 	BranchToRelative8IfEqual 0B4D												; If (DSP Echo Delay != Echo Delay)
-	AndAWithImmediate8 000F
-	ExclusiveOrAWithImmediate8 00FF
-	BranchToRelative8IfImmediate8AddressBit7Clear 4C, 0B2C						; If (Counter < 0)
-	ClearCarryFlag
-	AddImmediate8AddressPlusCarryToA 004C										; A += Counter4C
+	AndAWithImmediate8 000F															; A &= 0x0F
+	ExclusiveOrAWithImmediate8 00FF													; A ^= 0xFF
+	BranchToRelative8IfImmediate8AddressBit7Clear 4C, 0B2C							; If ((Counter4C & 0x80) == 0)
+	ClearCarryFlag																		;
+	AddImmediate8AddressPlusCarryToA 004C												; A += Counter4C
 
 0B2C:
-	CopyAToImmediate8Address 004C												; Counter4C = A
-	CopyImmediate8ToY 0004														; Y = 4
+	CopyAToImmediate8Address 004C													; Counter4C = A
+	CopyImmediate8ToY 0004															; Y = 4
 
-0B30:																		; ClearDSPValues(Y)
-	CopyImmediate16PlusYAddressToA 0E9B											; DSP Address Table
-	CopyAToImmediate16Address 00F2												; DSP Address
+0B30:																			; ClearDSPValues(Y)
+	CopyImmediate16PlusYAddressToA 0E9B												; DSP Address Table
+	CopyAToImmediate16Address 00F2													; DSP Address
 	CopyImmediate8ToA 0000
-	CopyAToImmediate16Address 00F3												; DSP Data
+	CopyAToImmediate16Address 00F3													; DSP Data
 	DecrementYAndBranchToRelative8IfNotZero 0B30
-	CopyImmediate8AddressToA 0048												; Current DSP Flags
-	OrAWithImmediate8 0020														; A |= 0x20 (Disable Echo)
-	CopyImmediate8ToY 006C														; DSP Flags (Mute, Echo, Reset, Noise Freq)
-	CallImmediate16 060D														; SetDSPRegister(Y, A)
-	CopyImmediate8AddressToA 004D												; Echo Delay
-	CopyImmediate8ToY 007D														; DSP Echo Delay
-	CallImmediate16 060D														; SetDSPRegister(Y, A)
+	CopyImmediate8AddressToA 0048													; Current DSP Flags
+	OrAWithImmediate8 0020															; A |= 0x20 (Disable Echo)
+	CopyImmediate8ToY 006C															; DSP Flags (Mute, Echo, Reset, Noise Freq)
+	CallImmediate16 060D															; SetDSPRegister(Y, A)
+	CopyImmediate8AddressToA 004D													; Echo Delay
+	CopyImmediate8ToY 007D															; DSP Echo Delay
+	CallImmediate16 060D															; SetDSPRegister(Y, A)
 
 0B4D:																		; SetDSPEchoAddress(A)
 	ShiftALeft																	; A *= 8
@@ -1107,16 +1287,15 @@
 	JumpToAbsolute16 060D														; SetDSPRegister(Y, A)
 
 0B6A:
-	CopyImmediate8PlusXAddressToA 00A0											; A = TableA0[X]
+	CopyImmediate8PlusXAddressToA 00A0											; A = WordTableA0[X]
 	BranchToRelative8IfNotEqual 0BB2
 	CopyImmediate8PlusXPointerToA 0030											; A = [Channel Timer Table[X]]
 	CompareAToImmediate8 00F9
-	BranchToRelative8IfNotEqual 0BB2											; If(A == 0xF9)
+	BranchToRelative8IfNotEqual 0BB2											; If(A != 0xF9) Skip;
 	CopyImmediate8AddressToA 0047												; A = Value47
 	AndAWithImmediate8Address 001A												; A &= [Value1A]
 	BranchToRelative8IfEqual 0B85												; If (A != 0)
 	CopyImmediate8ToImmediate8Address 04, 10										; Random = 4
-	
 
 0B7D:																				; Do
 	CallImmediate16 092A																; SkipChannel(X)
@@ -1126,40 +1305,62 @@
 0B85:
 	CallImmediate16 092A														; SkipChannel(X, out Y)
 	CallImmediate16 0928														; ReadChannel(X, out A, out Y)
-	CopyAToImmediate8PlusXAddress 00A1											; TableA0
+	CopyAToImmediate8PlusXAddress 00A1											; WordTableA0[X] high = A
 	CallImmediate16 0928														; ReadChannel(X, out A, out Y)
-	CopyAToImmediate8PlusXAddress 00A0											; TableA0
+	CopyAToImmediate8PlusXAddress 00A0											; WordTableA0[X] = A
 	CallImmediate16 0928														; ReadChannel(X, out A, out Y)
 	ClearCarryFlag
-	AddImmediate8AddressPlusCarryToA 0050										; Value50
-	AddImmediate16PlusXAddressPlusCarryToA 02F0
+	AddImmediate8AddressPlusCarryToA 0050										; A += Value50
+	AddImmediate16PlusXAddressPlusCarryToA 02F0									; A += Table2F0[X] + C
 
 0B9B:
 	AndAWithImmediate8 007F														; A &= 0x7f
 	CopyAToImmediate16PlusXAddress 0380											; Table380[X] = A
 	SetCarryFlag
 	SubtractImmediate16PlusXAddressPlusBorrowFromA 0361							; A -= Table361[X]
-	CopyImmediate8PlusXAddressToY 00A0											; Y = TableA0[X]
+	CopyImmediate8PlusXAddressToY 00A0											; Y = WordTableA0[X]
 	PushYToStack																; X = Y
-	PullXFromStack
+	PullXFromStack																; Stack -> X
 	CallImmediate16 0BBE														; Randomize()
-	CopyAToImmediate16PlusXAddress 0370
-	CopyYToA
+	CopyAToImmediate16PlusXAddress 0370											; Table370[X] = A
+	CopyYToA																	; A = Y
 
 0BB2:
-	CopyAToImmediate16PlusXAddress 0371
+	CopyAToImmediate16PlusXAddress 0371											; Table370[X] (high) = A
 
-0BB3:																			; LoadWord10(X)
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; LoadWord10FromTable360(X)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+0BB3:
 	CopyImmediate16PlusXAddressToA 0361											; A = Table360[X] (High)
 	CopyAToImmediate8Address 0011												; Word10 (High) = A
 	CopyImmediate16PlusXAddressToA 0360											; A = Table360[X]
 	CopyAToImmediate8Address 0010												; Word10 = A
-	ReturnFromSubroutine
+	ReturnFromSubroutine														; Return
 
-0BBE:																		; Randomize()
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Randomize()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+0BBE:
 	ToggleCarryFlag
 	RollImmediate8AddressRight 0012												; Random
-	BranchToRelative8IfNotNegative 0BC6
+	BranchToRelative8IfNotNegative 0BC6											; 
 	ExclusiveOrAWithImmediate8 00FF
 	IncrementA
 
@@ -1172,28 +1373,114 @@
 	PullYFromStack
 	CopyImmediate8AddressToX 0044												; X = Value44
 
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; SetCurrentTrackAddress2(YA)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 0BD0:
 	BranchToRelative8IfImmediate8AddressBit7Clear 12, 0BD9						; If (Random < 0)
-	CopyYAToImmediate8Address 0014													; Current Track Address 2
-	CopyImmediate8AddressToYA 000E													; Value0E (16-bit)
-	SubtractImmediate8AddressFromYA 0014											; Current Track Address 2
+	CopyYAToImmediate8Address 0014													; Current Track Address 2 = YA
+	CopyImmediate8AddressToYA 000E													; YA = Word0E
+	SubtractImmediate8AddressFromYA 0014											; YA -= Current Track Address 2
 
 0BD9:
 	ReturnFromSubroutine
 
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; TableBDA
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+0BDA:
+	32
+	09
+
+	8b
+	09
+
+	99
+	09
+
+	b2
+	09
+
+	be
+	09
+
+	de
+	09
+
+	e8
+	09
+
+	fa
+	09
+
+
+
+
+
+
+
+0C10:
+	01
+	01
+	02
+	03
+	00
+	01
+	02
+	01
+	02
+	01
+	01
+	03
+	00
+	01
+	02
+	03
+	01
+	03
+	03
+	00
+	01
+	03
+	00
+	03
+	03
+	03
+	01
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 0C2B(X)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 0C2B:
-	CopyImmediate8PlusXAddressToA 0090
-	BranchToRelative8IfEqual 0C38
-	CopyImmediate8ToA 0000
-	CopyImmediate8ToY 0003
-	DecrementImmediate8PlusXAddress 0090
-	CallImmediate16 0CC1
+	CopyImmediate8PlusXAddressToA 0090											; A = WordTable90[X]
+	BranchToRelative8IfEqual 0C38												; If (A != 0)
+	CopyImmediate8ToA 0000															; A = 0
+	CopyImmediate8ToY 0003															; Y = 3
+	DecrementImmediate8PlusXAddress 0090											; WordTable90[X] -= 1
+	CallImmediate16 0CC1															; 0CC1()
 
 0C38:
 	CopyImmediate8PlusXAddressToY 00C1
 	BranchToRelative8IfEqual 0C5F
 	CopyImmediate16PlusXAddressToA 02E0
-	BranchToRelative8IfANotEqualToImmediate8PlusXAddress C0, 1B
+	BranchToRelative8IfANotEqualToImmediate8PlusXAddress C0, 1B					; TableC0
 	OrImmediate8AddressWithImmediate8Address 5E47
 	CopyImmediate16PlusXAddressToA 02D0
 	BranchToRelative8IfNotNegative 0C51
@@ -1246,36 +1533,47 @@
 	CopyImmediate8AddressToY 0010													; Word10 (Low)
 	MultiplyAByY																	; AY = A * Y
 	CopyYToA																		; Y = A;
-	CopyImmediate8AddressToY 0011													; Y =  Random (High)
+	CopyImmediate8AddressToY 0011													; Y = Word10 (High)
 	ClearCarryFlag
 	AddImmediate16PlusYAddressPlusCarryToA 0E67										; A += InputE67[Y]
-	CopyAToY																						; Y = A
+	CopyAToY																		; Y = A
 	CopyAToImmediate16PlusXAddress 0250												; Table250[X] = A
 	CopyImmediate16PlusXAddressToA 0321												; A = Table321[X]
 	MultiplyAByY																	; AY = A*Y
 	CopyImmediate16PlusXAddressToA 0351												; A = Table351[X]
 	ShiftALeft																		; A *= 2
 	BranchToRelative8IfImmediate8AddressBit0Clear 12, 0CA8							; If (Random <= 0)
-	ShiftALeft																		; A *= 2
+	ShiftALeft																			; A *= 2
 
 0CA8:
-	CopyYToA
-	BranchToRelative8IfNotCarry 0CAE
-	ExclusiveOrAWithImmediate8 00FF
-	IncrementA
+	CopyYToA																		; A = Y
+	BranchToRelative8IfNotCarry 0CAE												; If (A > 255)
+	ExclusiveOrAWithImmediate8 00FF														; A ^= 0xFF
+	IncrementA																			; A += 1
 
 0CAE:
-	CopyImmediate8AddressToY 0012													; Random
+	CopyImmediate8AddressToY 0012													; Y = Random
 	CallImmediate16 0605															; SetDSPRegisterIfPointerMask(Y, A)
 	CopyImmediate8ToY 0014															; Word10 = 0x1400 - Word10
-	CopyImmediate8ToA 0000															; 
+	CopyImmediate8ToA 0000															;
 	SubtractImmediate8AddressFromYA 0010											; 
 	CopyYAToImmediate8Address 0010													; 
 	IncrementImmediate8Address 0012													; Random += 1
-	BranchToRelative8IfImmediate8AddressBit1Clear 12, 0C85						; While ((Random & 2) = 0)
+	BranchToRelative8IfImmediate8AddressBit1Clear 12, 0C85						; While ((Random & 2) == 0)
 
 0CC0:
-	ReturnFromSubroutine
+	ReturnFromSubroutine														; Return
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 0CC1(YA, X)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 0CC1:
 	OrImmediate8AddressWithImmediate8Address 5E, 47								; Value5E |= Value47
@@ -1299,76 +1597,87 @@
 	IncrementY
 
 0CDE:
-	CopyImmediate8PointerPlusYToA 0014														; Current Track Address 2
+	CopyImmediate8PointerPlusYToA 0014											; Current Track Address 2
 
 0CE0:
-	AddImmediate8PointerPlusYPlusCarryToA 0016											; Current Track Address
-	CopyAToImmediate8PointerPlusY 0014														; Current Track Address 2
+	AddImmediate8PointerPlusYPlusCarryToA 0016									; Current Track Address
+	CopyAToImmediate8PointerPlusY 0014											; Current Track Address 2
 	ReturnFromSubroutine
 
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 0CE5(X)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 0CE5:
-	CopyImmediate8PlusXAddressToA 0071
-	BranchToRelative8IfEqual 0D4E
-	DecrementImmediate8PlusXAddress 0071
-	BranchToRelative8IfEqual 0CF2
-	CopyImmediate8ToA 0002
-	BranchToRelative8IfANotEqualToImmediate8PlusXAddress 70, 5C
+	CopyImmediate8PlusXAddressToA 0071											; A = WordTable70[X] (high)
+	BranchToRelative8IfEqual 0D4E												; If (A == 0) HandleC8()
+	DecrementImmediate8PlusXAddress 0071										; WordTable70[X] (high) -= 1
+	BranchToRelative8IfEqual 0CF2												; If (WordTable70[X] (high) != 0)
+	CopyImmediate8ToA 0002															; A = 2
+	BranchToRelative8IfANotEqualToImmediate8PlusXAddress 70, 0D4E						; If (A != WordTable70[X]) Skip;
 
 0CF2:
-	CopyImmediate8PlusXAddressToA 0080													; A = Table80[X]
-	CopyAToImmediate8Address 0017																; Current Track Address (high) = A
-	CopyImmediate8PlusXAddressToA 0030													; YA = Channel Position Table[X]
-	CopyImmediate8PlusXAddressToY 0031
-	CopyYAToImmediate8Address 0014															; Current Track Address 2 = YA
-	CopyImmediate8ToY 0000																			; Y = 0
-	CopyImmediate8PointerPlusYToA 0014														; A = [[Current Track Address 2] + Y]
-	BranchToRelative8IfEqual 0D20																	; If(A != 0)
-	BranchToRelative8IfNegative 0D0B																; If(A >= 0)
+	CopyImmediate8PlusXAddressToA 0080											; A = Table80[X]
+	CopyAToImmediate8Address 0017												; Current Track Address (high) = A
+	CopyImmediate8PlusXAddressToA 0030											; YA = Channel Position Table[X]
+	CopyImmediate8PlusXAddressToY 0031											;
+	CopyYAToImmediate8Address 0014												; Current Track Address 2 = YA
+	CopyImmediate8ToY 0000														; Y = 0
+	CopyImmediate8PointerPlusYToA 0014											; A = [[Current Track Address 2] + Y]
+	BranchToRelative8IfEqual 0D20												; If (A != 0)
+	BranchToRelative8IfNegative 0D0B												; If ((A & 0x80) != 0)
 
-0D04:																												; Do
-	IncrementY																									; Y += 1
-	BranchToRelative8IfNegative 0D47																; If(Y >= 0)
+0D04:																					; Do
+	IncrementY																				; Y += 1
+	BranchToRelative8IfNegative 0D47														; If ((Y & 0x80) != 0) Return NoteOff();
 	CopyImmediate8PointerPlusYToA 0014														; A = [[Current Track Address 2] + Y]
-	BranchToRelative8IfNotNegative 0D04														; While (A >= 0)
+	BranchToRelative8IfNotNegative 0D04													; While ((A & 0x80) == 0)
 
 0D0B:
-	CompareAToImmediate8 00C8
-	BranchToRelative8IfEqual 0D4E
-	CompareAToImmediate8 00EF
-	BranchToRelative8IfEqual 0D3C
-	CompareAToImmediate8 00E0																	; Start/Reset
-	BranchToRelative8IfNotCarry 0D47
-	PushYToStack
-	CopyAToY
-	PullAFromStack
-	AddImmediate16PlusYAddressPlusCarryToA 0B30
-	CopyAToY
-	JumpToRelative8 0CFE
+	CompareAToImmediate8 00C8														; If (A == 0xC8)
+	BranchToRelative8IfEqual 0D4E														; Return HandleC8()
+	CompareAToImmediate8 00EF														; If (A == 0xEF)
+	BranchToRelative8IfEqual 0D3C														; Return HandleEF()
+	CompareAToImmediate8 00E0														; If (A >= 0xE0) (Start/Reset)
+	BranchToRelative8IfNotCarry 0D47													; Return NoteOff()
+	PushYToStack																	; Y -> Stack
+	CopyAToY																		; Y = A
+	PullAFromStack																	; Stack -> A
+	AddImmediate16PlusYAddressPlusCarryToA 0B30										; A += TableB30[Y]
+	CopyAToY																		; Y = A
+	JumpToRelative8 0CFE															; Continue;
 
 0D20:
-	CopyImmediate8AddressToA 0017																; A = Current Track Address (high)
-	BranchToRelative8IfEqual 0D47																	; If (A != 0)
-	DecrementImmediate8Address 0017															; Current Track Address (high) -= 1
-	BranchToRelative8IfNotEqual 0D32																; If (Current Track Address (high) == 0)
-	CopyImmediate16PlusXAddressToA 0231														; YA = Table230[X]
-	PushAToStack
-	CopyImmediate16PlusXAddressToA 0230
-	PullYFromStack
-	JumpToRelative8 0CFA
+	CopyImmediate8AddressToA 0017												; A = Current Track Address (high)
+	BranchToRelative8IfEqual 0D47												; If (A != 0)
+	DecrementImmediate8Address 0017													; Current Track Address (high) -= 1
+	BranchToRelative8IfNotEqual 0D32												; If (Current Track Address (high) == 0)
+	CopyImmediate16PlusXAddressToA 0231													; YA = WordTable230[X]
+	PushAToStack																		;
+	CopyImmediate16PlusXAddressToA 0230													;
+	PullYFromStack																		;
+	JumpToRelative8 0CFA																; Continue
 
 0D32:
-	CopyImmediate16PlusXAddressToA 0241														; YA = Table240[X]
-	PushAToStack
-	CopyImmediate16PlusXAddressToA 0240
-	PullYFromStack
-	JumpToRelative8 0CFA
+	CopyImmediate16PlusXAddressToA 0241												; YA = WordTable240[X]
+	PushAToStack																	;
+	CopyImmediate16PlusXAddressToA 0240												;
+	PullYFromStack																	;
+	JumpToRelative8 0CFA															; Continue
 
 0D3C:
 	IncrementY
-	CopyImmediate8PointerPlusYToA 0014															; Current Track Address 2
+	CopyImmediate8PointerPlusYToA 0014												; Current Track Address 2
 	PushAToStack
 	IncrementY
-	CopyImmediate8PointerPlusYToA 0014															; Current Track Address 2
+	CopyImmediate8PointerPlusYToA 0014												; Current Track Address 2
 	CopyAToY
 	PullAFromStack
 	JumpToRelative8 0CFA
@@ -1380,98 +1689,123 @@
 
 0D4E:
 	ClearImmediate8AddressBit7 0013												; Flags13 &= 0x7f
-	CopyImmediate8PlusXAddressToA 00A0											; TableA0
-	BranchToRelative8IfEqual 0D6D
-	CopyImmediate8PlusXAddressToA 00A1
-	BranchToRelative8IfEqual 0D5C
-	DecrementImmediate8PlusXAddress 00A1
-	JumpToRelative8 0D6D
+	CopyImmediate8PlusXAddressToA 00A0											; A = WordTableA0[X]
+	BranchToRelative8IfEqual 0D6D												; If (A != 0)
+	CopyImmediate8PlusXAddressToA 00A1												; A = WordTableA0[X] (high)
+	BranchToRelative8IfEqual 0D5C													; If (A != 0)
+	DecrementImmediate8PlusXAddress 00A1												; WordTableA0[X] (high) -= 1
+	JumpToRelative8 0D6D																;
 
-0D5C:
-	CopyImmediate8AddressToA 001A																; A = Value1A
-	AndAWithImmediate8Address 0047																; A &= Value47
-	BranchToRelative8IfNotEqual 0D6D
-	SetImmediate8AddressBit7 0013																	; Flags13 |= 0x80
-	CopyImmediate8ToA 0060
-	CopyImmediate8ToY 0003
-	DecrementImmediate8PlusXAddress 00A0													; TableA0[X] -= 1
-	CallImmediate16 0CC4																				; HandleEvent2(YA, X)
+0D5C:																				; Else
+	CopyImmediate8AddressToA 001A														; A = Value1A
+	AndAWithImmediate8Address 0047														; A &= Value47
+	BranchToRelative8IfNotEqual 0D6D													; If (A == 0)
+	SetImmediate8AddressBit7 0013															; Flags13 |= 0x80
+	CopyImmediate8ToA 0060																	; YA = 0x0360
+	CopyImmediate8ToY 0003																	;
+	DecrementImmediate8PlusXAddress 00A0													; WordTableA0[X] -= 1
+	CallImmediate16 0CC4																	; HandleEvent2(YA, X)
 
 0D6D:
-	CallImmediate16 0BB3																				; LoadWord10(X)
-	CopyImmediate8PlusXAddressToA 00B1														; A = TableB1[X]
-	BranchToRelative8IfEqual 0DC0																	; If (A != 0)
-	CopyImmediate16PlusXAddressToA 02B0														; A = Table2B0[X]
-	BranchToRelative8IfANotEqualToImmediate8PlusXAddress B0, 44
-	CopyImmediate16PlusXAddressToA 0100
-	CompareAToImmediate16PlusXAddress 02B1
-	BranchToRelative8IfNotEqual 0D87
-	CopyImmediate16PlusXAddressToA 02C1
-	JumpToRelative8 0D94
+	CallImmediate16 0BB3														; LoadWord10FromTable360(X)
+	CopyImmediate8PlusXAddressToA 00B1											; A = TableB1[X]
+	BranchToRelative8IfEqual 0DC0												; If (A == 0) Skip;
+	CopyImmediate16PlusXAddressToA 02B0											; A = Table2B0[X]
+	BranchToRelative8IfANotEqualToImmediate8PlusXAddress B0, 0DBE				; If (A != TableB0[X]) Return IncrementB0AndReturn();
+	CopyImmediate16PlusXAddressToA 0100											; A = Table100[X]
+	CompareAToImmediate16PlusXAddress 02B1										; If(A == Table2B1[X])
+	BranchToRelative8IfNotEqual 0D87												;
+	CopyImmediate16PlusXAddressToA 02C1												; A = Table2C1[X]
+	JumpToRelative8 0D94															;
 
-0D87:
-	SetPageFlag
-	IncrementImmediate8PlusXAddress 0000
-	ClearPageFlag
-	CopyAToY
-	BranchToRelative8IfEqual 0D90
-	CopyImmediate8PlusXAddressToA 00B1
+0D87:																			; Else
+	SetPageFlag																		;
+	IncrementImmediate8PlusXAddress 0000											; Table100[X] += 1
+	ClearPageFlag																	;
+	CopyAToY																		; A = A
+	BranchToRelative8IfEqual 0D90													; If (Table100[X] != 0)
+	CopyImmediate8PlusXAddressToA 00B1													; A = TableB1[X]
 
 0D90:
-	ClearCarryFlag
+	ClearCarryFlag																	; A += Table2C0[X]
 	AddImmediate16PlusXAddressPlusCarryToA 02C0
 
 0D94:
-	CopyAToImmediate8PlusXAddress 00B1
-	CopyImmediate16PlusXAddressToA 02A0
-	ClearCarryFlag
-	AddImmediate16PlusXAddressPlusCarryToA 02A1
-	CopyAToImmediate16PlusXAddress 02A0
+	CopyAToImmediate8PlusXAddress 00B1											; TableB1[X] = A
+	CopyImmediate16PlusXAddressToA 02A0											; A = Table2A0[X]
+	ClearCarryFlag																;
+	AddImmediate16PlusXAddressPlusCarryToA 02A1									; A += Table2A0[X] (high)
+	CopyAToImmediate16PlusXAddress 02A0											; Table2A0[X] = A
 
 0DA0:
-	CopyAToImmediate8Address 0012														; Random
-	ShiftALeft
-	ShiftALeft
-	BranchToRelative8IfNotCarry 0DA8
-	ExclusiveOrAWithImmediate8 00FF
+	CopyAToImmediate8Address 0012												; Random
+	ShiftALeft																	; A *= 4
+	ShiftALeft																	;
+	BranchToRelative8IfNotCarry 0DA8											; If (A > 255)
+	ExclusiveOrAWithImmediate8 00FF													; A ^= 0xFF
 
 0DA8:
-	CopyAToY
-	CopyImmediate8PlusXAddressToA 00B1
-	CompareAToImmediate8 00F1															; Control Register
-	BranchToRelative8IfNotCarry 0DB4
-	AndAWithImmediate8 000F
-	MultiplyAByY
-	JumpToRelative8 0DB8
+	CopyAToY																	; Y = A
+	CopyImmediate8PlusXAddressToA 00B1											; A = TableB1[X]
+	CompareAToImmediate8 00F1													; If (A < 0xF1)
+	BranchToRelative8IfNotCarry 0DB4												;
+	AndAWithImmediate8 000F															; A &= 0x0F
+	MultiplyAByY																	; YA = A * Y
+	JumpToRelative8 0DB8															;
 
-0DB4:
-	MultiplyAByY
-	CopyYToA
-	CopyImmediate8ToY 0000
+0DB4:																			; Else (A >= F1)
+	MultiplyAByY																	; YA = A * Y
+	CopyYToA																		; A = Y
+	CopyImmediate8ToY 0000															; Y = 0
 
 0DB8:
-	CallImmediate16 0E35
+	CallImmediate16 0E35														; 0E35()
 
 0DBB:
-	JumpToAbsolute16 0582
+	JumpToAbsolute16 0582														; Return 0582()
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; IncrementB0AndReturn()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+0DBE:
+	IncrementImmediate8PlusXAddress 00B0
 
 0DC0:
-	BranchToRelative8IfImmediate8AddressBit7Set 13, F8
+	BranchToRelative8IfImmediate8AddressBit7Set 13, 0DBB
 	ReturnFromSubroutine
 
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; IncrementB0AndReturn()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 0DC4:
-	ClearImmediate8AddressBit7 0013															; Flags13 &= 0x7f
+	ClearImmediate8AddressBit7 0013												; Flags13 &= 0x7f
 	CopyImmediate8PlusXAddressToA 00C1
 	BranchToRelative8IfEqual 0DD3
 	CopyImmediate16PlusXAddressToA 02E0
-	BranchToRelative8IfANotEqualToImmediate8PlusXAddress C0, 03
+	BranchToRelative8IfANotEqualToImmediate8PlusXAddress C0, 0DD3				; TableC0
 	CallImmediate16 0E3D
 
 0DD3:
 	CopyImmediate16PlusXAddressToA 0331											; YA = Table330[X]
 	CopyAToY
 	CopyImmediate16PlusXAddressToA 0330
-	CopyYAToImmediate8Address 0010													; Word10 = YA
+	CopyYAToImmediate8Address 0010												; Word10 = YA
 	CopyImmediate8PlusXAddressToA 0091
 	BranchToRelative8IfEqual 0DEA
 	CopyImmediate16PlusXAddressToA 0341
@@ -1481,12 +1815,12 @@
 
 0DEA:
 	BranchToRelative8IfImmediate8AddressBit7Clear 13, 03
-	CallImmediate16 0C80																		; UpdateRandom(X)
+	CallImmediate16 0C80														; UpdateRandom(X)
 
 0DF0:
-	ClearImmediate8AddressBit7 0013															; Flags13 &= 0x7f
-	CallImmediate16 0BB3																		; LoadWord10(X)
-	CopyImmediate8PlusXAddressToA 00A0											; TableA0
+	ClearImmediate8AddressBit7 0013												; Flags13 &= 0x7f
+	CallImmediate16 0BB3														; LoadWord10FromTable360(X)
+	CopyImmediate8PlusXAddressToA 00A0											; WordTableA0
 	BranchToRelative8IfEqual 0E07
 	CopyImmediate8PlusXAddressToA 00A1
 	BranchToRelative8IfNotEqual 0E07
@@ -1499,7 +1833,7 @@
 	CopyImmediate8PlusXAddressToA 00B1
 	BranchToRelative8IfEqual 0DC0
 	CopyImmediate16PlusXAddressToA 02B0
-	BranchToRelative8IfANotEqualToImmediate8PlusXAddress B0, AF
+	BranchToRelative8IfANotEqualToImmediate8PlusXAddress B0, AF					; TableB0
 	CopyImmediate8AddressToY 0051
 	CopyImmediate16PlusXAddressToA 02A1
 	MultiplyAByY
@@ -1509,24 +1843,24 @@
 	JumpToAbsolute16 0DA0
 
 0E1F:
-	SetImmediate8AddressBit7 0013														; Flags13 |= 0x80
-	CopyYToImmediate8Address 0012														; Random
-	CallImmediate16 0BD0
+	SetImmediate8AddressBit7 0013												; Flags13 |= 0x80
+	CopyYToImmediate8Address 0012												; Random
+	CallImmediate16 0BD0														; SetCurrentTrackAddress2(YA)
 	PushYToStack
-	CopyImmediate8AddressToY 0051														; Current Time
+	CopyImmediate8AddressToY 0051												; Current Time
 	MultiplyAByY
-	CopyYToImmediate8Address 0014														; Current Track Address 2
+	CopyYToImmediate8Address 0014												; Current Track Address 2
 	CopyImmediate8ToImmediate8Address 00, 15
-	CopyImmediate8AddressToY 0051														; Current Time
+	CopyImmediate8AddressToY 0051												; Current Time
 	PullAFromStack
 	MultiplyAByY
-	AddImmediate8AddressToYA 0014														; Current Track Address 2
+	AddImmediate8AddressToYA 0014												; Current Track Address 2
 
 0E35:
-	CallImmediate16 0BD0
-	AddImmediate8AddressToYA 0010														; Word10 += YA
-	CopyYAToImmediate8Address 0010
-	ReturnFromSubroutine
+	CallImmediate16 0BD0														; SetCurrentTrackAddress2(YA)
+	AddImmediate8AddressToYA 0010												; Word10 += YA
+	CopyYAToImmediate8Address 0010												;
+	ReturnFromSubroutine														; Return
 
 0E4A:
 	ShiftALeft
@@ -1552,7 +1886,7 @@
 	CopyAToImmediate16PlusXAddress 0321
 	ReturnFromSubroutine
 
-0E9B:																										; DSP Address Table (10 bytes)
+0E9B:																			; DSP Address Table (10 bytes)
 	0xeb		; Unused
 
 	0x2c		; DSP Echo Volume Left
@@ -1567,7 +1901,7 @@
 	0x3d		; DSP Noise Enable
 	0x2d		; DSP Pitch Modulation
 
-0EA5:																										; DSP Value Pointer Table (48 bytes)
+0EA5:																			; DSP Value Pointer Table (48 bytes)
 	0x5c		; Unused
 
 	0x61		; Echo Volume Left
@@ -1696,6 +2030,29 @@
 
 
 
+0FDF:
+	00
+	3f
+	3f
+	5d
+	5c
+	5c
+	5a
+	5a
+	5a
+	5a
+	2d
+	2d
+	25
+	3e
+	3e
+
+
+
+
+
+
+
 109D:
 	2e
 	2f
@@ -1708,7 +2065,11 @@
 	f9
 	21
 	de
-
+	21
+	d7
+	21
+	f2
+	21
 
 
 
@@ -1716,7 +2077,22 @@
 
 
 119D:
-
+	17
+	18
+	2e
+	18
+	df
+	17
+	15
+	17
+	d9
+	16
+	c3
+	16
+	a2
+	15
+	94
+	15
 
 
 
@@ -1800,12 +2176,12 @@
 	CopyAToImmediate8Address 0009													; LastInput1 = A
 	BranchToRelative8IfEqual 2537													; If (A == 0) 2537()
 	CopyYToA																		; A = Y
-	BranchToRelative8IfEqual 25B5													; If (A != 0) 25B5()
+	BranchToRelative8IfEqual 25B5													; If (A != 0) TurnOffChannel8()
 	ExclusiveOrAWithImmediate8Address 0001											; A ^= Input[1]
 	AndAWithImmediate8 00C0															; A &= 0xC0
-	BranchToRelative8IfNotEqual 25B5												; If (A != 0) 25B5()
+	BranchToRelative8IfNotEqual 25B5												; If (A != 0) TurnOffChannel8()
 	CopyImmediate8AddressToA 00D1													; A = ValueD1
-	BranchToRelative8IfNotEqual 25CC												; If (A != 0) 25CC()
+	BranchToRelative8IfNotEqual 25CC												; If (A != 0) PlaySoundEffect()
 	JumpToRelative8 2618															; 2618()
 
 25A1:
@@ -1813,11 +2189,11 @@
 	BranchToRelative8IfNotEqual 25AC											; If (A == 0)
 	CopyImmediate16AddressToX 03C9													; X = Value3C9
 	BranchToRelative8IfEqual 25B4													; If (X == 0) 25B4()
-	JumpToRelative8 2553															2553()
+	JumpToRelative8 2553															; Else 2553()
 
 25AC:
 	CopyImmediate8AddressToA 00D1												; A = ValueD1
-	BranchToRelative8IfNotEqual 25CC											; If (A != 0) 25CC()
+	BranchToRelative8IfNotEqual 25CC											; If (A != 0) PlaySoundEffect()
 	CopyImmediate8AddressToA 0005												; A = Output[1]
 	BranchToRelative8IfNotEqual 262F											; If (A != 0) 262F()
 
@@ -1827,169 +2203,237 @@
 
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; TurnOffChannel8()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 25B5:
-	CopyImmediate8ToImmediate8Address 02, D1
-	CopyImmediate8ToA 0080
+	CopyImmediate8ToImmediate8Address 02, D1									; ValueD1 = 2
+	CopyImmediate8ToA 0080														; A = 0x80 (Channel 8)
 	CopyImmediate8ToY 005C														; Key Off
 	CallImmediate16 060D														; SetDSPRegister(Y, A)
-	SetImmediate8AddressBit7 001A												; Value1A
-	CopyImmediate8ToA 0000
-	CopyAToImmediate16Address 028E
-	CopyAToImmediate8Address 00AE												; ValueAE
-	CopyAToImmediate16Address 038F
+	SetImmediate8AddressBit7 001A												; Value1A |= 0x80
+	CopyImmediate8ToA 0000														; A = 0
+	CopyAToImmediate16Address 028E												; Value28E = A
+	CopyAToImmediate8Address 00AE												; ValueAE = A
+	CopyAToImmediate16Address 038F												; Value38F = A
+
+25CB:
 	ReturnFromSubroutine
 
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; PlaySoundEffect()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 25CC:
-	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero D1, FC				; ValueD1
-	CallImmediate16 2671														; LoadChannel8Samples()
-	CopyImmediate8ToA 0080
-	CallImmediate16 3E79
-	CopyImmediate8AddressToA 0005
-	BranchToRelative8IfNegative 25EE
-	BranchToRelative8IfImmediate8AddressBit6Set 05, 08
-	CopyImmediate8ToY 0070
-	CopyImmediate8ToX 0096
-	CopyImmediate8ToA 00A0
-	JumpToRelative8 25FF
+	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero D1, 25CB				; If (ValueD1-- != 0) Return;
+	CallImmediate16 2671														; LoadChannel8Sample()
+	CopyImmediate8ToA 0080														; A = 0x80 (Channel 8)
+	CallImmediate16 3E79														; PlayNotes(A)
+	CopyImmediate8AddressToA 0005												; A = Output[1]
+	BranchToRelative8IfNegative 25EE											; If (Output[1] & 0x80 != 0)
+	BranchToRelative8IfImmediate8AddressBit6Set 05, 25E6							; If (Output[1] & 0x40 == 0)
+	CopyImmediate8ToY 0070																; Y = 0x70
+	CopyImmediate8ToX 0096																; X = 0x96
+	CopyImmediate8ToA 00A0																; A = 0xA0
+	JumpToRelative8 25FF																; SetDSPMaskValues(A, X, Y)
 
-25E6:
-	CopyImmediate8ToY 00F7
-	CopyImmediate8ToX 00B2
-	CopyImmediate8ToA 00FF
-	JumpToRelative8 25FF
+25E6:																				; Else
+	CopyImmediate8ToY 00F7																; Y = 0xF7
+	CopyImmediate8ToX 00B2																; X = 0xB2
+	CopyImmediate8ToA 00FF																; A = 0xFF
+	JumpToRelative8 25FF																; SetDSPMaskValues(A, X, Y)
 
-25EE:
-	BranchToRelative8IfImmediate8AddressBit6Set 05, 08
-	CopyImmediate8ToY 00FF
-	CopyImmediate8ToX 00B2
-	CopyImmediate8ToA 00FF
-	JumpToRelative8 25FF
+25EE:																			; Else (Output[1] & 0x80 == 0)
+	BranchToRelative8IfImmediate8AddressBit6Set 05, 25F9							; If (Output[1] & 0x40 == 0)
+	CopyImmediate8ToY 00FF																; Y = 0xFF
+	CopyImmediate8ToX 00B2																; X = 0xB2
+	CopyImmediate8ToA 00FF																; A = 0xFF
+	JumpToRelative8 25FF																; SetDSPMaskValues(A, X, Y)
 
-25F9:
-	CopyImmediate8ToY 00BB
-	CopyImmediate8ToX 0096
-	CopyImmediate8ToA 00E0														; Start/Reset
+25F9:																				; Else
+	CopyImmediate8ToY 00BB																; Y = 0xBB
+	CopyImmediate8ToX 0096																; X = 0x96
+	CopyImmediate8ToA 00E0																; A = 0xE0
+																						; SetDSPMaskValues(A, X, Y)
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; SetDSPMaskValues(A, X, Y)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 25FF:
-	CopyYToImmediate16Address 03CB
-	CopyXToImmediate16Address 03C6
-	CopyAToImmediate16Address 03FC
-	CallImmediate16 0648
-	ClearImmediate8AddressBit7 004A												; Echo Enable
-	CopyImmediate8AddressToA 004A												; Echo Enable
-	CopyImmediate8ToY 004D														; DSP Echo Enable
+	CopyYToImmediate16Address 03CB												; Value3CB = Y
+	CopyXToImmediate16Address 03C6												; Value3C6 = X
+	CopyAToImmediate16Address 03FC												; Value3FC = A
+	CallImmediate16 0648														; LoadDSPMaskTable()
+	ClearImmediate8AddressBit7 004A												; Echo Enable &= ~0x80 (Channel8 Echo Off)
+	CopyImmediate8AddressToA 004A												; A = Echo Enable
+	CopyImmediate8ToY 004D														; Y = DSP Echo Enable
 	CallImmediate16 060D														; SetDSPRegister(Y, A)
-	CopyImmediate8ToA 0001
-	BranchToRelative8IfNotEqual 261A
+	CopyImmediate8ToA 0001														; A = 1
+	BranchToRelative8IfNotEqual 261A											; If (Echo Enable != 0) Skip
 
 2618:
-	CopyImmediate8ToA 0030
+	CopyImmediate8ToA 0030														; A = 0x30
 
 261A:
 	CopyAToImmediate8Address 00AE												; ValueAE = A
 	CopyImmediate8ToImmediate8Address 00, AF									; ValueAF = 0
-	CopyImmediate8AddressToA 0005												; A = Value5
+	CopyImmediate8AddressToA 0005												; A = Output[1]
 	AndAWithImmediate8 003F														; A &= 0x3F
-	CopyAToX																							; X = A
-	CopyImmediate16PlusXAddressToA 26B4												; A = Table26B4[X]
-	CopyImmediate8ToX 000E																	; X = 14
-	CopyXToImmediate8Address 0044														; Value44 = X
+	CopyAToX																	; X = A
+	CopyImmediate16PlusXAddressToA 26B4											; A = Table26B4[X]
+	CopyImmediate8ToX 000E														; X = 14
+	CopyXToImmediate8Address 0044												; Value44 = X
 	CallImmediate16 0B9B
 	ReturnFromSubroutine
 
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 262F()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 262F:
-	ClearImmediate8AddressBit7 0013														; Flags13 &= 0x7f
-	CopyImmediate8AddressToA 00AE														; ValueAE
+	ClearImmediate8AddressBit7 0013												; Flags13 &= 0x7f
+	CopyImmediate8AddressToA 00AE												; ValueAE
 	BranchToRelative8IfEqual 265C
 	CopyImmediate8ToX 000E
-	CallImmediate16 3E5F																			; HandleEvent360()
+	CallImmediate16 3E5F														; HandleEvent360()
 	CopyImmediate16AddressToA 03FC
 	CopyAToImmediate16Address 032F
 	CopyAToImmediate16Address 030F
 	CopyImmediate8ToA 000A
 	CopyAToImmediate16Address 035F
 	CopyAToImmediate16Address 033F
-	CopyImmediate8ToX 000E																	; X = 14
-	CopyImmediate16PlusXAddressToA 0331												; YA = Table330[X]
+	CopyImmediate8ToX 000E														; X = 14
+	CopyImmediate16PlusXAddressToA 0331											; YA = Table330[X]
 	CopyAToY
 	CopyImmediate16PlusXAddressToA 0330
-	CopyYAToImmediate8Address 0010														; Word10 = YA
-	CopyImmediate8ToA 000E																	; A = 14
-	CallImmediate16 0C80																		; UpdateRandom(X)
+	CopyYAToImmediate8Address 0010												; Word10 = YA
+	CopyImmediate8ToA 000E														; A = 14
+	CallImmediate16 0C80														; UpdateRandom(X)
 	ReturnFromSubroutine
 
 265C:
 	CopyImmediate8ToA 0070
-	CopyAToImmediate8Address 00AE														; ValueAE
+	CopyAToImmediate8Address 00AE												; ValueAE
 	CopyImmediate8ToImmediate8Address 00, AF
 	CopyImmediate8AddressToA 0018
 	AndAWithImmediate8 0003
 	OrAWithImmediate8 00A4
 	CopyImmediate8ToX 000E
-	CopyXToImmediate8Address 0044														; Value44 = X
+	CopyXToImmediate8Address 0044												; Value44 = X
 	CallImmediate16 0B9B
-
-2670:
 	ReturnFromSubroutine
 
-2671:																									; LoadChannel8Samples()
-	CopyImmediate8AddressToA 0005														A = Value5			
-	AndAWithImmediate8 00C0																	A &= 0xC0
-	ClearCarryFlag																					A >>= 6				(0-3)
-	RollALeft
-	RollALeft
-	RollALeft
-	CopyAToX																							X = A
-	CopyImmediate8ToY 0006																	Y = 6
-	MultiplyAByY																						YA = A * Y
-	CopyAToX																							X = A
-	CopyImmediate8ToY 0074																	; Channel 8 Sample Number
-	CopyImmediate8ToImmediate8Address 04, 12										; Random = 4
 
-2683:																										; Do
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; LoadChannel8Sample()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+2671:
+	CopyImmediate8AddressToA 0005												; A = Output[1]			
+	AndAWithImmediate8 00C0														; A &= 0xC0
+	ClearCarryFlag																; A >>= 6				(0-3)
+	RollALeft																	; 
+	RollALeft																	; 
+	RollALeft																	; 
+	CopyAToX																	; X = A					(Why??)
+	CopyImmediate8ToY 0006														; X = A * 6
+	MultiplyAByY																;
+	CopyAToX																	;
+	CopyImmediate8ToY 0074														; Channel 8 Sample Number
+	CopyImmediate8ToImmediate8Address 04, 12									; Random = 4
+
+2683:																			; Do
 	CopyImmediate16PlusXAddressToA 269C												; A = Sample Table[X]
-	CallImmediate16 060D																		; SetDSPRegister(Y, A)
-	IncrementX
-	IncrementY
-	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 12, 2683	; While(Random-- != 0)
+	CallImmediate16 060D															; SetDSPRegister(Y, A)
+	IncrementX																		; X += 1
+	IncrementY																		; Y += 1
+	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 12, 2683				; While(Random-- != 0)
 
-	CopyImmediate16PlusXAddressToA 269C
-	CopyAToImmediate16Address 022F														; Current Sample
-	IncrementX
-	CopyImmediate16PlusXAddressToA 269C
-	CopyAToImmediate16Address 022E														; Current Sample
-	ReturnFromSubroutine
+	CopyImmediate16PlusXAddressToA 269C											; Current Sample = Sample Table[X]
+	CopyAToImmediate16Address 022F												;
+	IncrementX																	;
+	CopyImmediate16PlusXAddressToA 269C											;
+	CopyAToImmediate16Address 022E												;
+	ReturnFromSubroutine														; Return
 
-269C:																									; Sample Table
-	20
-	00
-	00
-	e8
-	04
-	00
 
-	20
-	00
-	00
-	ef
-	00
-	60
 
-	20
-	00
-	00
-	e5
-	00
-	80
 
-	20
-	00
-	00
-	e8
-	01
-	c0
 
-26B4:																										; Table26B4
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Channel 8 Sample Table
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+269C:
+	20																				; Sample Number
+	00																				; Envelope
+	00																				; Envelope2
+	e8																				; Gain
+	04																				; Current Sample
+	00																				; Current Sample (High)
+
+	20																				; Sample Number
+	00																				; Envelope
+	00																				; Envelope2
+	ef																				; Gain
+	00																				; Current Sample
+	60																				; Current Sample (High)
+
+	20																				; Sample Number
+	00																				; Envelope
+	00																				; Envelope2
+	e5																				; Gain
+	00																				; Current Sample
+	80																				; Current Sample (High)
+
+	20																				; Sample Number
+	00																				; Envelope
+	00																				; Envelope2
+	e8																				; Gain
+	01																				; Current Sample
+	c0																				; Current Sample (High)
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Table26B4
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+26B4:
 	a4
 	a6
 	a7
@@ -2006,6 +2450,17 @@
 	98
 	98
 	98
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 26C4()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 26C4:
 	CopyImmediate8ToA 0000
@@ -2061,8 +2516,8 @@
 	CopyImmediate8ToA 0000
 	CopyImmediate8ToY 0003
 	CopyImmediate8ToX 000C
-	DecrementImmediate8Address 009C														; Value9C -= 1
-	CallImmediate16 0CC4																			; HandleEvent(YA, X)
+	DecrementImmediate8Address 009C													; Value9C -= 1
+	CallImmediate16 0CC4															; HandleEvent(YA, X)
 	CopyImmediate16AddressToA 030D
 	CopyAToImmediate16Address 032D
 	CopyImmediate16AddressToA 03FB
@@ -2070,13 +2525,13 @@
 	CopyAToImmediate8Address 0011
 	CopyImmediate8ToImmediate8Address 00, 10
 	CopyImmediate8ToX 000C
-	CallImmediate16 0C80																			; UpdateRandom(X)
+	CallImmediate16 0C80															; UpdateRandom(X)
 	ReturnFromSubroutine
 
 2749:
-	CopyImmediate16AddressToA 03F8
-	BranchToRelative8IfEqual 2751
-	CopyImmediate8ToImmediate8Address 00, 02
+	CopyImmediate16AddressToA 03F8													; A = Value3F8
+	BranchToRelative8IfEqual 2751													; If (A != 0)
+	CopyImmediate8ToImmediate8Address 00, 02										; Input[2] = 0
 
 2751:
 	CopyImmediate8AddressToY 000A
@@ -2122,61 +2577,61 @@
 	CopyImmediate8ToImmediate8Address 02, 0D
 	CopyImmediate8ToA 0040
 	CopyImmediate8ToY 005C
-	CallImmediate16 060D																		; SetDSPRegister(Y, A)
-	SetImmediate8AddressBit6 001A															; Value1A
+	CallImmediate16 060D														; SetDSPRegister(Y, A)
+	SetImmediate8AddressBit6 001A												; Value1A
 	CopyImmediate8ToA 0000
 	CopyAToImmediate16Address 028C
-	CopyAToImmediate8Address 00AC														; ValueAC
+	CopyAToImmediate8Address 00AC												; ValueAC
 	CopyAToImmediate16Address 038D
 	ReturnFromSubroutine
 
 27A4:
-	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 0D, 278C	; If (Value0D-- != 0) Return
-	CopyImmediate8AddressToA 0006														; A = Value6
-	AndAWithImmediate8 000F																	; A &= 0x0f
-	SetCarryFlag
-	SubtractImmediate8PlusBorrowFromA 0001											; A -= 1
-	CopyAToX																							; X = A
-	CopyImmediate16PlusXAddressToA 2921												; A = Table2921[X]
-	CopyAToImmediate16Address 03F6														; Value3F6 = A
-	CopyImmediate16PlusXAddressToA 2930												; A = Table2930[X]
-	CopyAToImmediate16Address 03F9														; Value3F9 = A
-	CopyXToA																							; A = X
-	CallImmediate16 289D																		; LoadChannel7Samples()
-	CopyImmediate8AddressToA 0006														; A = Value6
-	AndAWithImmediate8 0030																	; A &= 0x30
-	BranchToRelative8IfNotEqual 27CA														; If (A == 0)
-	CopyImmediate16AddressToY 03F9														; Y = Value3F9
-	BranchToRelative8IfNotEqual 27CC														; If (Y == 0)
+	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 0D, 278C				; If (Value0D-- != 0) Return
+	CopyImmediate8AddressToA 0006												; A = Output[2]
+	AndAWithImmediate8 000F														; A &= 0x0f
+	SetCarryFlag																; A -= 1
+	SubtractImmediate8PlusBorrowFromA 0001										;
+	CopyAToX																	; X = A
+	CopyImmediate16PlusXAddressToA 2921											; A = Table2921[X]
+	CopyAToImmediate16Address 03F6												; Value3F6 = A
+	CopyImmediate16PlusXAddressToA 2930											; A = Table2930[X]
+	CopyAToImmediate16Address 03F9												; Value3F9 = A
+	CopyXToA																	; A = X
+	CallImmediate16 289D														; LoadChannel7Sample()
+	CopyImmediate8AddressToA 0006												; A = Output[2]
+	AndAWithImmediate8 0030														; A &= 0x30
+	BranchToRelative8IfNotEqual 27CA											; If (A == 0)
+	CopyImmediate16AddressToY 03F9													; Y = Value3F9
+	BranchToRelative8IfNotEqual 27CC												; If (Y == 0)
 
 27CA:
-	CopyImmediate8ToY 00AD																	; Y = 173
+	CopyImmediate8ToY 00AD																; Y = 0xAD
 
 27CC:
-	CopyImmediate8ToImmediate8Address 0C, 44										; Value44 = 12
-	CopyImmediate8ToX 000C																	; X = 12
-	CallImmediate16 0518																		; 
-	CopyImmediate8ToA 0040
-	CallImmediate16 3E79
-	ClearImmediate8AddressBit6 004A														; Echo Enable
-	CopyImmediate8AddressToA 004A														; Echo Enable
-	CopyImmediate8ToY 004D																	; DSP Echo Enable
-	CallImmediate16 060D																		; SetDSPRegister(Y, A)
+	CopyImmediate8ToImmediate8Address 0C, 44									; Value44 = 12
+	CopyImmediate8ToX 000C														; X = 12
+	CallImmediate16 0518														; SendAndUpdate(A, X, Y)
+	CopyImmediate8ToA 0040														; A = 0x40 (Channel 7)
+	CallImmediate16 3E79														; PlayNotes(A)
+	ClearImmediate8AddressBit6 004A												; Echo Enable &= ~0x40 (Channel 7)
+	CopyImmediate8AddressToA 004A												; A = Echo Enable
+	CopyImmediate8ToY 004D														; DSP Echo Enable
+	CallImmediate16 060D														; SetDSPRegister(Y, A)
 	CopyImmediate8AddressToA 0006
 	AndAWithImmediate8 0030
-	ExchangeANibbles
-	CopyAToX
-	CopyImmediate16PlusXAddressToA 291D
-	CopyAToImmediate16Address 032D
-	CopyAToImmediate16Address 030D
-	CopyImmediate8AddressToA 0006
-	AndAWithImmediate8 00C0
-	ExchangeANibbles
-	ShiftARight
-	ShiftARight
-	CopyAToX
-	CopyImmediate16PlusXAddressToA 2919
-	CopyAToImmediate16Address 033D
+	ExchangeANibbles															; A <-> B
+	CopyAToX																	; X = A
+	CopyImmediate16PlusXAddressToA 291D											; A = Table291D[X]
+	CopyAToImmediate16Address 032D												; Value32D = A
+	CopyAToImmediate16Address 030D												; Value30D = A
+	CopyImmediate8AddressToA 0006												; A = Output[3]
+	AndAWithImmediate8 00C0														; A &= 0xC0
+	ExchangeANibbles															; A <-> B
+	ShiftARight																	; A /= 2
+	ShiftARight																	; A /= 2
+	CopyAToX																	; X = A
+	CopyImmediate16PlusXAddressToA 2919											; A = Table2919[X]
+	CopyAToImmediate16Address 033D												; Value33D = A
 
 27FF:
 	CopyImmediate16AddressToX 03F6
@@ -2191,10 +2646,10 @@
 	CopyImmediate8ToA 00AD
 
 2811:
-	CopyXToImmediate8Address 00AC														; ValueAC
+	CopyXToImmediate8Address 00AC												; ValueAC
 	CopyImmediate8ToImmediate8Address 00, AD
 	CopyImmediate8ToX 000C
-	CopyXToImmediate8Address 0044														; Value44 = X
+	CopyXToImmediate8Address 0044												; Value44 = X
 	CallImmediate16 0B9B
 	CopyImmediate8AddressToA 0006
 	AndAWithImmediate8 0030
@@ -2205,7 +2660,7 @@
 	CopyImmediate8AddressToX 009C
 	SetCarryFlag
 	SubtractImmediate16AddressPlusBorrowFromA 030D
-	CallImmediate16 0BBE																			; Randomize()
+	CallImmediate16 0BBE														; Randomize()
 	CopyAToImmediate16Address 031C
 	CopyYToA
 	CopyAToImmediate16Address 031D
@@ -2224,175 +2679,215 @@
 	SubtractImmediate16AddressPlusBorrowFromA 033D
 	CopyImmediate16AddressToX 03F6
 	CopyXToImmediate8Address 009D
-	CallImmediate16 0BBE																			; Randomize()
-	CopyYAToImmediate8Address 0010															; Word10
+	CallImmediate16 0BBE														; Randomize()
+	CopyYAToImmediate8Address 0010												; Word10
 	CopyAToImmediate16Address 034C
 	CopyYToA
 	CopyAToImmediate16Address 034D
 
 285F:
-	CopyImmediate8AddressToA 009C
-	BranchToRelative8IfEqual 2874
-	CopyImmediate8ToA 0000
-	CopyImmediate8ToY 0003
-	CopyImmediate8ToX 000C
-	DecrementImmediate8Address 009C														; Value9C -= 1
-	CallImmediate16 0CC4																			; HandleEvent(YA, X)
-	CopyImmediate16AddressToA 030D
-	CopyAToImmediate16Address 032D
+	CopyImmediate8AddressToA 009C												; A = Value9C
+	BranchToRelative8IfEqual 2874												; If (A != 0)
+	CopyImmediate8ToA 0000															; A = 0
+	CopyImmediate8ToY 0003															; Y = 3
+	CopyImmediate8ToX 000C															; X = 12
+	DecrementImmediate8Address 009C													; Value9C -= 1
+	CallImmediate16 0CC4															; HandleEvent(YA, X)
+	CopyImmediate16AddressToA 030D													; Value32D = Value30D
+	CopyAToImmediate16Address 032D													;
 
 2874:
-	ClearImmediate8AddressBit7 0013															; Flags13 &= 0x7f
-	CopyImmediate8AddressToA 00AC															; A = ValueAC
-	BranchToRelative8IfEqual 287F																	; If (A != 0)
-	CopyImmediate8ToX 000C
-	CallImmediate16 3E5F																				; HandleEvent360()
+	ClearImmediate8AddressBit7 0013												; Flags13 &= 0x7f
+	CopyImmediate8AddressToA 00AC												; A = ValueAC
+	BranchToRelative8IfEqual 287F												; If (A == 0) Return HandleEvent330()
+	CopyImmediate8ToX 000C														; X = 12
+	CallImmediate16 3E5F														; HandleEvent360()
 
-287F:																											; HandleEvent330()
-	CopyImmediate8AddressToA 009D
-	BranchToRelative8IfEqual 289C
-	CopyImmediate8ToA 0030
-	CopyImmediate8ToY 0003
-	CopyImmediate8ToX 000C
-	DecrementImmediate8Address 009D														; Value9D -= 1
-	CallImmediate16 0CC4																			; HandleEvent(YA, X)
-	CopyImmediate16AddressToA 033D
-	CopyAToY
-	CopyImmediate16AddressToA 033C
-	CopyYAToImmediate8Address 0010															; Word10
-	CopyImmediate8ToX 000C
-	CallImmediate16 0C80																			; UpdateRandom(X)
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; HandleEvent330()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+287F:
+	CopyImmediate8AddressToA 009D												; A = Value9D
+	BranchToRelative8IfEqual 289C												; If (A != 0)
+	CopyImmediate8ToA 0030															; A = 0x30
+	CopyImmediate8ToY 0003															; Y = 3
+	CopyImmediate8ToX 000C															; X = 12
+	DecrementImmediate8Address 009D													; Value9D -= 1
+	CallImmediate16 0CC4															; HandleEvent(YA, X)
+	CopyImmediate16AddressToA 033D													; Word10 = Value33C
+	CopyAToY																		;
+	CopyImmediate16AddressToA 033C													;
+	CopyYAToImmediate8Address 0010													;
+	CopyImmediate8ToX 000C															; X = 12
+	CallImmediate16 0C80															; UpdateRandom(X)
 
 289C:
-	ReturnFromSubroutine
+	ReturnFromSubroutine														; Return
 
-289D:																										; LoadChannel7Samples()
-	CopyImmediate8ToY 0006																		; Y = 6
-	MultiplyAByY																							; YA = A * Y
-	CopyAToX																								; X = A
-	CopyImmediate8ToY 0064																		; Channel 7 Sample Number
-	CopyImmediate8ToImmediate8Address 04, 12											; Random = 4
 
-28A5:
-	CopyImmediate16PlusXAddressToA 28BF													; A = Table28BF[X]
-	CallImmediate16 060D																			; SetDSPRegister(Y, A)
-	IncrementX
-	IncrementY
-	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 12, 28A5		; While (Random-- != 0)
 
-	CopyImmediate16PlusXAddressToA 28BF
-	CopyAToImmediate16Address 022D
-	IncrementX
-	CopyImmediate16PlusXAddressToA 28BF
-	CopyAToImmediate16Address 022C
-	ReturnFromSubroutine
 
-28BF:
-	20
-	0c
-	e0
-	70
-	02
-	80
 
-	20
-	0c
-	e0
-	60
-	07
-	00
 
-	0e
-	e0
-	70
-	03
-	00
-	0a
 
-	0e
-	e0
-	70
-	01
-	80
-	01
 
-	0e
-	e0
-	7f
-	01
-	00
-	01
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; LoadChannel7Sample()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	0e
-	e0
-	28
-	07
-	00
-	2d
+289D:
+	CopyImmediate8ToY 0006														; Y = 6
+	MultiplyAByY																; YA = A * Y
+	CopyAToX																	; X = A
+	CopyImmediate8ToY 0064														; Channel 7 Sample Number
+	CopyImmediate8ToImmediate8Address 04, 12									; Random = 4
 
-	0e
-	e0
-	70
-	01
-	00
-	03
+28A5:																			; Do
+	CopyImmediate16PlusXAddressToA 28BF												; A = Channel7SampleTable[X]
+	CallImmediate16 060D															; SetDSPRegister(Y, A)
+	IncrementX																		; X += 1
+	IncrementY																		; Y += 1
+	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 12, 28A5				; While (Random-- != 0)
 
-	0e
-	e0
-	7f
-	01
-	40
-	03
+	CopyImmediate16PlusXAddressToA 28BF											; Current Sample = Channel7SampleTable[X]
+	CopyAToImmediate16Address 022D												;
+	IncrementX																	;
+	CopyImmediate16PlusXAddressToA 28BF											;
+	CopyAToImmediate16Address 022C												;
+	ReturnFromSubroutine														; Return
 
-	0e
-	e0
-	70
-	03
-	00
-	13
 
-	0e
-	e0
-	60
-	00
-	60
-	0a
 
-	0e
-	e0
-	7f
-	00
-	60
-	0b
 
-	0e
-	e0
-	60
-	05
-	00
-	02
 
-	0e
-	e0
-	7f
-	01
-	80
-	13
 
-	0e
-	e0
-	70
-	01
-	00
-	02
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Channel 7 Sample Table
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Channel7SampleTable:
+	20																				; Sample Number
+	0c																				; Envelope
+	e0																				; Envelope2
+	70																				; Gain
+	02																				; Current Sample
+	80																				; Current Sample (High)
+
+	20																				; Sample Number
+	0c																				; Envelope
+	e0																				; Envelope2
+	60																				; Gain
+	07																				; Current Sample
+	00																				; Current Sample (High)
+
+	0e																				; Sample Number
+	e0																				; Envelope
+	70																				; Envelope2
+	03																				; Gain
+	00																				; Current Sample
+	0a																				; Current Sample (High)
+
+	0e																				; Sample Number
+	e0																				; Envelope
+	70																				; Envelope2
+	01																				; Gain
+	80																				; Current Sample
+	01																				; Current Sample (High)
+
+	0e																				; Sample Number
+	e0																				; Envelope
+	7f																				; Envelope2
+	01																				; Gain
+	00																				; Current Sample
+	01																				; Current Sample (High)
+
+	0e																				; Sample Number
+	e0																				; Envelope
+	28																				; Envelope2
+	07																				; Gain
+	00																				; Current Sample
+	2d																				; Current Sample (High)
+
+	0e																				; Sample Number
+	e0																				; Envelope
+	70																				; Envelope2
+	01																				; Gain
+	00																				; Current Sample
+	03																				; Current Sample (High)
+
+	0e																				; Sample Number
+	e0																				; Envelope
+	7f																				; Envelope2
+	01																				; Gain
+	40																				; Current Sample
+	03																				; Current Sample (High)
+
+	0e																				; Sample Number
+	e0																				; Envelope
+	70																				; Envelope2
+	03																				; Gain
+	00																				; Current Sample
+	13																				; Current Sample (High)
+
+	0e																				; Sample Number
+	e0																				; Envelope
+	60																				; Envelope2
+	00																				; Gain
+	60																				; Current Sample
+	0a																				; Current Sample (High)
+
+	0e																				; Sample Number
+	e0																				; Envelope
+	7f																				; Envelope2
+	00																				; Gain
+	60																				; Current Sample
+	0b																				; Current Sample (High)
+
+	0e																				; Sample Number
+	e0																				; Envelope
+	60																				; Envelope2
+	05																				; Gain
+	00																				; Current Sample
+	02																				; Current Sample (High)
+
+	0e																				; Sample Number
+	e0																				; Envelope
+	7f																				; Envelope2
+	01																				; Gain
+	80																				; Current Sample
+	13																				; Current Sample (High)
+
+	0e																				; Sample Number
+	e0																				; Envelope
+	70																				; Envelope2
+	01																				; Gain
+	00																				; Current Sample
+	02																				; Current Sample (High)
 	
-	0e
-	e0
-	40
-	08
-	00
-	0a
+	0e																				; Sample Number
+	e0																				; Envelope
+	40																				; Envelope2
+	08																				; Gain
+	00																				; Current Sample
+	0a																				; Current Sample (High)
 
+
+
+
+
+
+
+
+Table????:
 	14
 	0a
 	00
@@ -2431,42 +2926,55 @@
 	ad
 	ab
 
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; LoadWord10FromTableFDF()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 293F:
-	CopyImmediate8AddressToX 0003
-	CopyXToImmediate8Address 0011
-	CopyImmediate16PlusXAddressToA 0FDF
-	CopyAToImmediate8Address 0010												; Word10
-	ExchangeANibbles
-	AndAWithImmediate8 000F
-	ShiftALeft
-	CopyAToY
-	CopyImmediate16PlusYAddressToA 03A0
-	BranchToRelative8IfEqual 2960
-	CopyAToX
-	CopyImmediate16PlusXAddressToA 0FDF
-	SetCarryFlag
-	CompareAToImmediate8Address 0010											; Word10
-	BranchToRelative8IfEqual 2960
-	BranchToRelative8IfNotCarry 2960
-	JumpToAbsolute16 3EBA
+	CopyImmediate8AddressToX 0003												; X = Input[3]
+	CopyXToImmediate8Address 0011												; Word10 (high) = X
+	CopyImmediate16PlusXAddressToA 0FDF											; A = TableFDF[X]
+	CopyAToImmediate8Address 0010												; Word10 = A
+	ExchangeANibbles															; A <--> B
+	AndAWithImmediate8 000F														; A &= 0x0f
+	ShiftALeft																	; A *= 2
+	CopyAToY																	; Y = A
+	CopyImmediate16PlusYAddressToA 03A0											; A = Table3A0[Y]
+	BranchToRelative8IfEqual 2960												; If (A != 0)
+	CopyAToX																	; X = A
+	CopyImmediate16PlusXAddressToA 0FDF											; A = TableFDF[X]
+	SetCarryFlag																; If (A < Word10)
+	CompareAToImmediate8Address 0010												; Return
+	BranchToRelative8IfEqual 2960													;
+	BranchToRelative8IfNotCarry 2960												;
+	JumpToAbsolute16 3EBA															;
 
 2960:
-	CopyImmediate8AddressToA 0011
-	CopyAToImmediate16PlusYAddress 03A0
-	CopyYToImmediate8Address 0010												; Word10
-	CopyImmediate8ToA 0001
-	ShiftImmediate8AddressRight 0010											; Word10
-	BranchToRelative8IfEqual 2971
-	ShiftALeft
-	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 10, FC
+	CopyImmediate8AddressToA 0011												; A = Word10 (high)
+	CopyAToImmediate16PlusYAddress 03A0											; Table3A0[Y] = A
+	CopyYToImmediate8Address 0010												; Word10 = Y
+	CopyImmediate8ToA 0001														; A = 1
+	ShiftImmediate8AddressRight 0010											; Word10 /= 2
+	BranchToRelative8IfEqual 2971												; If (Word10 != 0)
+
+296D:																				; Do
+	ShiftALeft																			; A *= 2
+	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 10, 296D					; While (Value10-- !- 0)
 
 2971:
-	CopyAToImmediate16Address 03C1
-	CopyYToImmediate16Address 03C0
-	CopyImmediate16AddressToA 03C1
-	OrAWithImmediate8Address 001A												; Value1A/Flags
-	CopyAToImmediate8Address 001A												; Value1A/Flags
-	JumpToAbsolute16 29C5
+	CopyAToImmediate16Address 03C1												; ActiveNotes = A
+	CopyYToImmediate16Address 03C0												; Value3C0 = Y
+	CopyImmediate16AddressToA 03C1												; A = ActiveNotes
+	OrAWithImmediate8Address 001A												; Value1A/Flags |= A
+	CopyAToImmediate8Address 001A												;
+	JumpToAbsolute16 29C5														; Return FadeEcho()
 
 
 
@@ -2487,16 +2995,29 @@
 	CopyAToY
 	CopyImmediate8AddressToA 000B
 	CopyYToImmediate8Address 000B
-	BranchToRelative8IfANotEqualImmediate8Address 0B, 02
-	CopyImmediate8ToY 0000
-	CopyYToImmediate8Address 0003
-	CopyImmediate8AddressToA 0003
-	BranchToRelative8IfEqual 29A0
-	CompareAToImmediate8 00B0
-	BranchToRelative8IfNotCarry 29C2
+	BranchToRelative8IfANotEqualImmediate8Address 0B, ????						; If(A == Value0B)
+	CopyImmediate8ToY 0000															; Y = 0
 
-29A0:
-	ReturnFromSubroutine
+????:
+	CopyYToImmediate8Address 0003												; Input[3] = Y
+	CopyImmediate8AddressToA 0003												; A = Input[3]
+	BranchToRelative8IfEqual 29A0												; If(A == 0) Return;
+	CompareAToImmediate8 00B0													; If(A >= 0xB0)
+	BranchToRelative8IfNotCarry 29C2												; Continue
+
+29A0:																			; Else
+	ReturnFromSubroutine															; Return
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 29A1()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 29A1:
 	CopyImmediate16AddressToA 03F8												; A = Value3F8
@@ -2504,7 +3025,7 @@
 	CopyImmediate8ToA 0000															; A = 0
 	CopyAToImmediate16Address 03F8													; Flags03F8 = 0
 	CallImmediate16 3E96															; CopyValue3F1ToValue59IfNotZero()
-	JumpToRelative8 29BE
+	JumpToRelative8 29BE															; Skip
 
 29B0:
 	CopyImmediate8AddressToA 001A												; Value1A/Flags
@@ -2515,314 +3036,379 @@
 	CallImmediate16 060D														; SetDSPRegister(Y, A)
 
 29BE:
-	CopyImmediate8AddressToA 0003
-	JumpToRelative8 29D5
+	CopyImmediate8AddressToA 0003												; A = Input[3]
+	JumpToRelative8 29D5														; Skip
 
 29C2:
 	JumpToAbsolute16 293F
 
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; FadeEcho()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 29C5:
-	CallImmediate16 3EA6														; FadeEcho()
-	CopyImmediate16AddressToX 03C0
-	CopyImmediate8AddressToA 0003
-	CompareAToImmediate8 0001
-	BranchToRelative8IfEqual 29A1
-	CompareAToImmediate8 0002
-	BranchToRelative8IfEqual 29B0
+	CallImmediate16 3EA6														; UpdateEcho()
+	CopyImmediate16AddressToX 03C0												; X = Value3C0
+	CopyImmediate8AddressToA 0003												; A = Input[3]
+	CompareAToImmediate8 0001													; If (A == 1)
+	BranchToRelative8IfEqual 29A1													; Continue;
+	CompareAToImmediate8 0002													; If (A == 2)
+	BranchToRelative8IfEqual 29B0													; Continue;
 
 29D5:
-	CopyAToImmediate16PlusXAddress 03A0
-	CompareAToImmediate8 000B
-	BranchToRelative8IfNotCarry 29EB
-	CompareAToImmediate8 000E
-	BranchToRelative8IfNotCarry 29E8
-	CompareAToImmediate8 0015
-	BranchToRelative8IfNotCarry 29EB
-	CompareAToImmediate8 0018
-	BranchToRelative8IfCarry 29EB
+	CopyAToImmediate16PlusXAddress 03A0											; Table3A0[X] = A
+	CompareAToImmediate8 000B													; If (A >= 11)
+	BranchToRelative8IfNotCarry 29EB												; Skip
+	CompareAToImmediate8 000E													; Else If (A >= 14)
+	BranchToRelative8IfNotCarry 29E8												; 3E87()
+	CompareAToImmediate8 0015													; Else If (A >= 21)
+	BranchToRelative8IfNotCarry 29EB												; Skip
+	CompareAToImmediate8 0018													; Else If (A >= 24)
+	BranchToRelative8IfCarry 29EB													; Skip
 
 29E8:
 	CallImmediate16 3E87
 
 29EB:
-	CopyImmediate8ToA 0003
-	CopyAToImmediate16PlusXAddress 03A1
-	CopyImmediate8ToA 0000																	; A = 0
+	CopyImmediate8ToA 0003														; A = 3
+	CopyAToImmediate16PlusXAddress 03A1											; Table3A1[X] = A
+	CopyImmediate8ToA 0000														; A = 0
 	CopyAToImmediate16PlusXAddress 0280											; Table280[X] = A
-	CopyAToImmediate8PlusXAddress 00A0											; TableA0[X] = A
+	CopyAToImmediate8PlusXAddress 00A0											; WordTableA0[X] = A
 	CopyAToImmediate16PlusXAddress 0381											; Table381[X] = A
 	CopyAToImmediate16PlusXAddress 02F0											; Table2F0[X] = A
-	CopyImmediate16AddressToA 03C1													; A = Value3C1
-	OrAWithImmediate16Address 0007													; A |= Value07
-	CopyAToImmediate16Address 0007													; Value07 = A
-	CopyImmediate16AddressToA 03C1													; A = Value3C1
-	CopyImmediate8ToY 005C																	; Y = 5C (Note Off)
-	CallImmediate16 060D																		; SetDSPRegister(Y, A)
-	CopyImmediate16PlusXAddressToA 03A0
-	CopyAToX
-	CopyImmediate16PlusXAddressToA 0F20
-	CopyAToImmediate8Address 0003
-	BranchToRelative8IfNotEqual 29C2
-	ReturnFromSubroutine
+	CopyImmediate16AddressToA 03C1												; A = ActiveNotes
+	OrAWithImmediate16Address 0007												; A |= Output[3]
+	CopyAToImmediate16Address 0007												; Output[3] = A
+	CopyImmediate16AddressToA 03C1												; A = ActiveNotes
+	CopyImmediate8ToY 005C														; Y = 5C (Note Off)
+	CallImmediate16 060D														; SetDSPRegister(Y, A)
+	CopyImmediate16PlusXAddressToA 03A0											; A = Table3A0[X]
+	CopyAToX																	; X = A
+	CopyImmediate16PlusXAddressToA 0F20											; A = TableF20[X]
+	CopyAToImmediate8Address 0003												; A = Input[3]
+	BranchToRelative8IfNotEqual 29C2											; If (A != 0) Continue;
+	ReturnFromSubroutine														; Return
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 2A1A()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 2A1A:
-	CopyImmediate16AddressToA 0007													; A = Input[3]
-	CopyAToImmediate16Address 03CE													; Value3CE = A
-	BranchToRelative8IfEqual 2A51													; If (A != 0)
-	CopyImmediate8ToX 000A																; X = 10
-	CopyImmediate8ToA 0020																; A = 32
-	CopyAToImmediate16Address 03C1														; Value3C1 = A
-	ShiftImmediate16AddressLeft 03CE													; Value3CE *= 4
-	ShiftImmediate16AddressLeft 03CE
+	CopyImmediate16AddressToA 0007												; A = Input[3]
+	CopyAToImmediate16Address 03CE												; Value3CE = A
+	BranchToRelative8IfEqual 2A51												; If (A != 0)
+	CopyImmediate8ToX 000A															; X = 10
+	CopyImmediate8ToA 0020															; A = 32
+	CopyAToImmediate16Address 03C1													; ActiveNotes = A
+	ShiftImmediate16AddressLeft 03CE												; Value3CE *= 4
+	ShiftImmediate16AddressLeft 03CE												;
 
-2A2F:
+2A2F:																				; Do
 	ShiftImmediate16AddressLeft 03CE													; Value3CE *= 2
 	BranchToRelative8IfNotCarry 2A4A													; If (Value3CE > 255)
-	CopyXToImmediate16Address 03C0														; Value3C0 = X
-	CopyXToA																			; A = X
-	ExchangeANibbles																	; A <-> B
-	ShiftARight																			; A /= 2
-	CopyAToImmediate16Address 03C2														; Value3C2 = A
-	CopyImmediate16PlusXAddressToA 03A1													; A = Table3A0[X] (high)
-	BranchToRelative8IfNotEqual 2A52													; If (A == 0)
+	CopyXToImmediate16Address 03C0															; Value3C0 = X
+	CopyXToA																				; A = X
+	ExchangeANibbles																		; A <-> B
+	ShiftARight																				; A /= 2
+	CopyAToImmediate16Address 03C2															; Value3C2 = A
+	CopyImmediate16PlusXAddressToA 03A1														; A = Table3A0[X] (high)
+	BranchToRelative8IfNotEqual 2A52														; If (A != 0) Set3C0AndDecrement3A0()
 	CopyImmediate16PlusXAddressToA 03A0														; A = Table3A0[X]
 	BranchToRelative8IfEqual 2A4A															; If (A != 0)
-	JumpToAbsolute16 2B0C
+	JumpToAbsolute16 2B0C																		; Return 2B0C()
 
 2A4A:
-	ShiftImmediate16AddressRight 03C1
+	ShiftImmediate16AddressRight 03C1													; ActiveNotes /= 2
+	DecrementX																			; X -= 2
 	DecrementX
-	DecrementX
-	BranchToRelative8IfNotNegative 2A2F
+	BranchToRelative8IfNotNegative 2A2F												; While (X >= 0)
 
 2A51:
-	ReturnFromSubroutine
+	ReturnFromSubroutine															; Return
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Set3C0AndDecrement3A0()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 2A52:
-	CopyXToImmediate16Address 03C0
-	CopyImmediate16PlusXAddressToA 03A1
-	DecrementA
-	CopyAToImmediate16PlusXAddress 03A1
-	BranchToRelative8IfEqual 2A61
-	JumpToAbsolute16 2A4A
+	CopyXToImmediate16Address 03C0													; Value3C0 = X
+	CopyImmediate16PlusXAddressToA 03A1												; A = Table3A0[X] (high)
+	DecrementA																		; A -= 1
+	CopyAToImmediate16PlusXAddress 03A1												; Table3A0[X] (high) = A
+	BranchToRelative8IfEqual 2A61													; If (A != 0)
+	JumpToAbsolute16 2A4A																; Continue
 
 2A61:
-	CopyImmediate16PlusXAddressToA 03A0											; A = Table3A0[X]
-	ShiftALeft																	; A *= 2
-	CopyAToY																	; Y = A
-	BranchToRelative8IfCarry 2A7B
-	CopyImmediate16PlusYAddressToA 109E											; A = Table109D[Y] (high)
-	CopyAToImmediate16PlusXAddress 0391											; Table390[X] (high) = A
-	CopyAToImmediate8Address 002D												; Pointer2C (high) = A
-	CopyImmediate16PlusYAddressToA 109D											; A = Table109D[Y]
-	CopyAToImmediate16PlusXAddress 0390											; Table309[X] = A
-	CopyAToImmediate8Address 002C												; Pointer2C = A
-	JumpToAbsolute16 2B29
+	CopyImmediate16PlusXAddressToA 03A0												; A = Table3A0[X]
+	ShiftALeft																		; A *= 2
+	CopyAToY																		; Y = A
+	BranchToRelative8IfCarry 2A7B													; If (A > 255)
+	CopyImmediate16PlusYAddressToA 109E													; A = Table109D[Y] (high)
+	CopyAToImmediate16PlusXAddress 0391													; Table390[X] (high) = A
+	CopyAToImmediate8Address 002D														; Pointer2C (high) = A
+	CopyImmediate16PlusYAddressToA 109D													; A = Table109D[Y]
+	CopyAToImmediate16PlusXAddress 0390													; Table390[X] = A
+	CopyAToImmediate8Address 002C														; Pointer2C = A
+	JumpToAbsolute16 2B29																; Skip
 
 2A7B:
-	CopyImmediate16PlusYAddressToA 119E											; A = Table119E[Y] (high)
-	CopyAToImmediate16PlusXAddress 0391											; Table390[X] (high) = A
-	CopyAToImmediate8Address 002D												; Pointer2C (high) = A
-	CopyImmediate16PlusYAddressToA 119D											; A = Table109D[Y]
-	CopyAToImmediate16PlusXAddress 0390											; Table309[X] = A
-	CopyAToImmediate8Address 002C												; Pointer2C = A
-	JumpToAbsolute16 2B29
+	CopyImmediate16PlusYAddressToA 119E												; A = Table119D[Y] (high)
+	CopyAToImmediate16PlusXAddress 0391												; Table390[X] (high) = A
+	CopyAToImmediate8Address 002D													; Pointer2C (high) = A
+	CopyImmediate16PlusYAddressToA 119D												; A = Table119D[Y]
+	CopyAToImmediate16PlusXAddress 0390												; Table390[X] = A
+	CopyAToImmediate8Address 002C													; Pointer2C = A
+	JumpToAbsolute16 2B29															; Skip
 
 2A8E:
-	CopyImmediate16AddressToX 03C0												; X = Value3C0
-	CopyImmediate16PlusXAddressToA 03A0											; A = Table3A0[X]
+	CopyImmediate16AddressToX 03C0													; X = Value3C0
+	CopyImmediate16PlusXAddressToA 03A0												; A = Table3A0[X]
 	CompareAToImmediate8 000B
-	BranchToRelative8IfNotCarry 2AAC											; If (A >= 11) 2AAC()
+	BranchToRelative8IfNotCarry 2AAC												; If (A >= 11) 2AAC()
 	CompareAToImmediate8 000E
-	BranchToRelative8IfNotCarry 2AA4											; If (A >= 14) 2AA4()
+	BranchToRelative8IfNotCarry 2AA4												; If (A >= 14) 2AA4()
 	CompareAToImmediate8 0015
-	BranchToRelative8IfNotCarry 2AAC											; If (A >= 21) 2AAC()
+	BranchToRelative8IfNotCarry 2AAC												; If (A >= 21) 2AAC()
 	CompareAToImmediate8 0018
-	BranchToRelative8IfCarry 2AAC												; if (A < 24) 2AAC()
+	BranchToRelative8IfCarry 2AAC													; if (A < 24) 2AAC()
 
 2AA4:
-	CopyImmediate16AddressToA 03CA												; A = Counter3CA
-	BranchToRelative8IfNotEqual 2AAC											; If (A == 0)
-	CallImmediate16 3E96														; CopyValue3F1ToValue59IfNotZero()
+	CopyImmediate16AddressToA 03CA													; A = Counter3CA
+	BranchToRelative8IfNotEqual 2AAC												; If (A == 0)
+	CallImmediate16 3E96																; CopyValue3F1ToValue59IfNotZero()
 
 2AAC:
 	CopyImmediate8ToA 0000
-	CopyAToImmediate16PlusXAddress 03A0
-	CopyAToImmediate8PlusXAddress 00A0
-	CopyImmediate16PlusXAddressToA 03D0
-	CopyAToImmediate16PlusXAddress 02F0
-	CopyImmediate16PlusXAddressToA 03E0
-	CopyAToImmediate16PlusXAddress 0381
-	CopyImmediate16PlusXAddressToA 03E1
-	CopyAToImmediate16PlusXAddress 0280
-	CopyImmediate8AddressToA 001A												; PointerA/Flags
+	CopyAToImmediate16PlusXAddress 03A0												; Table3A0
+	CopyAToImmediate8PlusXAddress 00A0												; WordTableA0
+	CopyImmediate16PlusXAddressToA 03D0												; Table3D0
+	CopyAToImmediate16PlusXAddress 02F0												; Table2F0
+	CopyImmediate16PlusXAddressToA 03E0												; Table3E0
+	CopyAToImmediate16PlusXAddress 0381												; Table381
+	CopyImmediate16PlusXAddressToA 03E1												; Table3E0
+	CopyAToImmediate16PlusXAddress 0280												; Table280
+	CopyImmediate8AddressToA 001A													; PointerA/Flags
 	SetCarryFlag
-	SubtractImmediate16AddressPlusBorrowFromA 03C1								; A -= Value3C1
-	CopyAToImmediate8Address 001A												; Value1A/Flags = A
-	CopyImmediate16AddressToA 0007												; A = Value7
+	SubtractImmediate16AddressPlusBorrowFromA 03C1									; A -= ActiveNotes
+	CopyAToImmediate8Address 001A													; Value1A/Flags = A
+	CopyImmediate16AddressToA 0007													; A = Value7
 	SetCarryFlag
-	SubtractImmediate16AddressPlusBorrowFromA 03C1								; A -= Value3C1
-	CopyAToImmediate16Address 0007												; Value7 = A
-	CopyXToImmediate8Address 0044												; Value44 = X
-	CopyImmediate16PlusXAddressToA 0211											; Table211
-	CallImmediate16 0932														; SendEvent(A, X)
-	CopyImmediate16AddressToA 03C1
-	AndAWithImmediate16Address 03C3
-	BranchToRelative8IfEqual 2B02
-	AndAWithImmediate8Address 004A												; Echo Enable / 4A
-	BranchToRelative8IfNotEqual 2B02
-	CopyImmediate8AddressToA 004A												; Echo Enable
+	SubtractImmediate16AddressPlusBorrowFromA 03C1									; A -= ActiveNotes
+	CopyAToImmediate16Address 0007													; Value7 = A
+	CopyXToImmediate8Address 0044													; Value44 = X
+	CopyImmediate16PlusXAddressToA 0211												; Table211
+	CallImmediate16 0932															; SendEvent(A, X)
+	CopyImmediate16AddressToA 03C1													; A = ActiveNotes
+	AndAWithImmediate16Address 03C3													; A &= Value3C3
+	BranchToRelative8IfEqual 2B02													; If (A != 0)
+	AndAWithImmediate8Address 004A														; A &= Echo Enable
+	BranchToRelative8IfNotEqual 2B02													; If (A == 0)
+	CopyImmediate8AddressToA 004A															; A = Echo Enable
 	ClearCarryFlag
-	AddImmediate16AddressPlusCarryToA 03C1
-	CopyAToImmediate8Address 004A												; Echo Enable
-	CopyImmediate8ToY 004D														; DSP Echo Enable
-	CallImmediate16 060D														; SetDSPRegister(Y, A)
-	CopyImmediate16AddressToA 03F3
-	SetCarryFlag
-	SubtractImmediate16AddressPlusBorrowFromA 03C1
-	CopyAToImmediate16Address 03F3
+	AddImmediate16AddressPlusCarryToA 03C1													; A += ActiveNotes
+	CopyAToImmediate8Address 004A															; Echo Enable = A
+	CopyImmediate8ToY 004D																	; DSP Echo Enable
+	CallImmediate16 060D																	; SetDSPRegister(Y, A)
+	CopyImmediate16AddressToA 03F3															; Value3F3 -= ActiveNotes
+	SetCarryFlag																			;
+	SubtractImmediate16AddressPlusBorrowFromA 03C1											;
+	CopyAToImmediate16Address 03F3															;
 
 2B02:
-	CopyImmediate16AddressToX 03C0
-	ReturnFromSubroutine
+	CopyImmediate16AddressToX 03C0													; X = Value3C0
+	ReturnFromSubroutine															; Return
 
 2B06:
 	CallImmediate16 2A8E
 	JumpToAbsolute16 2A4A
 
 2B0C:
-	CallImmediate16 3EA6														; FadeEcho()
-	CopyXToImmediate16Address 03C0
-	CopyImmediate16PlusXAddressToA 0391
-	CopyAToY
-	CopyImmediate16PlusXAddressToA 0390
-	CopyYAToImmediate8Address 002C												; Pointer2C = YA
-	CopyImmediate16PlusXAddressToA 03B0
-	DecrementA
-	CopyAToImmediate16PlusXAddress 03B0
-	BranchToRelative8IfEqual 2B27
-	JumpToAbsolute16 2B94
+	CallImmediate16 3EA6															; UpdateEcho()
+	CopyXToImmediate16Address 03C0													; Value3C0 = X
+	CopyImmediate16PlusXAddressToA 0391												; YA = Table390[X]
+	CopyAToY																		;
+	CopyImmediate16PlusXAddressToA 0390												;
+	CopyYAToImmediate8Address 002C													; Pointer2C = YA
+	CopyImmediate16PlusXAddressToA 03B0												; Table3B0[X] -= 1
+	DecrementA																		;
+	CopyAToImmediate16PlusXAddress 03B0												;
+	BranchToRelative8IfEqual 2B27													; If (Table3B0[X] != 0)
+	JumpToAbsolute16 2B94																; Skip
 
 2B27:
-	IncrementImmediate8Address16 002C											; Pointer2C += 1
+	IncrementImmediate8Address16 002C												; Pointer2C += 1
 
 2B29:
-	CopyImmediate16AddressToA 03C0												; Value3C0
-	ExchangeANibbles
-	ShiftARight
-	CopyAToImmediate16Address 03C2												; Value3C2
-	CopyImmediate8ToX 0000														; X = 0
-	CopyImmediate8PlusXPointerToA 002C											; A = [Pointer2C+X]
-	BranchToRelative8IfEqual 2B06
-	BranchToRelative8IfNegative 2B6F
-	CopyImmediate16AddressToY 03C0												; Y = Value3C0
-	CopyAToImmediate16PlusYAddress 03B1											; Table3B1[Y] = A
-	IncrementImmediate8Address16 002C											; A = [Pointer2C++]
-	CopyImmediate8PlusXPointerToA 002C
-	CopyAToImmediate8Address 0010												; Word10
-	BranchToRelative8IfNegative 2B6F
-	CopyImmediate16AddressToY 03C2
-	CallImmediate16 060D														; SetDSPRegister(Y, A)
-	CopyImmediate8ToX 0000
-	IncrementImmediate8Address16 002C											; A = [Pointer2C++]
-	CopyImmediate8PlusXPointerToA 002C
-	BranchToRelative8IfNotNegative 2B62
-	CopyAToX
-	CopyImmediate8AddressToA 0010												; A = Word10
-	CopyImmediate16AddressToY 03C2												; Y = Value3C2 + 1
-	IncrementY
-	CallImmediate16 060D														; SetDSPRegister(Y, A)
-	CopyXToA
-	JumpToRelative8 2B6F
+	CopyImmediate16AddressToA 03C0													; Value3C0
+	ExchangeANibbles																; A <-> B
+	ShiftARight																		; A /= 2
+	CopyAToImmediate16Address 03C2													; Value3C2
+	CopyImmediate8ToX 0000															; A = [Pointer2C]
+	CopyImmediate8PlusXPointerToA 002C												;
+	BranchToRelative8IfEqual 2B06													; If (A == 0) Continue;
+	BranchToRelative8IfNegative 2B6F												; If (A > 0)
+	CopyImmediate16AddressToY 03C0														; Y = Value3C0
+	CopyAToImmediate16PlusYAddress 03B1													; Table3B1[Y] = A
+	IncrementImmediate8Address16 002C													; A = [++Pointer2C]
+	CopyImmediate8PlusXPointerToA 002C													;
+	CopyAToImmediate8Address 0010														; Word10 = A
+	BranchToRelative8IfNegative 2B6F													; If (A >= 0)
+	CopyImmediate16AddressToY 03C2															; Y = Value3C2
+	CallImmediate16 060D																	; SetDSPRegister(Y, A)
+	CopyImmediate8ToX 0000																	; A = [++Pointer2C]
+	IncrementImmediate8Address16 002C														;
+	CopyImmediate8PlusXPointerToA 002C														;
+	BranchToRelative8IfNotNegative 2B62														; If (A < 0)
+	CopyAToX																					; X = A
+	CopyImmediate8AddressToA 0010																; A = Word10
+	CopyImmediate16AddressToY 03C2																; Y = Value3C2
+	IncrementY																					; Y += 1
+	CallImmediate16 060D																		; SetDSPRegister(Y, A)
+	CopyXToA																					; A = X
+	JumpToRelative8 2B6F																		;
 
-2B62:
-	CopyImmediate16AddressToY 03C2												; Y = Value3C2 + 1
-	IncrementY																	;
-	CallImmediate16 060D														; SetDSPRegister(Y, A)
-	CopyImmediate8ToX 0000														; X = 0
-	IncrementImmediate8Address16 002C											; A = [Pointer2C++]
-	CopyImmediate8PlusXPointerToA 002C											;
+2B62:																						; Else (A >= 0)
+	CopyImmediate16AddressToY 03C2																; Y = Value3C2
+	IncrementY																					; Y += 1
+	CallImmediate16 060D																		; SetDSPRegister(Y, A)
+	CopyImmediate8ToX 0000																		; A = [++Pointer2C]
+	IncrementImmediate8Address16 002C															;
+	CopyImmediate8PlusXPointerToA 002C															;
 
 2B6F:
-	CompareAToImmediate8 00E0													; Start/Reset
-	BranchToRelative8IfNotEqual 2B76											; If (A = 0xE0)
-	JumpToAbsolute16 3E20														; ResetChannel()
+	CompareAToImmediate8 00E0														; If (A == 0xE0) (Start/Reset)
+	BranchToRelative8IfNotEqual 2B76													; Return ResetChannel()
+	JumpToAbsolute16 3E20																;
 
 2B76:
-	CompareAToImmediate8 00F9													; If (A == 0xF9)
-	BranchToRelative8IfEqual 2BC1													; HandleF9()
-	CompareAToImmediate8 00F1													; If (A == 0xF1)
-	BranchToRelative8IfEqual 2BD6													; HandleF1()
-	CopyImmediate16AddressToX 03C0												; X = Value3C0
-	CopyAToY																	; Y = A
-	CallImmediate16 0518														; ??(X, Y)
-	CopyImmediate16AddressToA 03C1												; A = Value3C1
-	CallImmediate16 3E79														; ??(A)
+	CompareAToImmediate8 00F9														; If (A == 0xF9)
+	BranchToRelative8IfEqual 2BC1														; Return HandleChannelF9()
+	CompareAToImmediate8 00F1														; If (A == 0xF1)
+	BranchToRelative8IfEqual 2BD6														; Return HandleChannelF1()
+	CopyImmediate16AddressToX 03C0													; X = Value3C0
+	CopyAToY																		; Y = A
+	CallImmediate16 0518															; SendAndUpdate(A, X, Y)
+	CopyImmediate16AddressToA 03C1													; A = ActiveNotes
+	CallImmediate16 3E79															; PlayNotes(A)
 
-2B8B:
-	CopyImmediate16AddressToX 03C0												; X = Value3C0
-	CopyImmediate16PlusXAddressToA 03B1											; A = Table3B1[X]
-	CopyAToImmediate16PlusXAddress 03B0											; Table3B0[X] = A
+2B8B:																				; Do
+	CopyImmediate16AddressToX 03C0														; X = Value3C0
+	CopyImmediate16PlusXAddressToA 03B1													; A = Table3B1[X]
+	CopyAToImmediate16PlusXAddress 03B0													; Table3B0[X] = A
 
 2B94:
-	ClearImmediate8AddressBit7 0013												; Flags13 &= 0x7f
-	CopyImmediate16AddressToX 03C0												; X = Value3C0
-	CopyImmediate8PlusXAddressToA 00A0											; A = TableA0[X]
-	BranchToRelative8IfEqual 2BA2												; If (A != 0)
-	CallImmediate16 3E5F															; HandleEvent360()																
-	JumpToRelative8 2BB1
+	ClearImmediate8AddressBit7 0013														; Flags13 &= 0x7f
+	CopyImmediate16AddressToX 03C0														; X = Value3C0
+	CopyImmediate8PlusXAddressToA 00A0													; A = WordTableA0[X]
+	BranchToRelative8IfEqual 2BA2														; If (A != 0)
+	CallImmediate16 3E5F																	; HandleEvent360()																
+	JumpToRelative8 2BB1																	; Skip
 
 2BA2:
-	CopyImmediate8ToA 0002
-	CompareAToImmediate16PlusXAddress 03B0
-	BranchToRelative8IfNotEqual 2BB1
-	CopyImmediate16AddressToA 03C1
-	CopyImmediate8ToY 005C														; Y = 5C (Note Off)
-	CallImmediate16 060D														; SetDSPRegister(Y, A)
+	CopyImmediate8ToA 0002																; A = 2
+	CompareAToImmediate16PlusXAddress 03B0												;
+	BranchToRelative8IfNotEqual 2BB1													; If (Table3B0[X] == A)
+	CopyImmediate16AddressToA 03C1															; A = ActiveNotes
+	CopyImmediate8ToY 005C																	; Y = 5C (Note Off)
+	CallImmediate16 060D																	; SetDSPRegister(Y, A)
 
 2BB1:
-	CopyImmediate16AddressToX 03C0												; X = Value3C0
-	CopyImmediate8AddressToA 002D												; Table390[X] = Pointer2C
-	CopyAToImmediate16PlusXAddress 0391
-	CopyImmediate8AddressToA 002C	
-	CopyAToImmediate16PlusXAddress 0390
-	JumpToAbsolute16 2A4A
+	CopyImmediate16AddressToX 03C0														; X = Value3C0
+	CopyImmediate8AddressToA 002D														; Table390[X] = Pointer2C
+	CopyAToImmediate16PlusXAddress 0391													; 
+	CopyImmediate8AddressToA 002C														;
+	CopyAToImmediate16PlusXAddress 0390													;
+	JumpToAbsolute16 2A4A															; While(true)
 
-2BC1:																		; HandleF9()
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; HandleChannelF9()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+2BC1:
+	CopyImmediate8ToX 0000																; X = 0
+	IncrementImmediate8Address16 002C													; A = [++Pointer2C]
+	CopyImmediate8PlusXPointerToA 002C
+	CopyImmediate16AddressToX 03C0														; X = Value3C0
+	CopyXToImmediate8Address 0044														; Value44 = X
+	CopyAToY																			; Y = A
+	CallImmediate16 0518																; SendAndUpdate(A, X, Y)
+	CopyImmediate16AddressToA 03C1														; A = ActiveNotes
+	CallImmediate16 3E79																; PlayNotes(A)
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; HandleChannelF1()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+2BD6:
+	CopyImmediate8ToX 0000																; X = 0
+	IncrementImmediate8Address16 002C													; A = [++Pointer2C]
+	CopyImmediate8PlusXPointerToA 002C													;
+	CopyImmediate16AddressToX 03C0														; X = Value3C0
+	CopyAToImmediate8PlusXAddress 00A1													; WordTableA0[X] (high) = A
+	CopyImmediate8ToX 0000																; X = 0
+	IncrementImmediate8Address16 002C													; A = [++Pointer2C]
+	CopyImmediate8PlusXPointerToA 002C													;
+	CopyImmediate16AddressToX 03C0														; X = Value3C0
+	CopyAToImmediate8PlusXAddress 00A0													; WordTableA0[X] = A
+	PushAToStack																		; A -> Stack
+	CopyImmediate8ToX 0000																; X = 0
+	IncrementImmediate8Address16 002C													; A = [++Pointer2C]
+	CopyImmediate8PlusXPointerToA 002C													;
+	PullYFromStack																		; Stack -> Y
+	CopyImmediate16AddressToX 03C0														; X = Value3C0
+	CopyXToImmediate8Address 0044														; Value44 = X
+	CallImmediate16 0B9B																; 0B9B()
+	JumpToAbsolute16 2B8B														; While(true)
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ResetChannel()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+3E20:
 	CopyImmediate8ToX 0000														; X = 0
-	IncrementImmediate8Address16 002C											; A = [Pointer2C++]
-	CopyImmediate8PlusXPointerToA 002C
-	CopyImmediate16AddressToX 03C0												; X = Value3C0
-	CopyXToImmediate8Address 0044												; Value44 = X
-	CopyAToY																	; Y = A
-	CallImmediate16 0518
-	CopyImmediate16AddressToA 03C1
-	CallImmediate16 3E79
-
-2BD6:																		; HandleF1()
-	CopyImmediate8ToX 0000
-	IncrementImmediate8Address16 002C											; A = [Pointer2C++]
-	CopyImmediate8PlusXPointerToA 002C
-	CopyImmediate16AddressToX 03C0												; X = Value3C0
-	CopyAToImmediate8PlusXAddress 00A1
-	CopyImmediate8ToX 0000
-	IncrementImmediate8Address16 002C											; A = [Pointer2C++]
-	CopyImmediate8PlusXPointerToA 002C
-	CopyImmediate16AddressToX 03C0												; X = Value3C0
-	CopyAToImmediate8PlusXAddress 00A0
-	PushAToStack
-	CopyImmediate8ToX 0000
-	IncrementImmediate8Address16 002C											; A = [Pointer2C++]
-	CopyImmediate8PlusXPointerToA 002C
-	PullYFromStack
-	CopyImmediate16AddressToX 03C0												; X = Value3C0
-	CopyXToImmediate8Address 0044												; Value44 = X
-	CallImmediate16 0B9B
-	JumpToAbsolute16 2B8B
-
-3E20:																			; ResetChannel()
-	CopyImmediate8ToX 0000														; X = 0
-	IncrementImmediate8Address16 002C											; A = [Pointer2C++]
+	IncrementImmediate8Address16 002C											; A = [++Pointer2C]
 	CopyImmediate8PlusXPointerToA 002C
 	CopyImmediate8ToY 0006														; Y = 6
 	MultiplyAByY																; YA = A * Y
@@ -2849,19 +3435,30 @@
 	IncrementY
 	DecrementImmdiate8AddressAndBranchToRelative8IfNotZero 12, 3E3E				; While(Random-- != 0)
 
-	CopyImmediate8PointerPlusYToA 00D2
-	CopyImmediate16AddressToX 03C0
-	CopyAToImmediate16PlusXAddress 0221											; Channel Delay Table[X] (high)
-	IncrementY
-	CopyImmediate8PointerPlusYToA 00D2
-	CopyAToImmediate16PlusXAddress 0220											; Channel Delay Table[X]
+	CopyImmediate8PointerPlusYToA 00D2											; A = TableD2[Y]
+	CopyImmediate16AddressToX 03C0												; X = Value3C0
+	CopyAToImmediate16PlusXAddress 0221											; Channel Delay Table[X] (high) = A
+	IncrementY																	; Y += 1
+	CopyImmediate8PointerPlusYToA 00D2											; A = TableD2[Y]
+	CopyAToImmediate16PlusXAddress 0220											; Channel Delay Table[X] = A
 	JumpToAbsolute16 2B27
+
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 3E5F()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 3E5F:																			; HandleEvent360()
 	SetImmediate8AddressBit7 0013												; Flags13 |= 0x80
 	CopyImmediate8ToA 0060
 	CopyImmediate8ToY 0003
-	DecrementImmediate8PlusXAddress 00A0										; TableA0[X] -= 1
+	DecrementImmediate8PlusXAddress 00A0										; WordTableA0[X] -= 1
 	CallImmediate16 0CC4														; HandleEvent(YA, X)
 	CopyImmediate16PlusXAddressToA 0361
 	CopyAToY																	; Y = A
@@ -2882,24 +3479,35 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 3E79:
-	PushAToStack
+	PushAToStack																; A -> Stack
 	CopyImmediate8ToY 005C														; Y = Note Off
 	CopyImmediate8ToA 0000														; A = 0
 	CallImmediate16 060D														; SetDSPRegister(Y, A)
-	PullAFromStack
+	PullAFromStack																; Stack -> A
 	CopyImmediate8ToY 004C														; Y = Note On
 	JumpToAbsolute16 060D														; SetDSPRegister(Y, A)
 
 3E87:
 	CopyImmediate16AddressToA 03F1												; A = Counter3F1
-	BranchToRelative8IfNotEqual 3EA5											; If (A == 0)
-	CopyImmediate8AddressToA 0059													; A = Value59
-	CopyAToImmediate16Address 03F1													; Counter3F1 = A
-	CopyImmediate8ToA 0088															; A = 0x88
-	CopyAToImmediate8Address 0059													; Value59 = A
-	ReturnFromSubroutine
+	BranchToRelative8IfNotEqual 3EA5											; If (A == 0) Return;
+	CopyImmediate8AddressToA 0059												; A = Value59
+	CopyAToImmediate16Address 03F1												; Counter3F1 = A
+	CopyImmediate8ToA 0088														; A = 0x88
+	CopyAToImmediate8Address 0059												; Value59 = A
+	ReturnFromSubroutine														; Return
 
-3E96:																		; CopyValue3F1ToValue59IfNotZero()
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; CopyValue3F1ToValue59IfNotZero()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+3E96:
 	CopyImmediate16AddressToA 03F1
 	BranchToRelative8IfEqual 3EA5
 	CopyImmediate16AddressToA 03F1
@@ -2910,19 +3518,30 @@
 3EA5:
 	ReturnFromSubroutine
 
-3EA6:																		; FadeEcho()
-	CopyImmediate16AddressToA 03C1
+
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; UpdateEcho()
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+3EA6:
+	CopyImmediate16AddressToA 03C1												; A = ActiveNotes
 	AndAWithImmediate8Address 004A												; Echo Enable
-	BranchToRelative8IfEqual 3EBA
-	CopyImmediate8AddressToA 004A												; Echo Enable
-	SetCarryFlag
-	SubtractImmediate16AddressPlusBorrowFromA 03C1
-	CopyAToImmediate8Address 004A												; Echo Enable
-	CopyImmediate8ToY 004D														; Y = Echo Enable
-	CallImmediate16 060D														; SetDSPRegister(Y, A)
+	BranchToRelative8IfEqual 3EBA												; If (A != 0)
+	CopyImmediate8AddressToA 004A													; A = Echo Enable
+	SetCarryFlag																	; A -= ActiveNotes
+	SubtractImmediate16AddressPlusBorrowFromA 03C1									;
+	CopyAToImmediate8Address 004A													; Echo Enable = A
+	CopyImmediate8ToY 004D															; Y = DSP Echo Enable
+	CallImmediate16 060D															; SetDSPRegister(Y, A)
 
 3EBA:
-	ReturnFromSubroutine
+	ReturnFromSubroutine															; Return
 
 
 3EE8:

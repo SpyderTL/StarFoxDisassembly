@@ -34,3 +34,33 @@ Event Type						6
 	Envelope2					1								// x6
 	Gain						1								// x7
 	Echo						2								// 0x0220
+
+Event Values
+	00			End channel
+	e0
+	f1
+	f9
+
+Other Values
+	a4
+	c8
+	c9
+	ef
+	e0
+
+Commands
+	14-ef		Play Song
+	f0			Stop
+	f1
+	f2
+	f3
+	f4
+	f5
+	f6
+	ff			Reset DSP
+	
+Commands (Port 4)
+	0b
+	0e
+	15
+	18
