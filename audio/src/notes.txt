@@ -15,9 +15,19 @@
 	0xfdc8 - 0xfde1				Scramble1.1.0						// ?? **
 	0xfdde - 0xfde1				Scramble1.2.3
 
-
+ChannelPositions				0x0030 - 0x003f
+ChannelTimers					0x0070 - 0x007f
+EffectTimers					0x0090 - 0x009f
+EffectTimers2					0x00a0 - 0x00af
+ChannelDelay					0x0200 - 0x0200 (low byte)
+ChannelVoice					0x0210 - 0x021f (high byte)
+ChannelGain						0x0300 - 0x030f
+ChannelGainFade					0x0310 - 0x031f
+ChannelVolume					0x0320 - 0x032f
+ChannelPan						0x0330 - 0x033f
+ChannelPitch					0x0360 - 0x036f
 Directory						0x3c00 - 0x3fff
-Event Types						0x3d00 - 0x3def
+Voice List						0x3d00 - 0x3def
 Song List						0xfdc0 - 0xfdff
 
 Song
@@ -28,7 +38,7 @@ Song
 Track
 	Channels[8]					2
 
-Event Type						6
+Voice						6
 	Sample						1								// x4
 	Envelope					1								// x5
 	Envelope2					1								// x6
@@ -36,17 +46,64 @@ Event Type						6
 	Echo						2								// 0x0220
 
 Event Values
-	00			End channel
-	e0
-	f1
-	f9
+	00						End track
+	e0			01			Set instrument
+	e1			01			Pan
+	e2			02			Pan Fade
+	e3			03			Vibrato On
+	e4			00			Vibrato Off
+	e5			01			Master Volume
+	e6			02			Master Volume Fade
+	e7			01			Tempo
+	e8			02			Tempo Fade
+	e9			01			Global Transpose
+	ea			01			Transpose
+	eb			03			Tremolo On
+	ec			00			Tremolo Off
+	ed			01			Volume
+	ee			02			Volume Fade
+	ef			03			Call Subroutine
+	f0			01			Vibrato Fade
+	f1			03			Pitch Envelope To
+	f2			03			Pitch Envelope From
+	f3			00			Pitch Envelope Off
+	f4			01			Tuning
+	f5			03			Echo Volume
+	f6			00			Echo Off
+	f7			03			Echo Parameters
+	f8			03			Echo Volume Fade
+	f9			03			Pitch Slide
+	fa			01			Percussion Patch Base
 
+Other Events
+	ca-df		SendEvent(A, Y)
+	c8-c9		Ignore
+	00-c7
+		[0x361 + X] = (A & 0x7F) + [0x50] + [0x2F0 + X]
+		[0x360 + X] = [0x381 + X]
+		[0x2A0 + X] = [0x2B1 + X] << 7
+		[0xB0 + X] = 0
+		[0xC0 + X] = 0
+		[0x100 + X] = 0
+		[0x2D0 + X] = 0
+		[0x5E] |= [0x47]
+		[0x45] |= [0x47]
+		[0xA0 + X] = [0x280 + X]
+		[0xA1 + X] = [0x281 + X]
+		[0x361 + X] -= [0x291 + X]
 Other Values
-	a4
-	c8
-	c9
-	ef
-	e0
+	00-0b
+	0c-0e
+	0f-15
+	16-17
+	18+
+	
+Table3A0[Value3C0]
+	00-0b
+	0c-0e
+	0f-15
+	16-17
+	18+
 
 Commands
 	14-ef		Play Song
@@ -64,3 +121,13 @@ Commands (Port 4)
 	0e
 	15
 	18
+
+Play Song(index)
+	Value3CA = 0;
+	Value3F1 = 0;
+	Output[0] = index
+	TrackAddress = SongAddressTable[index * 2]
+	if(TrackAddress == 0)
+		return;
+	Counter0C = 2;
+
